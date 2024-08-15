@@ -1,0 +1,383 @@
+/* Solid border */
+hr { 
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  /* border-top: 1px solid var(--page-accent-gray); Change this color to your desired solid color */
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-color: var(--page-accent-gray);
+} 
+
+/* App.css */
+/* .titleContainer {
+  background: rgba(36, 36, 36, 0.5); /* Semi-transparent background 
+  position: relative;
+  height: 15rem;
+  z-index: 0; 
+  overflow: hidden;
+} */
+
+/* .visionAndDemoContainer {
+  background: rgba(36, 36, 36, 1); /* Fully opaque background 
+  position: relative;
+} */
+
+/* .gradientOverlay {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 70%; /* Adjust this to control how much of div1 is covered 
+  background: linear-gradient(0deg, rgba(36, 36, 36, 1) 5.72%, rgba(36, 36, 36, 0.5) 80.07%, rgba(36, 36, 36, 0) 100%);
+  z-index: 1; /* Place the gradient below the content 
+} */
+
+/* .homepage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color:  var(--page-accent-gray);
+  overflow: hidden;
+  text-align: center;
+  font-size: var(--body-overpass-base-size);
+  color: var(--white);
+  font-family: var(--body-overpass-base);
+} */
+
+
+/* done. cant comment out since gallery pages use this css. need to convert them to tailwind css too*/
+.bgImgContainer {
+  width: 100%;
+} 
+
+/* done. cant comment out since gallery pages use this css. need to convert them to tailwind css too*/
+.headerBackgroundImg {
+  width: 100%;
+  position: relative;
+  object-position: 50% 0%; /* Adjust this to shift the image down */
+  object-fit: cover; /* Ensures the image covers the container */
+}
+
+
+/* .virtuososTitle {
+  position: absolute;
+  width: 100%;
+  height: 5rem;
+  top: 6.3rem;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+} */
+
+/* .visionSection {
+  color: var(--white);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+} */
+
+/* .visionSectionTitle {
+  font-size: var(--title-lexend-large-size);
+  line-height: 2rem;
+  font-family: var(--title-lexend-large);
+  text-align: center;
+  display: inline-block;
+  margin: 0;
+  padding-bottom: 0.25rem;
+} */
+
+/* .visionSectionBody {
+  line-height: 1.5rem;
+  font-weight: 500;
+  display: inline-block;
+  padding: 2rem;
+  padding-top: 0.5rem;
+} */
+
+/* .demoVideoContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+} */
+
+/* .demoVideo {
+  width: 90%;
+  height: auto;
+  padding: 5vw 0;
+  border-radius: 2.5rem;
+} */
+
+/* .signupAndDownloadContainer{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 3;
+} */
+
+/* .signupContainer {
+  padding-top: 2rem;
+} */
+
+/* .SignUpbutton{
+  background-color: #2d2c5f;
+  border-radius: var(--br-8xs);
+  padding: 0.5rem 1rem;
+  font-size: var(--body-overpass-base-size);
+  font-family: var(--body-overpass-base);
+  border: none;
+  cursor: pointer;
+  margin-bottom: .5rem;
+} */
+
+
+/* .SignUpbutton:hover {
+  background-color:#002ead;
+  transition: 0.7s;
+} */
+
+
+/* .downloadSection {
+  background-color: var(--page-accent-gray);
+  color: var(--white);
+  padding-top: 2rem;
+  height: 6rem;
+} */
+
+/* .downloadText {
+  line-height: 1.5rem;
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+} */
+
+/* .downloadLinks {
+  display: flex;
+  justify-content: space-evenly
+} */
+
+/* .downloadIcon {
+  border-radius: var(--br-8xs);
+  overflow: hidden;
+  object-fit: contain;
+  mix-blend-mode: normal;
+} */
+
+/* .featuredArtistsSection {
+  background: linear-gradient(0deg, #2D2C5F 83.72%, rgba(45, 44, 95, 0.40) 91.07%, rgba(45, 44, 95, 0.00) 99.68%);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  background-color: var(--page-accent-gray);
+  color: var(--white);
+  padding-top: 1.25rem;
+  padding-bottom: 0.75rem;
+  /* box-shadow: 0px 10px; 
+} */
+
+/* .featuredArtistsSectionTitle {
+  font-size: var(--title-lexend-medium-size);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2rem;
+  font-family: var(--title-lexend-large);
+  text-align: center;
+  display: inline-block;
+  margin:auto;
+  padding: 1rem;
+  padding-bottom: 0rem;
+  padding-top: 0;
+
+} */
+
+/* .featuredArtistDetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.5rem;
+} */
+/* 
+.artistImgAndLinks {
+  flex: 0.25;
+  /* background-color: black; 
+  display: flex;
+  justify-content:space-around;
+  padding: 0.5rem;
+  flex-direction: column;
+} */
+
+/* .artistImage {
+  width: 85%;
+  flex-shrink: 0;
+  align-self: center;
+  border-radius: 52px;
+  background: lightgray 0px 0px / 100% 100% no-repeat;
+} */
+
+/* .artistLinks {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 0.2rem;
+}
+
+.artistLinkIcons{
+  width: 40%;
+  flex-shrink: 0;
+  border-radius: 52px;
+  background: lightgray 0px 0px / 100% 100% no-repeat;
+} */
+
+/* .artistRelatedInfo {
+  display: flex;
+  justify-content: space-around;
+  padding-left: 0.3rem;
+  flex: 1;
+  flex-direction: column;
+} */
+
+/* .artistTitleContainer {
+  display: flex;
+  flex-direction:  row;
+  padding-top: 1.25rem;
+  justify-content:flex-start;
+} */
+
+/* .artistNameVerified {
+  display: flex;
+  justify-content: center;
+} */
+
+/* .artistName {
+  display: flex;
+  color: var(--icon-color, #FFF);
+  font-family: "Overpass Mono";
+  font-size: var(--body-overpass-base);
+  font-style: normal;
+  font-weight: 700;
+  line-height: inherit;
+  text-align: left;
+  vertical-align: middle;
+  justify-content: center;
+} */
+
+/* .verifiedIcon{
+  display: flex;
+  width: 1rem;
+  height: 1rem;
+  padding-left: 0.5rem;
+} */
+
+/* .artistStatistics {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 1rem;
+} */
+
+/* .artistStatLabels {
+  display: flex;
+  flex-direction: column;
+} */
+
+/* .artistStatTexts {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+} */
+
+/* .songcountText {
+  text-align: right;
+  padding-right: 2rem;
+  color: var(--white);
+} */
+
+/* .artistStatValues {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  color: var(--lilac);
+} */
+
+/* not really needed. but easier to read in the js file with this style name */
+/* .songcountValue {
+  color: var(--lilac);
+} */
+
+/* .playcountText {
+  text-align: right;
+  padding-right: 2rem;
+  color: var(--white);
+} */
+
+/* .playcountValue {
+  color: var(--lilac);
+} */
+
+/* .aboutUsSection {
+  background-color: var(--page-accent-gray);
+  color: var(--white);
+  padding-top: 2rem;
+  box-shadow: 0px 8px 5px #1c1c21 inset;
+} */
+
+/* .aboutUsTitle {
+  font-size: var(--title-lexend-medium-size);
+  line-height: 1rem;
+  font-family: var(--title-lexend-large);
+  text-align: left;
+  display: inline-block;
+  margin:auto;
+  padding: 1rem;
+  padding-bottom: 0.25rem;
+} */
+
+/* .aboutUsDescription {
+  line-height: 1.5rem;
+  font-weight: 500;
+  display: inline-block;
+  padding: 2rem;
+  padding-top: 0.5rem;
+} */
+
+@media screen and (min-width: 830px) {
+  /* .visionAndDemoContainer{
+    display: flex;
+    flex-direction: row;
+    padding-top: 1rem;
+  } */
+
+  /* .titleContainer {
+    height: 20rem;
+  } */
+
+  /* done. cant comment out since gallery pages use this css. need to convert them to tailwind css too */
+  .bgImgContainer {
+    margin-top: -250px;
+  }
+
+  /* .virtuososTitle {
+    height: 35%;
+    top: 45%;
+  } */
+
+  /* .visionSection {
+  justify-content: center;
+  padding: 5rem;
+  } */
+
+  /* .demoVideo {
+    width: 70%;
+    height: auto;
+    padding: 0;
+    border-radius: 2.5rem;
+  } */
+
+}

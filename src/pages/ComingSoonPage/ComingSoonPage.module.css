@@ -1,0 +1,58 @@
+.comingsoonPage {
+    /* display: block; */
+    width: 100%;
+    background-color: #232323;
+    overflow: hidden;
+    text-align: center;
+    font-size: var(--body-overpass-base-size);
+    color: var(--white);
+    font-family: var(--body-overpass-base);
+    height: auto;
+    color: white;
+}
+
+
+.headerBackground {
+    width: 100%;
+    height: 11rem;
+    background-image: linear-gradient(rgba(6, 8, 21, 0.8), rgba(16, 17, 24, 0.8)), url(../../assets/images/headerBackground.png);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.titleText{
+    position: absolute;
+    width: 100%;
+    height: auto; 
+    top: 8rem;
+    /* left:5rem; */
+    /* top: 130px;
+    left: 115px; */
+    /* bottom: 0; */
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    color: var(--icon-color, #FFF);
+    text-align: center;
+    /* title/lexend xlarge */
+    font-family: "Lexend Exa";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    /* line-height: 40px; 125% */
+}
+
+
+.comingsoonContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 25rem;
+    padding: 2rem;
+    background-color: #232323;
+}

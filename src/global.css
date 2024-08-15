@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@700&display=swap");
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* fonts */
+  --title-lexend-large: "Lexend Exa";
+  --body-overpass-base: "Overpass Mono";
+
+  /* font sizes */
+  --title-lexend-medium-size: 1.125rem;
+  --title-lexend-large-size: 1.5rem;
+  --body-overpass-base-size: 1rem;
+  --font-size-xs: 0.75rem;
+
+  /* Colors */
+  --page-background: #2d2c5f; /* --blue */
+  --page-accent-gray: #242424; /* --gray */
+  --white: #fff;
+  --lilac: #f1dbfc;
+  --icon-color: #FFF;
+  --purple-accent: #D5A6ED;
+
+  --header-background: linear-gradient(180deg, #2D2C5F 80.9%, rgba(45, 44, 95, 0.00) 100%);
+
+  /* Border radiuses */
+  --br-8xs: 5px;
+}

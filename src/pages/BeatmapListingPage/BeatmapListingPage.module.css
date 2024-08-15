@@ -1,0 +1,366 @@
+.beatmaplistingPage {
+    width: 100%;
+    background-color:#232323;
+    overflow: hidden;
+    text-align: center;
+    font-size: var(--body-overpass-base-size);
+    color: var(--white);
+    font-family: var(--body-overpass-base);
+    min-height: 100vh;
+}
+
+.titleContainer {
+    background: rgba(36, 36, 36, 0.5); /* Semi-transparent background */
+    position: relative;
+    height: 12rem;
+    z-index: 0; /* Ensure div1 content is below the gradient */
+    overflow: hidden;
+  }
+
+.gradientOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70%; /* Adjust this to control how much of div1 is covered */
+    background: linear-gradient(0deg, rgba(36, 36, 36, 1) 5.72%, rgba(36, 36, 36, 0.5) 80.07%, rgba(36, 36, 36, 0) 100%);
+    /* background-color: #002ead; */
+    z-index: 1; /* Place the gradient below the content */
+  }
+
+.headerBackground {
+    width: 100%;
+    height: 11rem;
+    background-image: linear-gradient(rgba(6, 8, 21, 0.8), rgba(16, 17, 24, 0.8)), url(../../assets/images/headerBackground.png);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.titleText{
+    position: absolute;
+    width: 100%;
+    height: 3rem; 
+    top: 8rem;
+    /* left: 115px; */
+    bottom: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    color: var(--icon-color, #FFF);
+    text-align: center;
+    /* title/lexend xlarge */
+    font-family: "Lexend Exa";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    /* line-height: 40px; 125% */
+}
+
+.beatmapListingSearchFilter {
+    width: auto;
+    height: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: #232323;
+    justify-content: space-around;
+
+    color: #B2B2B2;
+    /* body/overpass base */
+    font-family: "Overpass Mono";
+    font-size: var(--body-overpass-base-size);
+    font-style: normal;
+    font-weight: 500;
+    /* line-height: 24px; 150% */
+    }
+
+.gallerySearchContainer{
+        width: auto;
+        height: 5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 1rem;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        background-color: #232323;
+        justify-content: space-around;
+        color: #B2B2B2;
+        font-family: "Overpass Mono";
+        font-size: var(--body-overpass-base-size);
+        font-style: normal;
+        font-weight: 500;
+}
+
+.beatmapListingSearchItem {
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    height: 1.5rem;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 5px;
+    background: #FFF;
+    /* padding-left: 0.5rem; */
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+::placeholder {
+    color: #B2B2B2;
+}
+
+.beatmapListingSearchItem input{
+    background: transparent;
+    width: 75%;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    /* padding: 0.5rem 0.25rem; */
+    color: #B2B2B2;
+    font-family: "Overpass Mono";
+}
+
+.beatmapListingSearchItem button img {
+    width: 1rem;
+}
+
+.beatmapListingSearchItem button {
+    background: transparent;
+    border: 0;
+    width: 2rem; 
+    height: 2rem;
+    outline: #FFF;
+    cursor: pointer;
+    padding-top: 0.25rem;
+    align-content: right;
+}
+
+
+.beatmapListingFilterItem {
+    display: flex;
+    justify-content: left;
+    width: 50%;
+    height: 1.5rem;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 5px;
+    
+    background: #FFF;
+    /* padding-left: 0.5rem; */
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+
+    font-size: small;
+}
+
+.beatmapListingFilterItem select {
+    background: transparent;
+    width: 75%;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    /* padding: 0.5rem 0.25rem; */
+    color: #B2B2B2;
+    font-family: "Overpass Mono";
+}
+
+.bmListingDisplayMode {
+    display: flex;
+    flex-direction: column;
+    background-color: #232323;
+    color: white;
+}
+
+
+.bmListingDisplayModeContainter {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    color: var(--icon-color, #FFF);
+    background-color: #232323;
+    /* title/lexend base */
+    font-family: "Lexend Exa";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 150% */
+    justify-content: space-evenly;
+}
+
+
+
+.bmListinDisplayModeItem {
+    width: 25%;
+    color: white;
+    text-align: center;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+hr {
+    color: white;
+    display: block;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 75%;
+    /* margin: 1em auto; */
+}
+
+.bmListContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-between;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    /* margin-bottom: 2rem; */
+    width: 100%;
+
+}
+
+.bmListItem{
+    display: flex;
+    margin: 0.5rem;
+    align-items: center;
+    /* justify-content: center; */
+    background-color: var(--white);
+    width: 25rem;
+    position: relative;
+    border-radius: 10px;
+    /* max-width: 100%; */
+    overflow: hidden;
+    height: 8rem;
+    mix-blend-mode: normal;
+    padding: 0.5rem;
+    height: 9rem;
+
+}
+
+.musiccoverIcon {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    /* width: 100%; */
+    padding: 0.5rem;
+    /* position: relative; */
+    border-radius: 15px;
+    max-width: 100%;
+    overflow: hidden;
+    height: 100px;
+    object-fit: cover;
+}
+
+.musiccoverInfo{
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+}
+
+.songTitleText{
+    width: 100%;
+    font-weight: 700;
+    position: relative;
+    font-size: var(--body-overpass-base-size);
+    line-height: 24px;
+    display: flex;
+    font-family: 'Overpass Mono';
+    color: #000;
+    text-align: left;
+    align-items: center;
+}
+
+.songArtistText{
+    width: 100%;
+    position: relative;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+    font-family: 'Overpass Mono';
+    color: #000;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.mappedByText {
+    padding-top: 0.75rem;
+    width: 100%;
+    position: relative;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+    font-family: 'Overpass Mono';
+    color: #000;
+    text-align: left;
+    display: inline-block;
+
+}
+
+.gameInfoSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.difficultySection{
+    display: flex;
+    flex-direction: row;
+    justify-items: space-around;
+    /* width: 10rem; */
+}
+
+.countInfoSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+}
+
+.playCountInfo {
+    display: flex;
+    justify-content: space-between;
+    /* justify-content: space-around; */
+    /* width: 26px; */
+    position: relative;
+    font-size: 14px;
+    /* line-height: 24px; */
+    font-weight: 500;
+    font-family: 'Overpass Mono';
+    color: #000;
+    /* text-align: left; */
+    /* display: inline-block; */
+}
+
+.heartCountInfo {
+    display: flex;
+    justify-content: space-between;
+    /* width: 26px; */
+    position: relative;
+    font-size: 14px;
+    /* line-height: 24px; */
+    font-weight: 500;
+    font-family: 'Overpass Mono';
+    color: #000;
+    /* text-align: left; */
+    /* display: inline-block; */
+}
+
+@media screen and (min-width: 830px) {
+    .titleContainer{
+        height: 15rem;
+    }
+    
+}
