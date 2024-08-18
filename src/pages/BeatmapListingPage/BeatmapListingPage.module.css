@@ -9,13 +9,13 @@
     min-height: 100vh;
 }
 
-.titleContainer {
-    background: rgba(36, 36, 36, 0.5); /* Semi-transparent background */
+/* .titleContainer {
+    background: rgba(36, 36, 36, 0.5);
     position: relative;
     height: 12rem;
-    z-index: 0; /* Ensure div1 content is below the gradient */
+    z-index: 0; 
     overflow: hidden;
-  }
+  } */
 
 .gradientOverlay {
     position: absolute;
@@ -81,7 +81,7 @@
     /* line-height: 24px; 150% */
     }
 
-.gallerySearchContainer{
+/* .gallerySearchContainer{
         width: auto;
         height: 5rem;
         padding-left: 1rem;
@@ -97,7 +97,7 @@
         font-size: var(--body-overpass-base-size);
         font-style: normal;
         font-weight: 500;
-}
+} */
 
 .beatmapListingSearchItem {
     display: flex;
@@ -223,10 +223,10 @@ hr {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-content: space-between;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    /* margin-bottom: 2rem; */
+    padding-left: 2rem;
+    padding-right: 2rem;
     width: 100%;
 
 }
@@ -235,18 +235,17 @@ hr {
     display: flex;
     margin: 0.5rem;
     align-items: center;
-    /* justify-content: center; */
     background-color: var(--white);
     width: 25rem;
     position: relative;
     border-radius: 10px;
-    /* max-width: 100%; */
     overflow: hidden;
     height: 8rem;
     mix-blend-mode: normal;
     padding: 0.5rem;
+    margin-left: 10rem;
+    margin-right: 10rem;
     height: 9rem;
-
 }
 
 .musiccoverIcon {

@@ -80,15 +80,15 @@ const Homepage = () => {
   return (
     <>
     <div className="homepage flex flex-col w-full bg-page-accent-gray overflow-hidden text-center text-body-overpass-base text-white font-body-overpass">
-    <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-80">
-      <div className="bgImgContainer w-full lg:-mt-64">
-        <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
+      <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-80">
+        <div className="bgImgContainer w-full lg:-mt-64">
+          <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
+        </div>
+        <div className="flex justify-center items-center">
+        <img src={ongawaTitle} className="absolute w-[33%] top-28 z-2 lg:w-[12%] lg:top-[45%]" alt="" />
+        </div>
+        <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
       </div>
-      <div className="flex justify-center items-center">
-      <img src={ongawaTitle} className="absolute w-[33%] top-28 z-2 lg:w-[12%] lg:top-[45%]" alt="" />
-      </div>
-      <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
-    </div>
       <div className="visionAndDemoContainer justify-items-center bg-page-accent-gray pt-12 relative lg:flex-row lg:flex lg:pt-4">
 
         {/* below are just for the particles effect. order is left to right of page */}

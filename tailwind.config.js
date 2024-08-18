@@ -27,6 +27,7 @@ module.exports = {
         'purple-accent': '#D5A6ED',
         'navbar-background-gradient': 'linear-gradient(180deg, #2D2C5F 80.9%, rgba(45, 44, 95, 0.00) 100%)',
         'custom-hover-blue': '#002ead',
+        'search-text-gray': '#B2B2B2',
       },
 
       boxShadow: {

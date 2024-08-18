@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./BeatmapListingPage.module.css";
-import homeStyles from "../Homepage/Homepage.module.css";
+// import homeStyles from "../Homepage/Homepage.module.css";
 
 import React from "react";
 import axios from "axios";
@@ -183,18 +183,17 @@ function BeatmapListingPage() {
     check();
 
     return (
-        <div className={styles.beatmaplistingPage}>
-            <div className={homeStyles.gradientContainer}>
-                <div className={styles.titleContainer}>
-                    <div className={homeStyles.bgImgContainer}>
-                        <img src={headerBackgroundImg} className={homeStyles.headerBackgroundImg} alt="" />
-                    </div>
-                    <div className={styles.titleText}>BEATMAPS</div>
-                    <div className={styles.gradientOverlay}></div>
+        <div className="beatmapListingPage w-full bg-page-accent-gray overflow-hidden text-center text-white text-body-overpass-base font-body-overpass min-h-screen">
+            
+            <div className="titleContainer relative h-[12rem] z-0 overflow-hidden">
+                <div className="bgImgContainer w-full lg:-mt-64">
+                    <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
                 </div>
+                <div className={styles.titleText}>BEATMAPS</div>
+                <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
-            <div className={styles.gallerySearchContainer}>
-                <div className= {styles.beatmapListingSearchItem}>
+            <div className="searchBarSection w-auto h-20 px-4 pt-4 flex flex-col bg-page-accent-gray text-search-text-gray font-overpass-mono text-body-overpass-base font-medium">
+                <div className= "searchBarContainer flex w-full h-6 items-center justify-items-center rounded-sm pt-1 pb-1">
                         <form action="" className={styles.beatmapListingSearchItem}>
                                 <input name="search" type="text" value={query} onChange={handleInputChange} placeholder="song, album, artist" />                           
                                 <button type="submit" onSubmit={handleSearch}>
