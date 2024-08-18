@@ -153,7 +153,7 @@ function BeatmapListingPage() {
 
     const handleInputChange = (e) => {
         setQuery(e.target.value);
-        console.log('input', e.target.value);
+        // console.log('input', e.target.value);
     };
     
     async function makeGetCall(keyword) {
@@ -192,16 +192,38 @@ function BeatmapListingPage() {
                 <div className={styles.titleText}>BEATMAPS</div>
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
-            <div className="searchBarSection w-auto h-20 px-4 pt-4 flex flex-col bg-page-accent-gray text-search-text-gray font-overpass-mono text-body-overpass-base font-medium">
-                <div className= "searchBarContainer flex w-full h-6 items-center justify-items-center rounded-sm pt-1 pb-1">
-                        <form action="" className={styles.beatmapListingSearchItem}>
-                                <input name="search" type="text" value={query} onChange={handleInputChange} placeholder="song, album, artist" />                           
-                                <button type="submit" onSubmit={handleSearch}>
-                                    <img src={searchIcon} alt="" />
-                                </button>
-                        </form>
-                </div>
-                {/* <div className={styles.beatmapListingFilterItem}>
+            {/* <div className="searchBarSection w-auto h-20 px-4 pt-4 flex flex-col bg-page-accent-gray text-search-text-gray font-overpass-mono text-body-overpass-base font-medium">
+                <form action="" className="searchBar flex items-center justify-center w-full h-[1.5rem] rounded-sm bg-amber-500 space-x-2">
+                    <input
+                        name="search"
+                        type="text"
+                        value={query}
+                        onChange={handleInputChange}
+                        placeholder="song, album, artist"
+                        className="flex-grow border-none rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
+                    />
+                    <img src={searchIcon} alt="Search" className="w-5 h-5" onClick={handleSearch} />
+                </form>
+                
+            </div> */}
+            <div class="flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    onChange={handleInputChange}
+                    class="flex-grow py-2 px-4 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-900"
+                />
+                <button
+                    type="button"
+                    onClick={handleSearch}
+                    class="px-4 py-2 text-white rounded-r-lg hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-900"
+                >
+                    <img src={searchIcon} alt="Search" className="w-5 h-5" />
+                </button>
+            </div>
+
+
+            {/* <div className={styles.beatmapListingFilterItem}>
                     <select className={styles.beatmapListingFilterItem} placeholder="sort by">
                         <option value="1">sort by: newest</option>
                         <option value="2">sort by: oldest</option>
@@ -209,7 +231,6 @@ function BeatmapListingPage() {
                         <option value="4">sort by: least played</option>
                     </select>
                 </div> */}
-            </div>
             <div className={styles.bmListingDisplayMode}>
                 <div className={styles.bmListingDisplayModeContainter}>
                     <div className={styles.bmListinDisplayModeItem}>songs</div>
