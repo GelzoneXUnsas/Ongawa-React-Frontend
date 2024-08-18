@@ -197,7 +197,8 @@ function BeatmapListingPage() {
                         <form action="" className={styles.beatmapListingSearchItem}>
                                 <input name="search" type="text" value={query} onChange={handleInputChange} placeholder="song, album, artist" />                           
                                 <button type="submit" onSubmit={handleSearch}>
-                                <img src={searchIcon} alt="" /></button>
+                                    <img src={searchIcon} alt="" />
+                                </button>
                         </form>
                 </div>
                 {/* <div className={styles.beatmapListingFilterItem}>
