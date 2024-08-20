@@ -301,7 +301,7 @@ function BeatmapList (props) {
         );
     });
     return (
-        <div className={styles.bmListContainer}>
+        <div className="bmListContainer flex flex-row flex-wrap justify-center pt-4 gap-2">
             {rows}
         </div>
     );
