@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 // import styles from "./Homepage.module.css";
 
@@ -18,7 +18,45 @@ import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
 import artist3Image from "../../assets/images/featuredArtists/artist3.png";
 import spotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
 import soundcloudIcon from "../../assets/icons/soundCloudIcon.svg";
-import Demogif from "../../assets/images/Demogif.gif";
+import Demovid from "../../assets/images/Demovid.mp4";
+
+const cacheImage = (url, key) => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = () => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        localStorage.setItem(key, reader.result);
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.onerror = (err) => reject(err);
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  });
+};
+
+const getCachedImage = (key) => {
+  return localStorage.getItem(key);
+};
+
+const cacheImages = (urls) => {
+  const cachePromises = urls.map(url => {
+    const key = `cache_${url}`;
+    return cacheImage(url, key);
+  });
+  
+  return Promise.all(cachePromises);
+};
+
+const getCachedImages = (urls) => {
+  return urls.map(url => {
+    const key = `cache_${url}`;
+    return getCachedImage(key);
+  });
+};
 
 const getFeaturedArtists = () => {
   return [{
@@ -55,37 +93,69 @@ const getFeaturedArtists = () => {
 //       transition: {duration: 0.5, delay: delay}
 //   }
 // })
-
-
+const appStoreDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
+  const googlePlayDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
+  const featuredArtistsVariants = (isLarge) => isLarge ? {
+    initial: { opacity: 0, y: -100 },
+    animate: { opacity: 1, y: 0 },
+  } : {
+    initial: { opacity: 0, x: -100 },
+    animate: { opacity: 1, x: 0 },
+  };
 const Homepage = () => {
   // let autoPlayDemoVideo = true;
-  const appStoreDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
-  const googlePlayDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
   const [featuredArtists, setFeaturedArtists] = useState([]);
+  const [cachedImages, setCachedImages] = useState({});
 
   let isLarge = useMediaQuery('(min-width: 1024px)');
 
-  const featured_artists_variants = isLarge ? {
-    initial: {opacity: 0, y: -100},
-    animate: {opacity: 1, y: 0},
-  } : {
-    initial: {opacity: 0, x: -100},
-    animate: {opacity: 1, x: 0},
-  }
+  const featuredArtistsMemo = useMemo(() => getFeaturedArtists(), []);
+  const featured_artists_variants = useMemo(() => featuredArtistsVariants(isLarge), [isLarge]);
 
   useEffect(() => {
-    setFeaturedArtists(getFeaturedArtists());
-  }, []);
+    const imageUrls = [
+      verifiedIcon,
+      artist1Image,
+      artist2Image,
+      artist3Image,
+      headerBackgroundImg,
+      ongawaTitle
+    ];
+    const cachedImageUrls = getCachedImages(imageUrls);
+
+    const uncachedUrls = imageUrls.filter((url, index) => !cachedImageUrls[index]);
+
+    if (uncachedUrls.length > 0) {
+      cacheImages(uncachedUrls).then(() => {
+        const updatedCachedImages = imageUrls.reduce((acc, url) => {
+          acc[url] = getCachedImage(`cache_${url}`);
+          return acc;
+        }, {});
+        setCachedImages(updatedCachedImages);
+      }).catch(err => {
+        console.error('Error caching images:', err);
+      });
+    } else {
+      const updatedCachedImages = imageUrls.reduce((acc, url) => {
+        acc[url] = cachedImageUrls[imageUrls.indexOf(url)];
+        return acc;
+      }, {});
+      setCachedImages(updatedCachedImages);
+    }
+
+    
+    setFeaturedArtists(featuredArtistsMemo);
+  }, [featuredArtistsMemo]);
 
   return (
     <>
     <div className="homepage flex flex-col w-full bg-page-accent-gray overflow-hidden text-center text-body-overpass-base text-white font-body-overpass">
       <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-80">
         <div className="bgImgContainer w-full lg:-mt-64">
-          <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
+          <img src={cacheImage[headerBackgroundImg] || headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" loading="lazy" alt="" />
         </div>
         <div className="flex justify-center items-center">
-        <img src={ongawaTitle} className="absolute w-[33%] top-28 z-2 lg:w-[12%] lg:top-[45%]" alt="" />
+        <img src={cacheImage[ongawaTitle] || ongawaTitle} className="absolute w-[33%] top-28 z-2 lg:w-[12%] lg:top-[45%]" loading="lazy" alt="" />
         </div>
         <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
       </div>
@@ -160,7 +230,15 @@ const Homepage = () => {
           initial={{opacity: 0, x: 100}}
           transition={{duration: 1}}
           className="demoVideoContainer w-full h-auto flex justify-center z-10 pt-4">
-          <img className="demoVideo w-[90%] h-auto py-[5vw] rounded-[2.5rem] z-10 object-contain 2xl:w-[70%] 2xl:py-0" width="562" height="316" src={Demogif} alt="Game demo gif" />
+          <video class="w-[90%] h-auto py-[5vw] rounded-[2.5rem] z-10 object-contain 2xl:w-[70%] 2xl:py-0" width="1980" height="720" 
+          muted
+          loop
+          loading="lazy"
+        autoPlay
+        playsInline>
+  <source src={Demovid} type="video/mp4"/>
+  Your browser does not support the video tag.
+    </video>
         </motion.div>
       </div>
       <div className="downloadSectionContainer w-full h-auto flex justify-center z-1 lg:justify-start lg:pl-[17rem] lg:-mt-28">
@@ -237,11 +315,12 @@ const Homepage = () => {
                     <div className="artistImgAndLinks flex-[0.25] flex justify-around p-2 flex-col">
                       <img 
                         className="artistImage w-[85%] flex-shrink-0 self-center rounded-full" 
-                        src={artist.image} 
+                        src={cachedImages[artist.image] ||artist.image} 
+                        loading="lazy"
                         alt="artist"/>
                       <div className="artistLinks flex flex-row justify-between p-3 pt-1 bg-image-background">
-                        <img className="artistLinkIcons w-[40%] flex-shrink-0 rounded-full bg-slate-300" src={spotifyIcon} alt="artist"/>
-                        <img className="artistLinkIcons w-[40%] flex-shrink-0 rounded-full bg-slate-300" src={soundcloudIcon} alt="artist"/>
+                        <img className="artistLinkIcons w-[40%] flex-shrink-0 rounded-full bg-slate-300" loading="lazy" src={spotifyIcon} alt="artist"/>
+                        <img className="artistLinkIcons w-[40%] flex-shrink-0 rounded-full bg-slate-300" loading="lazy" src={soundcloudIcon} alt="artist"/>
                       </div>
                     </div>
                     <div className="artistRelatedInfo flex justify-around pl-[0.3rem] flex-1 flex-col">
@@ -250,7 +329,11 @@ const Homepage = () => {
                           <div className="artistName flex font-overpass-mono text-body-overpass-base font-bold leading-inherit text-left items-center">
                             {artist.name}
                           </div>
-                          <img className="verifiedIcon w-4 h-4 pl-2" src={verifiedIcon} alt="verified"/>
+                          {cachedImages[verifiedIcon] ? (
+                              <img className="verifiedIcon w-4 h-4 pl-2" src={cachedImages[verifiedIcon]} alt="verified" />
+                            ) : (
+                              <div className="loading">Loading...</div>
+                            )}
                         </div>
                       </div>
                       <div className="artistStatistics flex flex-row justify-end pr-8">
@@ -290,6 +373,7 @@ const Homepage = () => {
               <img
                 className="rounded overflow-hidden object-contain mix-blend-normal z-3 w-6"
                 alt="Download from the App Store"
+                loading="lazy"
                 src={discordLogo}
               />
               Click to Join!
