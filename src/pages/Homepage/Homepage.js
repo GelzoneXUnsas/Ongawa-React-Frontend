@@ -18,7 +18,7 @@ import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
 import artist3Image from "../../assets/images/featuredArtists/artist3.png";
 import spotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
 import soundcloudIcon from "../../assets/icons/soundCloudIcon.svg";
-import Demovid from "../../assets/images/demoVid.mp4";
+import Demovid from "../../assets/images/Demovid.mp4";
 
 const cacheImage = (url, key) => {
   return new Promise((resolve, reject) => {
