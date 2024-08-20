@@ -42,8 +42,8 @@ function BeatmapListingPage() {
                     artistImg: 'artist2Image',
                     releaseDate: '2024-05-18',
                     difficultyLink : ['Easy', 'Normal', 'Hard'],
-                    playCount: 0,
-                    likeCount: 0,
+                    playCount: 504,
+                    likeCount: 145,
                     songDuration: '3:45',
                     bpm : 145,
                     noteCount: 1000,
@@ -231,14 +231,15 @@ function BeatmapListingPage() {
                         <option value="4">sort by: least played</option>
                     </select>
                 </div> */}
-            <div className={styles.bmListingDisplayMode}>
-                <div className={styles.bmListingDisplayModeContainter}>
-                    <div className={styles.bmListinDisplayModeItem}>songs</div>
-                    {/* <div className={styles.bmListinDisplayModeItem}>artists</div> */}
-                </div>
-                <hr></hr>
-                    <BeatmapList beatmapList={beatmapList} />
+            
+            <div className="bmListingDisplayModeContainer flex flex-col font-title-lexend text-[16px] font-bold pt-4 text-white items-center ">
+                <div className="bmListingDisplayMode w-1/4 text-white flex justify-center">songs</div>
+                {/* <div className={styles.bmListinDisplayModeItem}>artists</div> */}
+                <hr className="hr flex w-4/5"></hr>
             </div>
+
+            <BeatmapList beatmapList={beatmapList} />
+            
         </div>
     );
 }
@@ -249,40 +250,48 @@ function BeatmapList (props) {
     
     const rows = props.beatmapList.map((beatmap, index) => {
         return ( 
-            <div key={index}>
-                <button type="button" className={styles.bmListItem} onClick={() => navigate(`/beatmap?id=${beatmap.id}`)}>
-                    <div className={styles.musiccoverIcon}>
-                        <img src={albumCovers[beatmap.id-1]} alt="" />
-                    </div>
-                    <div className={styles.musiccoverInfo}>
-                        <div className={styles.songTitleText}>
-                            {beatmap.songName}
+            <div key={index} className="beatmapItemContainer px-4">
+                <button type="button" 
+                    className="beatMapButton flex flex-row justify-center items-center bg-white w-[21rem] relative rounded-xl overflow-hidden" 
+                    onClick={() => navigate(`/beatmap?id=${beatmap.id}`)}
+                >
+                    <div className="beatMapItemContainer flex flex-row justify-center items-center gap-2">
+                        <div className="musicCoverContainer flex flex-shrink-0 rounded-lg w-20 h-20 overflow-hidden">
+                            <img src={albumCovers[beatmap.id-1]}  className="object-cover w-full h-full" alt="" />
                         </div>
-                        <div className={styles.songArtistText}>
-                            {beatmap.artist}
-                        </div>
-                        <div className={styles.mappedByText}>
-                            mapped by {beatmap.beatmap_artist}
-                        </div>
-                        <div className={styles.gameInfoSection}>
-                            <div className={styles.difficultySection}>
-                                <img src={bmDiffIcon} alt="" />
-                                <img src={easyDiffIcon} alt="" />
-                                <img src={normalDiffIcon} alt="" />
-                                <img src={hardDiffIcon} alt="" />
+                        <div className="musicInfo flex flex-col text-left justify-center font-body-overpass leading-6 w-56">
+                            <div className="songTitleText flex text-left font-bold text-body-overpass-base  text-black">
+                                {beatmap.songName}
                             </div>
-                            <div className= {styles.countInfoSection}>
-                                <div className={styles.playCountInfo}>
-                                    <img src={playIcon} alt="" />
-                                    <b>
-                                        {beatmap.playCount}
-                                    </b>
+
+                            <div className="artistText w-full relative text-sm font-medium text-black text-left flex items-center">
+                                {beatmap.artist}
+                            </div>
+
+                            <div className="mappedByText pt-3 w-full relative text-sm font-medium text-black text-left inline-block">
+                                mapped by {beatmap.beatmap_artist}
+                            </div>
+                            
+                            <div className="gameInfoSection flex justify-between ">
+                                <div className="difficultySection flex gap-1">
+                                    <img src={bmDiffIcon} className="difficultyIcons w-3" alt="" />
+                                    <img src={easyDiffIcon}  className="difficultyIcons w-3" alt="" />
+                                    <img src={normalDiffIcon} className="difficultyIcons w-3" alt="" />
+                                    <img src={hardDiffIcon} className="difficultyIcons w-3" alt="" />
                                 </div>
-                                <div className={styles.heartCountInfo}>
-                                    <img src={heartIcon} alt="" />
-                                    <b>
-                                        {beatmap.likeCount}
-                                    </b>
+                                <div className="mapStatsSection flex gap-3 items-center text-center">
+                                    <div className="playCounts flex text-sm gap-1 font-normal items-center text-black">
+                                        <img src={playIcon} className="playIcon w-4 object-fit" alt="" />
+                                        <b className="items-center justify-center">
+                                            {beatmap.playCount}
+                                        </b>
+                                    </div>
+                                    <div className="likeCounts flex text-sm gap-1 font-normal items-center text-black">
+                                        <img src={heartIcon} className="heartIcon w-4 object-fit" alt="" />
+                                        <b>
+                                            {beatmap.likeCount}
+                                        </b>
+                                    </div>
                                 </div>
                             </div>
                         </div>
