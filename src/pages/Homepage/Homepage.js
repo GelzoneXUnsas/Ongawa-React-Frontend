@@ -233,8 +233,7 @@ const Homepage = () => {
           muted
           loop
           preload="auto"        
-          autoPlay
-        playsInline>
+          autoPlay>
   <source src="../../assets/images/Demovid.mp4" type="video/mp4"/>
   Your browser does not support the video tag.
     </video>
