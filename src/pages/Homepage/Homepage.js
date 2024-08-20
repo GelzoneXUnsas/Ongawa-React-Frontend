@@ -18,7 +18,6 @@ import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
 import artist3Image from "../../assets/images/featuredArtists/artist3.png";
 import spotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
 import soundcloudIcon from "../../assets/icons/soundCloudIcon.svg";
-import Demovid from "../../assets/images/Demovid.mp4";
 
 const cacheImage = (url, key) => {
   return new Promise((resolve, reject) => {
@@ -236,7 +235,7 @@ const Homepage = () => {
           preload="auto"        
           autoPlay
         playsInline>
-  <source src={Demovid} type="video/mp4"/>
+  <source src="../../assets/images/Demovid.mp4" type="video/mp4"/>
   Your browser does not support the video tag.
     </video>
         </motion.div>
