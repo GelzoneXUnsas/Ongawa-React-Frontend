@@ -152,10 +152,10 @@ const Homepage = () => {
     <div className="homepage flex flex-col w-full bg-page-accent-gray overflow-hidden text-center text-body-overpass-base text-white font-body-overpass">
       <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-80">
         <div className="bgImgContainer w-full lg:-mt-64">
-          <img src={cacheImage[headerBackgroundImg] || headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" loading="lazy" alt="" />
+          <img src={cacheImage[headerBackgroundImg] || headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" preload="auto" alt="" />
         </div>
         <div className="flex justify-center items-center">
-        <img src={cacheImage[ongawaTitle] || ongawaTitle} className="absolute w-[33%] top-28 z-2 lg:w-[12%] lg:top-[45%]" loading="lazy" alt="" />
+        <img src={cacheImage[ongawaTitle] || ongawaTitle} className="absolute w-[33%] top-28 z-2 lg:w-[12%] lg:top-[45%]" preload="auto" alt="" />
         </div>
         <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
       </div>
@@ -233,8 +233,8 @@ const Homepage = () => {
           <video class="w-[90%] h-auto py-[5vw] rounded-[2.5rem] z-10 object-contain 2xl:w-[70%] 2xl:py-0" width="1980" height="720" 
           muted
           loop
-          loading="lazy"
-        autoPlay
+          preload="auto"        
+          autoPlay
         playsInline>
   <source src={Demovid} type="video/mp4"/>
   Your browser does not support the video tag.
@@ -316,7 +316,6 @@ const Homepage = () => {
                       <img 
                         className="artistImage w-[85%] flex-shrink-0 self-center rounded-full" 
                         src={cachedImages[artist.image] ||artist.image} 
-                        loading="lazy"
                         alt="artist"/>
                       <div className="artistLinks flex flex-row justify-between p-3 pt-1 bg-image-background">
                         <img className="artistLinkIcons w-[40%] flex-shrink-0 rounded-full bg-slate-300" loading="lazy" src={spotifyIcon} alt="artist"/>
