@@ -112,6 +112,7 @@ function BeatmapListingPage() {
                 }
             ]
     }
+    const [originalBeatmapList, setOriginalBeatmapList] = useState([]);
     const [beatmapList, setBeatmapList] = useState([]);
     const [searchParams] = useSearchParams();
     const searchQuery = searchParams.get('search');
@@ -122,65 +123,100 @@ function BeatmapListingPage() {
     async function fetchAll() {
         try {
             const route = BACKEND_URL + '/beatmapListing/' + (searchQuery? ('?search=' + searchQuery) : '');
-            console.log('ROUTE', route);
+            // console.log('ROUTE', route);
             const response = await axios.get(route);
-            console.log(response.data);
             return response.data.beatmap_info;
         }
         catch (error) {
-            console.log(error);
-            return false;
+            console.log('FETCH_ALL', error);
+            console.log('Returning static beatmaps')
+            return beatmap_list.beatmap_info;
         }
     }
 
     useEffect(() => {
         fetchAll().then(result => {
             console.log('RESULT', result);
-            if (result)
-                setBeatmapList(result);
+            if (result) setBeatmapList(result);
+            setOriginalBeatmapList(result);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setQuery(e.target.value);
-        console.log('Query:', query);
 
-        updateList(query);
-        // Perform any additional logic or API calls here
-    };
+    // uncomment this to use api call for search (how it is commonly done)
+    // const handleSearch = async (e) => {
+    //     e.preventDefault();
+    //     // setQuery(e.target.value);
+    //     const result = await makeGetCall(query);
+    //     if (result && result.data) {
+    //         setBeatmapList(result.data.beatmap_info);
+    //     }
+    // };
+
+    // uncomment this too to use with handleSearch
+    // async function makeGetCall(keyword) {
+    //     try {
+    //         const route = BACKEND_URL + '/beatmapListing' + (keyword ? `?search=${keyword}` : '');
+    //         const response = await axios.get(route);
+    //         return response;
+    //     } catch (error) {
+    //         console.log("makeGetCall", error);
+    //         return false;
+    //     }
+    // }
 
     const handleInputChange = (e) => {
         setQuery(e.target.value);
         // console.log('input', e.target.value);
     };
     
-    async function makeGetCall(keyword) {
-        try {
-            const route = BACKEND_URL + '/beatmapListing';
-            const response = await axios.get(route, keyword);
-            return response;
-        }
-        catch (error) {
-            console.log(error);
-            return false;
-        }
-    }
 
-    //make get call everytime a user searches for a beatmap
-    function updateList(keyword) {
-        makeGetCall(keyword).then( result => {
-            if (result && result.status === 200)
-                setBeatmapList([...beatmapList, keyword]);
-        });
-    }
+
+    // can delete this function and the call to this function after backend is established
+    // this function just checks if the backend fetchall call succeded and populated the beatmaplist. if not, it sets it to the default static beatmaps
     function check(e){
-        console.log('this is the beatmap list',beatmapList)
         if (beatmapList.length === 0){
-            setBeatmapList(beatmap_list.beatmap_info);}
+            console.log('setting default beatmapList',beatmapList)
+            setBeatmapList(beatmap_list.beatmap_info);
+            setOriginalBeatmapList(beatmap_list.beatmap_info);
+        }
     }
     check();
+
+    //delete everything below and replace with the handleSearch function above when backend is established
+    // this is another way to search filter since normally we want to make get requests to the backend with search parameters but since no backend yet
+    // we will have to just filter the beatmapList useState variable on the server (not ideal)
+
+    const handleSearchStatic = (e) => {
+        e.preventDefault();
+    
+        // If the query is empty, reset to the original list
+        if (query.trim() === '') {
+            setBeatmapList(originalBeatmapList);
+            return;
+        }
+    
+        // Convert query to lowercase to make the search case-insensitive
+        const lowercaseQuery = query.toLowerCase();
+    
+        // Filter the beatmapList based on the query
+        const filteredBeatmaps = originalBeatmapList.filter((beatmap) => {
+            return (
+                beatmap.songName.toLowerCase().includes(lowercaseQuery) ||
+                beatmap.artist.toLowerCase().includes(lowercaseQuery) ||
+                beatmap.beatmap_artist.toLowerCase().includes(lowercaseQuery) ||
+                beatmap.source.toLowerCase().includes(lowercaseQuery) ||
+                beatmap.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
+                beatmap.description.toLowerCase().includes(lowercaseQuery)
+            );
+        });
+    
+        setBeatmapList(filteredBeatmaps);
+    };
+    
+
+    // only until here for deleting search stuff
 
     return (
         <div className="beatmapListingPage w-full bg-page-accent-gray overflow-hidden text-center text-white text-body-overpass-base font-body-overpass min-h-screen">
@@ -192,21 +228,7 @@ function BeatmapListingPage() {
                 <div className={styles.titleText}>BEATMAPS</div>
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
-            {/* <div className="searchBarSection w-auto h-20 px-4 pt-4 flex flex-col bg-page-accent-gray text-search-text-gray font-overpass-mono text-body-overpass-base font-medium">
-                <form action="" className="searchBar flex items-center justify-center w-full h-[1.5rem] rounded-sm bg-amber-500 space-x-2">
-                    <input
-                        name="search"
-                        type="text"
-                        value={query}
-                        onChange={handleInputChange}
-                        placeholder="song, album, artist"
-                        className="flex-grow border-none rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
-                    />
-                    <img src={searchIcon} alt="Search" className="w-5 h-5" onClick={handleSearch} />
-                </form>
-                
-            </div> */}
-            <div class="flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
+            <div class="searchBarContainer flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
                 <input
                     type="text"
                     placeholder="Search..."
@@ -215,7 +237,7 @@ function BeatmapListingPage() {
                 />
                 <button
                     type="button"
-                    onClick={handleSearch}
+                    onClick={handleSearchStatic}
                     class="px-4 py-2 text-white rounded-r-lg hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-900"
                 >
                     <img src={searchIcon} alt="Search" className="w-5 h-5" />
@@ -301,7 +323,7 @@ function BeatmapList (props) {
         );
     });
     return (
-        <div className="bmListContainer flex flex-row flex-wrap justify-center pt-4 gap-2">
+        <div className="bmListContainer flex flex-row flex-wrap justify-center pt-2 gap-2">
             {rows}
         </div>
     );
