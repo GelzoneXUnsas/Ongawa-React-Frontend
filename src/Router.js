@@ -6,9 +6,12 @@ import Footer from './components/Footer/Footer';
 
 import GalleryPage from './pages/GalleryPage/GalleryPage';
 import MusicGalleryPage from './pages/GalleryPage/MusicGalleryPage';
+import MusicanListingPage from './pages/MusicianListing/MusicianListingPage';
+import MusicianPage from './pages/MusicianPage/MusicianPage';
 import BeatmapListingPage from './pages/BeatmapListingPage/BeatmapListingPage';
 import BeatmapPage from './pages/BeatmapPage/BeatmapPage';
 import ComingSoonPage from './pages/ComingSoonPage/ComingSoonPage';
+
 import Login from './pages/Auth/Login';
 import { AuthProvider } from './contexts/authContext';
 import Register from './pages/Auth/Register';
@@ -22,6 +25,8 @@ function Router() {
                     <Route path="gallery" element={<GalleryPage />} />
                     <Route path="musicgallery" element={<MusicGalleryPage />} />
                     <Route path="beatmaplisting" element={<BeatmapListingPage />} />
+                    <Route path="musicanlisting" element={<MusicanListingPage />} />
+                    <Route path="musican" element={<MusicianPage />} />
                     <Route path="beatmap" element={<BeatmapPage />} />
                     <Route path="comingsoon" element={<ComingSoonPage />} />
                     <Route path="login" element={<Login />} />

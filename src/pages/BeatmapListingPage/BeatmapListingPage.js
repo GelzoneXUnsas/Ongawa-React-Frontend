@@ -135,6 +135,7 @@ function BeatmapListingPage() {
     }
 
     useEffect(() => {
+        document.title = 'Beatmaps - Ongawa';
         fetchAll().then(result => {
             console.log('RESULT', result);
             if (result) setBeatmapList(result);
