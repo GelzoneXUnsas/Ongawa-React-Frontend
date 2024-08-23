@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import styles from "./BeatmapListingPage.module.css";
+// import styles from "./BeatmapListingPage.module.css";
 // import homeStyles from "../Homepage/Homepage.module.css";
 
 import React from "react";
@@ -226,7 +226,7 @@ function BeatmapListingPage() {
                 <div className="bgImgContainer w-full lg:-mt-64">
                     <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
                 </div>
-                <div className={styles.titleText}>BEATMAPS</div>
+                <div className="absolute w-full h-12 top-32 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">BEATMAPS</div>
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
             <div class="searchBarContainer flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">

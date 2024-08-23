@@ -1,7 +1,7 @@
 // import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styles from "./BeatmapPage.module.css";
-import homeStyles from "../Homepage/Homepage.module.css";
+// import homeStyles from "../Homepage/Homepage.module.css";
 import React, { useEffect, useState } from "react";
 //import axios from "axios";
 
@@ -159,58 +159,58 @@ function BeatmapPage() {
     }, []);
 
     return (
-        <div className={styles.beatmaplistingPage}>
-            <div className={homeStyles.gradientContainer}>
-                <div className={styles.titleContainer}>
-                    <div className={homeStyles.bgImgContainer}>
-                        <img src={headerBackgroundImg} className={homeStyles.headerBackgroundImg} alt="" />
-                    </div>
-                    <div className={styles.titleText}>BEATMAP</div>
-                    <div className={styles.gradientOverlay}></div>
+        <div className="w-full flex flex-col bg-page-accent-gray text-center text-body-overpass-base text-white font-body-overpass">
+            <div className="titleContainer relative h-[12rem] z-0 overflow-hidden">
+                <div className="bgImgContainer w-full lg:-mt-64">
+                    <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
                 </div>
+                <div className="absolute w-full h-12 top-32 bottom-0 z-1 flex justify-center text-center font-title-lexend text-3xl font-bold">BEATMAPS</div>
+                <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
-            <div className={styles.bmContent}>
-                <div className={styles.bmSongInfoSection}>
-                    <div className={styles.bmSongName}>
+            <div className="bmContent flex flex-col">
+                <div className="bmSongInfoSection h-40 flex flex-col justify-center items-start pt-8 px-4 pb-2">
+                    <div className="bmSongNameContainer flex text-lg font-title-lexend  ">
                         {beatmap.songName}
                     </div>
-                    <div className= {styles.countInfoSection}>
-                        <div className={styles.playCountInfo}>
-                            <img src={playIcon} className={styles.infoSvg} alt="" />
+                    <div className="countInfoSection flex font-title-lexend">
+                        <div className="playCountInfoContainer flex relative text-sm font-medium font-overpass-mono ">
+                            <img src={playIcon} className="playIcon fill-white " alt="" />
                             <b>
                                 {beatmap.playCount}
                             </b>
                         </div>
-                        <div className={styles.heartCountInfo}>
-                            <img src={heartIcon} className={styles.infoSvg} alt="" />
+                        <div className="likeCountInfoContainer flex justify-between relative text-sm font-medium font-['Overpass_Mono']">
+                            <img src={heartIcon} className="heartIcon fill-white" alt="" />
                             <b>
                                 {beatmap.likeCount}
                             </b>
                         </div>
                     </div>
-                    <div className={styles.bmAdditionalInfoSection}>
-                        <div className={styles.bmArtistInfoSection}>
-                            <div className={styles.artistDetails}>
-                                <img className={styles.artistImage} src={artistImages[beatmap.artistImg]} alt=""/>
-                                <div className={styles.artistTitleContainer}>
-                                    <div className={styles.artistName}>
-                                        {beatmap.artist}                                        </div>
-                                    <img className={styles.verifiedIcon} src={verifiedIcon} alt=""/>
+                    <div className="bmAdditionalInfoSection flex w-full py-4 justify-between ">
+                        <div className="bmArtistInfoSection flex flex-col justify-between">
+                            <div className="artistDetails flex ">
+                                <img className="artistImage rounded-full h-8 flex" src={artistImages[beatmap.artistImg]} alt="artist"/>
+                                {/* <img className="artistImage w-8 h-8 flex-shrink-0 rounded-full bg-lightgray bg-cover bg-no-repeat" src={artistImages[beatmap.artistImg]} alt=""/> */}
+                                <div className="artistTitleContainer flex self-center justify-around pb-4">
+                                    <div className="artistName w-full font-overpass-mono text-base font-normal leading-4 pt-1 text-center px-2">
+                                        {beatmap.artist}
+                                    </div>
+                                    <img className="verifiedIcon w-3 h-3 p-1" src={verifiedIcon} alt=""/>
                                 </div>
                             </div>
-                            <div className={styles.releaseDate}>
+                            <div className="releaseDate text-sm font-light font-overpass-mono text-left">
                                 released {beatmap.releaseDate}
                             </div>    
                         </div>
-                        <div className={styles.bmDifficultySection}>
-                            <div className= {styles.bmDifficultyInfoSection}>
+                        <div className="bmDifficultySection flex flex-col justify-between">
+                            <div className= "bmDifficultyInfoSection flex justify-end">
                                 <img src={easyIcon} className={styles.diffIcon} alt=""/>
-                                <div className={styles.difficultyScore}>
+                                <div className= "difficultyScore text-base pl-2">
                                     2.3  
                                 </div>
                             </div>
-                            <div className= {styles.bmDiffBar}>
-                                <img src={bmDifficultyBar} className={styles.diffBar} alt=""/>
+                            <div className= "diffBarContainer">
+                                <img src={bmDifficultyBar} className= "diffBar" alt=""/>
                             </div>
                         </div>
                     </div>
