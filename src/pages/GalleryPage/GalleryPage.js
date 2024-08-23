@@ -95,6 +95,7 @@ function GalleryPage() {
     // }
 
     useEffect(() => {
+        document.title = 'Beatmaps - Gallery';
         // // uncomment this to start calling from backend
         // fetchAll().then(result => {
         //     console.log('RESULT', result);
