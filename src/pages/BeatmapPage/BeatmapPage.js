@@ -1,6 +1,6 @@
 // import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import styles from "./BeatmapPage.module.css";
+// import styles from "./BeatmapPage.module.css";
 // import homeStyles from "../Homepage/Homepage.module.css";
 import React, { useEffect, useState } from "react";
 //import axios from "axios";
@@ -204,7 +204,7 @@ function BeatmapPage() {
                         </div>
                         <div className="bmDifficultySection flex flex-col justify-between">
                             <div className= "bmDifficultyInfoSection flex justify-end">
-                                <img src={easyIcon} className={styles.diffIcon} alt=""/>
+                                <img src={easyIcon} className="diffIcon w-4 h-4" alt=""/>
                                 <div className= "difficultyScore text-base pl-2">
                                     2.3  
                                 </div>
@@ -216,34 +216,36 @@ function BeatmapPage() {
                     </div>
                 </div>
                 <hr></hr>
-                <div className={styles.beatmapGameInfoSection}>
-                    <div className={styles.beatmapInfo}>
-                        <img src={albumCovers[beatmap.songCoverImg]} className={styles.coverImg} alt=""></img>
-                        <div className= {styles.bmInfoSection}>
-                            <div className={styles.mapperInfo}>
-                                mapped by {beatmap.beatmap_artist}
+
+                {/* start reformatting here */}
+                <div className="beatmapGameInfoSection flex flex-col justify-around pb-4 px-4">
+                    <div className="beatmapInfo flex p-2">
+                        <img src={albumCovers[beatmap.songCoverImg]} className="coverImg p-2" alt=""></img>
+                        <div className="beatmapInfoSection ">
+                            <div className="mapperInfo pt-2 leading-6 font-light font-overpass-mono flex flex-col text-left justify-start">
+                                Mapped by {beatmap.beatmap_artist}
                             </div>
-                            <div className={styles.bmData}>
-                                <div className={styles.bmDataItem}>
-                                    <img src={durationIcon} className={styles.bmSvg} alt="" />
+                            <div className="bmData flex flex-row justify-around items-start pt-6 px-4">
+                                <div className="bmDataItem w-1/4 flex justify-around content-baseline pb-2">
+                                    <img src={durationIcon} className="bmsvg " alt="" />
                                     <b>
                                         {beatmap.songDuration}
                                     </b>
                                 </div>
-                                <div className={styles.bmDataItem}>
-                                    <img className={styles.bmSvg} src={bpmIcon} alt="" />
+                                <div className="bmDataItem w-1/4 flex justify-around content-baseline pb-2">
+                                    <img className="bmsvg " src={bpmIcon} alt="" />
                                     <b>
                                         {beatmap.bpm}
                                     </b>
                                 </div>
-                                <div className={styles.bmDataItem}>
-                                    <img className={styles.bmSvg} src={noteCountIcon} alt="" />
+                                <div className="bmDataItem w-1/4 flex justify-around content-baseline pb-2">
+                                    <img className="bmsvg " src={noteCountIcon} alt="" />
                                     <b>
                                         {beatmap.noteCount}
                                     </b>
                                 </div>
-                                <div className={styles.bmDataItem}>
-                                    <img className={styles.bmSvg} src={sliderCountIcon} alt="" />
+                                <div className="bmDataItem w-1/4 flex justify-around content-baseline pb-2">
+                                    <img className="bmsvg " src={sliderCountIcon} alt="" />
                                     <b>
                                         {beatmap.sliderCount}
                                     </b>
@@ -251,50 +253,50 @@ function BeatmapPage() {
                             </div>
                         </div>
                     </div>
-                    <div className={styles.bmStatInfo}>
-                        <div className={styles.bmStatItem}>
-                            <div className={styles.bmStatAttribute}>
+                    <div className="bmStatInfo ">
+                        <div className="bmStatItem flex justify-around px-2 pb-2">
+                            <div className="bmStatAttribute w-20 font-light text-base">
                                 HP Drain
                             </div>
-                            <div className={styles.valueBar}>
-                                <img src={bm30ValueBar} className={styles.bmValueBar} alt=""/>
+                            <div className="valueBar ">
+                                <img src={bm30ValueBar} className="bmValueBar " alt=""/>
                             </div>
-                            <div className={styles.bmStatValue}>5</div>
+                            <div className="bmStatValue ">5</div>
                         </div>
-                        <div className={styles.bmStatItem}>
-                            <div className={styles.bmStatAttribute}>
+                        <div className="bmStatItem flex justify-around px-2 pb-2">
+                            <div className="bmStatAttribute w-20 font-light text-base">
                                 Approach Rate
                             </div>
-                            <div className={styles.valueBar}>
-                                <img src={bm30ValueBar} className={styles.bmValueBar} alt=""/>
+                            <div className="valueBar ">
+                                <img src={bm30ValueBar} className="bmValueBar " alt=""/>
                             </div>
-                            <div className={styles.bmStatValue}>7</div>
+                            <div className="bmStatValue ">7</div>
                         </div>
                         <a href={tempBeatmap} target="_blank" rel="noopener noreferrer" download>
-                            <button type="button" className={styles.downloadButton}>
+                            <button type="button" className="downloadButton w-1/2 h-8 bg-transparent text-white border border-white transition-colors duration-700 hover:bg-white hover:text-black">
                                 Download
                             </button>
                         </a>
                     </div>
                     <hr></hr>
-                    <div className={styles.bmDescription}>
+                    <div className="bmDescription p-4 text-left font-light">
                         {beatmap.description}
                     </div>
 
-                    <div className={styles.tagSection}> 
-                        <div className={styles.tagItem}>
-                            <div className={styles.tagTitle}>
+                    <div className="tagSection flex flex-col text-left font-['Overpass_Mono'] p-4 text-base font-normal"> 
+                        <div className="tagItem flex pb-4">
+                            <div className="tagTitle pr-4">
                                 Source:
                             </div>
-                            <div className={styles.tagValues}>
+                            <div className="tagValues text-[#d5a6ed]">
                                 {beatmap.source}
                             </div>
                         </div>
-                        <div className={styles.tagItem}>
-                            <div className={styles.tagTitle}>
+                        <div className="tagItem flex pb-4">
+                            <div className="tagTitle pr-4">
                                 Tags:
                             </div>
-                            <div className={styles.tagValues}>
+                            <div className="tagValues text-[#d5a6ed]">
                                 {(beatmap.tags) && (beatmap.tags).join(', ')}
                             </div>
                         </div>
