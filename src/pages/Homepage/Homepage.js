@@ -150,12 +150,12 @@ const Homepage = () => {
   return (
     <>
     <div className="homepage flex flex-col w-full bg-page-accent-gray overflow-hidden text-center text-body-overpass-base text-white font-body-overpass">
-      <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-80">
+      <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-96">
         <div className="bgImgContainer w-full lg:-mt-64">
           <img src={cacheImage[headerBackgroundImg] || headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" preload="auto" alt="" />
         </div>
         <div className="flex justify-center items-center">
-        <img src={cacheImage[ongawaTitle] || ongawaTitle} className="absolute w-[33%] top-24 z-3 lg:w-[12%] lg:top-22" preload="auto" alt="" />
+        <img src={cacheImage[ongawaTitle] || ongawaTitle} className="absolute w-[33%] top-24 z-3 lg:w-[12%] lg:top-32" preload="auto" alt="" />
         </div>
         <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
       </div>
