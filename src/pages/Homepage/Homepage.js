@@ -155,7 +155,7 @@ const Homepage = () => {
           <img src={cacheImage[headerBackgroundImg] || headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" preload="auto" alt="" />
         </div>
         <div className="flex justify-center items-center">
-        <img src={cacheImage[ongawaTitle] || ongawaTitle} className="absolute w-[33%] top-28 z-2 lg:w-[12%] lg:top-[45%]" preload="auto" alt="" />
+        <img src={cacheImage[ongawaTitle] || ongawaTitle} className="absolute w-[33%] top-24 z-3 lg:w-[12%] lg:top-22" preload="auto" alt="" />
         </div>
         <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
       </div>

@@ -172,16 +172,16 @@ function BeatmapPage() {
                     <div className="bmSongNameContainer flex text-lg font-title-lexend  ">
                         {beatmap.songName}
                     </div>
-                    <div className="countInfoSection flex font-title-lexend">
-                        <div className="playCountInfoContainer flex relative text-sm font-medium font-overpass-mono ">
+                    <div className="countInfoSection flex content-center font-title-lexend gap-2">
+                        <div className="playCountInfoContainer flex gap-[2px] text-sm font-medium font-overpass-mono ">
                             <img src={playIcon} className="playIcon fill-white " alt="" />
-                            <b>
+                            <b className="pt-2">
                                 {beatmap.playCount}
                             </b>
                         </div>
-                        <div className="likeCountInfoContainer flex justify-between relative text-sm font-medium font-['Overpass_Mono']">
+                        <div className="likeCountInfoContainer flex gap-[2px] text-sm font-medium font-overpass-mono">
                             <img src={heartIcon} className="heartIcon fill-white" alt="" />
-                            <b>
+                            <b className="pt-2">
                                 {beatmap.likeCount}
                             </b>
                         </div>
@@ -218,34 +218,34 @@ function BeatmapPage() {
                 <hr></hr>
 
                 {/* start reformatting here */}
-                <div className="beatmapGameInfoSection flex flex-col justify-around pb-4 px-4">
-                    <div className="beatmapInfo flex p-2">
-                        <img src={albumCovers[beatmap.songCoverImg]} className="coverImg p-2" alt=""></img>
-                        <div className="beatmapInfoSection ">
-                            <div className="mapperInfo pt-2 leading-6 font-light font-overpass-mono flex flex-col text-left justify-start">
+                <div className="beatmapGameInfoSection flex flex-col py-3 px-4">
+                    <div className="beatmapInfo flex gap-1">
+                        <img src={albumCovers[beatmap.songCoverImg]} className="coverImg" alt=""></img>
+                        <div className="beatmapInfoSection flex flex-col gap-2">
+                            <div className="mapperInfo pt-2 font-light font-overpass-mono flex text-left">
                                 Mapped by {beatmap.beatmap_artist}
                             </div>
-                            <div className="bmData flex flex-row justify-around items-start pt-6 px-4">
-                                <div className="bmDataItem w-1/4 flex justify-around content-baseline pb-2">
-                                    <img src={durationIcon} className="bmsvg " alt="" />
+                            <div className="bmData flex gap-2 pl-2">
+                                <div className="bmDataItem h-4 flex">
+                                    <img src={durationIcon} className="bmsvg pt-[2px]" alt="" />
                                     <b>
                                         {beatmap.songDuration}
                                     </b>
                                 </div>
-                                <div className="bmDataItem w-1/4 flex justify-around content-baseline pb-2">
+                                <div className="bmDataItem h-5 flex">
                                     <img className="bmsvg " src={bpmIcon} alt="" />
                                     <b>
                                         {beatmap.bpm}
                                     </b>
                                 </div>
-                                <div className="bmDataItem w-1/4 flex justify-around content-baseline pb-2">
-                                    <img className="bmsvg " src={noteCountIcon} alt="" />
+                                <div className="bmDataItem h-4 flex">
+                                    <img className="bmsvg pt-[2px]" src={noteCountIcon} alt="" />
                                     <b>
                                         {beatmap.noteCount}
                                     </b>
                                 </div>
-                                <div className="bmDataItem w-1/4 flex justify-around content-baseline pb-2">
-                                    <img className="bmsvg " src={sliderCountIcon} alt="" />
+                                <div className="bmDataItem h-4 flex">
+                                    <img className="bmsvg pt-[2px]" src={sliderCountIcon} alt="" />
                                     <b>
                                         {beatmap.sliderCount}
                                     </b>
@@ -253,33 +253,33 @@ function BeatmapPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="bmStatInfo ">
-                        <div className="bmStatItem flex justify-around px-2 pb-2">
-                            <div className="bmStatAttribute w-20 font-light text-base">
+                    <div className="bmStatInfo mt-2">
+                        <div className="bmStatItem flex px-2 py-2 items-center justify-center">
+                            <div className="bmStatAttribute w-20 font-light">
                                 HP Drain
                             </div>
-                            <div className="valueBar ">
+                            <div className="valueBar px-2 content-center">
                                 <img src={bm30ValueBar} className="bmValueBar " alt=""/>
                             </div>
-                            <div className="bmStatValue ">5</div>
+                            <div className="bmStatValue">5</div>
                         </div>
-                        <div className="bmStatItem flex justify-around px-2 pb-2">
-                            <div className="bmStatAttribute w-20 font-light text-base">
+                        <div className="bmStatItem flex px-2 py-2 items-center justify-center">
+                            <div className="bmStatAttribute w-20 font-light">
                                 Approach Rate
                             </div>
-                            <div className="valueBar ">
+                            <div className="valueBar px-2 content-center">
                                 <img src={bm30ValueBar} className="bmValueBar " alt=""/>
                             </div>
                             <div className="bmStatValue ">7</div>
                         </div>
                         <a href={tempBeatmap} target="_blank" rel="noopener noreferrer" download>
-                            <button type="button" className="downloadButton w-1/2 h-8 bg-transparent text-white border border-white transition-colors duration-700 hover:bg-white hover:text-black">
+                            <button type="button" className="downloadButton w-1/2 h-8 bg-transparent border border-white transition-colors duration-700 hover:bg-white hover:text-black">
                                 Download
                             </button>
                         </a>
                     </div>
                     <hr></hr>
-                    <div className="bmDescription p-4 text-left font-light">
+                    <div className="bmDescription py-2 px-4 text-left">
                         {beatmap.description}
                     </div>
 
