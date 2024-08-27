@@ -265,7 +265,10 @@ function BeatmapListingPage() {
                 <select
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}
-                    className="sortByDropdown w-1/2 py-2 px-4 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56"
+                    className="sortByDropdown w-1/2 py-2 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56"
+                    style={{
+                        background: `url('arrow icon here') no-repeat right center`,
+                    }}
                 >
                     <option value="newest">Sort by: Newest</option>
                     <option value="oldest">Sort by: Oldest</option>
@@ -314,7 +317,7 @@ function BeatmapList (props) {
         return ( 
             <div key={index} className="beatmapItemContainer px-4">
                 <button type="button" 
-                    className="beatMapButton flex flex-row justify-center items-center bg-white w-[21rem] relative rounded-xl overflow-hidden" 
+                    className="beatMapButton flex flex-row justify-center items-center bg-white w-[21rem] relative overflow-hidden" 
                     onClick={() => navigate(`/beatmap?id=${beatmap.id}`)}
                 >
                     <div className="beatMapItemContainer flex flex-row justify-center items-center gap-2">
