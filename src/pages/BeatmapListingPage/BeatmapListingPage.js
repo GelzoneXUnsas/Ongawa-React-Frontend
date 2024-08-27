@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 // import styles from "./BeatmapListingPage.module.css";
 // import homeStyles from "../Homepage/Homepage.module.css";
@@ -59,7 +59,7 @@ function BeatmapListingPage() {
                     beatmap_artist : 'Techo Maestro',
                     songCoverImg: 'cover2',
                     artistImg: 'artist1Image',
-                    releaseDate: '2024-05-18',
+                    releaseDate: '2025-05-18',
                     difficultyLevels : ['Easy', 'Normal', 'Hard'],
                     playCount: 0,
                     likeCount: 0,
@@ -78,7 +78,7 @@ function BeatmapListingPage() {
                     beatmap_artist : 'StarNavigator',
                     songCoverImg: 'cover3',
                     artistImg: 'artist3Image',
-                    releaseDate: '2024-05-18',
+                    releaseDate: '2023-05-18',
                     difficultyLink : ['Easy', 'Normal'],
                     playCount: 0,
                     likeCount: 0,
@@ -98,7 +98,7 @@ function BeatmapListingPage() {
                     beatmap_artist : 'ShadowWeaver',
                     songCoverImg: 'cover4',
                     artistImg: 'artist1Image',
-                    releaseDate: '2024-05-18',
+                    releaseDate: '2022-05-18',
                     difficultyLink : ['Easy', 'Normal'],
                     playCount: 0,
                     likeCount: 0,
@@ -118,6 +118,7 @@ function BeatmapListingPage() {
     const searchQuery = searchParams.get('search');
 
     const [query, setQuery] = useState(searchQuery || '');
+    const [sortOption, setSortOption] = useState('newest');
     // const [results, setResults] = useState([]);
 
     async function fetchAll() {
@@ -144,6 +145,21 @@ function BeatmapListingPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleSort = useCallback((option) => {
+        let sortedList = [...beatmapList];
+        if (option === 'alphabetical') {
+            sortedList.sort((a, b) => a.songName.localeCompare(b.songName));
+        } else if (option === 'newest') {
+            sortedList.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+        } else if (option === 'oldest') {
+            sortedList.sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
+        }
+        setBeatmapList(sortedList);
+    }, [beatmapList]);
+
+    useEffect(() => {
+        handleSort(sortOption);
+    }, [sortOption, beatmapList, handleSort]);
 
     // uncomment this to use api call for search (how it is commonly done)
     // const handleSearch = async (e) => {
@@ -244,6 +260,29 @@ function BeatmapListingPage() {
                     <img src={searchIcon} alt="Search" className="w-5 h-5" />
                 </button>
             </div>
+
+            <div className="sortByContainer flex px-4 justify-start">
+                <select
+                    value={sortOption}
+                    onChange={(e) => setSortOption(e.target.value)}
+                    className="sortByDropdown w-1/2 py-2 px-4 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56"
+                >
+                    <option value="newest">Sort by: Newest</option>
+                    <option value="oldest">Sort by: Oldest</option>
+                    <option value="alphabetical">Sort by: Alphabetical</option>
+                </select>
+            </div>
+
+            {/* <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown button
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div> */}
 
 
             {/* <div className={styles.beatmapListingFilterItem}>

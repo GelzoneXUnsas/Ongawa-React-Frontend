@@ -1,8 +1,9 @@
 // import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 // import styles from "./BeatmapPage.module.css";
 // import homeStyles from "../Homepage/Homepage.module.css";
 import React, { useEffect, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa"; // Import the back arrow icon
 //import axios from "axios";
 
 import headerBackgroundImg from '../../assets/images/headerBackground.png';
@@ -124,6 +125,7 @@ function BeatmapPage() {
                 }
             ]
     }
+    const navigate = useNavigate();
     const [beatmap, setBeatmap] = useState([]);
     const [searchParams] = useSearchParams();
     const id = searchParams.get('id');
@@ -158,6 +160,10 @@ function BeatmapPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleBackClick = () => {
+        navigate(-1); // Go back to the previous page
+    };
+
     return (
         <div className="w-full flex flex-col bg-page-accent-gray text-center text-body-overpass-base text-white font-body-overpass">
             <div className="titleContainer relative h-[12rem] z-0 overflow-hidden">
@@ -167,12 +173,20 @@ function BeatmapPage() {
                 <div className="absolute w-full h-12 top-32 bottom-0 z-1 flex justify-center text-center font-title-lexend text-3xl font-bold">BEATMAPS</div>
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
+
+            <div className="backArrowContainer flex lg:self-center lg:w-1/3">
+                <button onClick={handleBackClick} className="self-start flex gap-1 hover:underline text-lilac text-font-size-xs items-center hover:text-gray-300 hover:border-none bg-transparent border-none">
+                    <FaArrowLeft size={20} />
+                    Back
+                </button>
+            </div>
+
             <div className="bmContent flex flex-col">
-                <div className="bmSongInfoSection h-40 flex flex-col justify-center items-start pt-8 px-4 pb-2">
-                    <div className="bmSongNameContainer flex text-lg font-title-lexend  ">
+                <div className="bmSongInfoSection h-40 flex flex-col justify-center items-start pt-8 px-4 pb-2  lg:w-1/3 lg:self-center ">
+                    <div className="bmSongNameContainer flex text-lg font-title-lexend ">
                         {beatmap.songName}
                     </div>
-                    <div className="countInfoSection flex content-center font-title-lexend gap-2">
+                    <div className="countInfoSection flex font-title-lexend gap-2">
                         <div className="playCountInfoContainer flex gap-[2px] text-sm font-medium font-overpass-mono ">
                             <img src={playIcon} className="playIcon fill-white " alt="" />
                             <b className="pt-2">
@@ -218,8 +232,8 @@ function BeatmapPage() {
                 <hr></hr>
 
                 {/* start reformatting here */}
-                <div className="beatmapGameInfoSection flex flex-col py-3 px-4">
-                    <div className="beatmapInfo flex gap-1">
+                <div className="beatmapGameInfoSection flex flex-col py-3 px-4 justify-center items-center lg:border lg:border-neutral-200 lg:self-center lg:rounded-2xl lg:shadow-lilac lg:shadow-md">
+                    <div className="beatmapInfo flex gap-1 ">
                         <img src={albumCovers[beatmap.songCoverImg]} className="coverImg" alt=""></img>
                         <div className="beatmapInfoSection flex flex-col gap-2">
                             <div className="mapperInfo pt-2 font-light font-overpass-mono flex text-left">
@@ -278,30 +292,31 @@ function BeatmapPage() {
                             </button>
                         </a>
                     </div>
-                    <hr></hr>
-                    <div className="bmDescription py-2 px-4 text-left">
-                        {beatmap.description}
-                    </div>
 
-                    <div className="tagSection flex flex-col text-left font-['Overpass_Mono'] p-4 text-base font-normal"> 
-                        <div className="tagItem flex pb-4">
-                            <div className="tagTitle pr-4">
-                                Source:
-                            </div>
-                            <div className="tagValues text-[#d5a6ed]">
-                                {beatmap.source}
-                            </div>
+                </div>
+                <hr></hr>
+                
+                <div className="bmDescription flex py-2 px-12 text-left">
+                    {beatmap.description}
+                </div>
+
+                <div className="tagSection flex flex-col text-left font-['Overpass_Mono'] px-12 py-8 text-base font-normal"> 
+                    <div className="tagItem flex pb-4">
+                        <div className="tagTitle pr-4">
+                            Source:
                         </div>
-                        <div className="tagItem flex pb-4">
-                            <div className="tagTitle pr-4">
-                                Tags:
-                            </div>
-                            <div className="tagValues text-[#d5a6ed]">
-                                {(beatmap.tags) && (beatmap.tags).join(', ')}
-                            </div>
+                        <div className="tagValues text-[#d5a6ed]">
+                            {beatmap.source}
                         </div>
                     </div>
-
+                    <div className="tagItem flex pb-4">
+                        <div className="tagTitle pr-4">
+                            Tags:
+                        </div>
+                        <div className="tagValues text-[#d5a6ed]">
+                            {(beatmap.tags) && (beatmap.tags).join(', ')}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
