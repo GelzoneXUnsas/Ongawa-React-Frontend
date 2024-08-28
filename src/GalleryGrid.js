@@ -58,7 +58,7 @@ function GalleryGrid(props) {
                 {rows}
             </div>
         :
-            <div className={styles.imageGridCover}>
+            <div className={styles.imageGridArt}>
                 {rows}
             </div>
         }

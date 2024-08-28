@@ -194,6 +194,8 @@ hr {
     align-self: center;
 }
 
+
+
 .coverImageAndText {
     font-family: "Lexend Exa";
     font-size: 19px;
@@ -321,15 +323,7 @@ hr {
     }
 
     .imageGridCover{
-        display: grid;
         grid-template-columns: repeat(1, 1fr);
-        grid-row-gap: 2rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        justify-content: center;
-        width: 93%; 
-        /* background-color: #d5a6ed; */
-        align-self: center;
     }
 
     .coverImageAndText {

@@ -170,11 +170,11 @@ function BeatmapPage() {
                 <div className="bgImgContainer w-full lg:-mt-64">
                     <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
                 </div>
-                <div className="absolute w-full h-12 top-32 bottom-0 z-1 flex justify-center text-center font-title-lexend text-3xl font-bold">BEATMAPS</div>
+                <div className="absolute w-full h-12 top-32 bottom-0 z-3 flex justify-center text-center font-title-lexend text-3xl font-bold">BEATMAPS</div>
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
 
-            <div className="backArrowContainer flex lg:self-center lg:w-1/3">
+            <div className="backArrowContainer flex ">
                 <button onClick={handleBackClick} className="self-start flex gap-1 hover:underline text-lilac text-font-size-xs items-center hover:text-gray-300 hover:border-none bg-transparent border-none">
                     <FaArrowLeft size={20} />
                     Back
@@ -182,7 +182,7 @@ function BeatmapPage() {
             </div>
 
             <div className="bmContent flex flex-col">
-                <div className="bmSongInfoSection h-40 flex flex-col justify-center items-start pt-8 px-4 pb-2  lg:w-1/3 lg:self-center ">
+                <div className="bmSongInfoSection h-40 flex flex-col justify-center items-start pt-8 px-4 pb-2   ">
                     <div className="bmSongNameContainer flex text-lg font-title-lexend ">
                         {beatmap.songName}
                     </div>
@@ -231,90 +231,95 @@ function BeatmapPage() {
                 </div>
                 <hr></hr>
 
-                {/* start reformatting here */}
-                <div className="beatmapGameInfoSection flex flex-col py-3 px-4 justify-center items-center lg:border lg:border-neutral-200 lg:self-center lg:rounded-2xl lg:shadow-lilac lg:shadow-md">
-                    <div className="beatmapInfo flex gap-1 ">
-                        <img src={albumCovers[beatmap.songCoverImg]} className="coverImg" alt=""></img>
-                        <div className="beatmapInfoSection flex flex-col gap-2">
-                            <div className="mapperInfo pt-2 font-light font-overpass-mono flex text-left">
-                                Mapped by {beatmap.beatmap_artist}
-                            </div>
-                            <div className="bmData flex gap-2 pl-2">
-                                <div className="bmDataItem h-4 flex">
-                                    <img src={durationIcon} className="bmsvg pt-[2px]" alt="" />
-                                    <b>
-                                        {beatmap.songDuration}
-                                    </b>
+                <div className="gameInfoAndDescripContainer flex flex-col lg:flex-row lg:px-8 py-4">
+                    <div className="beatmapGameInfoSectionContainer flex justify-center lg:flex-1">
+                        <div className="beatmapGameInfoSection flex flex-col py-3 px-4 justify-center items-center lg:border lg:border-neutral-200 lg:self-center lg:rounded-2xl lg:shadow-lilac lg:shadow-md lg:w-1/2">
+                            <div className="beatmapInfo flex gap-1 ">
+                                <img src={albumCovers[beatmap.songCoverImg]} className="coverImg" alt=""></img>
+                                <div className="beatmapInfoSection flex flex-col gap-2">
+                                    <div className="mapperInfo pt-2 font-light font-overpass-mono flex text-left">
+                                        Mapped by {beatmap.beatmap_artist}
+                                    </div>
+                                    <div className="bmData flex gap-2 pl-2">
+                                        <div className="bmDataItem h-4 flex">
+                                            <img src={durationIcon} className="bmsvg pt-[2px]" alt="" />
+                                            <b>
+                                                {beatmap.songDuration}
+                                            </b>
+                                        </div>
+                                        <div className="bmDataItem h-5 flex">
+                                            <img className="bmsvg " src={bpmIcon} alt="" />
+                                            <b>
+                                                {beatmap.bpm}
+                                            </b>
+                                        </div>
+                                        <div className="bmDataItem h-4 flex">
+                                            <img className="bmsvg pt-[2px]" src={noteCountIcon} alt="" />
+                                            <b>
+                                                {beatmap.noteCount}
+                                            </b>
+                                        </div>
+                                        <div className="bmDataItem h-4 flex">
+                                            <img className="bmsvg pt-[2px]" src={sliderCountIcon} alt="" />
+                                            <b>
+                                                {beatmap.sliderCount}
+                                            </b>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="bmDataItem h-5 flex">
-                                    <img className="bmsvg " src={bpmIcon} alt="" />
-                                    <b>
-                                        {beatmap.bpm}
-                                    </b>
+                            </div>
+                            <div className="bmStatInfo mt-2">
+                                <div className="bmStatItem flex px-2 py-2 items-center justify-center">
+                                    <div className="bmStatAttribute w-20 font-light">
+                                        HP Drain
+                                    </div>
+                                    <div className="valueBar px-2 content-center">
+                                        <img src={bm30ValueBar} className="bmValueBar " alt=""/>
+                                    </div>
+                                    <div className="bmStatValue">5</div>
                                 </div>
-                                <div className="bmDataItem h-4 flex">
-                                    <img className="bmsvg pt-[2px]" src={noteCountIcon} alt="" />
-                                    <b>
-                                        {beatmap.noteCount}
-                                    </b>
+                                <div className="bmStatItem flex px-2 py-2 items-center justify-center">
+                                    <div className="bmStatAttribute w-20 font-light">
+                                        Approach Rate
+                                    </div>
+                                    <div className="valueBar px-2 content-center">
+                                        <img src={bm30ValueBar} className="bmValueBar " alt=""/>
+                                    </div>
+                                    <div className="bmStatValue ">7</div>
                                 </div>
-                                <div className="bmDataItem h-4 flex">
-                                    <img className="bmsvg pt-[2px]" src={sliderCountIcon} alt="" />
-                                    <b>
-                                        {beatmap.sliderCount}
-                                    </b>
-                                </div>
+                                <a href={tempBeatmap} target="_blank" rel="noopener noreferrer" download>
+                                    <button type="button" className="downloadButton w-1/2 h-8 bg-transparent border border-white transition-colors duration-700 hover:bg-white hover:text-black">
+                                        Download
+                                    </button>
+                                </a>
                             </div>
-                        </div>
-                    </div>
-                    <div className="bmStatInfo mt-2">
-                        <div className="bmStatItem flex px-2 py-2 items-center justify-center">
-                            <div className="bmStatAttribute w-20 font-light">
-                                HP Drain
-                            </div>
-                            <div className="valueBar px-2 content-center">
-                                <img src={bm30ValueBar} className="bmValueBar " alt=""/>
-                            </div>
-                            <div className="bmStatValue">5</div>
-                        </div>
-                        <div className="bmStatItem flex px-2 py-2 items-center justify-center">
-                            <div className="bmStatAttribute w-20 font-light">
-                                Approach Rate
-                            </div>
-                            <div className="valueBar px-2 content-center">
-                                <img src={bm30ValueBar} className="bmValueBar " alt=""/>
-                            </div>
-                            <div className="bmStatValue ">7</div>
-                        </div>
-                        <a href={tempBeatmap} target="_blank" rel="noopener noreferrer" download>
-                            <button type="button" className="downloadButton w-1/2 h-8 bg-transparent border border-white transition-colors duration-700 hover:bg-white hover:text-black">
-                                Download
-                            </button>
-                        </a>
-                    </div>
 
-                </div>
-                <hr></hr>
-                
-                <div className="bmDescription flex py-2 px-12 text-left">
-                    {beatmap.description}
-                </div>
-
-                <div className="tagSection flex flex-col text-left font-['Overpass_Mono'] px-12 py-8 text-base font-normal"> 
-                    <div className="tagItem flex pb-4">
-                        <div className="tagTitle pr-4">
-                            Source:
-                        </div>
-                        <div className="tagValues text-[#d5a6ed]">
-                            {beatmap.source}
                         </div>
                     </div>
-                    <div className="tagItem flex pb-4">
-                        <div className="tagTitle pr-4">
-                            Tags:
+                    <hr className="block lg:hidden" ></hr>
+                    
+                    <div className="descripAndTagSection flex flex-col flex-1">
+                        <div className="bmDescription flex py-2 px-4 text-left">
+                            {beatmap.description}
                         </div>
-                        <div className="tagValues text-[#d5a6ed]">
-                            {(beatmap.tags) && (beatmap.tags).join(', ')}
+
+                        <div className="tagSection flex flex-col text-left font-['Overpass_Mono'] px-4 py-8 text-base font-normal"> 
+                            <div className="tagItem flex pb-4">
+                                <div className="tagTitle pr-4">
+                                    Source:
+                                </div>
+                                <div className="tagValues text-[#d5a6ed]">
+                                    {beatmap.source}
+                                </div>
+                            </div>
+                            <div className="tagItem flex pb-4">
+                                <div className="tagTitle pr-4">
+                                    Tags:
+                                </div>
+                                <div className="tagValues text-[#d5a6ed]">
+                                    {(beatmap.tags) && (beatmap.tags).join(', ')}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
