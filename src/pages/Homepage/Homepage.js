@@ -233,6 +233,8 @@ const Homepage = () => {
           <video class="w-[90%] h-auto py-[5vw] rounded-[2.5rem] z-10 object-contain 2xl:w-[70%] 2xl:py-0" width="1980" height="720" 
           muted
           loop
+          playsInline
+
           preload="auto"        
           autoPlay>
   <source src="/Demovid.mp4" type="video/mp4"/>
