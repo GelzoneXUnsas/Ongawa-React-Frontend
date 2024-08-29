@@ -182,6 +182,8 @@ hr {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
+
+
 .imageGridCover {
     display: grid;
     grid-template-columns: auto;
@@ -314,13 +316,11 @@ hr {
     }
     
     .artImage {
-        object-fit: cover;
         width: 100%;
         height: auto;
-        flex-shrink: 0;
-        border-radius: 10px;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     }
+
+    
 
     .imageGridCover{
         grid-template-columns: repeat(1, 1fr);
@@ -332,17 +332,8 @@ hr {
         font-weight: bold;
         /* background-color: #B2B2B2; */
     }
-    
-    .coverImage {
-        object-fit: cover;
-        width: 20rem;
-        flex-shrink: 0;
-        border-radius: 10px;
-        background: none; /* Remove the background property or set it to none */
-        margin: 0; /* Ensure there is no margin around the image */
-        padding: 0; /* Ensure there is no padding around the image */
-        /* background: lightgray; */
-    }
 
+
+    
 
 }
