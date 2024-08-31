@@ -175,14 +175,14 @@ function BeatmapPage() {
             </div>
 
             <div className="backArrowContainer flex ">
-                <button onClick={handleBackClick} className="self-start flex gap-1 hover:underline text-lilac text-font-size-xs items-center hover:text-gray-300 hover:border-none bg-transparent border-none">
+                <button onClick={handleBackClick} className="self-start lg:ml-[73px] flex gap-1  border-none bg-transparent text-lilac text-font-size-xs items-center hover:underline hover:text-gray-300 hover:border-none ">
                     <FaArrowLeft size={20} />
                     Back
                 </button>
             </div>
 
-            <div className="bmContent flex flex-col">
-                <div className="bmSongInfoSection h-40 flex flex-col justify-center items-start pt-8 px-4 pb-2   ">
+            <div className="bmContent flex flex-col lg:items-center">
+                <div className="bmSongInfoSection h-40 flex flex-col justify-center items-start pt-8 px-4 pb-2 lg:w-11/12 ">
                     <div className="bmSongNameContainer flex text-lg font-title-lexend ">
                         {beatmap.songName}
                     </div>
@@ -231,9 +231,9 @@ function BeatmapPage() {
                 </div>
                 <hr></hr>
 
-                <div className="gameInfoAndDescripContainer flex flex-col lg:flex-row lg:px-8 py-4">
-                    <div className="beatmapGameInfoSectionContainer flex justify-center lg:flex-1">
-                        <div className="beatmapGameInfoSection flex flex-col py-3 px-4 justify-center items-center lg:border lg:border-neutral-200 lg:self-center lg:rounded-2xl lg:shadow-lilac lg:shadow-md lg:w-1/2">
+                <div className="gameInfoAndDescripContainer flex flex-col lg:flex-row px-4 py-4 lg:w-11/12">
+                    <div className="beatmapGameInfoSectionContainer flex lg:flex-1 lg:justify-center">
+                        <div className="beatmapGameInfoSection flex flex-col py-3 justify-center items-center lg:border lg:border-neutral-200 lg:self-center lg:rounded-2xl lg:shadow-lilac lg:shadow-md lg:w-7/12">
                             <div className="beatmapInfo flex gap-1 ">
                                 <img src={albumCovers[beatmap.songCoverImg]} className="coverImg" alt=""></img>
                                 <div className="beatmapInfoSection flex flex-col gap-2">

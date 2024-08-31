@@ -265,7 +265,7 @@ function BeatmapListingPage() {
                 <select
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}
-                    className="sortByDropdown w-1/2 py-2 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56"
+                    className="sortByDropdown w-52 py-2 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56"
                     // style={{
                     //     background: `url('arrow icon here') no-repeat right center`,
                     // }}
