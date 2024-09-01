@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 // import axios from "axios";
 import GalleryGrid from "../../GalleryGrid";
 import styles from "./GalleryPage.module.css";
-import homeStyles from "../Homepage/Homepage.module.css";
 import headerBackgroundImg from '../../assets/images/headerBackground.png';
 
 // const BACKEND_URL = 'http://api-virtuosos.us-west-1.elasticbeanstalk.com';
@@ -106,12 +105,12 @@ function GalleryPage() {
 
     return (
         <div className={styles.gallerypage}>
-            <div className={styles.titleContainer}>
-                <div className={homeStyles.bgImgContainer}>
-                    <img src={headerBackgroundImg} className={homeStyles.headerBackgroundImg} alt="" />
+            <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
+                <div className="bgImgContainer w-full lg:-mt-64">
+                    <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
                 </div>
-                <div className={styles.titleText}>GALLERY</div>
-                <div className={styles.gradientOverlay}></div>
+                <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">GALLERY</div>
+                <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
             <div className={styles.galleryDisplayMode}>
                 <div className={styles.galleryDisplayModeContainter}>

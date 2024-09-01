@@ -40,8 +40,9 @@ const Header = () => {
                         )} */}
                         {/* <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link> */}
                         <Nav.Link onClick={() => navigate('/beatmaplisting')}>Beatmaps</Nav.Link>
-                        <Nav.Link onClick={() => navigate('/musicanlisting')}>Musicans</Nav.Link>
+                        <Nav.Link onClick={() => navigate('/musicianlisting')}>Musicians</Nav.Link>
                         <Nav.Link onClick={() => navigate('/gallery')}>Art</Nav.Link>
+                        <Nav.Link onClick={() => navigate('/community')}>Social</Nav.Link>
                         <Nav.Link onClick={() => doSignOut().then(() => navigate('/login'))}>
                             {userLoggedIn ? 'Sign Out' : 'Login'}
                         </Nav.Link>

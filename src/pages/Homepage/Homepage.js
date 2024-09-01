@@ -162,29 +162,29 @@ const Homepage = () => {
       <div className="visionAndDemoContainer justify-items-center bg-page-accent-gray pt-12 relative lg:flex-row lg:flex lg:pt-4">
 
         {/* below are just for the particles effect. order is left to right of page */}
-        <div className="particles absolute bottom-24 left-0 w-10 h-10 bg-purple-accent rounded-full filter blur-md lg:bottom-16 lg:-left-14 lg:w-16 lg:h-16 lg:blur-xl z-2"></div>
-        <div className="particles absolute top-0 left-8 w-4 h-4 bg-white rounded-full filter blur animate-pulse z-2"></div>
+        <div className="particles1 absolute bottom-24 left-0 w-10 h-10 bg-purple-accent rounded-full filter blur-md lg:bottom-16 lg:-left-14 lg:w-16 lg:h-16 lg:blur-xl z-2"></div>
+        <div className="particles2 absolute top-0 left-8 w-4 h-4 bg-white rounded-full filter blur animate-pulse z-2"></div>
         
-        <div className="particles absolute top-4 left-14 w-36 h-36 lg:top-24 lg:left-[14rem] lg:w-48 lg:h-48 bg-slate-500  rounded-full mix-blend-lighten filter blur-2xl animate-merge_left z-2"></div>
-        <div className="particles absolute top-4 left-56 w-36 h-36 lg:top-24 lg:left-[25rem] lg:w-48 lg:h-48  bg-purple-900 rounded-full mix-blend-lighten filter blur-2xl animate-merge_right z-2"></div>
+        <div className="particles3 absolute top-4 left-14 w-36 h-36 lg:top-24 lg:left-[14rem] lg:w-48 lg:h-48 bg-slate-500  rounded-full mix-blend-lighten filter blur-2xl animate-merge_left z-2"></div>
+        <div className="particles4 absolute top-4 left-56 w-36 h-36 lg:top-24 lg:left-[25rem] lg:w-48 lg:h-48  bg-purple-900 rounded-full mix-blend-lighten filter blur-2xl animate-merge_right z-2"></div>
 
-        <div className="particles absolute -bottom-4 left-20 w-4 h-4 bg-white rounded-full filter blur-md z-2"></div>
-        <div className="particles absolute top-44 left-28 w-2 h-2 bg-purple-accent rounded-full filter blur z-2"></div>
+        <div className="particles5 absolute -bottom-4 left-20 w-4 h-4 bg-white rounded-full filter blur-md z-2"></div>
+        <div className="particles6 absolute top-44 left-28 w-2 h-2 bg-purple-accent rounded-full filter blur z-2"></div>
 
-        <div className="particles hidden lg:block absolute bottom-6 left-56 w-2 h-2 bg-purple-accent rounded-full filter blur z-2"></div>
-        <div className="particles absolute -bottom-12 left-[22rem] w-8 h-8 bg-purple-accent rounded-full filter blur-lg animate-pulse z-2"></div>
+        <div className="particles7 hidden lg:block absolute bottom-6 left-56 w-2 h-2 bg-purple-accent rounded-full filter blur z-2"></div>
+        <div className="particles8 absolute -bottom-12 left-[22rem] w-8 h-8 bg-purple-accent rounded-full filter blur-lg animate-pulse z-2"></div>
 
-        <div className="particles hidden lg:block absolute bottom-0 left-[46rem] w-2 h-2 bg-purple-accent rounded-full filter blur-sm z-2"></div>
-        <div className="particles hidden lg:block absolute bottom-32 left-[44rem] w-8 h-8 bg-white rounded-full filter blur-xl z-2"></div>
-        <div className="particles hidden lg:block absolute top-24 left-[53rem] w-8 h-8 bg-purple-accent rounded-full filter blur-xl z-2"></div>
+        <div className="particles9 hidden lg:block absolute bottom-0 left-[46rem] w-2 h-2 bg-purple-accent rounded-full filter blur-sm z-2"></div>
+        <div className="particles10 hidden lg:block absolute bottom-32 left-[44rem] w-8 h-8 bg-white rounded-full filter blur-xl z-2"></div>
+        <div className="particles11 hidden lg:block absolute top-24 left-[53rem] w-8 h-8 bg-purple-accent rounded-full filter blur-xl z-2"></div>
 
 
-        <div className="particles hidden lg:block absolute -bottom-4 right-[14rem] w-8 h-8 bg-white rounded-full filter blur-lg z-2"></div>
+        <div className="particles12 hidden lg:block absolute -bottom-4 right-[14rem] w-8 h-8 bg-white rounded-full filter blur-lg z-2"></div>
 
-        <div className="particles absolute top-48 right-32 w-10 h-10 bg-purple-accent rounded-full filter blur-md"></div>
-        <div className="particles absolute top-4 right-4 w-2 h-2 bg-purple-accent rounded-full filter blur-sm"></div>
+        <div className="particles13 absolute top-48 right-32 w-10 h-10 bg-purple-accent rounded-full filter blur-md"></div>
+        <div className="particles14 absolute top-4 right-4 w-2 h-2 bg-purple-accent rounded-full filter blur-sm"></div>
 
-        <div className="particles absolute top-32 -right-6 w-10 h-10 bg-slate-200 rounded-full filter blur-md"></div>
+        <div className="particles15 absolute top-32 -right-6 w-10 h-10 bg-slate-200 rounded-full filter blur-md"></div>
 
 
         <div className="visionSection overflow-auto flex flex-col self-center lg:justify-center lg:p-20 lg:ml-12">    

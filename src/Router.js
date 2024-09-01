@@ -10,11 +10,13 @@ import MusicanListingPage from './pages/MusicianListing/MusicianListingPage';
 import MusicianPage from './pages/MusicianPage/MusicianPage';
 import BeatmapListingPage from './pages/BeatmapListingPage/BeatmapListingPage';
 import BeatmapPage from './pages/BeatmapPage/BeatmapPage';
+import CommunityPage from './pages/CommunityPage/CommunityPage';
 import ComingSoonPage from './pages/ComingSoonPage/ComingSoonPage';
 
 import Login from './pages/Auth/Login';
 import { AuthProvider } from './contexts/authContext';
 import Register from './pages/Auth/Register';
+
 function Router() {
     return (
         <div>
@@ -25,9 +27,10 @@ function Router() {
                     <Route path="gallery" element={<GalleryPage />} />
                     <Route path="musicgallery" element={<MusicGalleryPage />} />
                     <Route path="beatmaplisting" element={<BeatmapListingPage />} />
-                    <Route path="musicanlisting" element={<MusicanListingPage />} />
-                    <Route path="musican" element={<MusicianPage />} />
+                    <Route path="musicianlisting" element={<MusicanListingPage />} />
+                    <Route path="musician" element={<MusicianPage />} />
                     <Route path="beatmap" element={<BeatmapPage />} />
+                    <Route path="community" element={<CommunityPage />} />
                     <Route path="comingsoon" element={<ComingSoonPage />} />
                     <Route path="login" element={<Login />} />
                     <Route path='register' element={<Register />} />

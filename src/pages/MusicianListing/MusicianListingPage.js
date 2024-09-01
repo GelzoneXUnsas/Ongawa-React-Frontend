@@ -119,11 +119,11 @@ function MusicianListingPage() {
 
     return (
         <div className="beatmapListingPage w-full bg-page-accent-gray overflow-hidden text-center text-white text-body-overpass-base font-body-overpass min-h-screen">
-            <div className="titleContainer relative h-[12rem] z-0 overflow-hidden">
+            <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
                 <div className="bgImgContainer w-full lg:-mt-64">
                     <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
                 </div>
-                <div className="absolute w-full h-12 top-32 bottom-0 z-3 flex justify-center text-[var(--icon-color,#FFF)] text-center font-['Lexend_Exa'] text-[32px] font-bold leading-[40px]">MUSICANS</div>
+                <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">MUSICIANS</div>
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
             <div className="w-auto h-20 px-4 py-4 flex flex-col bg-[#232323] justify-around text-[#B2B2B2] font-['Overpass_Mono'] text-[var(--body-overpass-base-size)] font-medium">
@@ -162,7 +162,7 @@ function MusicianList (props) {
         <div>
             <div>
             <button className="bg-transparent border-none text-0" onClick={() => navigate(`/comingsoon}`)}>
-                <img className="w-full max-w-[246px] h-auto aspect-[246/171] flex-shrink-0 rounded-[15px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" src={images[musician.id-1]} alt="Profile pictue"/>
+                <img className="w-full max-w-[246px] h-auto flex-shrink-0 rounded-[15px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" src={images[musician.id-1]} alt="Profile pictue"/>
                 </button>
                 <div className="text-[var(--icon-color,#FFF)] text-center font-['Lexend_Exa'] text-[18px] font-bold leading-[24px]">
                     {musician.musicianName}</div>
