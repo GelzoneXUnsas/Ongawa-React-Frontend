@@ -236,7 +236,7 @@ function BeatmapListingPage() {
     // only until here for deleting search stuff
 
     return (
-        <div className="beatmapListingPage w-full bg-page-accent-gray overflow-hidden text-center text-white text-body-overpass-base font-body-overpass min-h-screen">
+        <div className="beatmapListingPage w-full bg-page-accent-gray overflow-hidden text-center text-white text-body-overpass-base font-body-overpass min-h-screen scrollbar-hide">
             
             <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
                 <div className="bgImgContainer w-full lg:-mt-64">
@@ -266,9 +266,10 @@ function BeatmapListingPage() {
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}
                     className="sortByDropdown w-52 py-2 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56"
-                    // style={{
-                    //     background: `url('arrow icon here') no-repeat right center`,
-                    // }}
+                    style={{
+                        background: `url('arrow icon here') no-repeat right center`,
+                        backgroundColor: '#1f2937'
+                    }}
                 >
                     <option value="newest">Sort by: Newest</option>
                     <option value="oldest">Sort by: Oldest</option>

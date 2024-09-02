@@ -18,22 +18,21 @@ const musican_list = {
         [
             {
                 id : 1,
-                musicianName : 'Folklore Minstrel',
+                musicianName : 'Techo Maestro',
                 artistImg: 'artist2Image',
                 totalSongs: 3,
                 totalPlaycount: 100,
             },
             {
                 id : 2,
-                artist : 'Techo Maestro',
-                musicianName : 'Techo Maestro',
+                musicianName : 'The Shadow Weaver',
                 artistImg: 'artist1Image',
                 totalSongs: 3,
                 totalPlaycount: 100,
             },
             {
                 id : 3,
-                musicianName : 'Celestial Harmonics',
+                musicianName : 'The Sound Sorcerer',
                 artistImg: 'artist3Image',
                 totalSongs: 3,
                 totalPlaycount: 100,

@@ -7,6 +7,11 @@ import axios from "axios";
 import headerBackgroundImg from '../../assets/images/headerBackground.png';
 import searchIcon from '../../assets/icons/searchIcon.svg';
 
+// import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
+// import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
+// import artist3Image from "../../assets/images/featuredArtists/artist3.png";
+// const images = [artist1Image, artist2Image, artist3Image];
+
 // import heartIcon from '../../assets/icons/heartIcon.svg';
 
 const BACKEND_URL = 'http://api-virtuosos.us-west-1.elasticbeanstalk.com';
@@ -16,82 +21,36 @@ function CommunityPage() {
         post_info: 
             [
                 {
-                    id : 1,
-                    songName : 'Celtic Whispers Ballad',
-                    artist : 'Folklore Minstrel',
-                    beatmap_artist : 'Folklore Minstrel',
-                    songCoverImg: 'cover1',
-                    artistImg: 'artist2Image',
-                    releaseDate: '2024-05-18',
-                    difficultyLink : ['Easy', 'Normal', 'Hard'],
-                    playCount: 504,
-                    likeCount: 145,
-                    songDuration: '3:45',
-                    bpm : 145,
-                    noteCount: 1000,
-                    sliderCount: 50,
-                    source: "Folklore Chronicles World",
-                    tags: ['Celtic', 'Folklore', 'Traditional', 'World'],
-                    description: 'Embark on a folkloric journey with "Celtic Whispers Ballad." Folklore Minstrel, both artist and beatmap creator, weaves traditional tunes into an immersive experience. Each note carries the essence of a rich musical adventure.'
+                    authorImg: 'artist1Image',
+                    authorName: 'The Shadow Weaver',
+                    postDate: '2024-02-17',
+                    postTitle: 'Unraveling the Sonic Mysteries',
+                    postContent: "Hey fellow gamers and music enthusiasts! 🎮🎵 Just completed Level 5 in the rhythm adventure – those beats were...",
+                    likeCount: 2300,
+                    commentCount: 1400,
+                    viewCount: 6800,
                 },
                 {
-                    id : 2,
-                    songName : 'Neon Pulse Symphony',
-                    artist : 'Techo Maestro',
-                    beatmap_artist : 'Techo Maestro',
-                    songCoverImg: 'cover2',
-                    artistImg: 'artist1Image',
-                    releaseDate: '2025-05-18',
-                    difficultyLevels : ['Easy', 'Normal', 'Hard'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '2:30',
-                    bpm : 150,
-                    noteCount: 800,
-                    sliderCount: 61,
-                    source: "Techno Adventures World",
-                    tags: ['Neon', 'Synthwave'],
-                    description : 'Dive into the cutting-edge realm of Techno Adventures World, where futuristic technology meets thrilling escapades. Explore cyber landscapes, master advanced gadgets, and overcome digital challenges in this electrifying journey through the next frontier.'
+                    authorImg: 'artist2Image',
+                    authorName: 'Techno Maestro',
+                    postDate: '2024-03-04',
+                    postTitle: 'Exciting Update: New levels!',
+                    postContent: "Dear players, get ready for a sonic adventure upgrade! 🚀🎮 We're thrilled to announce the release of three new levels next week. Your feedback has been invaluable – let us know what you hope to encounter in these upcoming challenges. 🌟 #GameUpdate #CommunityFeedback",
+                    likeCount: 5500,
+                    commentCount: 2400,
+                    viewCount: 7800,
                 },
                 {
-                    id : 3,
-                    songName : 'Celestial Echoes',
-                    artist : 'Celestial Harmonics',
-                    beatmap_artist : 'StarNavigator',
-                    songCoverImg: 'cover3',
-                    artistImg: 'artist3Image',
-                    releaseDate: '2023-05-18',
-                    difficultyLink : ['Easy', 'Normal'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '1:55',
-                    bpm : 220,
-                    noteCount: 780,
-                    sliderCount: 43,
-                    source: "Celestial Harmonics Universe",
-                    tags: ['Night', 'Starry'],
-                    description: "Immerse yourself in the ethereal beauty of the Celestial Harmonics Universe. This cosmic odyssey blends astral melodies with interstellar exploration, creating a symphony of wonder and discovery among the stars. Let the harmonies guide you through the celestial expanse."
-    
+                    authorImg: 'artist3Image',
+                    authorName: 'The Sound Sorcerer',
+                    postDate: '2023-04-29',
+                    postTitle: 'Crafting a Musical Odyssey',
+                    postContent: "Greetings fellow creators! 🎵✨ Just composed a new track inspired by the game's enchanting world. Share your...",
+                    likeCount: 2100,
+                    commentCount: 1200,
+                    viewCount: 6500,
                 },
-                {
-                    id : 4,
-                    songName : 'Nocturnal Pursuit',
-                    artist : 'ShadowWeaver',
-                    beatmap_artist : 'ShadowWeaver',
-                    songCoverImg: 'cover4',
-                    artistImg: 'artist1Image',
-                    releaseDate: '2022-05-18',
-                    difficultyLink : ['Easy', 'Normal'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '4:03',
-                    bpm : 120,
-                    noteCount: 607,
-                    sliderCount: 76,
-                    source: "ShadowWeaver Mysteries",
-                    tags: ['Dark', 'Mystery'],
-                    description : 'Embark on a shadowy journey through the enigmatic world of ShadowWeaver Mysteries. Unravel secrets, solve riddles, and uncover hidden truths in this mysterious realm. Each note is a clue, each beat a step closer to the truth.'
-                }
+                
             ]
     }
     const [originalPostList, setOriginalPostList] = useState([]);
@@ -129,12 +88,10 @@ function CommunityPage() {
 
     const handleSort = useCallback((option) => {
         let sortedList = [...postList];
-        if (option === 'alphabetical') {
-            sortedList.sort((a, b) => a.songName.localeCompare(b.songName));
-        } else if (option === 'newest') {
-            sortedList.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+        if (option === 'newest') {
+            sortedList.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
         } else if (option === 'oldest') {
-            sortedList.sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
+            sortedList.sort((a, b) => new Date(a.postDate) - new Date(b.postDate));
         }
         setPostList(sortedList);
     }, [postList]);
@@ -295,15 +252,35 @@ function CommunityPage() {
 function PostList (props) {
     // const navigate = useNavigate();
     
-    const rows = props.postList.map((beatmap, index) => {
+    const rows = props.postList.map((post, index) => {
         return ( 
-            <div className="postContainer bg-community-post-gradient justify-center content-center w-80 h-52">
+            <div className="postContainer bg-community-post-gradient justify-center content-center w-80 h-52 p-4">
+                {/* <div className="postHeader">
+                    <div className="metaInfo flex justify-between">
+                        <div className="authorInfo">
+                            <div className="authorImgContainer flex flex-shrink-0 rounded-full w-20 h-20 overflow-hidden">
+                                <img className="authorImg " src={images[index]} alt="Profile pictue"/>
+                            </div>
+
+                            <div className="authorNameContainer ">
+                                {post.authorName}   
+                            </div>
+                        </div>
+                        <div className="postDateContainer ">
+                            {post.postDate}   
+                        </div>
+                    </div>
+
+                </div> */}
+
+
+
                 Post
             </div>
         );
     });
     return (
-        <div className="postListContainer flex flex-row flex-wrap justify-center pt-2git  gap-2">
+        <div className="postListContainer flex flex-row flex-wrap justify-center py-4 gap-3">
             {rows}
         </div>
     );
