@@ -15,30 +15,33 @@ const images = [artist1Image, artist2Image, artist3Image];
 
 const musican_list = {
     musician_infos: 
-        [
-            {
-                id : 1,
-                musicianName : 'Folklore Minstrel',
-                artistImg: 'artist2Image',
-                totalSongs: 3,
-                totalPlaycount: 100,
-            },
-            {
-                id : 2,
-                artist : 'Techo Maestro',
-                musicianName : 'Techo Maestro',
-                artistImg: 'artist1Image',
-                totalSongs: 3,
-                totalPlaycount: 100,
-            },
-            {
-                id : 3,
-                musicianName : 'Celestial Harmonics',
-                artistImg: 'artist3Image',
-                totalSongs: 3,
-                totalPlaycount: 100,
-            },
-        ]
+    [
+        {
+            id : 1,
+            musicianName : 'Folklore Minstrel',
+            artistImg: 'artist1Image',
+            totalSongs: 5,
+            totalPlaycount: 10,
+            bio: "Folklore Minstrel is a musician who creates music that is inspired by the stories and legends of old. Their music is a blend of traditional folk melodies and modern electronic sounds. Folklore Minstrel's music is known for its haunting melodies, lush harmonies, and intricate rhythms. Their music is perfect for fans of fantasy, adventure, and magic.",
+        },
+        {
+            id : 2,
+            artist : 'Techo Maestro',
+            musicianName : 'Techo Maestro',
+            artistImg: 'artist2Image',
+            totalSongs: 6,
+            totalPlaycount: 145,
+            bio: 'An innovative electronic music producer, Techo Maestro blends cutting-edge beats with ethereal soundscapes. Known for his dynamic live performances and genre-defying tracks, he pushes the boundaries of electronic music. His work resonates with fans of both dance and ambient genres.',
+        },
+        {
+            id : 3,
+            musicianName : 'Celestial Harmonics',
+            artistImg: 'artist3Image',
+            totalSongs: 8,
+            totalPlaycount: 50,
+            bio: "Celestial Harmonics is a visionary composer who merges classical orchestration with cosmic soundscapes. Renowned for creating immersive and cinematic music, their compositions evoke deep emotional responses and transport listeners to otherworldly realms. Their work is celebrated for its unique fusion of traditional and modern elements.",
+        },
+    ]
 }
 
 
@@ -161,7 +164,7 @@ function MusicianList (props) {
         return (
         <div>
             <div>
-            <button className="bg-transparent border-none text-0" onClick={() => navigate(`/comingsoon}`)}>
+            <button className="bg-transparent border-none text-0" onClick={() => navigate(`/musician?id=${musician.id}`)}>
                 <img className="w-full max-w-[246px] h-auto flex-shrink-0 rounded-[15px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" src={images[musician.id-1]} alt="Profile pictue"/>
                 </button>
                 <div className="text-[var(--icon-color,#FFF)] text-center font-['Lexend_Exa'] text-[18px] font-bold leading-[24px]">
