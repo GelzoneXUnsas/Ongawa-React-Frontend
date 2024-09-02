@@ -1,0 +1,11 @@
+@media (min-width: 768px) {
+    .flex-col {
+      flex-direction: row;
+    }
+    .text-center {
+      text-align: left;
+    }
+    .justify-between {
+      justify-content: space-between;
+    }
+  }
