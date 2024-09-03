@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
 // import styles from "./Homepage.module.css";
 
@@ -61,6 +62,7 @@ const getCachedImages = (urls) => {
 const getFeaturedArtists = () => {
   return [{
     name: "Techno Maestro",
+    id: 1,
     image: artist1Image,
     playcount: 538,
     songcount: 25,
@@ -69,17 +71,19 @@ const getFeaturedArtists = () => {
   },
   {
     name: "The Shadow Weaver",
+    id: 2,
     image: artist2Image,
-    playcount: 538,
-    songcount: 25,
+    playcount: 386,
+    songcount: 16,
     spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
     soundcloudLink: "https://soundcloud.com/technomaestro",
   },
   {
     name: "The Sound Sorcerer",
+    id: 3,
     image: artist3Image,
-    playcount: 538,
-    songcount: 25,
+    playcount: 479,
+    songcount: 14,
     spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
     soundcloudLink: "https://soundcloud.com/technomaestro",
 }];
@@ -106,6 +110,7 @@ const Homepage = () => {
   // let autoPlayDemoVideo = true;
   const [featuredArtists, setFeaturedArtists] = useState([]);
   const [cachedImages, setCachedImages] = useState({});
+  const navigate = useNavigate();
 
   let isLarge = useMediaQuery('(min-width: 1024px)');
 
@@ -258,6 +263,7 @@ const Homepage = () => {
             <img
               className="rounded overflow-hidden object-contain mix-blend-normal z-3"
               alt="Download from the App Store"
+              loading="lazy"
               src={appleDownloadIcon}
               onClick={() => {
                 window.open(appStoreDownloadLink, "_blank");
@@ -266,6 +272,7 @@ const Homepage = () => {
             <img
               className="rounded overflow-hidden object-contain mix-blend-normal z-3"
               alt="Download from the Play Store"
+              loading="lazy"
               src={googlePlayDownloadIcon}
               onClick={() => {
                 window.open(googlePlayDownloadLink, "_blank");
@@ -299,11 +306,11 @@ const Homepage = () => {
 
       <div className="featuredArtistsSection bg-gradient-overlay-featured-artists shadow-custom-featured-artists bg-page-accent-gray pt-5 pb-3">
         <b className="featuredArtistsSectionTitle text-title-lexend-medium font-bold leading-8 font-title-lexend text-center inline-block mx-auto px-4 py-0">
-          Meet our Featured Artists!
+          Meet our Featured Musicians!
         </b>
         <div class="featuredArtistsGridContainer pt-2 lg:grid lg:grid-cols-custom-grid-browser lg:gap-4 lg:px-10 lg:pt-8">
           {
-            featuredArtists.map((artist, index) => {
+            featuredArtists.map((musician, index) => {
               return (
                 <motion.div 
                   key={index} 
@@ -313,10 +320,10 @@ const Homepage = () => {
                   transition={{duration: 1}}
                   className="ArtistsAndDivider flex flex-col lg:flex-row">
                   <div className="featuredArtistDetails flex flex-row justify-start px-9 py-0">
-                    <div className="artistImgAndLinks flex-[0.25] flex justify-around p-2 flex-col">
+                    <div className="artistImgAndLinks flex-[0.25] flex justify-around p-2 flex-col" onClick={() => navigate(`/musician?id=${musician.id}`)}>
                       <img 
                         className="artistImage w-[85%] flex-shrink-0 self-center rounded-full" 
-                        src={cachedImages[artist.image] ||artist.image} 
+                        src={cachedImages[musician.image] ||musician.image} 
                         alt="artist"/>
                       <div className="artistLinks flex flex-row justify-between p-3 pt-1 bg-image-background">
                         <img className="artistLinkIcons w-[40%] flex-shrink-0 rounded-full bg-slate-300" loading="lazy" src={spotifyIcon} alt="artist"/>
@@ -327,7 +334,7 @@ const Homepage = () => {
                       <div className="artistTitleContainer flex flex-row pt-3 pl-3 justify-start">
                         <div className="artistNameVerified flex items-center">
                           <div className="artistName flex font-overpass-mono text-body-overpass-base font-bold leading-inherit text-left items-center">
-                            {artist.name}
+                            {musician.name}
                           </div>
                           <img className="verifiedIcon w-4 h-4 pl-2" src={cachedImages[verifiedIcon] || verifiedIcon} alt="verified" />
                         </div>
@@ -338,8 +345,8 @@ const Homepage = () => {
                           <div className="playcountText text-right pr-8">total playcount</div>
                         </div>
                         <div className="artistStatValues flex flex-col text-right text-lilac">
-                          <div className="songCountValue">25</div>
-                          <div className="playCountValue">538</div>
+                          <div className="songCountValue">{musician.songcount}</div>
+                          <div className="playCountValue">{musician.playcount}</div>
                         </div>
                       </div>
                     </div>
@@ -362,6 +369,7 @@ const Homepage = () => {
           <img
               className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16"
               alt="Sign up to our Newsletter!"
+              loading="lazy"
               src={newsletterButton}
             />
           </a>
@@ -373,6 +381,7 @@ const Homepage = () => {
           <img
               className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16"
               alt="Sign up to our Newsletter!"
+              loading="lazy"
               src={discordButton}
             />
           {/* <button className="DiscordButton bg-white text-page-accent-gray rounded-2xl py-2 px-3 text-body-overpass-base font-body-overpass border-none cursor-pointer flex flex-row gap-2 items-center -mt-4 mb-2 hover:bg-custom-hover-blue transition-all duration-700">
