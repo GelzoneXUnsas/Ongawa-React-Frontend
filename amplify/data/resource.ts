@@ -10,6 +10,7 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
+      dummy: a.string(),
     })
     .authorization((allow) => [allow.guest()]),
 });
