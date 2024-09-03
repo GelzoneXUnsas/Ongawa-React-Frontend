@@ -2,7 +2,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa"; // Import the back arrow icon
 import headerBackgroundImg from '../../assets/images/headerBackground.png';
-import css from '../../global.css'
 
 //images for beatmap covers 
 import cover1 from '../../assets/images/musicCovers/celticwhispersballadHD.png';
@@ -32,30 +31,30 @@ const MusicianPage = () => {
   const musician_list = {
     musician_info: 
         [
-            {
-                id : 1,
-                musicianName : 'Folklore Minstrel',
-                artistImg: 'artist1Image',
-                totalSongs: 5,
-                totalPlaycount: 10,
-                bio: "Folklore Minstrel is a musician who creates music that is inspired by the stories and legends of old. Their music is a blend of traditional folk melodies and modern electronic sounds. Folklore Minstrel's music is known for its haunting melodies, lush harmonies, and intricate rhythms. Their music is perfect for fans of fantasy, adventure, and magic.",
-            },
+          {
+          id : 1,
+          musicianName : 'Techo Maestro',
+          artistImg: 'artist1Image',
+          totalSongs: 25,
+          totalPlaycount: 538,
+          bio: 'An innovative electronic music producer, Techo Maestro blends cutting-edge beats with ethereal soundscapes. Known for his dynamic live performances and genre-defying tracks, he pushes the boundaries of electronic music. His work resonates with fans of both dance and ambient genres.',
+          },
             {
                 id : 2,
-                artist : 'Techo Maestro',
-                musicianName : 'Techo Maestro',
+                musicianName : 'The Shadow Weaver',
                 artistImg: 'artist2Image',
-                totalSongs: 6,
-                totalPlaycount: 145,
-                bio: 'An innovative electronic music producer, Techo Maestro blends cutting-edge beats with ethereal soundscapes. Known for his dynamic live performances and genre-defying tracks, he pushes the boundaries of electronic music. His work resonates with fans of both dance and ambient genres.',
+                totalSongs: 16,
+                totalPlaycount: 386,
+                bio: "The Shadow Weaver is a musician who creates music that is inspired by the stories and legends of old. Their music is a blend of traditional folk melodies and modern electronic sounds. Folklore Minstrel's music is known for its haunting melodies, lush harmonies, and intricate rhythms. Their music is perfect for fans of fantasy, adventure, and magic.",
             },
+            
             {
                 id : 3,
-                musicianName : 'Celestial Harmonics',
+                musicianName : 'The Sound Sorcerer',
                 artistImg: 'artist3Image',
-                totalSongs: 8,
-                totalPlaycount: 50,
-                bio: "Celestial Harmonics is a visionary composer who merges classical orchestration with cosmic soundscapes. Renowned for creating immersive and cinematic music, their compositions evoke deep emotional responses and transport listeners to otherworldly realms. Their work is celebrated for its unique fusion of traditional and modern elements.",
+                totalSongs: 14,
+                totalPlaycount: 479,
+                bio: "The Sound Sorcerer is a visionary composer who merges classical orchestration with cosmic soundscapes. Renowned for creating immersive and cinematic music, their compositions evoke deep emotional responses and transport listeners to otherworldly realms. Their work is celebrated for its unique fusion of traditional and modern elements.",
             },
         ]
   }
@@ -66,8 +65,8 @@ const MusicianPage = () => {
         [
             {
                 id : 1,
-                musicianName : 'Folklore Minstrel',
-                musicianID: 1,
+                musicianName : 'The Shadow Weaver',
+                musicianID: 2,
                 albumImage: 'cover1',
                 albumName: 'Stellar Reverberations',
                 releaseDate: '2/19/2024',
@@ -97,7 +96,7 @@ const MusicianPage = () => {
             {
               id: 2,
               musicianName: 'Techo Maestro',
-              musicianID: 2,
+              musicianID: 1,
               albumImage: 'cover3',
               albumName: 'Digital Pulse',
               releaseDate: '3/15/2024',
@@ -119,6 +118,7 @@ const MusicianPage = () => {
 
   const navigate = useNavigate();
   const [musician, setMusician] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [discography, setDiscography] = useState([]);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
