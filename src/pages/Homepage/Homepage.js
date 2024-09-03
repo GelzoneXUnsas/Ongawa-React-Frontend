@@ -1,7 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Amplify } from 'aws-amplify';
-import outputs from '../amplify_outputs.json';
 import useMediaQuery from '@mui/material/useMediaQuery';
 // import styles from "./Homepage.module.css";
 
@@ -23,7 +21,6 @@ import artist3Image from "../../assets/images/featuredArtists/artist3.png";
 import spotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
 import soundcloudIcon from "../../assets/icons/soundCloudIcon.svg";
 
-Amplify.configure(outputs);
 const cacheImage = (url, key) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
