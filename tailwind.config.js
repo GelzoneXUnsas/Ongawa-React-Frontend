@@ -37,6 +37,7 @@ module.exports = {
 
       backgroundImage: {
         'header-gradient': 'linear-gradient(180deg, #2D2C5F 80.9%, rgba(45, 44, 95, 0.00) 100%)',
+        'login-gradient': 'linear-gradient(180deg, #2D2C5F 60.9%, rgba(45, 44, 95, 0.00) 100%)',
         'gradient-overlay': 'linear-gradient(0deg, rgba(36, 36, 36, 1) 5.72%, rgba(36, 36, 36, 0.5) 80.07%, rgba(36, 36, 36, 0) 100%)',
         'gradient-overlay-featured-artists': 'linear-gradient(0deg, #2D2C5F 83.72%, rgba(45, 44, 95, 0.40) 91.07%, rgba(45, 44, 95, 0.00) 99.68%)',
         'community-post-gradient': 'linear-gradient(0deg, #442625 5.9%, #442625 25.9%, #2D2C5F 100%)',
