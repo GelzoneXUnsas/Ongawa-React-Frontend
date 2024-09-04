@@ -318,7 +318,7 @@ function BeatmapList (props) {
         return ( 
             <div key={index} className="beatmapItemContainer px-4">
                 <button type="button" 
-                    className="beatMapButton flex flex-row justify-center items-center bg-white w-[21rem] h-36  relative overflow-hidden" 
+                    className="beatMapButton flex flex-row justify-center items-center bg-white w-[21rem] h-36  relative overflow-hidden transform transition-transform duration-300 hover:scale-105" 
                     onClick={() => navigate(`/beatmap?id=${beatmap.id}`)}
                 >
                     <div className="beatMapItemContainer flex flex-row justify-center items-center gap-2">

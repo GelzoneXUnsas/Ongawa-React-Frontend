@@ -261,7 +261,7 @@ const Homepage = () => {
           <div className="downloadText leading-6 font-medium pb-2 z-3">Download for free</div>
           <div className="downloadLinks flex justify-center gap-2 lg:gap-14">
             <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3"
+              className="rounded overflow-hidden object-contain mix-blend-normal z-3 transform transition-transform duration-300 hover:scale-105"
               alt="Download from the App Store"
               loading="lazy"
               src={appleDownloadIcon}
@@ -270,7 +270,7 @@ const Homepage = () => {
               }}
             />
             <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3"
+              className="rounded overflow-hidden object-contain mix-blend-normal z-3 transform transition-transform duration-300 hover:scale-105"
               alt="Download from the Play Store"
               loading="lazy"
               src={googlePlayDownloadIcon}
@@ -367,7 +367,7 @@ const Homepage = () => {
             Sign Up
           </button> */}
           <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16"
+              className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16 transform transition-transform duration-300 hover:scale-105"
               alt="Sign up to our Newsletter!"
               loading="lazy"
               src={newsletterButton}
@@ -379,7 +379,7 @@ const Homepage = () => {
         <div className="discordContainer flex flex-col justify-center items-center">
           <a href="https://discord.gg/JEzqqj94Pn" className="no-underline">
           <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16"
+              className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16 transform transition-transform duration-300 hover:scale-105"
               alt="Sign up to our Newsletter!"
               loading="lazy"
               src={discordButton}

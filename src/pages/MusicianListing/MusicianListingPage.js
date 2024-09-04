@@ -160,7 +160,7 @@ function MusicianList (props) {
         return (
         <div>
             <div>
-            <button className="bg-transparent border-none text-0" onClick={() => navigate(`/musician?id=${musician.id}`)}>
+            <button className="bg-transparent border-none text-0 transform transition-transform duration-300 hover:scale-105" onClick={() => navigate(`/musician?id=${musician.id}`)}>
                 <img className="w-full max-w-[246px] h-auto flex-shrink-0 rounded-[15px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" src={images[musician.id-1]} alt="Profile pictue"/>
                 </button>
                 <div className="text-[var(--icon-color,#FFF)] text-center font-['Lexend_Exa'] text-[18px] font-bold leading-[24px]">
