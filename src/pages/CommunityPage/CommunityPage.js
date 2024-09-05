@@ -88,10 +88,12 @@ function CommunityPage() {
 
     const handleSort = useCallback((option) => {
         let sortedList = [...postList];
-        if (option === 'newest') {
+        if (option === 'latest') {
             sortedList.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
         } else if (option === 'oldest') {
             sortedList.sort((a, b) => new Date(a.postDate) - new Date(b.postDate));
+        } else if (option === 'popularity') {
+            sortedList.sort((a, b) => b.likeCount - a.likeCount);
         }
         setPostList(sortedList);
     }, [postList]);
@@ -184,7 +186,7 @@ function CommunityPage() {
                 <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">COMMUNITY</div>
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
-            <div class="searchBarContainer flex px-4 pt-2 gap-1 rounded-lg shadow-md">
+            <div class="searchBarContainer flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
                 <input
                     type="text"
                     placeholder="Search..."
@@ -194,7 +196,11 @@ function CommunityPage() {
                 <button
                     type="button"
                     onClick={handleSearchStatic}
-                    class="px-4 py-2 text-white rounded-r-lg hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-900"
+                    class="px-4 py-2 text-white rounded-r-lg border-none hover:bg-page-accent-gray focus:outline-none focus:ring-2 focus:ring-purple-900 transform transition-transform duration-300 hover:scale-105"
+                    style={{
+                        backgroundColor: '#2d2c5f',
+                        border: "none",
+                    }}
                 >
                     <img src={searchIcon} alt="Search" className="w-5 h-5" />
                 </button>
@@ -210,9 +216,9 @@ function CommunityPage() {
                         backgroundColor: '#1f2937'
                     }}
                 >
-                    <option value="1">Sort by: Option 1</option>
-                    <option value="2">Sort by: Option 2</option>
-                    <option value="3">Sort by: Option 3</option>
+                    <option value="latest">Sort by: Latest</option>
+                    <option value="oldest">Sort by: Oldest</option>
+                    <option value="popularity">Sort by: Popularity</option>
                 </select>
             </div>
 

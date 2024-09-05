@@ -145,7 +145,7 @@ function MusicianListingPage() {
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
             <div className="w-auto h-20 px-4 py-4 flex flex-col bg-[#232323] justify-around text-[#B2B2B2] font-['Overpass_Mono'] text-[var(--body-overpass-base-size)] font-medium">
-            <div class="flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
+            <div class="searchBarContainer flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
                 <input
                     type="text"
                     placeholder="Search..."
@@ -155,7 +155,11 @@ function MusicianListingPage() {
                 <button
                     type="button"
                     onClick={handleSearch}
-                    class="px-4 py-2 text-white rounded-r-lg hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-900"
+                    class="px-4 py-2 text-white rounded-r-lg border-none hover:bg-page-accent-gray focus:outline-none focus:ring-2 focus:ring-purple-900 transform transition-transform duration-300 hover:scale-105"
+                    style={{
+                        backgroundColor: '#2d2c5f',
+                        border: "none",
+                    }}
                 >
                     <img src={searchIcon} alt="Search" className="w-5 h-5" />
                 </button>

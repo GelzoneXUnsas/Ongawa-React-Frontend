@@ -255,7 +255,11 @@ function BeatmapListingPage() {
                 <button
                     type="button"
                     onClick={handleSearchStatic}
-                    class="px-4 py-2 text-white rounded-r-lg hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-900"
+                    class="px-4 py-2 text-white rounded-r-lg border-none hover:bg-page-accent-gray focus:outline-none focus:ring-2 focus:ring-purple-900 transform transition-transform duration-300 hover:scale-105"
+                    style={{
+                        backgroundColor: '#2d2c5f',
+                        border: "none",
+                    }}
                 >
                     <img src={searchIcon} alt="Search" className="w-5 h-5" />
                 </button>
