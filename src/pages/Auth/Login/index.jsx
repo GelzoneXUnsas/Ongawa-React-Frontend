@@ -76,7 +76,7 @@ const Login = () => {
 
     return (
         
-        <div className="loginPage w-full bg-page-accent-gray overflow-hidden  text-white text-body-overpass-base font-body-overpass min-h-screen scrollbar-hide">
+        <div className="loginPage w-full bg-page-accent-gray overflow-hidden  text-white text-body-overpass-base font-body-overpass min-h-screen">
             
             <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
                 <div className="bgImgContainer w-full lg:-mt-64">
@@ -85,7 +85,7 @@ const Login = () => {
                 <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">WELCOME BACK!</div>
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
-            <div className="w-full h-screen flex justify-center ">
+            <div className="w-full h-screen flex justify-center px-3">
                 {/* if user is already logged in, just go to home page */}
                 {userLoggedIn && (<Navigate to={'/'} replace={true} />)}
 
@@ -107,7 +107,7 @@ const Login = () => {
                                 required
                                 value={email}
                                 onChange={(e) => { setEmail(e.target.value) }}
-                                className="w-full px-3 py-2 text-white bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
+                                className="w-full px-3 py-2 text-black bg-white outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
                             />
                         </div>
 
@@ -121,7 +121,7 @@ const Login = () => {
                                 required
                                 value={password}
                                 onChange={(e) => {setPassword(e.target.value) }}
-                                className="w-full px-3 py-2 text-white bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
+                                className="w-full px-3 py-2 text-black bg-white outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
                             />
                         </div>
 
@@ -130,10 +130,10 @@ const Login = () => {
                         )}
 
                         <button
-                            type="submit"
+                            onClick={onSubmit}
                             disabled={isSigningIn}
                             // this part below is just to have the button display differently before and after clicking signin and disabling it when signing in
-                            className={`w-full px-4 py-2 text-white font-medium rounded-lg ${isSigningIn ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-xl transition duration-300'}`}
+                            className={`w-full flex items-center justify-center gap-x-3 py-2.5 border bg-lilac text-black rounded-lg text-sm font-medium ${isSigningIn ? 'cursor-not-allowed' : 'hover:bg-page-background hover:text-white transition duration-300 active:bg-page-background active:text-white'}`}
                         >
                             {isSigningIn ? "Signing In..." : "Sign In"}
                         </button>
@@ -157,7 +157,7 @@ const Login = () => {
                     <button
                         disabled={isSigningIn}
                         onClick={(e) => {onGoogleSignIn(e) }}
-                        className={`w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium ${isSigningIn ? 'cursor-not-allowed' : 'hover:bg-gray-100 transition duration-300 active:bg-gray-100'}`}
+                        className={`w-full flex items-center justify-center gap-x-3 py-2.5 border bg-lilac text-black rounded-lg text-sm font-medium ${isSigningIn ? 'cursor-not-allowed' : 'hover:bg-page-background hover:text-white transition duration-300 active:bg-page-background active:text-white'}`}
                     >
                         <svg
                             class="w-5 h-5"

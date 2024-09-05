@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx,html}",
   ],
   theme: {
     extend: {
@@ -89,19 +89,17 @@ module.exports = {
     },
   },
   plugins: [
-    function ({ addUtilities }) {
+    function({ addUtilities }) {
       addUtilities({
-        '.scrollbar-hide': {
-          /* For Webkit browsers (e.g., Chrome, Safari) */
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
-          /* For other browsers (e.g., Firefox, IE) */
-          '-ms-overflow-style': 'none', /* Internet Explorer 10+ */
-          'scrollbar-width': 'none', /* Firefox */
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none',  // IE and Edge
+          'scrollbar-width': 'none',  // Firefox
         },
-      });
-    },
+        '.no-scrollbar::-webkit-scrollbar': {
+          'display': 'none',  // Chrome, Safari, and Opera
+        },
+      })
+    }
   ],
 }
 

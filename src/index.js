@@ -17,7 +17,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-            <Router />
+        <div className="no-scrollbar h-screen overflow-y-auto">
+                <Router />
+            </div>
         </BrowserRouter>
     </React.StrictMode>
 );

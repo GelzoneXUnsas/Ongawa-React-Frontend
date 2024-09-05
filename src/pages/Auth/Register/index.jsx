@@ -41,18 +41,18 @@ const Register = () => {
     return (
         <>
 
-            <div className="loginPage w-full bg-page-accent-gray overflow-hidden  text-white text-body-overpass-base font-body-overpass min-h-screen scrollbar-hide">
+            <div className="loginPage w-full bg-page-accent-gray overflow-hidden text-white text-body-overpass-base font-body-overpass">
             
                 <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
                     <div className="bgImgContainer w-full lg:-mt-64">
                         <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
                     </div>
-                    <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">GLAD TO HAVE YOU HERE!</div>
+                    <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">WELCOME!</div>
                     <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
                 </div>
                 {userLoggedIn && (<Navigate to={'/'} replace={true} /> )}
 
-                <div className="w-full flex justify-center pb-20">
+                <div className="w-full flex justify-center pb-20 px-3">
                     <div className='w-96 text-gray-600 space-y-5 p-4 mt-4 shadow-2xl rounded-xl bg-login-gradient'>
                         <div className='text-center mb-6'>
                             <div className='mt-t'>
@@ -63,7 +63,7 @@ const Register = () => {
 
                         <form
                             onSubmit={onSubmit}
-                            className="space-y-3 w-full"
+                            className="space-y-3 w-full items-center"
                         >
                             <div>
                                 <label className='text-sm text-white font-bold'>
@@ -75,7 +75,7 @@ const Register = () => {
                                     required
                                     value={email}
                                     onChange={(e) => { setEmail(e.target.value) }}
-                                    className='w-full px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300'
+                                    className='w-full px-3 py-2 text-black bg-white outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300'
                                 />
                             </div>
 
@@ -90,7 +90,7 @@ const Register = () => {
                                     required
                                     value={password}
                                     onChange={(e) => { setPassword(e.target.value) }}
-                                    className='w-full px-3 py-2 text-white bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300'
+                                    className='w-full px-3 py-2 text-black bg-white outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300'
                                 />
                             </div>
 
@@ -105,7 +105,7 @@ const Register = () => {
                                     required
                                     value={confirmPassword} 
                                     onChange={(e) => { setconfirmPassword(e.target.value) }}
-                                    className='w-full px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300'
+                                    className='w-full px-3 py-2 text-black bg-white outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300'
                                 />
                             </div>
 
@@ -114,9 +114,8 @@ const Register = () => {
                             )}
 
                             <button
-                                type='submit'
                                 disabled={isRegistering}
-                                className={`w-full px-4 py-2 text-white font-medium rounded-lg ${isRegistering ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-xl transition duration-300'}`}    
+                                className={`w-full flex items-center justify-center gap-x-3 py-2.5 mt-4 border bg-lilac text-black rounded-lg text-sm font-medium ${isRegistering ? 'cursor-not-allowed' : 'hover:bg-page-background hover:text-white transition duration-300 active:bg-page-background active:text-white'}`}    
                             >
                                 {isRegistering ? "Signing Up... " : "Sign Up"}
                             </button>
