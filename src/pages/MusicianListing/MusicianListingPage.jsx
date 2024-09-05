@@ -55,8 +55,8 @@ function MusicianListingPage() {
     const [musicianList, setMusicianList] = useState([]);
     const [searchParams] = useSearchParams();
     const searchQuery = searchParams.get('search');
-
     const [query, setQuery] = useState(searchQuery || '');
+     // eslint-disable-next-line no-unused-vars
     const [sortOption, setSortOption] = useState('newest');
 
     // const [results, setResults] = useState([]);
