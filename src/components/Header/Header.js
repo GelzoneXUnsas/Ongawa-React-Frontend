@@ -32,7 +32,7 @@ const Header = () => {
                         }}
                     />
                 </Navbar.Brand>
-                    <Nav className="ml-auto font-medium pb-[10px] flex flex-row gap-3 pr-4">  {/* Replace NavDropdown with Nav */}
+                    <Nav className="ml-auto font-medium font-title-lexend pb-[10px] flex flex-row gap-3 pr-4">  {/* Replace NavDropdown with Nav */}
                         {/* {userLoggedIn ? (
                             <div className="navbar-text mr-3">Welcome Back, {currUser.displayName ? currUser.displayName : currUser.email}!</div>
                         ) : (

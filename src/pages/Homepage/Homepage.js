@@ -308,7 +308,7 @@ const Homepage = () => {
         <b className="featuredArtistsSectionTitle text-title-lexend-medium font-bold leading-8 font-title-lexend text-center inline-block mx-auto px-4 py-0">
           Meet our Featured Musicians!
         </b>
-        <div class="featuredArtistsGridContainer pt-2 lg:grid lg:grid-cols-custom-grid-browser lg:gap-4 lg:px-10 lg:pt-8">
+        <div class="featuredArtistsGridContainer pt-2 lg:grid lg:grid-cols-custom-grid-browser lg:gap-4 lg:px-10 lg:pt-8 ">
           {
             featuredArtists.map((musician, index) => {
               return (
@@ -318,9 +318,9 @@ const Homepage = () => {
                   initial="initial"
                   whileInView="animate"
                   transition={{duration: 1}}
-                  className="ArtistsAndDivider flex flex-col lg:flex-row">
-                  <div className="featuredArtistDetails flex flex-row justify-start px-9 py-0">
-                    <div className="artistImgAndLinks flex-[0.25] flex justify-around p-2 flex-col" onClick={() => navigate(`/musician?id=${musician.id}`)}>
+                  className="ArtistsAndDivider flex flex-col lg:flex-row ">
+                  <div className="featuredArtistDetails flex flex-row justify-start px-9 py-0 hover:scale-105 transform transition-transform duration-300" onClick={() => navigate(`/musician?id=${musician.id}`)}>
+                    <div className="artistImgAndLinks flex-[0.25] flex justify-around p-2 flex-col" >
                       <img 
                         className="artistImage w-[85%] flex-shrink-0 self-center rounded-full" 
                         src={cachedImages[musician.image] ||musician.image} 

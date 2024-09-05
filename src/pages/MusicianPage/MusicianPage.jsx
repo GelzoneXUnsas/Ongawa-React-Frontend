@@ -1,6 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa"; // Import the back arrow icon
 import headerBackgroundImg from '../../assets/images/headerBackground.png';
 
 //images for beatmap covers 
@@ -14,10 +13,8 @@ import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
 import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
 import artist3Image from "../../assets/images/featuredArtists/artist3.png";
 
-import { FaInstagram } from "react-icons/fa6";
-import { FaSpotify } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaSoundcloud } from "react-icons/fa";
+import { FaInstagram ,FaXTwitter } from "react-icons/fa6";
+import { FaSpotify,  FaSoundcloud, FaArrowLeft} from "react-icons/fa";
 
 
 const albumCovers = {'cover1': cover1, 'cover2': cover2, 'cover3': cover3, 'cover4': cover4};
@@ -180,28 +177,28 @@ const MusicianPage = () => {
             className="text-white hover:text-gray-300 focus:text-gray-300 transition-colors duration-300"
             aria-label="Instagram"
           >
-            <FaInstagram className="text-4xl sm:text-2xl md:text-3xl lg:text-5xl" />
+            <FaInstagram className="text-4xl sm:text-2xl md:text-3xl lg:text-5xl hover:text-purple-accent hover:scale-110 transition-transform duration-300" />
           </a>
           <a
             href="https://x.com"
             className="text-white hover:text-gray-300 focus:text-gray-300 transition-colors duration-300"
             aria-label="X"
           >
-            <FaSpotify className="text-4xl sm:text-2xl md:text-3xl lg:text-5xl" />
+            <FaSpotify className="text-4xl sm:text-2xl md:text-3xl lg:text-5xl hover:text-purple-accent hover:scale-110 transition-transform duration-300" />
           </a>
           <a
             href="https://spotify.com"
             className="text-white hover:text-gray-300 focus:text-gray-300 transition-colors duration-300"
             aria-label="Spotify"
           >
-            <FaXTwitter className="text-4xl sm:text-2xl md:text-3xl lg:text-5xl" />
+            <FaXTwitter className="text-4xl sm:text-2xl md:text-3xl lg:text-5xl hover:text-purple-accent hover:scale-110 transition-transform duration-300" />
           </a>
           <a
             href="https://soundcloud.com"
             className="text-white hover:text-gray-300 focus:text-gray-300 transition-colors duration-300"
             aria-label="SoundCloud"
           >
-            <FaSoundcloud className="text-4xl sm:text-2xl md:text-3xl lg:text-5xl" />
+            <FaSoundcloud className="text-4xl sm:text-2xl md:text-3xl lg:text-5xl hover:text-purple-accent hover:scale-110 transition-transform duration-300" />
           </a>
         </div>
         <p className="mt-4 px-4 text-gray-300">{musician.bio}</p>

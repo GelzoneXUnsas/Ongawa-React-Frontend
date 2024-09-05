@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import React from "react";
@@ -57,6 +57,8 @@ function MusicianListingPage() {
     const searchQuery = searchParams.get('search');
 
     const [query, setQuery] = useState(searchQuery || '');
+    const [sortOption, setSortOption] = useState('newest');
+
     // const [results, setResults] = useState([]);
 
     async function fetchAll() {
@@ -72,6 +74,23 @@ function MusicianListingPage() {
             return false;
         }
     }
+
+    const handleSort = useCallback((option) => {
+        let sortedList = [...musicianList];
+        if (option === 'alphabetical') {
+            sortedList.sort((a, b) => a.musicianName.localeCompare(b.musicianName));
+        } else if (option === 'Mpop') {
+            sortedList.sort((a, b) => b.totalPlaycount - a.totalPlaycount);
+        } else if (option === 'Msongs') {
+            sortedList.sort((a, b) => b.totalSongs - a.totalSongs);
+        }
+        setMusicianList(sortedList);
+    }, [musicianList]);
+    useEffect(() => {
+        handleSort(sortOption);
+    }, [sortOption, musicianList, handleSort]);
+
+
 
     useEffect(() => {
         document.title = 'Musicains - Ongawa';
@@ -141,7 +160,7 @@ function MusicianListingPage() {
                     <img src={searchIcon} alt="Search" className="w-5 h-5" />
                 </button>
             </div>
-                
+            
 
 
             </div>
@@ -154,28 +173,36 @@ function MusicianListingPage() {
 }
 
 
-function MusicianList (props) {
+
+
+function MusicianList(props) {
     const navigate = useNavigate();
-    const rows = props.musicianList.map((musician, index) => {
-        return (
-        <div>
-            <div>
-            <button className="bg-transparent border-none text-0 transform transition-transform duration-300 hover:scale-105" onClick={() => navigate(`/musician?id=${musician.id}`)}>
-                <img className="w-full max-w-[246px] h-auto flex-shrink-0 rounded-[15px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" src={images[musician.id-1]} alt="Profile pictue"/>
-                </button>
-                <div className="text-[var(--icon-color,#FFF)] text-center font-['Lexend_Exa'] text-[18px] font-bold leading-[24px]">
-                    {musician.musicianName}</div>
-              <p className="text-[var(--icon-color,#FFF)] text-center font-['Overpass_Mono'] text-[16px] font-medium leading-[24px]">
-                {musician.totalSongs} songs | {musician.totalPlaycount} plays</p>
-              
-            </div>
-          </div>);
-    });
+    const rows = props.musicianList.map((musician) => (
+        <div
+    key={musician.id} // Ensure each child has a unique key
+    className="outline-none cursor-pointer hover:bg-[#2d2c5f] rounded-[15px] p-4 group"
+    onClick={() => navigate(`/musician?id=${musician.id}`)}
+>
+    <img
+        className="w-48 h-48 object-cover rounded-[15px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] mx-auto group-hover:scale-105 transition-transform duration-300"
+        src={images[musician.id - 1]}
+        alt="Profile img"
+    />
+    <div className="text-[var(--icon-color,#FFF)] text-center font-['Lexend_Exa'] text-[18px] font-bold leading-[24px] group-hover:translate-y-[5px] transition-transform duration-300">
+        {musician.musicianName}
+    </div>
+    <p className="text-[var(--icon-color,#FFF)] text-center font-['Overpass_Mono'] text-[16px] font-medium leading-[24px] group-hover:translate-y-[5px] transition-transform duration-300">
+        {musician.totalSongs} songs | {musician.totalPlaycount} plays
+    </p>
+</div>
+    ));
+
     return (
-        <div className="flex flex-row flex-wrap justify-center content-between py-4 w-full">
+        <div className="flex flex-col md:flex-row md:justify-center md:space-x-4 space-y-4 md:space-y-0 py-4 w-full">
             {rows}
         </div>
     );
 }
+
 
 export default MusicianListingPage;
