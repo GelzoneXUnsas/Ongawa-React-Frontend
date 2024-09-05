@@ -7,10 +7,10 @@ import axios from "axios";
 import headerBackgroundImg from '../../assets/images/headerBackground.png';
 import searchIcon from '../../assets/icons/searchIcon.svg';
 
-// import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
-// import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
-// import artist3Image from "../../assets/images/featuredArtists/artist3.png";
-// const images = [artist1Image, artist2Image, artist3Image];
+import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
+import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
+import artist3Image from "../../assets/images/featuredArtists/artist3.png";
+const images = [artist1Image, artist2Image, artist3Image];
 
 // import heartIcon from '../../assets/icons/heartIcon.svg';
 
@@ -205,9 +205,10 @@ function CommunityPage() {
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}
                     className="sortByDropdown w-52 py-2 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56"
-                    // style={{
-                    //     background: `url('arrow icon here') no-repeat right center`,
-                    // }}
+                    style={{
+                        background: `url('arrow icon here') no-repeat right center`,
+                        backgroundColor: '#1f2937'
+                    }}
                 >
                     <option value="1">Sort by: Option 1</option>
                     <option value="2">Sort by: Option 2</option>
@@ -254,11 +255,11 @@ function PostList (props) {
     
     const rows = props.postList.map((post, index) => {
         return ( 
-            <div className="postContainer bg-community-post-gradient justify-center content-center w-80 h-52 p-4">
-                {/* <div className="postHeader">
-                    <div className="metaInfo flex justify-between">
-                        <div className="authorInfo">
-                            <div className="authorImgContainer flex flex-shrink-0 rounded-full w-20 h-20 overflow-hidden">
+            <div className="postContainer bg-community-post-gradient flex flex-col text-start w-80  p-4 text-[13px] gap-3">
+                <div className="postHeader items-center w-full">
+                    <div className="metaInfo flex items-center justify-between w-full">
+                        <div className="authorInfo flex items-center gap-1">
+                            <div className="authorImgContainer flex flex-shrink-0 rounded-full w-10 h-10 overflow-hidden">
                                 <img className="authorImg " src={images[index]} alt="Profile pictue"/>
                             </div>
 
@@ -271,11 +272,34 @@ function PostList (props) {
                         </div>
                     </div>
 
-                </div> */}
+
+                    <div className="postTitle flex mt-2">
+                        {post.postTitle} 
+                    </div>
+                </div>
+
+                <div className="postContent flex ">
+                    {post.postContent}
+                </div>
+                <hr className="flex my-2 border-b-4 border-white w-full" />
+
+                <div className="postStats flex justify-between">
+                    <div className="likesSection flex">
+                        Likes:
+                        {post.likeCount}
+                    </div>
+                    <div className="commentsSection flex">
+                        Comments:
+                        {post.commentCount}
+                    </div>
+                    <div className="viewsSection flex">
+                        Views:
+                        {post.viewCount}
+                    </div>
+                </div>
 
 
-
-                Post
+                {/* Post */}
             </div>
         );
     });
