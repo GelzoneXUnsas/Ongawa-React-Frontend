@@ -6,15 +6,17 @@ import logoIcon from '../../assets/icons/ongawaIconWhite.svg';
 // import instagramIcon from "../../assets/icons/instagramIcon.svg";
 // import xIcon from "../../assets/icons/xIcon.svg";
 // import tiktokIcon from "../../assets/icons/tiktokIcon.svg";
-import linkedInIcon from "../../assets/icons/linkedinIcon.svg";
+
+import { FaLinkedinIn } from "react-icons/fa";
+
 const Footer = () => {
     const navigate = useNavigate();
     const gameDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
     return (
         <div className={styles.footer}>
             <div className={styles.footerContainer}>
-            <div className={styles.footerSections}>
-            <div className={styles.footerSectionPageItem} 
+            <div className={styles.footerSections} >
+            <div className="p-2 hover:underline" 
                 onClick={() => {
                     navigate("/beatmaplisting");
                 }}>
@@ -32,30 +34,42 @@ const Footer = () => {
                     }}>
                 Community
             </div> */}
-            <div className={styles.footerSectionPageItem}
+            <div className="p-2 hover:underline"
                 onClick={() => {
                     navigate("/gallery");
                     }}>
                 Art
             </div>
+            <div className="p-2 hover:underline"
+                onClick={() => {
+                    navigate("/musicianlisting");
+                    }}>
+                Artists
             </div>
-            <div className={styles.footerSocials}>
-            <button className={styles.footerSocialsItem}>
+            <div className="p-2 hover:underline"
+                onClick={() => {
+                    navigate("/community");
+                    }}>
+                Community
+            </div>
+            </div>
+            <div className="mb-4 flex flex-row justify-center">
+            <div className={styles.footerSocialsItem}>
             <a href={gameDownloadLink} target="_blank" rel="noreferrer">
-            <img className={styles.footerlogo} src={logoIcon} alt="Ongawa Logo"/>
+            <img className="h-[4vh] text-white text-4xl hover:text-purple-accent hover:scale-110 transition-transform duration-300" src={logoIcon} alt="Ongawa Logo"/>
             </a>
-            </button>
+            </div>
             {/* <button className={styles.footerSocialsItem}>
                 <a href="https://www.linkedin.com/showcase/virtuososgame/?viewAsMember=true" target="_blank" rel="noreferrer">
                     <img src={logoIcon} alt="Virtuosos Logo" />
                 </a>
             </button> */}
 
-            <button className={styles.footerSocialsItem}>
+            <div className="{styles.footerSocialsItem}">
                 <a href="https://www.linkedin.com/showcase/virtuososgame/?viewAsMember=true" target="_blank" rel="noreferrer">
-                    <img src={linkedInIcon} alt="LinkedIn Logo" />
-                </a>
-            </button>
+            <FaLinkedinIn className="text-white translate-y-5 text-4xl sm:text-2xl md:text-3xl lg:text-4xl hover:text-purple-accent hover:scale-110 transition-transform duration-300" />
+          </a>
+            </div>
             </div>
             <div className={styles.footerEmail}>
                 contact ongawa.game@gmail.com for support

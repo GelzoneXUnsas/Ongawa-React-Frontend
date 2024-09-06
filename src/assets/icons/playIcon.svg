@@ -1,6 +1,1 @@
-<svg width="18" height="19" viewBox="0 0 18 19" fill="CurrentColor" xmlns="http://www.w3.org/2000/svg">
-<g id="playButton">
-<circle id="Ellipse 1" cx="9" cy="9.75" r="9" fill="CurrentColor"/>
-<path id="Polygon 1" d="M12.9668 10.3659C13.6335 9.98101 13.6335 9.01876 12.9668 8.63386L7.3918 5.41513C6.72513 5.03023 5.8918 5.51136 5.8918 6.28116V12.7186C5.8918 13.4884 6.72513 13.9695 7.3918 13.5846L12.9668 10.3659Z" fill="white"/>
-</g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" fill="CurrentColor"><circle cx="9" cy="9.75" r="9"/><path fill="#fff" d="M12.967 10.366a1 1 0 0 0 0-1.732L7.392 5.415a1 1 0 0 0-1.5.866v6.438a1 1 0 0 0 1.5.866z"/></svg>
