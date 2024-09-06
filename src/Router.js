@@ -10,6 +10,7 @@ import MusicanListingPage from './pages/MusicianListing/MusicianListingPage';
 import MusicianPage from './pages/MusicianPage/MusicianPage';
 import BeatmapListingPage from './pages/BeatmapListingPage/BeatmapListingPage';
 import BeatmapPage from './pages/BeatmapPage/BeatmapPage';
+// eslint-disable-next-line no-unused-vars
 import CommunityPage from './pages/CommunityPage/CommunityPage';
 import ComingSoonPage from './pages/ComingSoonPage/ComingSoonPage';
 
