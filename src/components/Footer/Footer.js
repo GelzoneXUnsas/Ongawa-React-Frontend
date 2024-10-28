@@ -16,7 +16,7 @@ const Footer = () => {
         <div className={styles.footer}>
             <div className={styles.footerContainer}>
             <div className={styles.footerSections} >
-            <div className="p-2 hover:underline" 
+            <div className="p-2 hover:underline cursor-pointer" 
                 onClick={() => {
                     navigate("/beatmaplisting");
                 }}>
@@ -34,19 +34,19 @@ const Footer = () => {
                     }}>
                 Community
             </div> */}
-            <div className="p-2 hover:underline"
+            <div className="p-2 hover:underline cursor-pointer"
                 onClick={() => {
                     navigate("/gallery");
                     }}>
                 Art
             </div>
-            <div className="p-2 hover:underline"
+            <div className="p-2 hover:underline cursor-pointer"
                 onClick={() => {
                     navigate("/musicianlisting");
                     }}>
                 Artists
             </div>
-            <div className="p-2 hover:underline"
+            <div className="p-2 hover:underline cursor-pointer"
                 onClick={() => {
                     navigate("/community");
                     }}>

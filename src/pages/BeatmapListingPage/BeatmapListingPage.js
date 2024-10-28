@@ -245,7 +245,7 @@ function BeatmapListingPage() {
                 <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">BEATMAPS</div>
                 <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
             </div>
-            <div class="searchBarContainer flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
+            <div className="searchBarContainer flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
                 <input
                     type="text"
                     placeholder="Search..."
@@ -269,7 +269,7 @@ function BeatmapListingPage() {
                 <select
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}
-                    className="sortByDropdown w-52 py-2 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56"
+                    className="sortByDropdown w-52 py-2 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56 cursor-pointer"
                     style={{
                         background: `url('arrow icon here') no-repeat right center`,
                         backgroundColor: '#1f2937'

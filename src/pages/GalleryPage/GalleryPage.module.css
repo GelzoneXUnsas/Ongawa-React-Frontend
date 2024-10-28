@@ -255,6 +255,7 @@ hr {
 .musicCoverMenuTitleText:hover {
     /* background-color: rgba(255, 255, 255, 0.1); Slightly translucent white background */
     color: var(--purple-accent); /* Change text color */
+    border: 0;
 }
 
 .musicCoverMenuTitleText.active {
