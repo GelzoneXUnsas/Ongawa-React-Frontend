@@ -23,20 +23,23 @@ function Router() {
         <div>
             <AuthProvider>
                 <Header />
-                <Routes>
-                    <Route path="/" element={<Homepage />} />
-                    <Route path="gallery" element={<GalleryPage />} />
-                    <Route path="musicgallery" element={<MusicGalleryPage />} />
-                    <Route path="beatmaplisting" element={<BeatmapListingPage />} />
-                    <Route path="musicianlisting" element={<MusicanListingPage />} />
-                    <Route path="musician" element={<MusicianPage />} />
-                    <Route path="beatmap" element={<BeatmapPage />} />
-                    <Route path="community" element={<ComingSoonPage />} />
-                    <Route path="comingsoon" element={<ComingSoonPage />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path='register' element={<Register />} />
-                    <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
+                {/* Adding h-screen hides the scrollbar, but messes w/ the scrolling */}
+                <div className='no-scrollbar overflow-y-auto'>
+                    <Routes>
+                        <Route path="/" element={<Homepage />} />
+                        <Route path="gallery" element={<GalleryPage />} />
+                        <Route path="musicgallery" element={<MusicGalleryPage />} />
+                        <Route path="beatmaplisting" element={<BeatmapListingPage />} />
+                        <Route path="musicianlisting" element={<MusicanListingPage />} />
+                        <Route path="musician" element={<MusicianPage />} />
+                        <Route path="beatmap" element={<BeatmapPage />} />
+                        <Route path="community" element={<ComingSoonPage />} />
+                        <Route path="comingsoon" element={<ComingSoonPage />} />
+                        <Route path="login" element={<Login />} />
+                        <Route path='register' element={<Register />} />
+                        <Route path="*" element={<Navigate to="/" />} />
+                    </Routes>
+                </div>
                 <Footer />
             </AuthProvider>
         </div>
