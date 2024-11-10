@@ -9,7 +9,7 @@
 /coverage
 
 # production
-/build
+/dist
 
 # misc
 .DS_Store
@@ -34,3 +34,7 @@ yarn-error.log*
 .amplify
 amplify_outputs*
 amplifyconfiguration*
+
+# firebase
+/src/firebase/auth.js
+/src/firebase/firebase.js
