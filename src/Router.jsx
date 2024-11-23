@@ -24,7 +24,7 @@ function Router() {
             <AuthProvider>
                 <Header />
                 {/* Adding h-screen hides the scrollbar, but messes w/ the scrolling */}
-                <div className='no-scrollbar overflow-y-auto'>
+                {/* <div className='no-scrollbar overflow-y-auto'> */}
                     <Routes>
                         <Route path="/" element={<Homepage />} />
                         <Route path="gallery" element={<GalleryPage />} />
@@ -39,7 +39,7 @@ function Router() {
                         <Route path='register' element={<Register />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
-                </div>
+                {/* </div> */}
                 <Footer />
             </AuthProvider>
         </div>

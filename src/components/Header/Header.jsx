@@ -19,10 +19,9 @@ const Header = () => {
 
     return (
         <>
-        {/* Switched from sticky="top" to fixed="top". This seems to allow overflow-x: hidden to be added in global.css without affecting the sticky header */}
-        <Navbar fixed="top" variant="dark" expand="lg" 
+        <Navbar sticky="top" variant="dark" expand="lg" 
             // Why was it overflow-visible? Seems to cause unwanted white space on the right when scrolling horizontally?
-            className="header fixed top-0 left-0 w-full h-[75px] bg-header-gradient z-[10] mb-[-75px] flex justify-between items-center overflow-clip">
+            className="header top-0 left-0 w-full h-[75px] bg-header-gradient z-[10] mb-[-75px] flex justify-between items-center">
             <Container fluid>
                 <Navbar.Brand>
                     <img
