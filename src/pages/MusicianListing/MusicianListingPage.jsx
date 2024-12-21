@@ -184,7 +184,7 @@ function MusicianList(props) {
     const rows = props.musicianList.map((musician) => (
         <div
     key={musician.id} // Ensure each child has a unique key
-    className="outline-none cursor-pointer hover:bg-[#2d2c5f] rounded-[15px] p-4 group"
+    className="outline-none cursor-pointer rounded-[15px] p-4 group" // removed hover:bg-[#2d2c5f]
     onClick={() => navigate(`/musician?id=${musician.id}`)}
 >
     <img
