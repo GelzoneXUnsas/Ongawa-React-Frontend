@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@700&display=swap");
+
 body {
   margin: 0;
   line-height: normal;
@@ -20,12 +21,20 @@ body {
   --page-accent-gray: #242424; /* --gray */
   --white: #fff;
   --lilac: #f1dbfc;
-  --icon-color: #FFF;
-  --purple-accent: #D5A6ED;
-  --discography-background: #543F60;
+  --icon-color: #fff;
+  --purple-accent: #d5a6ed;
+  --discography-background: #543f60;
 
-  --header-background: linear-gradient(180deg, #2D2C5F 80.9%, rgba(45, 44, 95, 0.00) 100%);
-  --discography-gradient: linear-gradient(180deg, #543F60 80.9%, rgba(45, 44, 95, 0.00) 100%);
+  --header-background: linear-gradient(
+    180deg,
+    #2d2c5f 80.9%,
+    rgba(45, 44, 95, 0) 100%
+  );
+  --discography-gradient: linear-gradient(
+    180deg,
+    #543f60 80.9%,
+    rgba(45, 44, 95, 0) 100%
+  );
 
   /* Border radiuses */
   --br-8xs: 5px;

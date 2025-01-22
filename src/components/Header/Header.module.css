@@ -14,8 +14,6 @@
   overflow: visible;
 } */
 
-
-
 /* .headerLogo {
   width: auto;
   height: 2rem;
@@ -44,7 +42,6 @@
 }
 
 @media screen and (min-width: 830px) {
-
   .header {
     margin-bottom: -20px;
   }
