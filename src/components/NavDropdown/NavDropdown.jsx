@@ -20,11 +20,16 @@ const NavDropdown = ({
           <div className="flex justify-end mt-4 mr-10">
             <img src={closeNavDropdown} onClick={() => closeMobileMenu()} />
           </div>
-          <div className="flex flex-col items-center gap-6 md:gap-2 mt-16 md:mt-0">
+          <div
+            className="flex flex-col items-center gap-6 mt-16
+                          [@media(max-height:400px)]:gap-1 
+                          [@media(max-height:400px)]:mt-0"
+          >
             <a
               href="/"
               onClick={() => closeMobileMenu()}
-              className="text-white no-underline hover:no-underline hover:text-white px-24 py-3 mt-4 border-2 border-white text-4xl"
+              className="text-white no-underline hover:no-underline hover:text-white 
+                            px-24 py-3 border-2 border-white text-4xl"
             >
               Home
             </a>

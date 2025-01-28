@@ -40,32 +40,32 @@ const Header = () => {
         <div className="ml-auto font-medium flex flex-row gap-8 pr-4 items-center mb-3">
           <a
             href="/beatmaplisting"
-            className="hidden lg:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
             Beatmaps
           </a>
           <a
             href="/musicianlisting"
-            className="hidden lg:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
             Musicians
           </a>
           <a
             href="/gallery"
-            className="hidden lg:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
             Art
           </a>
           <a
             href="/community"
-            className="hidden lg:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
             Social
           </a>
           <a
             href="/login"
             onClick={() => doSignOut()}
-            className="hidden lg:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
             {userLoggedIn ? "Sign Out" : "Login"}
           </a>
@@ -78,7 +78,7 @@ const Header = () => {
 
           <button
             // TODO: implement download on-click
-            className="hidden lg:block rounded py-2 px-8 mr-6
+            className="hidden md:block rounded py-2 px-8 mr-6
               bg-search-text-gray text-page-background border-none
               hover:bg-search-text-gray hover:text-page-background hover:border-none
               focus:bg-search-text-gray focus:text-page-background focus:border-none
@@ -86,7 +86,7 @@ const Header = () => {
           >
             Download
           </button>
-          <div className="lg:hidden mr-4 flex items-center">
+          <div className="md:hidden mr-4 flex items-center">
             <button
               // TODO: implement demo on-click
               className="rounded flex items-center justify-center px-7 mr-6 text-sm h-9
