@@ -101,7 +101,8 @@ function GalleryPage() {
         //     if (result) setGalleryImages(result);
         // });
         setGalleryImages(defaultArt.screenart_list);
-    }, [defaultArt.screenart_list]);
+    // eslint-disable-next-line
+    }, []); // removed defaultArt.screenart_list from dependency array; originally caused "Maximum update depth exceeded" warning when it was added
 
     return (
         <div className={styles.gallerypage}>

@@ -34,9 +34,9 @@ function GalleryGrid(props) {
         return (
             <div key={index} onClick={() => handleImageClick(image)}>
                 {props.currentPage === "art" ? 
-                    <img className="artImage object-cover w-48 h-40 flex-shrink-0 rounded-xl shadow-md lg:w-full lg:h-auto transform transition-transform duration-300 hover:scale-105" src={artImages[image.id-1]} alt={image.description} /> 
+                    <img className="artImage object-cover w-48 h-40 flex-shrink-0 rounded-xl shadow-md lg:w-full lg:h-auto transform transition-transform duration-300 hover:scale-105 cursor-pointer" src={artImages[image.id-1]} alt={image.description} /> 
                     :
-                    <div className="coverImageAndText flex flex-col items-center font-title-lexend text-font-size-xs lg:text-body-overpass-base transform transition-transform duration-300 hover:scale-105">
+                    <div className="coverImageAndText flex flex-col items-center font-title-lexend text-font-size-xs lg:text-body-overpass-base transform transition-transform duration-300 hover:scale-105 cursor-pointer">
                         <img className="coverImage object-cover w-72 flex-shrink-0 rounded-xl bg-none m-0 p-0 " src={musicCovers[image.id-1]} alt={image.description} /> 
                         <div>
                             {image.name}

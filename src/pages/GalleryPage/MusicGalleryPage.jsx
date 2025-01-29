@@ -78,7 +78,8 @@ function MusicGalleryPage() {
         //         console.log('RESULT Music cover', result);
         // });
         setGalleryImages(defaultMusic.musiccovers_list)
-    }, [defaultMusic.musiccovers_list]);
+    // eslint-disable-next-line
+    }, []); // removed defaultMusic.musiccovers_list from dependency array; originally caused "Maximum update depth exceeded" warning when it was added
 
     return (
         <div className={styles.gallerypage}>

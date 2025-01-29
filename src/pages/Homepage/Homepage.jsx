@@ -350,7 +350,7 @@ const Homepage = () => {
                   whileInView="animate"
                   transition={{duration: 1}}
                   className="ArtistsAndDivider flex flex-col lg:flex-row ">
-                  <div className="featuredArtistDetails flex flex-row justify-start px-9 py-0 hover:scale-105 transform transition-transform duration-300" onClick={() => navigate(`/musician?id=${musician.id}`)}>
+                  <div className="featuredArtistDetails flex flex-row justify-start px-9 py-0 hover:scale-105 transform transition-transform duration-300 cursor-pointer" onClick={() => navigate(`/musician?id=${musician.id}`)}>
                     <div className="artistImgAndLinks flex-[0.25] flex justify-around p-2 flex-col" >
                       <img 
                         className="artistImage w-[85%] flex-shrink-0 self-center rounded-full" 

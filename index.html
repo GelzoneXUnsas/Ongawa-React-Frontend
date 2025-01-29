@@ -2,15 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="icon2.ico" media="(prefers-color-scheme: light)">
-    <link rel="icon" type="image/png"  href="icon1.ico" media="(prefers-color-scheme: dark)">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <!-- Default favicon for search engines and fallback -->
+    <link rel="icon" type="image/x-icon" href="/icon2.ico" />
+
+    <!-- Color scheme specific favicons -->
+    <link rel="icon" type="image/x-icon" href="/icon2.ico" media="(prefers-color-scheme: light)" id="light-scheme-icon" />
+    <link rel="icon" type="image/x-icon" href="/icon1.ico" media="(prefers-color-scheme: dark)" id="dark-scheme-icon" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#2d2c5f" />
     <meta
       name="description"
       content="Web site for the Ongawa Game"
     />
-    <link rel="apple-touch-icon" href="/logo192.png" />
+    <!-- <link rel="apple-touch-icon" href="/logo192.png" /> -->
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -22,5 +27,23 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/index.jsx"></script>
+    <script>
+      // Dynamically update favicon based on color scheme in case media attribute does not work in link tag
+      lightSchemeIcon = document.querySelector('link#light-scheme-icon');
+      darkSchemeIcon = document.querySelector('link#dark-scheme-icon');
+
+      function onUpdate() {
+        if (matcher.matches) {
+          lightSchemeIcon.remove();
+          document.head.append(darkSchemeIcon);
+        } else {
+          document.head.append(lightSchemeIcon);
+          darkSchemeIcon.remove();
+        }
+      }
+      matcher = window.matchMedia('(prefers-color-scheme: dark)');
+      matcher.addEventListener('change', onUpdate);
+      onUpdate();
+    </script>
   </body>
 </html>

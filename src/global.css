@@ -1,10 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@700&display=swap");
 
+/* html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+} */
+
+html,
+body {
+  /* overflow-x: hidden makes header not stick to the top w/o height: 100% and overflow-y: auto*/
+  overflow-x: hidden;
+
+  /* height: 100% and overflow-y: auto helps no-scrollbar style to work */
+  height: 100%;
+  /* min-height: 100vh; */
+  overflow-y: auto;
+}
+
 body {
   margin: 0;
   line-height: normal;
+  background: var(--page-background) !important;
 }
+
 :root {
   /* fonts */
   --title-lexend-large: "Lexend Exa";
