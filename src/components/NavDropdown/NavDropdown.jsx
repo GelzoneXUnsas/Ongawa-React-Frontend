@@ -3,9 +3,9 @@ import React from "react";
 
 import closeNavDropdown from "../../assets/icons/closeNavDropdown.png";
 import shareIcon from "../../assets/icons/shareIcon.png";
-import displayIcon from "../../assets/icons/displayIcon.png";
+import youtubeIcon from "../../assets/icons/youtubeIcon.png";
 import discordIcon from "../../assets/icons/discordIcon.png";
-import instagramIcon from "../../assets/icons/instagramIcon.png";
+import linkedinIcon from "../../assets/icons/linkedinIcon.png";
 
 const NavDropdown = ({
   isMobileMenuOpen,
@@ -71,11 +71,25 @@ const NavDropdown = ({
             >
               {userLoggedIn ? "Sign Out" : "Login"}
             </a>
-            <div className="flex justify-center gap-3 mt-2">
-              <img src={shareIcon} alt="share" href="" />
-              <img src={displayIcon} alt="display" href="" />
-              <img src={discordIcon} alt="discord" href="" />
-              <img src={instagramIcon} alt="instagram" href="" />
+            <div className="flex justify-center align-center gap-4 mt-2">
+              <a href="https://www.ongawa.io/" target="blank">
+                <img className="h-6" src={shareIcon} alt="share" />
+              </a>
+              <a href="https://discord.gg/vheHu3mX" target="blank">
+                <img className="h-6" src={discordIcon} alt="discord" />
+              </a>
+              <a
+                href="https://www.linkedin.com/showcase/ongawa/?viewAsMember=true"
+                target="blank"
+              >
+                <img className="h-6" src={linkedinIcon} alt="linkedIn" />
+              </a>
+              <a
+                href="https://www.youtube.com/@Ongawa_gg/featured"
+                target="blank"
+              >
+                <img className="h-8" src={youtubeIcon} alt="youtube" />
+              </a>
             </div>
           </div>
         </div>
