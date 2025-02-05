@@ -26,7 +26,6 @@ export default {
         "custom-hover-blue": "#002ead",
         "search-text-gray": "#B2B2B2",
         "discography-background": "#543F60",
-        "dropdown-background": "#1D1D2E",
       },
 
       boxShadow: {
@@ -36,7 +35,7 @@ export default {
 
       backgroundImage: {
         "header-gradient":
-          "linear-gradient(180deg, #1D1D2E 80.9%, rgba(45, 44, 95, 0.00) 100%)",
+          "linear-gradient(180deg, #2D2C5F 80.9%, rgba(45, 44, 95, 0.00) 100%)",
         "login-gradient":
           "linear-gradient(180deg, #2D2C5F 60.9%, rgba(45, 44, 95, 0.00) 100%)",
         "gradient-overlay":
