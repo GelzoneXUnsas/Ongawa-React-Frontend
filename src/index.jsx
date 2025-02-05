@@ -12,10 +12,6 @@ import './index.css';
 import Router from "./Router";
 import { BrowserRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Amplify } from "aws-amplify";
-import outputs from "../amplify_outputs.json";
-
-Amplify.configure(outputs)
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
