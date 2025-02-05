@@ -1,78 +1,118 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-// import styles from './Header.module.css';
+import React, { useState } from "react";
 
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav'; 
-// import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useAuth } from '../../contexts/authContext';
-import { doSignOut } from '../../firebase/auth';
+import { useAuth } from "../../contexts/authContext";
+import { doSignOut } from "../../firebase/auth";
 
-import logoIcon from '../../assets/icons/ongawaIconWhite.svg';
-// import closedMenuIcon from '../../assets/icons/closedMenuIcon.svg';
+import logoIcon from "../../assets/icons/ongawaLogoNameWhite.png";
+import toggleMusicIcon from "../../assets/icons/toggleMusicIcon.png";
+import toggleMusicIconOff from "../../assets/icons/toggleMusicIconOff.png";
+import menuDropdownIcon from "../../assets/icons/menuDropdownIcon.png";
+import NavDropdown from "../NavDropdown/NavDropdown";
 
 const Header = () => {
-    const navigate = useNavigate()
-    // const { currUser } = useAuth() uncomment to use when we want to display user name
-    const { userLoggedIn } = useAuth()
+  const { userLoggedIn } = useAuth();
 
-    return (
-        <>
-        <Navbar sticky="top" variant="dark" expand="lg" 
-            // Why was it overflow-visible? Seems to cause unwanted white space on the right when scrolling horizontally?
-            className="header top-0 left-0 w-full h-[75px] bg-header-gradient z-[10] mb-[-75px] flex justify-between items-center">
-            <Container fluid>
-                <Navbar.Brand>
-                    <img
-                        className="w-auto h-[2rem] cursor-pointer mb-[10px] z-[2]"
-                        alt="Virtuosos Logo"
-                        src={logoIcon}
-                        onClick={() => {
-                            navigate("/");
-                        }}
-                    />
-                </Navbar.Brand>
-                    <Nav className="ml-auto font-medium pb-[10px] flex flex-row gap-3 pr-4">  {/* Replace NavDropdown with Nav */}
-                        {/* {userLoggedIn ? (
-                            <div className="navbar-text mr-3">Welcome Back, {currUser.displayName ? currUser.displayName : currUser.email}!</div>
-                        ) : (
-                            <div className="navbar-text mr-3">Who Are You? :0</div>
-                        )} */}
-                        {/* <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link> */}
-                        <Nav.Link onClick={() => navigate('/beatmaplisting')}>Beatmaps</Nav.Link>
-                        <Nav.Link onClick={() => navigate('/musicianlisting')}>Musicians</Nav.Link>
-                        <Nav.Link onClick={() => navigate('/gallery')}>Art</Nav.Link>
-                        <Nav.Link onClick={() => navigate('/community')}>Social</Nav.Link>
-                        <Nav.Link onClick={() => doSignOut().then(() => navigate('/login'))}>
-                            {userLoggedIn ? 'Sign Out' : 'Login'}
-                        </Nav.Link>
-                    </Nav>
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-                    {/* <NavDropdown
-                    id="menu-dropdown-button"
-                    title="MENU"
-                    menuVariant="dark"
-                    className={styles.headerMenuButton}
-                    align="end" // Align the dropdown menu to the end (right side)
-                >
-                    {userLoggedIn ? <NavDropdown.Item disabled={true} >Welcome Back, {currUser.displayName ? currUser.displayName : currUser.email}!</NavDropdown.Item> : <NavDropdown.Item disabled={true}>Who Are You? :0</NavDropdown.Item>}
-                    <NavDropdown.Item onClick={() => navigate('/')}>Home</NavDropdown.Item>
-                    <NavDropdown.Item onClick={() => navigate('/beatmaplisting')}>Beatmaps</NavDropdown.Item>
-                    <NavDropdown.Item onClick={() => navigate('/gallery')}>Art</NavDropdown.Item>
-                    <NavDropdown.Divider />
+  const [musicIsPlaying, setMusicIsPlaying] = useState(true);
+  // const audioRef = useRef(new Audio("/path-to-your-audio-file.mp3"));
+  const toggleMusic = () => {
+    // if (musicIsPlaying) {
+    //   audioRef.current.pause();
+    // } else {
+    //   audioRef.current.play();
+    // }
+    setMusicIsPlaying(!musicIsPlaying);
+  };
 
-                    {userLoggedIn ?
-                        <NavDropdown.Item onClick={() => doSignOut().then(() => { navigate('/login') }) }>SignOut</NavDropdown.Item>
-                    :
-                        <NavDropdown.Item onClick={() => navigate('/login')}>Login</NavDropdown.Item>
-                    }
-                </NavDropdown> */}
-            </Container>
-        </Navbar>
-        </>
-    );
-}
+  return (
+    <>
+      <nav className="header fixed top-0 left-0 w-full h-[75px] bg-header-gradient z-10 mb-[-75px] flex justify-between items-center overflow-visible opacity-90">
+        <div className="ml-8">
+          <a href="/">
+            <img
+              className="w-auto h-[2.5rem] cursor-pointer mb-[10px] z-[2]"
+              alt="Virtuosos Logo"
+              src={logoIcon}
+            />
+          </a>
+        </div>
+        <div className="ml-auto font-medium flex flex-row gap-8 pr-4 items-center mb-3">
+          <a
+            href="/beatmaplisting"
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+          >
+            Beatmaps
+          </a>
+          <a
+            href="/musicianlisting"
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+          >
+            Musicians
+          </a>
+          <a
+            href="/gallery"
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+          >
+            Art
+          </a>
+          <a
+            href="/community"
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+          >
+            Social
+          </a>
+          <a
+            href="/login"
+            onClick={() => doSignOut()}
+            className="hidden md:block text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+          >
+            {userLoggedIn ? "Sign Out" : "Login"}
+          </a>
+          <img
+            className="h-9"
+            src={musicIsPlaying ? toggleMusicIcon : toggleMusicIconOff}
+            alt="Music Toggle"
+            onClick={toggleMusic}
+          />
 
+          <button
+            // TODO: implement download on-click
+            className="hidden md:block rounded py-2 px-8 mr-6
+              bg-search-text-gray text-page-background border-none
+              hover:bg-search-text-gray hover:text-page-background hover:border-none
+              focus:bg-search-text-gray focus:text-page-background focus:border-none
+              active:bg-search-text-gray active:text-page-background active:border-none"
+          >
+            Download
+          </button>
+          <div className="md:hidden mr-4 flex items-center">
+            <button
+              // TODO: implement demo on-click
+              className="rounded flex items-center justify-center px-7 mr-6 text-sm h-9
+              bg-search-text-gray text-page-background border-none
+              hover:bg-search-text-gray hover:text-page-background hover:border-none
+              focus:bg-search-text-gray focus:text-page-background focus:border-none
+              active:bg-search-text-gray active:text-page-background active:border-none"
+            >
+              Demo
+            </button>
+            <img
+              src={menuDropdownIcon}
+              alt="navigation_dropdown"
+              onClick={() => setIsMobileMenuOpen(true)}
+            ></img>
+          </div>
+        </div>
+      </nav>
+      <NavDropdown
+        isMobileMenuOpen={isMobileMenuOpen}
+        closeMobileMenu={() => setIsMobileMenuOpen(false)}
+        userLoggedIn={userLoggedIn}
+        doSignOut={doSignOut}
+      />
+    </>
+  );
+};
 
 export default Header;
