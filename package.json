@@ -13,12 +13,13 @@
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
-    "aws-amplify": "^6.12.2",
+    "aws-amplify": "^6.12.3",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "figures": "^6.1.0",
     "firebase": "^10.13.1",
     "framer-motion": "^11.3.31",
+    "inflight": "^1.0.6",
     "lru-cache": "^11.0.2",
     "npm-check": "^6.0.1",
     "react": "^18.3.1",
@@ -35,6 +36,8 @@
     "lint": "eslint ."
   },
   "devDependencies": {
+    "@aws-amplify/backend": "^1.14.0",
+    "@aws-amplify/backend-cli": "^1.4.9",
     "@eslint/js": "^9.14.0",
     "@vitejs/plugin-react-swc": "^3.7.1",
     "autoprefixer": "^10.4.20",
@@ -51,6 +54,9 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "vite": "^5.4.10"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "*"
   },
   "overrides": {}
 }

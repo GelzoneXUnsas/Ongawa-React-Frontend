@@ -3,11 +3,20 @@ import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
+// import styles from "./Homepage.module.css";
+
 import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
 import ToggleButton from "../../components/ToggleButton/ToggleButton";
 
+import {
+  cacheImage,
+  getCachedImage,
+  cacheImages,
+  getCachedImages,
+} from "../../utils/imageCache";
+
 import headerBackgroundImg from "../../assets/images/headerBackground.png";
-import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
+import ongawaTitle from "../../assets/icons/ongawaTitleModified.svg";
 
 import ongawaLogoNameBlack from "../../assets/icons/ongawaLogoNameBlack.png";
 import ongawaTitle from "../../assets/icons/ongawaTitleModified.svg";
@@ -20,44 +29,25 @@ import googlePlayIcon from "../../assets/icons/googlePlayIcon.png";
 import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
 import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
 import artist3Image from "../../assets/images/featuredArtists/artist3.png";
+import spotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
+import soundcloudIcon from "../../assets/icons/soundCloudIcon.svg";
+import { configureAutoTrack } from "aws-amplify/analytics";
 
-const cacheImage = (url, key) => {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = () => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        localStorage.setItem(key, reader.result);
-        resolve(reader.result);
-      };
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.onerror = (err) => reject(err);
-    xhr.open("GET", url);
-    xhr.responseType = "blob";
-    xhr.send();
-  });
-};
-
-const getCachedImage = (key) => {
-  return localStorage.getItem(key);
-};
-
-const cacheImages = (urls) => {
-  const cachePromises = urls.map((url) => {
-    const key = `cache_${url}`;
-    return cacheImage(url, key);
-  });
-
-  return Promise.all(cachePromises);
-};
-
-const getCachedImages = (urls) => {
-  return urls.map((url) => {
-    const key = `cache_${url}`;
-    return getCachedImage(key);
-  });
-};
+configureAutoTrack({
+  // REQUIRED, turn on/off the auto tracking
+  enable: true,
+  // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
+  type: "pageView",
+  // OPTIONAL, additional options for the tracked event.
+  // OPTIONAL, the event name. By default, this is 'pageView'
+  eventName: "pageView",
+  // OPTIONAL, provide the URL for the event.
+  urlProvider: () => {
+    // the default function
+    // eslint-disable-next-line no-undef
+    return window.location.origin + window.location.pathname;
+  },
+});
 
 const getFeaturedArtists = () => {
   return [
