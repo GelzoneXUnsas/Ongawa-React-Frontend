@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
+import ToggleButton from "../../components/ToggleButton/ToggleButton";
+
+import headerBackgroundImg from "../../assets/images/headerBackground.png";
+import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
 
 import ongawaLogoNameBlack from "../../assets/icons/ongawaLogoNameBlack.png";
-import headerBackgroundImg from "../../assets/images/headerBackground.png";
 import ongawaTitle from "../../assets/icons/ongawaTitleModified.svg";
 import verifiedIcon from "../../assets/icons/verifiedIcon.svg";
 import discordIcon from "../../assets/icons/discordIcon.png";
@@ -112,6 +115,8 @@ const Homepage = () => {
   // let autoPlayDemoVideo = true;
   const [featuredArtists, setFeaturedArtists] = useState([]);
   const [cachedImages, setCachedImages] = useState({});
+  // activeVideo either "gameplay" or "ai"
+  const [activeVideo, setActiveVideo] = useState("gameplay");
   const navigate = useNavigate();
 
   let isLarge = useMediaQuery("(min-width: 1024px)");
@@ -162,67 +167,136 @@ const Homepage = () => {
 
   return (
     <>
-      {/* Background image div */}
-      <div
-        className="h-screen bg-cover relative"
-        style={{
-          backgroundImage: `linear-gradient(rgba(35,35,35,0.3), rgba(35,35,35,0.3)),
+      {/* Main Div */}
+      <div className="">
+        {/* Header Section */}
+        {/* Background image div */}
+        <div
+          className="h-screen bg-cover relative"
+          style={{
+            backgroundImage: `linear-gradient(rgba(35,35,35,0.3), rgba(35,35,35,0.3)),
            url(${cachedImages[headerBackgroundImg] || headerBackgroundImg})`,
-        }}
-      >
-        {/* Content inside background image */}
-        <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
-          {/* Ongawa Logo Icon */}
-          <img
-            src={ongawaLogoNameBlack}
-            alt="Ongawa Logo"
-            className="w-36 lg:w-48 h-auto mx-auto py-3 px-2 bg-color-ongawa-icon-background rounded-lg"
-          />
-          {/* Mobile Icons */}
-          <div className="lg:hidden flex flex-col justify-center gap-2">
-            <DownloadIcon icon={desktopIcon} header="Download" source="Demo" />
-            <DownloadIcon
-              icon={discordIcon}
-              header="Join Our"
-              source="Discord"
+          }}
+        >
+          {/* Content inside background image */}
+          <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
+            {/* Ongawa Logo Icon */}
+            <img
+              src={ongawaLogoNameBlack}
+              alt="Ongawa Logo"
+              className="w-36 lg:w-48 h-auto mx-auto py-3 px-2 bg-light-grey rounded-lg"
             />
-          </div>
-          {/* Desktop Icons */}
-          <div className="flex items-center justify-center">
-            <div className="hidden lg:flex flex-col gap-4">
-              {/* Row 1 */}
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <DownloadIcon
-                    icon={desktopIcon}
-                    header="Download on"
-                    source="PC"
-                  />
+            {/* Mobile Icons */}
+            <div className="lg:hidden flex flex-col justify-center gap-2">
+              <DownloadIcon
+                icon={desktopIcon}
+                header="Download"
+                source="Demo"
+              />
+              <DownloadIcon
+                icon={discordIcon}
+                header="Join Our"
+                source="Discord"
+              />
+            </div>
+            {/* Desktop Icons */}
+            <div className="flex items-center justify-center">
+              <div className="hidden lg:flex flex-col gap-4">
+                {/* Row 1 */}
+                <div className="flex gap-4">
+                  <div className="w-1/2">
+                    <DownloadIcon
+                      icon={desktopIcon}
+                      header="Download on"
+                      source="PC"
+                    />
+                  </div>
+                  {/* Empty placeholder to mimic an empty grid cell */}
+                  <div className="w-1/2"></div>
                 </div>
-                {/* Empty placeholder to mimic an empty grid cell */}
-                <div className="w-1/2"></div>
-              </div>
 
-              {/* Row 2 */}
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <DownloadIcon
-                    icon={appleIcon}
-                    header="Download on the"
-                    source="App Store"
-                  />
-                </div>
-                <div className="w-1/2">
-                  <DownloadIcon
-                    icon={googlePlayIcon}
-                    header="GET IT ON"
-                    source="Google Play"
-                  />
+                {/* Row 2 */}
+                <div className="flex gap-4">
+                  <div className="w-1/2">
+                    <DownloadIcon
+                      icon={appleIcon}
+                      header="Download on the"
+                      source="App Store"
+                    />
+                  </div>
+                  <div className="w-1/2">
+                    <DownloadIcon
+                      icon={googlePlayIcon}
+                      header="GET IT ON"
+                      source="Google Play"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {/* Gameplay Demo Section */}
+        <div
+          className="h-screen bg-cover relative"
+          style={{
+            backgroundImage: `linear-gradient(rgba(35,35,35,0.9), rgba(35,35,35,0.9)),
+           url(${
+             cachedImages[gameplayDemoBackgroundImg] ||
+             gameplayDemoBackgroundImg
+           })`,
+          }}
+        >
+          <div className="flex flex-col items-center mx-3">
+            <div>
+              {/* Toggle Buttons */}
+              <div className="flex justify-between md:justify-center w-full gap-4 mb-4 mt-32">
+                <ToggleButton
+                  title="Gameplay"
+                  isActive={activeVideo === "gameplay"}
+                  toggleButton={() => setActiveVideo("gameplay")}
+                />
+                <ToggleButton
+                  title="AI Feature"
+                  isActive={activeVideo === "ai"}
+                  toggleButton={() => setActiveVideo("ai")}
+                />
+              </div>
+              {/* Video Element */}
+              <div className="p-1  md:p-3  border-light-grey border-2 md:border-4">
+                <video
+                  key={activeVideo}
+                  className="max-h-[calc(100vh-24rem)] object-contain border-[#3A3749] border-2 md:border-4"
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  autoPlay
+                >
+                  <source
+                    src={
+                      activeVideo === "gameplay"
+                        ? "/Demovid.mp4"
+                        : "/AIVideo.mp4"
+                    }
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video
+                </video>
+              </div>
+            </div>
+            {/* Description Element */}
+            <p className="mt-8 mx-auto text-mukta-mahee font-semibold text-base text-white text-center max-w-2xl lg:hidden">
+              Lorem ipsum dolor sit amet consectetur. Gravida amet at egestas eu
+              elementum commodo. Euismod auctor tellus pretium natoque est eget
+              in. Gravida eget diam interdum turpis elementum nibh leo ultricies
+              vel. Diam in diam pulvinar sit curabitur cum adipiscing commodo
+              placerat.
+            </p>
+          </div>
+        </div>
+        {/* About Us Sectionv */}
+        <div></div>
       </div>
     </>
   );

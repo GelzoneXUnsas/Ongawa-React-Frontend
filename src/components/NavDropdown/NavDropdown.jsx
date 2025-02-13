@@ -16,7 +16,7 @@ const NavDropdown = ({
   return (
     <>
       {isMobileMenuOpen && (
-        <div className="z-20 h-full w-full position-absolute opacity-90 bg-dropdown-background">
+        <div className="z-20 h-full w-full position-absolute opacity-90 bg-dropdown-background-color">
           <div className="flex justify-end mt-4 mr-10">
             <img src={closeNavDropdown} onClick={() => closeMobileMenu()} />
           </div>
