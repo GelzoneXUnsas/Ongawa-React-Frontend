@@ -1,12 +1,6 @@
 import React from "react";
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import useMediaQuery from "@mui/material/useMediaQuery";
-
-// import styles from "./Homepage.module.css";
-
-import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
-import ToggleButton from "../../components/ToggleButton/ToggleButton";
 
 import {
   cacheImage,
@@ -15,9 +9,11 @@ import {
   getCachedImages,
 } from "../../utils/imageCache";
 
-import headerBackgroundImg from "../../assets/images/headerBackground.png";
-import ongawaTitle from "../../assets/icons/ongawaTitleModified.svg";
+import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
+import ToggleButton from "../../components/ToggleButton/ToggleButton";
 
+import headerBackgroundImg from "../../assets/images/headerBackground.png";
+import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
 import ongawaLogoNameBlack from "../../assets/icons/ongawaLogoNameBlack.png";
 import ongawaTitle from "../../assets/icons/ongawaTitleModified.svg";
 import verifiedIcon from "../../assets/icons/verifiedIcon.svg";
@@ -29,25 +25,6 @@ import googlePlayIcon from "../../assets/icons/googlePlayIcon.png";
 import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
 import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
 import artist3Image from "../../assets/images/featuredArtists/artist3.png";
-import spotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
-import soundcloudIcon from "../../assets/icons/soundCloudIcon.svg";
-import { configureAutoTrack } from "aws-amplify/analytics";
-
-configureAutoTrack({
-  // REQUIRED, turn on/off the auto tracking
-  enable: true,
-  // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
-  type: "pageView",
-  // OPTIONAL, additional options for the tracked event.
-  // OPTIONAL, the event name. By default, this is 'pageView'
-  eventName: "pageView",
-  // OPTIONAL, provide the URL for the event.
-  urlProvider: () => {
-    // the default function
-    // eslint-disable-next-line no-undef
-    return window.location.origin + window.location.pathname;
-  },
-});
 
 const getFeaturedArtists = () => {
   return [
@@ -91,16 +68,6 @@ const getFeaturedArtists = () => {
 // })
 //const appStoreDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
 //const googlePlayDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
-const featuredArtistsVariants = (isLarge) =>
-  isLarge
-    ? {
-        initial: { opacity: 0, y: -100 },
-        animate: { opacity: 1, y: 0 },
-      }
-    : {
-        initial: { opacity: 0, x: -100 },
-        animate: { opacity: 1, x: 0 },
-      };
 const Homepage = () => {
   // let autoPlayDemoVideo = true;
   const [featuredArtists, setFeaturedArtists] = useState([]);
@@ -109,13 +76,7 @@ const Homepage = () => {
   const [activeVideo, setActiveVideo] = useState("gameplay");
   const navigate = useNavigate();
 
-  let isLarge = useMediaQuery("(min-width: 1024px)");
-
   const featuredArtistsMemo = useMemo(() => getFeaturedArtists(), []);
-  const featured_artists_variants = useMemo(
-    () => featuredArtistsVariants(isLarge),
-    [isLarge]
-  );
 
   useEffect(() => {
     const imageUrls = [
