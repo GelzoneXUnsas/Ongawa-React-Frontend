@@ -21,24 +21,7 @@ import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
 import artist3Image from "../../assets/images/featuredArtists/artist3.png";
 import spotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
 import soundcloudIcon from "../../assets/icons/soundCloudIcon.svg";
-import { configureAutoTrack } from 'aws-amplify/analytics';
 
-configureAutoTrack({
-  // REQUIRED, turn on/off the auto tracking
-  enable: true,
-  // REQUIRED, the event type, it's one of 'event', 'pageView' or 'session'
-  type: 'pageView',
-  // OPTIONAL, additional options for the tracked event.
-    // OPTIONAL, the event name. By default, this is 'pageView'
-    eventName: 'pageView',
-    // OPTIONAL, provide the URL for the event.
-    urlProvider:  () => {
-      // the default function
-      // eslint-disable-next-line no-undef
-      return window.location.origin + window.location.pathname;
-    }
-  }
-);
 
 const cacheImage = (url, key) => {
   return new Promise((resolve, reject) => {
