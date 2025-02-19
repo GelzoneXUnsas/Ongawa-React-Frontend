@@ -1,37 +1,37 @@
 import React from "react";
-import { useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-
-import {
-  cacheImage,
-  getCachedImage,
-  cacheImages,
-  getCachedImages,
-} from "../../utils/imageCache";
+import { useState } from "react";
 
 import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
 import ToggleButton from "../../components/ToggleButton/ToggleButton";
+import MusicianSelector from "../../components/MusicianSelector/MusicianSelector";
 
 import headerBackgroundImg from "../../assets/images/headerBackground.png";
 import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
+import aboutUsBackgroundImg from "../../assets/images/galleryArt/art4.png";
+import musicianBackgroundImage from "../../assets/images/galleryArt/art9.png";
+
 import ongawaLogoNameBlack from "../../assets/icons/ongawaLogoNameBlack.png";
-import ongawaTitle from "../../assets/icons/ongawaTitleModified.svg";
-import verifiedIcon from "../../assets/icons/verifiedIcon.svg";
+
 import discordIcon from "../../assets/icons/discordIcon.png";
 import desktopIcon from "../../assets/icons/desktopIcon.png";
 import appleIcon from "../../assets/icons/appleIcon.png";
 import googlePlayIcon from "../../assets/icons/googlePlayIcon.png";
 
-import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
-import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
-import artist3Image from "../../assets/images/featuredArtists/artist3.png";
+import musicianImage1 from "../../assets/images/featuredArtists/musicianModel1.png";
+import musicianImage2 from "../../assets/images/featuredArtists/musicianModel2.png";
+import musicianImage3 from "../../assets/images/featuredArtists/musicianModel3.png";
 
-const getFeaturedArtists = () => {
+import musicianIcon1 from "../../assets/images/musicianIcons/musicianIcon1.png";
+import musicianIcon2 from "../../assets/images/musicianIcons/musicianIcon2.png";
+import musicianIcon3 from "../../assets/images/musicianIcons/musicianIcon3.png";
+
+const getFeaturedMusicians = () => {
   return [
     {
       name: "Techno Maestro",
       id: 1,
-      image: artist1Image,
+      image: musicianImage1,
+      imageIcon: musicianIcon1,
       playcount: 538,
       songcount: 25,
       spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
@@ -40,7 +40,8 @@ const getFeaturedArtists = () => {
     {
       name: "The Shadow Weaver",
       id: 2,
-      image: artist2Image,
+      image: musicianImage2,
+      imageIcon: musicianIcon2,
       playcount: 386,
       songcount: 16,
       spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
@@ -49,7 +50,8 @@ const getFeaturedArtists = () => {
     {
       name: "The Sound Sorcerer",
       id: 3,
-      image: artist3Image,
+      image: musicianImage3,
+      imageIcon: musicianIcon3,
       playcount: 479,
       songcount: 14,
       spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
@@ -58,75 +60,25 @@ const getFeaturedArtists = () => {
   ];
 };
 
-// const sparkle =(delay, offset) => ({
-//   startingPos: {x: -100, opacity: 0},
-//   endingPos: {
-//       x: 0,
-//       opacity: 1,
-//       transition: {duration: 0.5, delay: delay}
-//   }
-// })
-//const appStoreDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
-//const googlePlayDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
 const Homepage = () => {
-  // let autoPlayDemoVideo = true;
-  const [featuredArtists, setFeaturedArtists] = useState([]);
-  const [cachedImages, setCachedImages] = useState({});
   // activeVideo either "gameplay" or "ai"
   const [activeVideo, setActiveVideo] = useState("gameplay");
-  const navigate = useNavigate();
+  const musicians = getFeaturedMusicians();
+  const [currentMusician, setCurrentMusician] = useState(musicians[0]);
 
-  const featuredArtistsMemo = useMemo(() => getFeaturedArtists(), []);
-
-  useEffect(() => {
-    const imageUrls = [
-      verifiedIcon,
-      artist1Image,
-      artist2Image,
-      artist3Image,
-      headerBackgroundImg,
-      ongawaTitle,
-    ];
-    const cachedImageUrls = getCachedImages(imageUrls);
-
-    const uncachedUrls = imageUrls.filter(
-      (url, index) => !cachedImageUrls[index]
-    );
-
-    if (uncachedUrls.length > 0) {
-      cacheImages(uncachedUrls)
-        .then(() => {
-          const updatedCachedImages = imageUrls.reduce((acc, url) => {
-            acc[url] = getCachedImage(`cache_${url}`);
-            return acc;
-          }, {});
-          setCachedImages(updatedCachedImages);
-        })
-        .catch((err) => {
-          console.error("Error caching images:", err);
-        });
-    } else {
-      const updatedCachedImages = imageUrls.reduce((acc, url) => {
-        acc[url] = cachedImageUrls[imageUrls.indexOf(url)];
-        return acc;
-      }, {});
-      setCachedImages(updatedCachedImages);
-    }
-
-    setFeaturedArtists(featuredArtistsMemo);
-  }, [featuredArtistsMemo]);
+  // TODO: Implement Cache
 
   return (
     <>
       {/* Main Div */}
-      <div className="">
+      <div className="bg-page-background-purple">
         {/* Header Section */}
         {/* Background image div */}
         <div
           className="h-screen bg-cover relative"
           style={{
             backgroundImage: `linear-gradient(rgba(35,35,35,0.3), rgba(35,35,35,0.3)),
-           url(${cachedImages[headerBackgroundImg] || headerBackgroundImg})`,
+           url(${headerBackgroundImg})`,
           }}
         >
           {/* Content inside background image */}
@@ -187,21 +139,21 @@ const Homepage = () => {
             </div>
           </div>
         </div>
+
         {/* Gameplay Demo Section */}
+        {/* Background image div */}
         <div
           className="h-screen bg-cover relative"
           style={{
             backgroundImage: `linear-gradient(rgba(35,35,35,0.9), rgba(35,35,35,0.9)),
-           url(${
-             cachedImages[gameplayDemoBackgroundImg] ||
-             gameplayDemoBackgroundImg
-           })`,
+           url(${gameplayDemoBackgroundImg})`,
           }}
         >
+          {/* Content inside background image */}
           <div className="flex flex-col items-center mx-3">
             <div>
               {/* Toggle Buttons */}
-              <div className="flex justify-between md:justify-center w-full gap-4 mb-4 mt-32">
+              <div className="flex justify-between md:justify-center w-full gap-4 mb-4 mt-32 md:mt-8">
                 <ToggleButton
                   title="Gameplay"
                   isActive={activeVideo === "gameplay"}
@@ -214,7 +166,7 @@ const Homepage = () => {
                 />
               </div>
               {/* Video Element */}
-              <div className="p-1  md:p-3  border-light-grey border-2 md:border-4">
+              <div className="p-1 md:p-3 border-light-grey border-2 md:border-4">
                 <video
                   key={activeVideo}
                   className="max-h-[calc(100vh-24rem)] object-contain border-[#3A3749] border-2 md:border-4"
@@ -246,8 +198,68 @@ const Homepage = () => {
             </p>
           </div>
         </div>
-        {/* About Us Sectionv */}
-        <div></div>
+
+        {/* About Us Section */}
+        <div className="h-screen relative flex flex-col">
+          {/* Top Half: Image with circular gradient */}
+          <div className="h-1/2 relative">
+            {/* Full-width background image */}
+            <div className="absolute inset-0">
+              <img
+                src={aboutUsBackgroundImg}
+                alt="About Us"
+                className="w-full h-full object-cover"
+              />
+
+              {/* Circular Gradient Overlay that creates the circular effect */}
+              <div
+                className="absolute inset-[-1px] flex items-center justify-center"
+                style={{
+                  background:
+                    "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 250px)",
+                }}
+              ></div>
+            </div>
+          </div>
+          {/* Bottom Half: Description */}
+          <div className="h-1/2 flex flex-col items-center justify-center px-8 py-4">
+            <p className="z-1 mb-4 text-mukta-mahee font-semibold text-white text-center">
+              Ongawa is a rhythm game that goes beyond entertainment. We've
+              crafted an experience that seamlessly weaves together immersive
+              storytelling and game mechanics, placing music at the forefront.
+              But we're not stopping there.
+            </p>
+            <p className="z-1 text-mukta-mahee font-semibold text-white text-center">
+              Our website platform is a collaborative space where creators can
+              share their compositions, their passions, and their stories. With
+              the ability to integrate music distribution services right into
+              our website, an artist's creations won't just be confined to the
+              game. They'll reach a broader audience, helping them gain the
+              recognition they deserve.
+            </p>
+          </div>
+        </div>
+
+        {/* Artist Section */}
+        <div className="h-screen flex flex-col items-center">
+          <div className="mt-20">
+            <MusicianSelector
+              musicians={musicians}
+              currentMusician={currentMusician}
+              setCurrentMusician={setCurrentMusician}
+            />
+          </div>
+          {/* Background image div */}
+          <div
+            className="h-4/6 mt-4 bg-cover relative"
+            style={{
+              backgroundImage: `linear-gradient(rgba(35,35,35,0.2), rgba(35,35,35,0.3)),
+           url(${musicianBackgroundImage})`,
+            }}
+          >
+            <img src={currentMusician.image} />
+          </div>
+        </div>
       </div>
     </>
   );
