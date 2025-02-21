@@ -19,6 +19,8 @@ export default {
       },
 
       colors: {
+        "main-purple": "#3E3E7E",
+        "secondary-purple": "#6D6D99",
         "page-background": "#2d2c5f",
         "page-background-purple": "#1D1D2E",
         "page-accent-gray": "#242424",

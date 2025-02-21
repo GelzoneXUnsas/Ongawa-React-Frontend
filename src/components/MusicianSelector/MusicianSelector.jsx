@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
+import { MusicianShape } from "../../types/types";
+
 import emptyIcon from "../../assets/images/musicianIcons/musicianIconEmpty.png";
 import leftArrowIcon from "../../assets/icons/leftArrowIcon.png";
 import rightArrowIcon from "../../assets/icons/rightArrowIcon.png";
@@ -49,7 +51,9 @@ const MusicianSelector = ({
       </button>
 
       {/* Musician Cells */}
-      <div className="flex gap-3">
+      <div className="flex gap-3 relative">
+        {/* Decorative Boxes */}
+        <div className="z-0 " />
         {displayedMusicians.map((musician) => (
           <div
             key={musician.id}
@@ -80,16 +84,8 @@ const MusicianSelector = ({
 };
 
 MusicianSelector.propTypes = {
-  musicians: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-      imageIcon: PropTypes.string.isRequired,
-      name: PropTypes.string,
-    })
-  ).isRequired,
-  currentMusician: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  }),
+  musicians: PropTypes.arrayOf(MusicianShape).isRequired,
+  currentMusician: MusicianShape.isRequired,
   setCurrentMusician: PropTypes.func.isRequired,
 };
 

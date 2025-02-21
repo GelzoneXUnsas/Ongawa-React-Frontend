@@ -4,6 +4,7 @@ import { useState } from "react";
 import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
 import ToggleButton from "../../components/ToggleButton/ToggleButton";
 import MusicianSelector from "../../components/MusicianSelector/MusicianSelector";
+import InformationBox from "../../components/InformationBox/InformationBox";
 
 import headerBackgroundImg from "../../assets/images/headerBackground.png";
 import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
@@ -224,24 +225,25 @@ const Homepage = () => {
           {/* Bottom Half: Description */}
           <div className="h-1/2 flex flex-col items-center justify-center px-8 py-4">
             <p className="z-1 mb-4 text-mukta-mahee font-semibold text-white text-center">
-              Ongawa is a rhythm game that goes beyond entertainment. We've
+              Ongawa is a rhythm game that goes beyond entertainment. We&apos;ve
               crafted an experience that seamlessly weaves together immersive
               storytelling and game mechanics, placing music at the forefront.
-              But we're not stopping there.
+              But we&apos;re not stopping there.
             </p>
             <p className="z-1 text-mukta-mahee font-semibold text-white text-center">
               Our website platform is a collaborative space where creators can
               share their compositions, their passions, and their stories. With
               the ability to integrate music distribution services right into
-              our website, an artist's creations won't just be confined to the
-              game. They'll reach a broader audience, helping them gain the
-              recognition they deserve.
+              our website, an artist&apos;s creations won&apos;t just be
+              confined to the game. They&apos;ll reach a broader audience,
+              helping them gain the recognition they deserve.
             </p>
           </div>
         </div>
 
         {/* Artist Section */}
-        <div className="h-screen flex flex-col items-center">
+        <div className="h-screen flex flex-col items-center relative">
+          {/* Musician Selector */}
           <div className="mt-20">
             <MusicianSelector
               musicians={musicians}
@@ -249,16 +251,27 @@ const Homepage = () => {
               setCurrentMusician={setCurrentMusician}
             />
           </div>
-          {/* Background image div */}
-          <div
-            className="h-4/6 mt-4 bg-cover relative"
-            style={{
-              backgroundImage: `linear-gradient(rgba(35,35,35,0.2), rgba(35,35,35,0.3)),
-           url(${musicianBackgroundImage})`,
-            }}
-          >
-            <img src={currentMusician.image} />
+
+          {/* Background image and gradient overlay container */}
+          <div className="mt-4 w-full relative">
+            {/* Background image */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${musicianBackgroundImage})` }}
+            />
+
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
+
+            {/* Artist image */}
+            <img
+              src={currentMusician.image}
+              className="relative z-10 w-full h-full object-contain"
+              alt={currentMusician.name}
+            />
           </div>
+          <InformationBox currentMusician={currentMusician} />
         </div>
       </div>
     </>
