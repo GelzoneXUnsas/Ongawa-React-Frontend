@@ -1,384 +1,150 @@
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-// import styles from "./BeatmapListingPage.module.css";
-// import homeStyles from "../Homepage/Homepage.module.css";
+import { useState } from "react";
 
-import React from "react";
-import axios from "axios";
-
-import headerBackgroundImg from '../../assets/images/headerBackground.png';
+import cover1 from "../../assets/images/musicCovers/celticwhispersballadHD.png";
+import cover2 from "../../assets/images/musicCovers/neonpulsesymHD.png";
+import cover3 from "../../assets/images/musicCovers/celestialechoesHD.png";
+import cover4 from "../../assets/images/musicCovers/nocturnalpursuitHD.png";
+import filterIcon from "../../assets/icons/filterIcon.svg";
 import searchIcon from '../../assets/icons/searchIcon.svg';
 
+const beatmaps = [
+  {
+    title: "Neon Pulse Symphony",
+    artist: "Techno Maestro",
+    mappedBy: "Techno Maestro",
+    image: cover1,
+    difficulty: "medium",
+    likes: 0,
+    plays: 0
+  },
+  {
+    title: "Celtic Whispers Ballad",
+    artist: "Folklore Minstrel",
+    mappedBy: "Folklore Minstrel",
+    image: cover2,
+    difficulty: "hard",
+    likes: 2,
+    plays: 0
+  },
+  {
+    title: "Celestial Echoes",
+    artist: "Celestial Harmonics",
+    mappedBy: "StarNavigator",
+    image: cover3,
+    difficulty: "easy",
+    likes: 0,
+    plays: 1
+  },
+  {
+    title: "Neon Pulse Symphony",
+    artist: "ShadowWeaver",
+    mappedBy: "ShadowWeaver",
+    image: cover4,
+    difficulty: "medium",
+    likes: 0,
+    plays: 0
+  },
+  {
+    title: "Tokyo, Japan",
+    artist: "Liam Burnett-Blue",
+    mappedBy: "Unsplash",
+    image: cover2,
+    difficulty: "medium",
+    likes: 0,
+    plays: 0
+  },
+  {
+    title: "Flowering Blossoms",
+    artist: "Meric Dağlı",
+    mappedBy: "meric",
+    image: cover4,
+    difficulty: "medium",
+    likes: 0,
+    plays: 0
+  },
+];
 
-import bmDiffIcon from '../../assets/icons/bmDifficultyIcon.svg';
-import easyDiffIcon from '../../assets/icons/easyCircleIcon.svg';
-import normalDiffIcon from '../../assets/icons/normalCircleIcon.svg';
-import hardDiffIcon from '../../assets/icons/hardCircleIcon.svg';
-import playIcon from '../../assets/icons/playIcon.svg';
-import heartIcon from '../../assets/icons/heartIcon.svg';
+export default function BeatmapsPage() {
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  // const [hoveredItem, setHoveredItem] = useState(null);
+  // const [isSearchActive, setIsSearchActive] = useState(false);
 
+  const filteredBeatmaps = beatmaps.filter((b) =>
+    b.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-//images for beatmap covers 
-import cover1 from '../../assets/images/musicCovers/celticwhispersballad.png';
-import cover2 from '../../assets/images/musicCovers/neonpulsesym.png';
-import cover3 from '../../assets/images/musicCovers/celestialechoes.png';
-import cover4 from '../../assets/images/musicCovers/nocturnalpursuit.png';
-
-const albumCovers = [cover1, cover2, cover3, cover4];
-
-// const BACKEND_URL = 'http://localhost:5001';
-const BACKEND_URL = 'http://api-virtuosos.us-west-1.elasticbeanstalk.com';
-
-function BeatmapListingPage() {
-    const beatmap_list = {
-        beatmap_info: 
-            [
-                {
-                    id : 1,
-                    songName : 'Celtic Whispers Ballad',
-                    artist : 'Folklore Minstrel',
-                    beatmap_artist : 'Folklore Minstrel',
-                    songCoverImg: 'cover1',
-                    artistImg: 'artist2Image',
-                    releaseDate: '2024-05-18',
-                    difficultyLink : ['Easy', 'Normal', 'Hard'],
-                    playCount: 504,
-                    likeCount: 145,
-                    songDuration: '3:45',
-                    bpm : 145,
-                    noteCount: 1000,
-                    sliderCount: 50,
-                    source: "Folklore Chronicles World",
-                    tags: ['Celtic', 'Folklore', 'Traditional', 'World'],
-                    description: 'Embark on a folkloric journey with "Celtic Whispers Ballad." Folklore Minstrel, both artist and beatmap creator, weaves traditional tunes into an immersive experience. Each note carries the essence of a rich musical adventure.'
-                },
-                {
-                    id : 2,
-                    songName : 'Neon Pulse Symphony',
-                    artist : 'Techo Maestro',
-                    beatmap_artist : 'Techo Maestro',
-                    songCoverImg: 'cover2',
-                    artistImg: 'artist1Image',
-                    releaseDate: '2025-05-18',
-                    difficultyLevels : ['Easy', 'Normal', 'Hard'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '2:30',
-                    bpm : 150,
-                    noteCount: 800,
-                    sliderCount: 61,
-                    source: "Techno Adventures World",
-                    tags: ['Neon', 'Synthwave'],
-                    description : 'Dive into the cutting-edge realm of Techno Adventures World, where futuristic technology meets thrilling escapades. Explore cyber landscapes, master advanced gadgets, and overcome digital challenges in this electrifying journey through the next frontier.'
-                },
-                {
-                    id : 3,
-                    songName : 'Celestial Echoes',
-                    artist : 'Celestial Harmonics',
-                    beatmap_artist : 'StarNavigator',
-                    songCoverImg: 'cover3',
-                    artistImg: 'artist3Image',
-                    releaseDate: '2023-05-18',
-                    difficultyLink : ['Easy', 'Normal'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '1:55',
-                    bpm : 220,
-                    noteCount: 780,
-                    sliderCount: 43,
-                    source: "Celestial Harmonics Universe",
-                    tags: ['Night', 'Starry'],
-                    description: "Immerse yourself in the ethereal beauty of the Celestial Harmonics Universe. This cosmic odyssey blends astral melodies with interstellar exploration, creating a symphony of wonder and discovery among the stars. Let the harmonies guide you through the celestial expanse."
-    
-                },
-                {
-                    id : 4,
-                    songName : 'Nocturnal Pursuit',
-                    artist : 'ShadowWeaver',
-                    beatmap_artist : 'ShadowWeaver',
-                    songCoverImg: 'cover4',
-                    artistImg: 'artist1Image',
-                    releaseDate: '2022-05-18',
-                    difficultyLink : ['Easy', 'Normal'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '4:03',
-                    bpm : 120,
-                    noteCount: 607,
-                    sliderCount: 76,
-                    source: "ShadowWeaver Mysteries",
-                    tags: ['Dark', 'Mystery'],
-                    description : 'Embark on a shadowy journey through the enigmatic world of ShadowWeaver Mysteries. Unravel secrets, solve riddles, and uncover hidden truths in this mysterious realm. Each note is a clue, each beat a step closer to the truth.'
-                }
-            ]
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      setSearchTerm(searchInput);
     }
-    const [originalBeatmapList, setOriginalBeatmapList] = useState([]);
-    const [beatmapList, setBeatmapList] = useState([]);
-    const [searchParams] = useSearchParams();
-    const searchQuery = searchParams.get('search');
+  };
 
-    const [query, setQuery] = useState(searchQuery || '');
-    const [sortOption, setSortOption] = useState('newest');
-    // const [results, setResults] = useState([]);
+  // // Function to render difficulty indicator
+  // const DifficultyIndicator = ({ difficulty }) => {
+  //   return (
+  //     <div className="flex gap-1">
+  //       <div className="h-4 w-1 rounded-full bg-green-500"></div>
+  //       <div className="h-4 w-1 rounded-full bg-yellow-500"></div>
+  //       <div className={`h-4 w-1 rounded-full ${difficulty === "hard" ? "bg-red-500" : "bg-gray-500"}`}></div>
+  //     </div>
+  //   );
+  // };
 
-    async function fetchAll() {
-        try {
-            const route = BACKEND_URL + '/beatmapListing/' + (searchQuery? ('?search=' + searchQuery) : '');
-            // console.log('ROUTE', route);
-            const response = await axios.get(route);
-            return response.data.beatmap_info;
-        }
-        catch (error) {
-            console.log('FETCH_ALL', error);
-            console.log('Returning static beatmaps')
-            return beatmap_list.beatmap_info;
-        }
-    }
+  // const handleSearchClear = () => {
+  //   setSearch("");
+  // };
 
-    useEffect(() => {
-        document.title = 'Beatmaps - Ongawa';
-        fetchAll().then(result => {
-            console.log('RESULT', result);
-            if (result) setBeatmapList(result);
-            setOriginalBeatmapList(result);
-        });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const handleSort = useCallback((option) => {
-        let sortedList = [...beatmapList];
-        if (option === 'alphabetical') {
-            sortedList.sort((a, b) => a.songName.localeCompare(b.songName));
-        } else if (option === 'newest') {
-            sortedList.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
-        } else if (option === 'oldest') {
-            sortedList.sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
-        }
-        setBeatmapList(sortedList);
-    }, [beatmapList]);
-
-    useEffect(() => {
-        handleSort(sortOption);
-    }, [sortOption, beatmapList, handleSort]);
-
-    // uncomment this to use api call for search (how it is commonly done)
-    // const handleSearch = async (e) => {
-    //     e.preventDefault();
-    //     // setQuery(e.target.value);
-    //     const result = await makeGetCall(query);
-    //     if (result && result.data) {
-    //         setBeatmapList(result.data.beatmap_info);
-    //     }
-    // };
-
-    // uncomment this too to use with handleSearch
-    // async function makeGetCall(keyword) {
-    //     try {
-    //         const route = BACKEND_URL + '/beatmapListing' + (keyword ? `?search=${keyword}` : '');
-    //         const response = await axios.get(route);
-    //         return response;
-    //     } catch (error) {
-    //         console.log("makeGetCall", error);
-    //         return false;
-    //     }
-    // }
-
-    const handleInputChange = (e) => {
-        setQuery(e.target.value);
-        // console.log('input', e.target.value);
-    };
-    
-
-
-    // can delete this function and the call to this function after backend is established
-    // this function just checks if the backend fetchall call succeded and populated the beatmaplist. if not, it sets it to the default static beatmaps
-    function check(e){
-        if (beatmapList.length === 0){
-            console.log('setting default beatmapList',beatmapList)
-            setBeatmapList(beatmap_list.beatmap_info);
-            setOriginalBeatmapList(beatmap_list.beatmap_info);
-        }
-    }
-    check();
-
-    //delete everything below and replace with the handleSearch function above when backend is established
-    // this is another way to search filter since normally we want to make get requests to the backend with search parameters but since no backend yet
-    // we will have to just filter the beatmapList useState variable on the server (not ideal)
-
-    const handleSearchStatic = (e) => {
-        e.preventDefault();
-    
-        // If the query is empty, reset to the original list
-        if (query.trim() === '') {
-            setBeatmapList(originalBeatmapList);
-            return;
-        }
-    
-        // Convert query to lowercase to make the search case-insensitive
-        const lowercaseQuery = query.toLowerCase();
-    
-        // Filter the beatmapList based on the query
-        const filteredBeatmaps = originalBeatmapList.filter((beatmap) => {
-            return (
-                beatmap.songName.toLowerCase().includes(lowercaseQuery) ||
-                beatmap.artist.toLowerCase().includes(lowercaseQuery) ||
-                beatmap.beatmap_artist.toLowerCase().includes(lowercaseQuery) ||
-                beatmap.source.toLowerCase().includes(lowercaseQuery) ||
-                beatmap.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
-                beatmap.description.toLowerCase().includes(lowercaseQuery)
-            );
-        });
-    
-        setBeatmapList(filteredBeatmaps);
-    };
-    
-
-    // only until here for deleting search stuff
-
-    return (
-        <div className="beatmapListingPage w-full bg-page-accent-gray overflow-hidden text-center text-white text-body-overpass-base font-body-overpass min-h-screen scrollbar-hide">
-            
-            <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
-                <div className="bgImgContainer w-full lg:-mt-64">
-                    <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
-                </div>
-                <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">BEATMAPS</div>
-                <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
-            </div>
-            <div className="searchBarContainer flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    onChange={handleInputChange}
-                    class="flex-grow py-2 px-4 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-900"
-                />
-                <button
-                    type="button"
-                    onClick={handleSearchStatic}
-                    class="px-4 py-2 text-white rounded-r-lg border-none hover:bg-page-accent-gray focus:outline-none focus:ring-2 focus:ring-purple-900 transform transition-transform duration-300 hover:scale-105"
-                    style={{
-                        backgroundColor: '#2d2c5f',
-                        border: "none",
-                    }}
-                >
-                    <img src={searchIcon} alt="Search" className="w-5 h-5" />
-                </button>
-            </div>
-
-            <div className="sortByContainer flex px-4 justify-start">
-                <select
-                    value={sortOption}
-                    onChange={(e) => setSortOption(e.target.value)}
-                    className="sortByDropdown w-52 py-2 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56 cursor-pointer"
-                    style={{
-                        background: `url('arrow icon here') no-repeat right center`,
-                        backgroundColor: '#1f2937'
-                    }}
-                >
-                    <option value="newest">Sort by: Newest</option>
-                    <option value="oldest">Sort by: Oldest</option>
-                    <option value="alphabetical">Sort by: Alphabetical</option>
-                </select>
-            </div>
-
-            {/* <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown button
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </div> */}
-
-
-            {/* <div className={styles.beatmapListingFilterItem}>
-                    <select className={styles.beatmapListingFilterItem} placeholder="sort by">
-                        <option value="1">sort by: newest</option>
-                        <option value="2">sort by: oldest</option>
-                        <option value="3">sort by: most played</option>
-                        <option value="4">sort by: least played</option>
-                    </select>
-                </div> */}
-            
-            <div className="bmListingDisplayModeContainer flex flex-col font-title-lexend text-[16px] font-bold pt-4 text-white items-center ">
-                <div className="bmListingDisplayMode w-1/4 text-white flex justify-center">songs</div>
-                {/* <div className={styles.bmListinDisplayModeItem}>artists</div> */}
-                <hr className="hr flex w-4/5"></hr>
-            </div>
-
-            <BeatmapList beatmapList={beatmapList} />
-            
+  return (
+    <div className="p-6 md:p-6 bg-[#2D294C] min-h-screen text-white mt-16">
+      <div className="flex items-center gap-10 mb-6">
+        <div className="relative w-full max-w-full bg-[#6D6D99] rounded flex items-center">
+          <input
+            type="text"
+            placeholder="Search ..."
+            className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg"
+            style={{ border: "none"}} // to override styling in index.css (temporary)
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <div className="w-px h-6 bg-white mx-3"></div>
+          <img src={searchIcon} alt="Search" className="w-6 h-6 fill-white-500 mr-4" />
         </div>
-    );
+        <button
+          className="bg-[#6D6D99] text-white px-10 rounded border-none flex items-center gap-2"
+          style={{
+            backgroundColor: "#6D6D99",
+            color: "white",
+            border: "none",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#6D6D99";
+            e.currentTarget.style.border = "none";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "#6D6D99";
+            e.currentTarget.style.border = "none";
+          }}
+        >
+          <img src={ filterIcon } className="w-7 h-7"/>
+          Filter
+        </button>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        {filteredBeatmaps.map((beatmap, index) => (
+          <div key={index} className="p-4 rounded-xl hover:bg-[#1D1D2E] cursor-pointer">
+            <img
+              src={beatmap.image}
+              alt={beatmap.title}
+              className="rounded-lg mb-4 w-full h-70 object-cover"
+            />
+            <h3 className="text-lg font-semibold m-0">{beatmap.title}</h3>
+            <p className="text-sm text-gray-400 mb-2">{beatmap.artist}</p>
+            <p className="text-xs text-gray-500">Mapped: {beatmap.mappedBy}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
-
-
-function BeatmapList (props) {
-    const navigate = useNavigate();
-    
-    const rows = props.beatmapList.map((beatmap, index) => {
-        return ( 
-            <div key={index} className="beatmapItemContainer px-4">
-                <button type="button" 
-                    className="beatMapButton flex flex-row justify-center items-center bg-white w-[21rem] h-36  relative overflow-hidden transform transition-transform duration-300 hover:scale-105" 
-                    onClick={() => navigate(`/beatmap?id=${beatmap.id}`)}
-                >
-                    <div className="beatMapItemContainer flex flex-row justify-center items-center gap-2">
-                        <div className="musicCoverContainer flex flex-shrink-0 rounded-lg w-20 h-20 overflow-hidden">
-                            <img src={albumCovers[beatmap.id-1]}  className="object-cover w-full h-full" alt="" />
-                        </div>
-                        <div className="musicInfo flex flex-col text-left justify-center font-body-overpass leading-6 w-56">
-                            <div className="songTitleText flex text-left font-bold text-body-overpass-base  text-black">
-                                {beatmap.songName}
-                            </div>
-
-                            <div className="artistText w-full relative text-sm font-medium text-black text-left flex items-center">
-                                {beatmap.artist}
-                            </div>
-
-                            <div className="mappedByText pt-3 w-full relative text-sm font-medium text-black text-left inline-block">
-                                mapped by {beatmap.beatmap_artist}
-                            </div>
-                            
-                            <div className="gameInfoSection flex justify-between ">
-                                <div className="difficultySection flex gap-1">
-                                    <img src={bmDiffIcon} className="difficultyIcons w-3" alt="" />
-                                    <img src={easyDiffIcon}  className="difficultyIcons w-3" alt="" />
-                                    <img src={normalDiffIcon} className="difficultyIcons w-3" alt="" />
-                                    <img src={hardDiffIcon} className="difficultyIcons w-3" alt="" />
-                                </div>
-                                <div className="mapStatsSection flex gap-3 items-center text-center">
-                                    <div className="playCounts flex text-sm gap-1 font-normal items-center text-black">
-                                        <img src={playIcon} className="playIcon w-4 object-fit" alt="" />
-                                        <b className="items-center justify-center">
-                                            {beatmap.playCount}
-                                        </b>
-                                    </div>
-                                    <div className="likeCounts flex text-sm gap-1 font-normal items-center text-black">
-                                        <img src={heartIcon} className="heartIcon w-4 object-fit" alt="" />
-                                        <b>
-                                            {beatmap.likeCount}
-                                        </b>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </button>
-            </div>
-        );
-    });
-    return (
-        <div className="bmListContainer flex flex-row flex-wrap justify-center pt-2git  gap-2">
-            {rows}
-        </div>
-    );
-}
-
-export default BeatmapListingPage;
-
-
-
-
