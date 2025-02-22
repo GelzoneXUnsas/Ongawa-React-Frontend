@@ -289,7 +289,7 @@ const Homepage = () => {
         {/* Artist Section */}
         <div className="h-screen flex flex-col items-center relative">
           {/* Musician Selector */}
-          <div className="mt-20">
+          <div className="mt-16 mb-4 z-10">
             <MusicianSelector
               musicians={musicians}
               currentMusician={currentMusician}
@@ -298,10 +298,10 @@ const Homepage = () => {
           </div>
 
           {/* Background image and gradient overlay container */}
-          <div className="mt-4 w-full relative">
+          <div className="flex-grow w-full relative">
             {/* Background image */}
             <div
-              className="absolute inset-0 bg-cover bg-center"
+              className="absolute inset-0 w-full h-full bg-cover bg-center"
               style={{ backgroundImage: `url(${musicianBackgroundImage})` }}
             />
 
@@ -311,8 +311,8 @@ const Homepage = () => {
 
             {/* Artist image */}
             <img
+              className="absolute top-4 z-10 w-full h-auto object-contain object-top"
               src={currentMusician.image}
-              className="relative z-10 w-full h-full object-contain"
               alt={currentMusician.name}
             />
           </div>

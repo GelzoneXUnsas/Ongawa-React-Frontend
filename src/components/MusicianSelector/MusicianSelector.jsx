@@ -15,28 +15,29 @@ const MusicianSelector = ({
   const selectorCount = 4;
   const [startIndex, setStartIndex] = useState(0);
 
-  // Calculate the displayed musicians, filling with empty icons if necessary
-  const displayedMusicians = musicians
-    .slice(startIndex, startIndex + selectorCount)
-    .concat(
-      Array(Math.max(0, selectorCount - musicians.length + startIndex)).fill({
+  // Ensure we have exactly `selectorCount` items by filling with empty icons
+  const displayedMusicians = [
+    ...musicians.slice(startIndex, startIndex + selectorCount),
+    ...Array(Math.max(0, selectorCount - (musicians.length - startIndex))).fill(
+      {
         id: `empty-${startIndex}`,
         imageIcon: emptyIcon,
         name: "Empty",
-      })
-    )
-    .slice(0, selectorCount);
+      }
+    ),
+  ].slice(0, selectorCount); // Always keep length at `selectorCount`
 
   const handlePrev = () => {
-    if (startIndex > 0) {
-      setStartIndex(startIndex - selectorCount);
-    }
+    setStartIndex((prev) => Math.max(0, prev - selectorCount));
   };
 
   const handleNext = () => {
-    if (startIndex + selectorCount < musicians.length) {
-      setStartIndex(startIndex + selectorCount);
-    }
+    setStartIndex((prev) =>
+      Math.min(
+        prev + selectorCount,
+        Math.max(0, musicians.length - selectorCount)
+      )
+    );
   };
 
   return (
@@ -52,15 +53,13 @@ const MusicianSelector = ({
 
       {/* Musician Cells */}
       <div className="flex gap-3 relative">
-        {/* Decorative Boxes */}
-        <div className="z-0 " />
         {displayedMusicians.map((musician) => (
           <div
             key={musician.id}
             onClick={() =>
               musician.imageIcon !== emptyIcon && setCurrentMusician(musician)
             }
-            className={`flex items-center justify-center rounded-full  ${
+            className={`flex items-center justify-center rounded-full cursor-pointer ${
               currentMusician?.id === musician.id
                 ? "outline outline-3 outline-[#a482be]"
                 : ""
