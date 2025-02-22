@@ -227,7 +227,7 @@ const Homepage = () => {
                     src={
                       activeVideo === "gameplay"
                         ? "/Demovid.mp4"
-                        : "/AIVideo.mp4"
+                        : "/EditorDemo.mp4"
                     }
                     type="video/mp4"
                   />

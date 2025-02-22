@@ -15,7 +15,7 @@ const MusicianSelector = ({
   const selectorCount = 4;
   const [startIndex, setStartIndex] = useState(0);
 
-  // Ensure we have exactly `selectorCount` items by filling with empty icons
+  // calculate the displayed musicians based on startIndex
   const displayedMusicians = [
     ...musicians.slice(startIndex, startIndex + selectorCount),
     ...Array(Math.max(0, selectorCount - (musicians.length - startIndex))).fill(
@@ -25,7 +25,7 @@ const MusicianSelector = ({
         name: "Empty",
       }
     ),
-  ].slice(0, selectorCount); // Always keep length at `selectorCount`
+  ].slice(0, selectorCount);
 
   const handlePrev = () => {
     setStartIndex((prev) => Math.max(0, prev - selectorCount));
@@ -53,6 +53,10 @@ const MusicianSelector = ({
 
       {/* Musician Cells */}
       <div className="flex gap-3 relative">
+        {/* Decorative Boxes */}
+        <div className="absolute top-6 -z-10 border-3 border-secondary-purple h-10 w-[105%] left-1/2 -translate-x-1/2"></div>
+        <div className="absolute top-8 -z-10 border-2 border-secondary-purple h-6 w-[100%] left-1/2 -translate-x-1/2"></div>
+
         {displayedMusicians.map((musician) => (
           <div
             key={musician.id}
