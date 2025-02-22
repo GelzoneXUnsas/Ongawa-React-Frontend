@@ -25,34 +25,44 @@ import musicianImage3 from "../../assets/images/featuredArtists/musicianModel3.p
 import musicianIcon1 from "../../assets/images/musicianIcons/musicianIcon1.png";
 import musicianIcon2 from "../../assets/images/musicianIcons/musicianIcon2.png";
 import musicianIcon3 from "../../assets/images/musicianIcons/musicianIcon3.png";
+import DropdownQuestion from "../../components/DropdownQuestion/DropdownQuestion";
 
 const getFeaturedMusicians = () => {
   return [
     {
-      name: "Techno Maestro",
       id: 1,
+      name: "Bronte",
+      title: "Ruins Striker",
       image: musicianImage1,
       imageIcon: musicianIcon1,
+      description:
+        "A survivor hardened by loss, Bronte channels her anger into every strike of her drum hammer. She doesn’t care about heroism—only making sure her world doesn’t disappear without a fight.",
       playcount: 538,
       songcount: 25,
       spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
       soundcloudLink: "https://soundcloud.com/technomaestro",
     },
     {
-      name: "The Shadow Weaver",
       id: 2,
-      image: musicianImage2,
-      imageIcon: musicianIcon2,
+      name: "Vento",
+      title: "Riftborn Rhapsodist",
+      image: musicianImage3,
+      imageIcon: musicianIcon3,
+      description:
+        "A sharp-tongued fighter who lives for the thrill, Vento’s guitar is as much a weapon as it is an escape. He masks his past with humor, but when it’s time to play, he doesn’t hold back.",
       playcount: 386,
       songcount: 16,
       spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
       soundcloudLink: "https://soundcloud.com/technomaestro",
     },
     {
-      name: "The Sound Sorcerer",
       id: 3,
-      image: musicianImage3,
-      imageIcon: musicianIcon3,
+      name: "Dolce",
+      title: "Silent Crescendo",
+      image: musicianImage2,
+      imageIcon: musicianIcon2,
+      description:
+        "A strategist first and a musician second, Dolce treats every battle like a composition. Precision and efficiency guide his every move—after all, a single mistake can mean the difference between survival and ruin.",
       playcount: 479,
       songcount: 14,
       spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
@@ -61,11 +71,47 @@ const getFeaturedMusicians = () => {
   ];
 };
 
+const getFAQs = () => {
+  return [
+    {
+      question: "What makes ONGAWA different from other rhythm games?",
+      answer:
+        "ONGAWA uniquely blends music creation, music streaming, and RPG elements within a rhythm game. It provides a platform for indie musicians to showcase their work in an interactive way, offering a fresh experience for both players and artists.",
+    },
+    {
+      question: "How do I participate in ONGAWA as a musician?",
+      answer:
+        "To become a musician on ONGAWA, simply sign up as a musician and upload your original tracks to be featured in the game. This allows your music to be played by others and integrated into the rhythm game experience.",
+    },
+    {
+      question: "Is ONGAWA available on mobile or desktop?",
+      answer:
+        "Currently, ONGAWA will be available only on mobile. But you can try a simple demo version of the game on PC/Mac via Itch.io here: Virtuosos Demo. ",
+    },
+    {
+      question: "Can I play ONGAWA alone, or is it multiplayer?",
+      answer:
+        " At the moment, ONGAWA is single-player only. However, multiplayer functionality is currently in development and will be available soon.",
+    },
+    {
+      question: "Can I monetize my music on ONGAWA?",
+      answer:
+        " Yes, ONGAWA offers a platform for musicians to monetize their music through in-game exposure and revenue-sharing features. This allows artists to earn from their tracks and gain recognition within the game.",
+    },
+    {
+      question: "How can I support ONGAWA as a fan or player?",
+      answer:
+        " Fans can support ONGAWA by playing the game, sharing it with others, supporting musicians on the platform, or contributing to the game’s development through feedback or crowdfunding. Join our community and connect with us on Discord: Join our Discord.",
+    },
+  ];
+};
+
 const Homepage = () => {
-  // activeVideo either "gameplay" or "ai"
+  // activeVideo either "gameplay" or "editor"
   const [activeVideo, setActiveVideo] = useState("gameplay");
   const musicians = getFeaturedMusicians();
   const [currentMusician, setCurrentMusician] = useState(musicians[0]);
+  const faqs = getFAQs();
 
   // TODO: Implement Cache
 
@@ -161,9 +207,9 @@ const Homepage = () => {
                   toggleButton={() => setActiveVideo("gameplay")}
                 />
                 <ToggleButton
-                  title="AI Feature"
-                  isActive={activeVideo === "ai"}
-                  toggleButton={() => setActiveVideo("ai")}
+                  title="Level Editor"
+                  isActive={activeVideo === "editor"}
+                  toggleButton={() => setActiveVideo("editor")}
                 />
               </div>
               {/* Video Element */}
@@ -191,11 +237,10 @@ const Homepage = () => {
             </div>
             {/* Description Element */}
             <p className="mt-8 mx-auto text-mukta-mahee font-semibold text-base text-white text-center max-w-2xl lg:hidden">
-              Lorem ipsum dolor sit amet consectetur. Gravida amet at egestas eu
-              elementum commodo. Euismod auctor tellus pretium natoque est eget
-              in. Gravida eget diam interdum turpis elementum nibh leo ultricies
-              vel. Diam in diam pulvinar sit curabitur cum adipiscing commodo
-              placerat.
+              {activeVideo == "gameplay" &&
+                `Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!`}
+              {activeVideo == "editor" &&
+                `Create your own rhythm experience with Ongawa’s customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life.`}
             </p>
           </div>
         </div>
@@ -225,18 +270,18 @@ const Homepage = () => {
           {/* Bottom Half: Description */}
           <div className="h-1/2 flex flex-col items-center justify-center px-8 py-4">
             <p className="z-1 mb-4 text-mukta-mahee font-semibold text-white text-center">
-              Ongawa is a rhythm game that goes beyond entertainment. We&apos;ve
-              crafted an experience that seamlessly weaves together immersive
-              storytelling and game mechanics, placing music at the forefront.
-              But we&apos;re not stopping there.
+              Ongawa is a rhythm game that goes beyond entertainment, centering
+              around music, creativity, and talent discovery. It supports
+              real-life musicians by showcasing and monetizing their creations.
             </p>
             <p className="z-1 text-mukta-mahee font-semibold text-white text-center">
-              Our website platform is a collaborative space where creators can
-              share their compositions, their passions, and their stories. With
-              the ability to integrate music distribution services right into
-              our website, an artist&apos;s creations won&apos;t just be
-              confined to the game. They&apos;ll reach a broader audience,
-              helping them gain the recognition they deserve.
+              Step into the world of Ongawa, where music bridges the gap between
+              reality and imagination. You play as a dedicated salaryman of
+              Ongawa Records, a struggling music label on the brink of collapse.
+              Guided by AWA, a magical, record-shaped companion, you discover a
+              parallel universe where rhythm and creativity hold the key to
+              uncovering hidden musical talents and reviving the company’s
+              glory…
             </p>
           </div>
         </div>
@@ -272,6 +317,22 @@ const Homepage = () => {
             />
           </div>
           <InformationBox currentMusician={currentMusician} />
+        </div>
+
+        {/* FAQs section */}
+        <div className="mt-16">
+          <h2 className="w-1/2 mr-6 pl-4 py-2 text-2xl text-light-grey font-nova-square bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
+            FAQs
+          </h2>
+          <div className="pb-8">
+            {faqs.map((faq, index) => (
+              <DropdownQuestion
+                key={index}
+                question={faq.question}
+                answer={faq.answer}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>

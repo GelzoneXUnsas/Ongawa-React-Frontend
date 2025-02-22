@@ -18,12 +18,10 @@ const InformationBox = ({ currentMusician }) => {
       </h2>
 
       <p className="text-lg text-main-purple font-nova-square mb-1">
-        Musician / Producer
+        {currentMusician.title}
       </p>
       <p className="text-sm text-main-purple mb-1">
-        Lorem ipsum dolor sit amet consectetur. Velit dictum ut feugiat aliquet
-        velit iaculis diam. Porttitor tempus risus lectus mi. Sed lacus libero
-        dui volutpat sagittis nunc.
+        {currentMusician.description}
       </p>
       <div className="flex items-center justify-between mt-2">
         <p className="text-page-background-purple font-medium mr-1 mb-0">
