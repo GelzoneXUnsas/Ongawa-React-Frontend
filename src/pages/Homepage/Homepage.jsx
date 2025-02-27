@@ -286,7 +286,7 @@ const Homepage = () => {
           </div>
         </div>
 
-        {/* Artist Section */}
+        {/* Musician Section */}
         <div className="h-screen flex flex-col items-center relative">
           {/* Musician Selector */}
           <div className="mt-16 mb-4 z-10">
@@ -309,9 +309,9 @@ const Homepage = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
             <div className="absolute inset-0 bg-gradient-to-b from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
 
-            {/* Artist image */}
+            {/* Musician image */}
             <img
-              className="absolute top-4 z-10 w-full h-auto object-contain object-top"
+              className="absolute top-4 z-10 w-full h-auto max-h-[90%] object-contain object-top"
               src={currentMusician.image}
               alt={currentMusician.name}
             />
