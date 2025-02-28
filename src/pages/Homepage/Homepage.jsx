@@ -5,6 +5,7 @@ import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
 import ToggleButton from "../../components/ToggleButton/ToggleButton";
 import MusicianSelector from "../../components/MusicianSelector/MusicianSelector";
 import InformationBox from "../../components/InformationBox/InformationBox";
+import DropdownQuestion from "../../components/DropdownQuestion/DropdownQuestion";
 
 import headerBackgroundImg from "../../assets/images/headerBackground.png";
 import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
@@ -22,10 +23,9 @@ import musicianImage1 from "../../assets/images/featuredArtists/musicianModel1.p
 import musicianImage2 from "../../assets/images/featuredArtists/musicianModel2.png";
 import musicianImage3 from "../../assets/images/featuredArtists/musicianModel3.png";
 
-import musicianIcon1 from "../../assets/images/musicianIcons/musicianIcon1.png";
-import musicianIcon2 from "../../assets/images/musicianIcons/musicianIcon2.png";
-import musicianIcon3 from "../../assets/images/musicianIcons/musicianIcon3.png";
-import DropdownQuestion from "../../components/DropdownQuestion/DropdownQuestion";
+import musicianBassIcon from "../../assets/icons/musicianIcons/BassIcon.png";
+import musicianDrumIcon from "../../assets/icons/musicianIcons/DrumsIcon.png";
+import musicianPianoIcon from "../../assets/icons/musicianIcons/PianoIcon.png";
 
 const getFeaturedMusicians = () => {
   return [
@@ -34,7 +34,7 @@ const getFeaturedMusicians = () => {
       name: "Bronte",
       title: "Ruins Striker",
       image: musicianImage1,
-      imageIcon: musicianIcon1,
+      imageIcon: musicianDrumIcon,
       description:
         "A survivor hardened by loss, Bronte channels her anger into every strike of her drum hammer. She doesn’t care about heroism—only making sure her world doesn’t disappear without a fight.",
       playcount: 538,
@@ -47,7 +47,7 @@ const getFeaturedMusicians = () => {
       name: "Vento",
       title: "Riftborn Rhapsodist",
       image: musicianImage3,
-      imageIcon: musicianIcon3,
+      imageIcon: musicianBassIcon,
       description:
         "A sharp-tongued fighter who lives for the thrill, Vento’s guitar is as much a weapon as it is an escape. He masks his past with humor, but when it’s time to play, he doesn’t hold back.",
       playcount: 386,
@@ -60,7 +60,7 @@ const getFeaturedMusicians = () => {
       name: "Dolce",
       title: "Silent Crescendo",
       image: musicianImage2,
-      imageIcon: musicianIcon2,
+      imageIcon: musicianPianoIcon,
       description:
         "A strategist first and a musician second, Dolce treats every battle like a composition. Precision and efficiency guide his every move—after all, a single mistake can mean the difference between survival and ruin.",
       playcount: 479,

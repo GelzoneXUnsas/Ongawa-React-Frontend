@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 
 import { MusicianShape } from "../../types/types";
 
-import emptyIcon from "../../assets/images/musicianIcons/musicianIconEmpty.png";
+import selectedEllipseIcon from "../../assets/icons/musicianIcons/selected_ellipse_both.svg";
+import unselectedEllipseIcon from "../../assets/icons/musicianIcons/unselected_ellipse.svg";
+import ongawaIcon from "../../assets/icons/musicianIcons/OngawaIcon.png";
 import leftArrowIcon from "../../assets/icons/leftArrowIcon.png";
 import rightArrowIcon from "../../assets/icons/rightArrowIcon.png";
 
@@ -15,13 +17,14 @@ const MusicianSelector = ({
   const selectorCount = 4;
   const [startIndex, setStartIndex] = useState(0);
 
-  // calculate the displayed musicians based on startIndex
+  // calculate the displayed musicians
+  // will fill up empty cells with empty Icons
   const displayedMusicians = [
     ...musicians.slice(startIndex, startIndex + selectorCount),
     ...Array(Math.max(0, selectorCount - (musicians.length - startIndex))).fill(
       {
         id: `empty-${startIndex}`,
-        imageIcon: emptyIcon,
+        imageIcon: ongawaIcon,
         name: "Empty",
       }
     ),
@@ -57,19 +60,39 @@ const MusicianSelector = ({
         <div className="absolute top-6 -z-10 border-3 border-secondary-purple h-10 w-[105%] left-1/2 -translate-x-1/2"></div>
         <div className="absolute top-8 -z-10 border-2 border-secondary-purple h-6 w-[100%] left-1/2 -translate-x-1/2"></div>
 
+        {/* Musicians */}
         {displayedMusicians.map((musician) => (
           <div
             key={musician.id}
             onClick={() =>
-              musician.imageIcon !== emptyIcon && setCurrentMusician(musician)
+              musician.name !== "Empty" && setCurrentMusician(musician)
             }
-            className={`flex items-center justify-center rounded-full cursor-pointer ${
-              currentMusician?.id === musician.id
-                ? "outline outline-3 outline-[#a482be]"
-                : ""
-            }`}
+            className={`
+              w-16 h-16 flex items-center justify-center rounded-full 
+             cursor-pointer relative
+              ${musician.name === "Empty" ? "pointer-events-none" : ""}
+            `}
           >
-            <img src={musician.imageIcon} alt={musician.name} />
+            {/* Selection indicator */}
+            <img
+              src={
+                currentMusician?.id === musician.id
+                  ? selectedEllipseIcon
+                  : unselectedEllipseIcon
+              }
+              alt=""
+              className="absolute inset-0 w-full h-full z-20"
+            />
+
+            {/* Background color with slightly smaller radius */}
+            <div className="absolute inset-0.5 bg-light-grey rounded-full z-0"></div>
+
+            {/* Musician icon */}
+            <img
+              src={musician.imageIcon}
+              alt={musician.name}
+              className="w-16 h-16 rounded-full object-cover z-10"
+            />
           </div>
         ))}
       </div>
