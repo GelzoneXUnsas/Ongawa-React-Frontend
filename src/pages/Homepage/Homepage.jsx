@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
@@ -7,6 +7,7 @@ import ToggleButton from "../../components/ToggleButton/ToggleButton";
 import MusicianSelector from "../../components/MusicianSelector/MusicianSelector";
 import InformationBox from "../../components/InformationBox/InformationBox";
 import DropdownQuestion from "../../components/DropdownQuestion/DropdownQuestion";
+import BackgroundCarousel from "../../components/BackgroundCarousel/BackgroundCarousel";
 
 import headerBackgroundImg from "../../assets/images/headerBackground.png";
 import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
@@ -123,13 +124,7 @@ const Homepage = () => {
       <div className="bg-page-background-purple">
         {/* Header Section */}
         {/* Background image div */}
-        <div
-          className="h-screen bg-cover relative"
-          style={{
-            backgroundImage: `linear-gradient(rgba(35,35,35,0.3), rgba(35,35,35,0.3)),
-           url(${headerBackgroundImg})`,
-          }}
-        >
+        <BackgroundCarousel>
           {/* Content inside background image */}
           <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
             {/* Ongawa Logo Icon */}
@@ -187,8 +182,7 @@ const Homepage = () => {
               </div>
             </div>
           </div>
-        </div>
-
+        </BackgroundCarousel>
         {/* Gameplay Demo Section */}
         {/* Background image div */}
         <div
