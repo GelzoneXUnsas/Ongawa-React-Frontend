@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
 import ToggleButton from "../../components/ToggleButton/ToggleButton";
@@ -111,6 +112,7 @@ const Homepage = () => {
   const [activeVideo, setActiveVideo] = useState("gameplay");
   const musicians = getFeaturedMusicians();
   const [currentMusician, setCurrentMusician] = useState(musicians[0]);
+
   const faqs = getFAQs();
 
   // TODO: Implement Cache
@@ -213,35 +215,54 @@ const Homepage = () => {
                 />
               </div>
               {/* Video Element */}
-              <div className="p-1 md:p-3 border-light-grey border-2 md:border-4">
-                <video
+              <AnimatePresence mode="wait">
+                <motion.div
                   key={activeVideo}
-                  className="max-h-[calc(100vh-24rem)] object-contain border-[#3A3749] border-2 md:border-4"
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  autoPlay
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="p-1 md:p-3 border-light-grey border-2 md:border-4"
                 >
-                  <source
-                    src={
-                      activeVideo === "gameplay"
-                        ? "/Demovid.mp4"
-                        : "/EditorDemo.mp4"
-                    }
-                    type="video/mp4"
-                  />
-                  Your browser does not support the video
-                </video>
-              </div>
+                  <video
+                    key={activeVideo}
+                    className="max-h-[calc(100vh-24rem)] object-contain border-[#3A3749] border-2 md:border-4"
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    autoPlay
+                  >
+                    <source
+                      src={
+                        activeVideo === "gameplay"
+                          ? "/Demovid.mp4"
+                          : "/EditorDemo.mp4"
+                      }
+                      type="video/mp4"
+                    />
+                    Your browser does not support the video
+                  </video>
+                </motion.div>
+              </AnimatePresence>
             </div>
             {/* Description Element */}
-            <p className="mt-8 mx-auto text-mukta-mahee font-semibold text-base text-white text-center max-w-2xl lg:hidden">
-              {activeVideo == "gameplay" &&
-                `Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!`}
-              {activeVideo == "editor" &&
-                `Create your own rhythm experience with Ongawa’s customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life.`}
-            </p>
+            <div className="mt-8 mx-auto max-w-2xl lg:hidden">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={activeVideo}
+                  className="text-mukta-mahee font-semibold text-base text-white text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {activeVideo == "gameplay"
+                    ? "Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!"
+                    : "Create your own rhythm experience with Ongawa's customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life."}
+                </motion.p>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
@@ -310,11 +331,18 @@ const Homepage = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
 
             {/* Musician image */}
-            <img
-              className="absolute top-4 z-10 w-full h-auto max-h-[90%] object-contain object-top"
-              src={currentMusician.image}
-              alt={currentMusician.name}
-            />
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentMusician.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute top-4 z-10 w-full h-auto max-h-[90%] object-contain object-top"
+                src={currentMusician.image}
+                alt={currentMusician.name}
+              />
+            </AnimatePresence>
           </div>
           <InformationBox currentMusician={currentMusician} />
         </div>

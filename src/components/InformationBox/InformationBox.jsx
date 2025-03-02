@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import { motion, AnimatePresence } from "framer-motion";
 import { MusicianShape } from "../../types/types";
 
 import SpotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
@@ -10,28 +10,82 @@ const InformationBox = ({ currentMusician }) => {
   return (
     <div
       className="absolute bottom-8 z-20 p-3 mx-4 max-w-96
-    bg-light-grey border-solid border-main-purple border-[12px]
-      outline outline-1 outline-white outline-offset-[-4px]"
+      bg-light-grey border-solid border-main-purple border-[12px]
+      outline outline-1 outline-white outline-offset-[-4px]
+      overflow-hidden"
     >
-      <h2 className="relative mr-6 p-2 text-2xl text-light-grey font-nova-square bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
-        {currentMusician.name}
-      </h2>
+      {/* Name */}
+      <div className="relative mr-6 mb-2 p-2 bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
+        <AnimatePresence mode="wait">
+          <motion.h2
+            key={currentMusician.id + "-name"}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="m-0 text-2xl text-light-grey font-nova-square"
+          >
+            {currentMusician.name}
+          </motion.h2>
+        </AnimatePresence>
+      </div>
 
-      <p className="text-lg text-main-purple font-nova-square mb-1">
-        {currentMusician.title}
-      </p>
-      <p className="text-sm text-main-purple mb-1">
-        {currentMusician.description}
-      </p>
+      {/* Title */}
+      <AnimatePresence mode="wait">
+        <motion.p
+          key={currentMusician.id + "-title"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="text-lg text-main-purple font-nova-square mb-1"
+        >
+          {currentMusician.title}
+        </motion.p>
+      </AnimatePresence>
+
+      {/* Description */}
+      <AnimatePresence mode="wait">
+        <motion.p
+          key={currentMusician.id + "-description"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="text-sm text-main-purple mb-1"
+        >
+          {currentMusician.description}
+        </motion.p>
+      </AnimatePresence>
+
+      {/* Social Media */}
       <div className="flex items-center justify-between mt-2">
-        <p className="text-page-background-purple font-medium mr-1 mb-0">
-          Follow {currentMusician.name} At:
-        </p>
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={currentMusician.id + "-follow"}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-page-background-purple font-medium mr-1 mb-0"
+          >
+            Follow {currentMusician.name} At:
+          </motion.p>
+        </AnimatePresence>
+
         <div className="flex items-center gap-2">
-          <a href={currentMusician.spotifyLink} target="_blank">
+          <a
+            href={currentMusician.spotifyLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src={SpotifyIcon} alt="Spotify" className="w-auto h-10" />
           </a>
-          <a href={currentMusician.soundcloudLink} target="_blank">
+          <a
+            href={currentMusician.soundcloudLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               src={SoundCloudIcon}
               alt="SoundCloud"
@@ -40,6 +94,7 @@ const InformationBox = ({ currentMusician }) => {
           </a>
         </div>
       </div>
+
       <div className="flex justify-center">
         <button className="mt-2 px-4 py-2 bg-main-purple text-white font-nova-square outline outline-1 outline-white outline-offset-[-4px]">
           View More
