@@ -6,24 +6,15 @@
     <link rel="icon" type="image/x-icon" href="/icon2.ico" />
 
     <!-- Color scheme specific favicons -->
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="/icon2.ico"
-      media="(prefers-color-scheme: light)"
-      id="light-scheme-icon"
-    />
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="/icon1.ico"
-      media="(prefers-color-scheme: dark)"
-      id="dark-scheme-icon"
-    />
+    <link rel="icon" type="image/x-icon" href="/icon2.ico" media="(prefers-color-scheme: light)" id="light-scheme-icon" />
+    <link rel="icon" type="image/x-icon" href="/icon1.ico" media="(prefers-color-scheme: dark)" id="dark-scheme-icon" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#2d2c5f" />
-    <meta name="description" content="Web site for the Ongawa Game" />
+    <meta
+      name="description"
+      content="Web site for the Ongawa Game"
+    />
     <!-- <link rel="apple-touch-icon" href="/logo192.png" /> -->
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -38,8 +29,8 @@
     <script type="module" src="/src/index.jsx"></script>
     <script>
       // Dynamically update favicon based on color scheme in case media attribute does not work in link tag
-      lightSchemeIcon = document.querySelector("link#light-scheme-icon");
-      darkSchemeIcon = document.querySelector("link#dark-scheme-icon");
+      lightSchemeIcon = document.querySelector('link#light-scheme-icon');
+      darkSchemeIcon = document.querySelector('link#dark-scheme-icon');
 
       function onUpdate() {
         if (matcher.matches) {
@@ -50,8 +41,8 @@
           darkSchemeIcon.remove();
         }
       }
-      matcher = window.matchMedia("(prefers-color-scheme: dark)");
-      matcher.addEventListener("change", onUpdate);
+      matcher = window.matchMedia('(prefers-color-scheme: dark)');
+      matcher.addEventListener('change', onUpdate);
       onUpdate();
     </script>
   </body>

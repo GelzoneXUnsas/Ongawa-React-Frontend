@@ -25,11 +25,11 @@ const BackgroundCarousel = ({ children }) => {
     }, 8000);
 
     return () => clearInterval(interval); // Cleanup interval on unmount
-  }, []);
+  });
 
   return (
     <div className="h-screen w-full relative overflow-hidden">
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         <motion.div
           key={currentImageIndex}
           className="absolute inset-0 bg-cover bg-center h-full w-full"
@@ -40,7 +40,7 @@ const BackgroundCarousel = ({ children }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.5 }}
+          transition={{ duration: 2 }}
         />
       </AnimatePresence>
 

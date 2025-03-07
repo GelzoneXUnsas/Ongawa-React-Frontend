@@ -8,6 +8,7 @@ import MusicianSelector from "../../components/MusicianSelector/MusicianSelector
 import InformationBox from "../../components/InformationBox/InformationBox";
 import DropdownQuestion from "../../components/DropdownQuestion/DropdownQuestion";
 import BackgroundCarousel from "../../components/BackgroundCarousel/BackgroundCarousel";
+import DisplayStatusBar from "../../components/DisplayStatusBar/DisplayStatusBar";
 
 import headerBackgroundImg from "../../assets/images/headerBackground.png";
 import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
@@ -76,34 +77,34 @@ const getFeaturedMusicians = () => {
 const getFAQs = () => {
   return [
     {
-      question: "What makes ONGAWA different from other rhythm games?",
+      question: "What makes Ongawa different from other rhythm games?",
       answer:
-        "ONGAWA uniquely blends music creation, music streaming, and RPG elements within a rhythm game. It provides a platform for indie musicians to showcase their work in an interactive way, offering a fresh experience for both players and artists.",
+        "Ongawa uniquely blends music creation, music streaming, and RPG elements within a rhythm game. It provides a platform for indie musicians to showcase their work in an interactive way, offering a fresh experience for both players and artists.",
     },
     {
-      question: "How do I participate in ONGAWA as a musician?",
+      question: "How do I participate in Ongawa as a musician?",
       answer:
-        "To become a musician on ONGAWA, simply sign up as a musician and upload your original tracks to be featured in the game. This allows your music to be played by others and integrated into the rhythm game experience.",
+        "To become a musician on Ongawa, simply sign up as a musician and upload your original tracks to be featured in the game. This allows your music to be played by others and integrated into the rhythm game experience.",
     },
     {
-      question: "Is ONGAWA available on mobile or desktop?",
+      question: "Is Ongawa available on mobile or desktop?",
       answer:
-        "Currently, ONGAWA will be available only on mobile. But you can try a simple demo version of the game on PC/Mac via Itch.io here: Virtuosos Demo. ",
+        "Currently, Ongawa will be available only on mobile. But you can try a simple demo version of the game on PC/Mac via Itch.io here: Virtuosos Demo. ",
     },
     {
-      question: "Can I play ONGAWA alone, or is it multiplayer?",
+      question: "Can I play Ongawa alone, or is it multiplayer?",
       answer:
-        " At the moment, ONGAWA is single-player only. However, multiplayer functionality is currently in development and will be available soon.",
+        " At the moment, Ongawa is single-player only. However, multiplayer functionality is currently in development and will be available soon.",
     },
     {
-      question: "Can I monetize my music on ONGAWA?",
+      question: "Can I monetize my music on Ongawa?",
       answer:
-        " Yes, ONGAWA offers a platform for musicians to monetize their music through in-game exposure and revenue-sharing features. This allows artists to earn from their tracks and gain recognition within the game.",
+        " Yes, Ongawa offers a platform for musicians to monetize their music through in-game exposure and revenue-sharing features. This allows artists to earn from their tracks and gain recognition within the game.",
     },
     {
-      question: "How can I support ONGAWA as a fan or player?",
+      question: "How can I support Ongawa as a fan or player?",
       answer:
-        " Fans can support ONGAWA by playing the game, sharing it with others, supporting musicians on the platform, or contributing to the game’s development through feedback or crowdfunding. Join our community and connect with us on Discord: Join our Discord.",
+        " Fans can support Ongawa by playing the game, sharing it with others, supporting musicians on the platform, or contributing to the game’s development through feedback or crowdfunding. Join our community and connect with us on Discord: Join our Discord.",
     },
   ];
 };
@@ -122,93 +123,103 @@ const Homepage = () => {
     <>
       {/* Main Div */}
       <div className="bg-page-background-purple">
-        {/* Header Section */}
-        {/* Background image div */}
-        <BackgroundCarousel>
-          {/* Content inside background image */}
-          <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
+        <DisplayStatusBar />
+
+        {/* Home Section */}
+        <div id="Home" className="h-screen relative">
+          {/* Background image div */}
+          <BackgroundCarousel>
+            {/* Content inside background image */}
             {/* Ongawa Logo Icon */}
             <img
               src={ongawaLogoNameBlack}
               alt="Ongawa Logo"
-              className="w-36 lg:w-48 h-auto mx-auto py-3 px-2 bg-light-grey rounded-lg"
+              className="absolute top-1/2 left-1/2 w-64 lg:w-80 h-auto -translate-x-1/2 -translate-y-1/2"
             />
-            {/* Mobile Icons */}
-            <div className="lg:hidden flex flex-col justify-center gap-2">
-              <DownloadIcon
-                icon={desktopIcon}
-                header="Download"
-                source="Demo"
-              />
-              <DownloadIcon
-                icon={discordIcon}
-                header="Join Our"
-                source="Discord"
-              />
-            </div>
-            {/* Desktop Icons */}
-            <div className="flex items-center justify-center">
-              <div className="hidden lg:flex flex-col gap-4">
-                {/* Row 1 */}
-                <div className="flex gap-4">
-                  <div className="w-1/2">
-                    <DownloadIcon
-                      icon={desktopIcon}
-                      header="Download on"
-                      source="PC"
-                    />
+            <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
+              {/* Mobile Icons */}
+              <div className="lg:hidden flex flex-col justify-center gap-2">
+                <DownloadIcon
+                  icon={desktopIcon}
+                  header="Download"
+                  source="Demo"
+                />
+                <DownloadIcon
+                  icon={discordIcon}
+                  header="Join Our"
+                  source="Discord"
+                />
+              </div>
+              {/* Desktop Icons */}
+              <div className="flex items-center justify-center">
+                <div className="hidden lg:flex flex-col gap-4">
+                  {/* Row 1 */}
+                  <div className="flex gap-4">
+                    <div className="w-1/2">
+                      <DownloadIcon
+                        icon={desktopIcon}
+                        header="Download on"
+                        source="PC"
+                      />
+                    </div>
+                    {/* Empty placeholder to mimic an empty grid cell */}
+                    <div className="w-1/2"></div>
                   </div>
-                  {/* Empty placeholder to mimic an empty grid cell */}
-                  <div className="w-1/2"></div>
-                </div>
 
-                {/* Row 2 */}
-                <div className="flex gap-4">
-                  <div className="w-1/2">
-                    <DownloadIcon
-                      icon={appleIcon}
-                      header="Download on the"
-                      source="App Store"
-                    />
-                  </div>
-                  <div className="w-1/2">
-                    <DownloadIcon
-                      icon={googlePlayIcon}
-                      header="GET IT ON"
-                      source="Google Play"
-                    />
+                  {/* Row 2 */}
+                  <div className="flex gap-4">
+                    <div className="w-1/2">
+                      <DownloadIcon
+                        icon={appleIcon}
+                        header="Download on the"
+                        source="App Store"
+                      />
+                    </div>
+                    <div className="w-1/2">
+                      <DownloadIcon
+                        icon={googlePlayIcon}
+                        header="GET IT ON"
+                        source="Google Play"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </BackgroundCarousel>
+          </BackgroundCarousel>
+        </div>
+
         {/* Gameplay Demo Section */}
         {/* Background image div */}
         <div
-          className="h-screen bg-cover relative"
+          id="Gameplay"
+          className="h-screen bg-cover relative flex flex-col"
           style={{
-            backgroundImage: `linear-gradient(rgba(35,35,35,0.9), rgba(35,35,35,0.9)),
+            backgroundImage: `linear-gradient(rgba(29,29,46,0.9), rgba(29,29,46, 0.9)),
            url(${gameplayDemoBackgroundImg})`,
           }}
         >
           {/* Content inside background image */}
+          {/* Title */}
+          <h2 className="hidden lg:flex w-2/5 mt-24 mb-4 pl-20 py-3 text-5xl text-white font-nova-square bg-page-background-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
+            Gameplay
+          </h2>
           <div className="flex flex-col items-center mx-3">
-            <div>
-              {/* Toggle Buttons */}
-              <div className="flex justify-between md:justify-center w-full gap-4 mb-4 mt-32 md:mt-8">
-                <ToggleButton
-                  title="Gameplay"
-                  isActive={activeVideo === "gameplay"}
-                  toggleButton={() => setActiveVideo("gameplay")}
-                />
-                <ToggleButton
-                  title="Level Editor"
-                  isActive={activeVideo === "editor"}
-                  toggleButton={() => setActiveVideo("editor")}
-                />
-              </div>
-              {/* Video Element */}
+            {/* Toggle Buttons */}
+            <div className="flex lg:hidden justify-between md:justify-center w-full gap-4 mb-4 mt-32 md:mt-8">
+              <ToggleButton
+                title="Gameplay"
+                isActive={activeVideo === "gameplay"}
+                toggleButton={() => setActiveVideo("gameplay")}
+              />
+              <ToggleButton
+                title="Level Editor"
+                isActive={activeVideo === "editor"}
+                toggleButton={() => setActiveVideo("editor")}
+              />
+            </div>
+            {/* Video Element */}
+            <div className="lg:flex">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeVideo}
@@ -216,7 +227,7 @@ const Homepage = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="p-1 md:p-3 border-light-grey border-2 md:border-4"
+                  className="p-1 md:p-3 border-light-grey border-2 md:border-4 flex-[2]"
                 >
                   <video
                     key={activeVideo}
@@ -239,29 +250,29 @@ const Homepage = () => {
                   </video>
                 </motion.div>
               </AnimatePresence>
-            </div>
-            {/* Description Element */}
-            <div className="mt-8 mx-auto max-w-2xl lg:hidden">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={activeVideo}
-                  className="text-mukta-mahee font-semibold text-base text-white text-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  {activeVideo == "gameplay"
-                    ? "Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!"
-                    : "Create your own rhythm experience with Ongawa's customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life."}
-                </motion.p>
-              </AnimatePresence>
+              {/* Description Element */}
+              <div className="mt-8 mx-auto max-w-2xl flex-[1]">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={activeVideo}
+                    className="text-mukta-mahee font-semibold text-lg/10 text-white text-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    {activeVideo == "gameplay"
+                      ? "Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!"
+                      : "Create your own rhythm experience with Ongawa's customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life."}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
             </div>
           </div>
         </div>
 
         {/* About Us Section */}
-        <div className="h-screen relative flex flex-col">
+        <div id="About Us" className="h-screen relative flex flex-col">
           {/* Top Half: Image with circular gradient */}
           <div className="h-1/2 relative">
             {/* Full-width background image */}
@@ -284,12 +295,12 @@ const Homepage = () => {
           </div>
           {/* Bottom Half: Description */}
           <div className="h-1/2 flex flex-col items-center justify-center px-8 py-4">
-            <p className="z-1 mb-4 text-mukta-mahee font-semibold text-white text-center">
+            <p className="z-1 mb-4 text-mukta-mahee font-semibold text-white text-base/7 text-center">
               Ongawa is a rhythm game that goes beyond entertainment, centering
               around music, creativity, and talent discovery. It supports
               real-life musicians by showcasing and monetizing their creations.
             </p>
-            <p className="z-1 text-mukta-mahee font-semibold text-white text-center">
+            <p className="z-1 text-mukta-mahee font-semibold text-white text-base/7 text-center">
               Step into the world of Ongawa, where music bridges the gap between
               reality and imagination. You play as a dedicated salaryman of
               Ongawa Records, a struggling music label on the brink of collapse.
@@ -302,7 +313,10 @@ const Homepage = () => {
         </div>
 
         {/* Musician Section */}
-        <div className="h-screen flex flex-col items-center relative">
+        <div
+          id="Musicians"
+          className="h-screen flex flex-col items-center relative"
+        >
           {/* Musician Selector */}
           <div className="mt-16 mb-4 z-10">
             <MusicianSelector
@@ -342,18 +356,20 @@ const Homepage = () => {
         </div>
 
         {/* FAQs section */}
-        <div className="mt-16">
-          <h2 className="w-1/2 mr-6 pl-4 py-2 text-2xl text-light-grey font-nova-square bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
-            FAQs
-          </h2>
-          <div className="pb-8">
-            {faqs.map((faq, index) => (
-              <DropdownQuestion
-                key={index}
-                question={faq.question}
-                answer={faq.answer}
-              />
-            ))}
+        <div id="FAQs" className="min-h-screen flex flex-col relative">
+          <div className="mt-32">
+            <h2 className="w-1/2 mr-6 pl-4 py-2 text-2xl text-light-grey font-nova-square bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
+              FAQs
+            </h2>
+            <div className="pb-8">
+              {faqs.map((faq, index) => (
+                <DropdownQuestion
+                  key={index}
+                  question={faq.question}
+                  answer={faq.answer}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
