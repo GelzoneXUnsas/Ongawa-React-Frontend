@@ -53,31 +53,40 @@ const DisplayStatusBar = () => {
     <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 flex-col items-center">
       {sections.map((section, index) => (
         <div key={section} className="flex items-start">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center mt-[3px]">
             {/* Active Button */}
             <button
               onClick={() => handleNavClick(section)}
-              className={`relative w-4 h-4 mt-[3px] rounded-full border border-light-grey transition-all duration-300 flex items-center justify-center group ${
-                activeSection === section
-                  ? "bg-light-grey scale-125"
-                  : "bg-transparent hover:bg-light-grey hover:bg-opacity-50"
-              }`}
+              className={`relative w-4 h-4 rounded-full 
+                flex items-center justify-center 
+                transition-all duration-300 group
+                ${activeSection === section ? "bg-light-grey" : "bg-transparent"}
+                before:absolute before:w-4 before:h-4 before:rounded-full 
+                before:border-4 before:border-light-grey
+                after:absolute after:w-[calc(100%+4px)] after:h-[calc(100%+4px)] after:rounded-full 
+                after:border-2 after:border-transparent 
+                after:outline after:outline-2 after:outline-light-grey
+              `}
               aria-label={`Navigate to ${section} section`}
             />
 
             {/* Section dividers */}
             {index < sections.length - 1 && (
               <div className="flex flex-col items-center py-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-light-grey/40 my-1"></div>
-                <div className="w-1.5 h-1.5 rounded-full bg-light-grey/40 my-1"></div>
-                <div className="w-1.5 h-1.5 rounded-full bg-light-grey/40  my-1"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-light-grey/40 my-2"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-light-grey/40 my-2"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-light-grey/40  my-2"></div>
               </div>
             )}
           </div>
 
           {/* Section Title (on the right of the button) */}
           <span
-            className="text-light-grey font-nova-square ml-3 cursor-pointer"
+            className={`text-light-grey font-nova-square ml-3 cursor-pointer
+                ${activeSection === section
+                  && "underline"
+                }
+              `}
             onClick={() => handleNavClick(section)}
           >
             {section}
