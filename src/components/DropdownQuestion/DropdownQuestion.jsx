@@ -11,12 +11,12 @@ const DropdownQuestion = ({ question, answer }) => {
       className="py-3 ml-4 mr-4 cursor-pointer"
       onClick={() => setIsOpen(!isOpen)}
     >
-      <div className="flex items-center">
+      <div className="flex">
         {/* Arrow Icon with Framer Motion */}
         <motion.img
           src={rightArrowIcon}
           alt="Toggle Arrow"
-          className="w-4 h-4"
+          className="w-4 h-4 mt-1"
           animate={{ rotate: isOpen ? 90 : 0 }}
           transition={{ duration: 0.3 }}
         />

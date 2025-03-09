@@ -8,7 +8,7 @@ const DisplayStatusBar = () => {
   const [activeSection, setActiveSection] = useState("Home");
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || typeof document === "undefined") return;
 
     // Function to determine which section is currently in view
     const handleScroll = () => {
