@@ -16,8 +16,8 @@ const NavDropdown = ({
   return (
     <>
       {isMobileMenuOpen && (
-        <div className="z-20 h-full w-full position-absolute opacity-90 bg-dropdown-background-color">
-          <div className="flex justify-end mt-4 mr-10">
+        <div className="z-30 h-full w-full fixed inset-0 opacity-90 bg-dropdown-background">
+          <div className="flex justify-end mt-16 mr-10">
             <img src={closeNavDropdown} onClick={() => closeMobileMenu()} />
           </div>
           <div
@@ -28,7 +28,7 @@ const NavDropdown = ({
             <a
               href="/"
               onClick={() => closeMobileMenu()}
-              className="text-white no-underline hover:no-underline hover:text-white 
+              className="text-white font-nova-square no-underline hover:no-underline hover:text-white 
                             px-24 py-3 border-2 border-white text-4xl"
             >
               Home
@@ -36,28 +36,28 @@ const NavDropdown = ({
             <a
               href="/beatmaplisting"
               onClick={() => closeMobileMenu()}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               Beatmaps
             </a>
             <a
               href="/musicianlisting"
               onClick={() => closeMobileMenu()}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               Musicians
             </a>
             <a
               href="/gallery"
               onClick={() => closeMobileMenu()}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               Art
             </a>
             <a
               href="/community"
               onClick={() => closeMobileMenu()}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               Social
             </a>
@@ -67,7 +67,7 @@ const NavDropdown = ({
                 doSignOut();
                 closeMobileMenu();
               }}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               {userLoggedIn ? "Sign Out" : "Login"}
             </a>

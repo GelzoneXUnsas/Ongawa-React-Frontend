@@ -16,6 +16,7 @@ export default {
         "overpass-mono": ["Overpass Mono", "monospace"],
         "nova-square": "Nova Square",
         "mukta-mahee": "Mukta Mahee",
+        roboto: ["Roboto", "sans-serif"],
       },
 
       colors: {
@@ -30,6 +31,7 @@ export default {
         "purple-accent": "#D5A6ED",
         "custom-hover-blue": "#002ead",
         "search-text-gray": "#B2B2B2",
+        "link-text-gray": "#C3C3C8",
         "discography-background": "#543F60",
         "dropdown-background-color": "#1D1D2E",
         "light-grey": "#D9D9D9",
