@@ -1,10 +1,10 @@
-import React from "react";
+import {useState} from "react";
 import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
 import rightArrowIcon from "../../assets/icons/rightArrowIcon.png";
 
 const DropdownQuestion = ({ question, answer }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div

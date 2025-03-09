@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -17,15 +17,17 @@ const BackgroundCarousel = ({ children }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    // set interval to toggle between backgroundImages on mount
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 8000);
+    if (typeof window !== "undefined") {
+      // set interval to toggle between backgroundImages on mount
+      const interval = window.setInterval(() => {
+        setCurrentImageIndex((prevIndex) =>
+          prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 8000);
 
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  });
+      return () => window.clearInterval(interval); // Cleanup interval on unmount
+    }
+});
 
   return (
     <div className="h-screen w-full relative overflow-hidden">

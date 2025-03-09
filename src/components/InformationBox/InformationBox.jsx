@@ -1,5 +1,3 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
 import { MusicianShape } from "../../types/types";
 
@@ -23,7 +21,7 @@ const InformationBox = ({ currentMusician }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="m-0 text-2xl text-light-grey font-nova-square"
+            className="m-0 text-2xl text-light-grey font-light font-nova-square"
           >
             {currentMusician.name}
           </motion.h2>
@@ -67,7 +65,7 @@ const InformationBox = ({ currentMusician }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="text-page-background-purple font-medium mr-1 mb-0"
+            className="text-page-background-purple mr-1 mb-0"
           >
             Follow {currentMusician.name} At:
           </motion.p>
@@ -96,7 +94,7 @@ const InformationBox = ({ currentMusician }) => {
       </div>
 
       <div className="flex justify-center">
-        <button className="mt-2 px-4 py-2 bg-main-purple text-white font-nova-square outline outline-1 outline-white outline-offset-[-4px]">
+        <button className="mt-2 px-8 py-3 bg-main-purple text-white font-nova-square outline outline-1 outline-white outline-offset-[-4px]">
           View More
         </button>
       </div>

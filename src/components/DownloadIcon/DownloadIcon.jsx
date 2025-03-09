@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 const DownloadIcon = ({ icon, header, source }) => {
@@ -19,7 +18,7 @@ const DownloadIcon = ({ icon, header, source }) => {
       {/* Text on the right */}
       <div className="flex flex-col">
         <span className="text-white text-sm whitespace-nowrap">{header}</span>
-        <span className="text-white text-xl">{source}</span>
+        <span className="text-white text-xl whitespace-nowrap">{source}</span>
       </div>
     </div>
   );

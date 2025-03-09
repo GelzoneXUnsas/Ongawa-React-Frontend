@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -10,7 +9,6 @@ import DropdownQuestion from "../../components/DropdownQuestion/DropdownQuestion
 import BackgroundCarousel from "../../components/BackgroundCarousel/BackgroundCarousel";
 import DisplayStatusBar from "../../components/DisplayStatusBar/DisplayStatusBar";
 
-import headerBackgroundImg from "../../assets/images/headerBackground.png";
 import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
 import aboutUsBackgroundImg from "../../assets/images/galleryArt/art4.png";
 import musicianBackgroundImage from "../../assets/images/galleryArt/art9.png";
@@ -123,7 +121,9 @@ const Homepage = () => {
     <>
       {/* Main Div */}
       <div className="bg-page-background-purple">
-        <DisplayStatusBar />
+        <div className="hidden lg:flex">
+          <DisplayStatusBar/>
+        </div>
 
         {/* Home Section */}
         <div id="Home" className="h-screen relative">
@@ -201,7 +201,7 @@ const Homepage = () => {
         >
           {/* Content inside background image */}
           {/* Title */}
-          <h2 className="hidden lg:flex max-w-[32rem] mt-24 mb-4 pl-24 py-3 text-5xl text-light-grey font-nova-square bg-page-background-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
+          <h2 className="hidden lg:flex max-w-[32rem] mt-24 mb-4 pl-24 py-3 font-light text-5xl text-light-grey font-nova-square bg-page-background-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
             Gameplay
           </h2>
           <div className="flex flex-col items-center mx-3">
@@ -227,12 +227,12 @@ const Homepage = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="p-1 md:p-3 border-light-grey border-2 md:border-4 flex-[2] object-contain"
+                  className="p-1 md:p-2 border-light-grey border-2 md:border-3 flex-[2] object-contain"
                   style={{ maxWidth: "fit-content" }}
                 >
                   <video
                     key={activeVideo}
-                    className="max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-4"
+                    className="max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3"
                     muted
                     loop
                     playsInline
@@ -256,7 +256,7 @@ const Homepage = () => {
                 <AnimatePresence mode="wait">
                   <motion.p
                     key={activeVideo}
-                    className="text-mukta-mahee font-semibold text-lg/10 text-white text-center"
+                    className="text-mukta-mahee font-semibold text-base/10 text-white text-center"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -359,10 +359,10 @@ const Homepage = () => {
         {/* FAQs section */}
         <div id="FAQs" className="min-h-screen flex flex-col relative">
           <div className="mt-32">
-            <h2 className="w-1/2 lg:max-w-[32rem] mr-6 pl-4 lg:pl-24 py-2 lg:!py-3 text-2xl lg:text-5xl text-light-grey font-nova-square bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
+            <h2 className="w-1/2 lg:max-w-[32rem] mr-6 pl-4 lg:pl-24 py-2 lg:!py-3 font-light text-2xl lg:text-5xl text-light-grey font-nova-square bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
               FAQs
             </h2>
-            <div className="w-5/6 pb-8">
+            <div className="lg:w-5/6 pb-8">
               {faqs.map((faq, index) => (
                 <DropdownQuestion
                   key={index}
