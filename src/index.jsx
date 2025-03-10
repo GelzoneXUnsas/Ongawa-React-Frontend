@@ -16,10 +16,7 @@ import { Amplify } from "aws-amplify";
 import { record } from "aws-amplify/analytics";
 import outputs from "../amplify_outputs.json";
 
-Amplify.configure({
-    ...Amplify.getConfig(),
-    //   Analytics: amplifyconfig.Analytics,
-});
+Amplify.configure(outputs);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

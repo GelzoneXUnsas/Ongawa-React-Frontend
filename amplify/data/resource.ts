@@ -1,31 +1,27 @@
 import { a, defineData, type ClientSchema } from "@aws-amplify/backend";
 
 const schema = a.schema({
-    Todo: a
+    Post: a
         .model({
-            content: a.string(),
-            isDone: a.boolean(),
+            id: a.id(),
+            user_id: a.string().required(),
+            header: a.string().required(),
+            content: a.string().required(),
+            likes: a.integer().default(0),
+            replies: a.integer().default(0),
         })
         .authorization((allow) => [allow.publicApiKey()]),
-    Posts: a
+
+    Interaction: a
         .model({
-            post_id: a.string(),
-            user_id: a.string(),
-            header: a.string(),
-            content: a.string(),
-            like_count: a.integer(),
-            reply_count: a.integer(),
-            timestamp: a.string(),
+            id: a.id().required(),
+            post_id: a.string().required(),
+            parent_id: a.string().required(),
+            user_id: a.string().required(),
+            type: a.enum(["L", "R", "SR"]), // like, reply, subreply (reply to a reply)
+            content: a.string().required(),
         })
-        .authorization((allow) => [allow.publicApiKey()]),
-    Interactions: a
-        .model({
-            post_id: a.string(),
-            user_id: a.string(),
-            type: a.enum(["like", "reply", "subreply"]),
-            timestamp: a.string(),
-            content: a.string(),
-        })
+        .identifier(["post_id", "id"])
         .authorization((allow) => [allow.publicApiKey()]),
 });
 
