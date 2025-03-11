@@ -20,7 +20,7 @@ const InformationBox = ({ currentMusician }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.4 }}
             className="m-0 text-2xl text-light-grey font-light font-nova-square"
           >
             {currentMusician.name}
@@ -35,7 +35,7 @@ const InformationBox = ({ currentMusician }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4 }}
           className="text-lg text-main-purple font-nova-square mb-1"
         >
           {currentMusician.title}
@@ -49,7 +49,7 @@ const InformationBox = ({ currentMusician }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4 }}
           className="text-sm text-main-purple mb-1"
         >
           {currentMusician.description}
@@ -64,7 +64,7 @@ const InformationBox = ({ currentMusician }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.4 }}
             className="text-page-background-purple mr-1 mb-0"
           >
             Follow {currentMusician.name} At:

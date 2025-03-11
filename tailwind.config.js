@@ -38,6 +38,7 @@ export default {
         "inactive-button": "#3E3E7E",
         "inactive-text": "#6D6D99",
         "border-purple-light": "#47475F",
+        "heading-dark-purple": "#484878",
       },
 
       boxShadow: {
