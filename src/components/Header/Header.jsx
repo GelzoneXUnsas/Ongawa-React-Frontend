@@ -86,7 +86,7 @@ const Header = () => {
               focus:bg-link-text-gray focus:text-page-background focus:border-none
               active:bg-link-text-gray active:text-page-background active:border-none"
           >
-            Download
+            Demo
           </button>
           {/* Mobile Links and Buttons */}
           <div className="md:hidden mr-4 flex items-center">

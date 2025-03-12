@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import leftArrowIcon from "../../assets/icons/leftArrowIconLarge.svg";
 import rightArrowIcon from "../../assets/icons/rightArrowIconLarge.svg";
 
-const ToggleArrow = ({ toggleButton, isActive, direction }) => {
+const ToggleArrow = ({ toggleButton, clickAble, direction }) => {
   return (
     <button
       onClick={toggleButton}
@@ -11,7 +11,7 @@ const ToggleArrow = ({ toggleButton, isActive, direction }) => {
         src={direction === "left" ? leftArrowIcon : rightArrowIcon}
         alt="Toggle Icon"
         className={`w-10 h-10 transition-opacity duration-300 ${
-            isActive ? "opacity-50": "opacity-95"
+            clickAble ? "opacity-95": "opacity-50"
           }`}
       />
     </button>
@@ -20,7 +20,7 @@ const ToggleArrow = ({ toggleButton, isActive, direction }) => {
 
 ToggleArrow.propTypes = {
   toggleButton: PropTypes.func.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  clickAble: PropTypes.bool.isRequired,
   direction: PropTypes.oneOf(["left", "right"]).isRequired,
 };
 

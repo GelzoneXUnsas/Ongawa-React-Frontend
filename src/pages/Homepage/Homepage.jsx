@@ -18,8 +18,6 @@ import ongawaLogoNameBlack from "../../assets/icons/ongawaLogoNameBlack.png";
 
 import discordIcon from "../../assets/icons/discordIcon.png";
 import desktopIcon from "../../assets/icons/desktopIcon.png";
-import appleIcon from "../../assets/icons/appleIcon.png";
-import googlePlayIcon from "../../assets/icons/googlePlayIcon.png";
 
 import musicianImage1 from "../../assets/images/featuredArtists/musicianModel1.png";
 import musicianImage2 from "../../assets/images/featuredArtists/musicianModel2.png";
@@ -146,51 +144,20 @@ const Homepage = () => {
             />
             <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
               {/* Mobile Icons */}
-              <div className="lg:hidden flex flex-col justify-center gap-2">
-                <DownloadIcon
-                  icon={desktopIcon}
-                  header="Download"
-                  source="Demo"
-                />
-                <DownloadIcon
-                  icon={discordIcon}
-                  header="Join Our"
-                  source="Discord"
-                />
-              </div>
-              {/* Desktop Icons */}
-              <div className="flex items-center justify-center">
-                <div className="hidden lg:flex flex-col gap-4">
-                  {/* Row 1 */}
-                  <div className="flex gap-4">
-                    <div className="w-1/2">
-                      <DownloadIcon
-                        icon={desktopIcon}
-                        header="Download on"
-                        source="PC"
-                      />
-                    </div>
-                    {/* Empty placeholder to mimic an empty grid cell */}
-                    <div className="w-1/2"></div>
-                  </div>
-
-                  {/* Row 2 */}
-                  <div className="flex gap-4">
-                    <div className="w-1/2">
-                      <DownloadIcon
-                        icon={appleIcon}
-                        header="Download on the"
-                        source="App Store"
-                      />
-                    </div>
-                    <div className="w-1/2">
-                      <DownloadIcon
-                        icon={googlePlayIcon}
-                        header="GET IT ON"
-                        source="Google Play"
-                      />
-                    </div>
-                  </div>
+              <div className="flex flex-col justify-center gap-2">
+                <div className="lg:w-56">
+                  <DownloadIcon
+                    icon={desktopIcon}
+                    header="Download"
+                    source="Demo"
+                  />
+                </div>
+                <div className="lg:w-56">
+                  <DownloadIcon
+                    icon={discordIcon}
+                    header="Join Our"
+                    source="Discord"
+                  />
                 </div>
               </div>
             </div>
@@ -209,9 +176,22 @@ const Homepage = () => {
         >
           {/* Content inside background image */}
           {/* Title */}
-          <h2 className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 font-light text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]">
-            Gameplay
-          </h2>
+
+          <div className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]">
+            <AnimatePresence mode="wait">
+            <motion.h2 
+              key={activeVideo}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="font-light text-5xl text-light-grey font-nova-square m-0">
+              {activeVideo === "gameplay" ? "Gameplay" : "Editor"}
+            </motion.h2>
+            </AnimatePresence>
+          </div>
+
+ 
           <div className="flex flex-col items-center mx-3">
             {/* Toggle Buttons */}
             <div className="flex lg:hidden justify-between md:justify-center w-full gap-4 mb-4 mt-32 lg:mt-8">
@@ -227,65 +207,93 @@ const Homepage = () => {
               />
             </div>
             {/* Video and Description */}
-            <div className="lg:flex lg:items-center lg:gap-4 lg:px-8">
+            <div className="lg:flex lg:items-center lg:gap-2 lg:px-8 lg:pt-8">
+
               {/* Video Toggle Element */}
               <div className="hidden lg:block">
                 <ToggleArrow 
-                  toggleButton={() => setActiveVideo("gameplay")}
-                  isActive={activeVideo === "gameplay"}
+                  toggleButton={() => setActiveVideo(activeVideo == "editor" ? "gameplay" : "editor")}
+                  clickAble={true}
                   direction="left"
                 />
+
               </div>
               <div 
                 className="
-                lg:flex lg:self-start lg:w-5/6 lg:p-6 
+                lg:flex lg:self-start lg:w-9/12 lg:p-6 
                 lg:bg-page-background-purple/60
                 lg:outline outline- lg:outline-light-grey/50 lg:outline-offset-[-12px]
                 "
               >
                 {/* Video Element */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeVideo}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="
-                    p-1 md:p-2 border-light-grey border-2 md:border-3 flex-[2] object-contain items-center justify-center 
-                    lg:border-none
-                    "
-                    style={{ maxWidth: "fit-content" }}
-                  >
-                    <video
+                <div className="relative flex-[2]">
+                  {/* Hidden placeholder elements to maintain size */}
+                  <div className="invisible" aria-hidden="true">
+                    <div className="
+                      p-1 lg:border-light-grey border-2 flex items-center justify-center 
+                      md:p-2 md:border-3 lg:border-none
+                    ">
+                      <video
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3"
+                        muted
+                      >
+                        <source
+                          src={activeVideo === "gameplay" ? "/Demovid.mp4" : "/EditorDemo.mp4"}
+                          type="video/mp4"
+                        />
+                      </video>
+                    </div>
+                  </div>
+                  {/* Actual animated content */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
                       key={activeVideo}
-                      className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3"
-                      muted
-                      loop
-                      playsInline
-                      preload="auto"
-                      autoPlay
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="
+                      absolute top-0 left-0 w-full h-full
+                      p-1 border-light-grey border-2 flex items-center justify-center 
+                      md:p-2 md:border-3 lg:border-none
+                      "
                     >
-                      <source
-                        src={
-                          activeVideo === "gameplay"
-                            ? "/Demovid.mp4"
-                            : "/EditorDemo.mp4"
-                        }
-                        type="video/mp4"
-                      />
-                      Your browser does not support the video
-                    </video>
-                  </motion.div>
-                </AnimatePresence>
+                      <video
+                        key={activeVideo}
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3"
+                        muted
+                        loop
+                        playsInline
+                        preload="auto"
+                        autoPlay
+                      >
+                        <source
+                          src={activeVideo === "gameplay" ? "/Demovid.mp4" : "/EditorDemo.mp4"}
+                          type="video/mp4"
+                        />
+                        Your browser does not support the video
+                      </video>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+                
                 {/* Description Element */}
-                <div className="mt-8 lg:mt-2 mx-auto max-w-2xl flex-[1] lg:ml-8 ">
+                <div className="mt-8 lg:mt-2 mx-auto max-w-2xl flex-[1] lg:ml-8 relative">
+                  {/* Invisible placeholder to maintain size */}
+                  <p className="invisible text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
+                              lg:font-normal lg:text-xl/10 lg:text-left" aria-hidden="true">
+                    {activeVideo == "gameplay"
+                      ? "Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!"
+                      : "Create your own rhythm experience with Ongawa's customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life."}
+                  </p>
+                  {/* Actual animated content */}
                   <AnimatePresence mode="wait">
                     <motion.p
                       key={activeVideo}
                       className="
+                        absolute top-0 left-0 w-full
                         text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
-                         lg:font-normal lg:text-xl/10 lg:text-left"
+                        lg:font-normal lg:text-xl/loose lg:text-left"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -298,11 +306,12 @@ const Homepage = () => {
                   </AnimatePresence>
                 </div>
               </div>
+
               {/* Video Toggle Element */}
               <div className="hidden lg:block">
                 <ToggleArrow 
-                  toggleButton={() => setActiveVideo("editor")}
-                  isActive={activeVideo === "editor"}
+                  toggleButton={() => setActiveVideo(activeVideo == "editor" ? "gameplay" : "editor")}
+                  clickAble={true}
                   direction="right"
                 />
               </div>
@@ -340,17 +349,16 @@ const Homepage = () => {
                 
                 {/* Circular Gradient Overlay for small screens*/}
                 <div
-                  className="flex lg:hidden absolute top-0 left-0 w-full h-[470px] items-center justify-center"
+                  className="flex lg:hidden absolute top-0 left-0 w-full h-[calc(50%+4px)] items-center justify-center"
                   style={{
-                    background: "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 230px)",
+                    background: "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 220px)",
                   }}
                 />
               </div>
             </div>
             
-            
             {/* Text Section */}
-            <div className="h-1/2 lg:h-[calc(100%-12rem)] lg:w-7/12 flex flex-col items-center justify-center px-8 py-4 lg:justify-center lg:items-start lg:mt-12 relative z-10">
+            <div className="h-1/2 lg:h-[calc(100%-12rem)] lg:w-1/2 flex flex-col items-center justify-center px-8 py-4 lg:justify-center lg:items-start lg:mt-12 relative z-10">
               <p 
                 className="
                   z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center mb-6
@@ -381,17 +389,8 @@ const Homepage = () => {
         {/* Musician Section */}
         <div
           id="Musicians"
-          className="h-screen flex flex-col items-center relative snap-start"
+          className="h-screen flex flex-col items-center justify-center relative snap-start"
         >
-          {/* Musician Selector */}
-          <div className="mt-16 mb-4 z-10">
-            <MusicianSelector
-              musicians={musicians}
-              currentMusician={currentMusician}
-              setCurrentMusician={setCurrentMusician}
-            />
-          </div>
-
           {/* Background image and gradient overlay container */}
           <div className="flex-grow w-full relative">
             {/* Background image */}
@@ -401,8 +400,9 @@ const Homepage = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className="absolute inset-0 w-full h-full bg-cover bg-center"
+                transition={{ duration: 0.7 }}
+                className=
+                  "absolute inset-0 w-full h-full bg-cover bg-center"
                 style={{ backgroundImage: `url(${currentMusician.backgroundImage})` }}
               />
             </AnimatePresence>
@@ -410,6 +410,18 @@ const Homepage = () => {
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
             <div className="absolute inset-0 bg-gradient-to-b from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
+
+
+            {/* Musician Selector */}
+            <div className="flex justify-center mt-16 mb-4
+                            lg:absolute lg:bottom-8 lg:right-[calc(15%+28px)]">
+              <MusicianSelector
+                musicians={musicians}
+                currentMusician={currentMusician}
+                setCurrentMusician={setCurrentMusician}
+                className="w-full max-w-60 lg:max-w-[550px] lg:max-h-[100px]" 
+              />
+            </div>
 
             {/* Musician image */}
             <AnimatePresence mode="wait">
@@ -419,14 +431,23 @@ const Homepage = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="absolute top-4 z-10 w-full h-auto max-h-[90%] object-contain object-top"
+                className="absolute top-40 z-10 w-full h-auto max-h-[90%]
+                           object-contain object-top 
+                           lg:left-0 lg:-translate-x-80"
                 src={currentMusician.image}
                 alt={currentMusician.name}
               />
             </AnimatePresence>
+
+            {/* Information Box */}
+            <div className="absolute bottom-8 z-20 lg:bottom-48 lg:right-[15%]">
+              <InformationBox 
+                currentMusician={currentMusician} 
+                className="mx-4 max-w-96 lg:max-w-[550px] lg:max-h-[500px]" 
+              />
+            </div>
             
           </div>
-          <InformationBox currentMusician={currentMusician} />
         </div>
 
         {/* FAQs section */}

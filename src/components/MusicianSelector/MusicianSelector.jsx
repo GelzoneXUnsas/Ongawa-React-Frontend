@@ -6,13 +6,14 @@ import { MusicianShape } from "../../types/types";
 import selectedEllipseIcon from "../../assets/icons/musicianIcons/selected_ellipse_both.svg";
 import unselectedEllipseIcon from "../../assets/icons/musicianIcons/unselected_ellipse.svg";
 import ongawaIcon from "../../assets/icons/musicianIcons/OngawaIcon.png";
-import leftArrowIcon from "../../assets/icons/leftArrowIcon.png";
-import rightArrowIcon from "../../assets/icons/rightArrowIcon.png";
+import leftArrowIcon from "../../assets/icons/leftArrowIconLarge.svg";
+import rightArrowIcon from "../../assets/icons/rightArrowIconLarge.svg";
 
 const MusicianSelector = ({
   musicians,
   currentMusician,
   setCurrentMusician,
+  className
 }) => {
   const selectorCount = 4;
   const [startIndex, setStartIndex] = useState(0);
@@ -44,21 +45,31 @@ const MusicianSelector = ({
   };
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className={`flex items-center justify-center gap-2 ${className}`}>
       {/* Left Arrow */}
       <button
         onClick={handlePrev}
         disabled={startIndex === 0}
-        className="p-2 disabled:opacity-50 bg-transparent border-none"
+        className="p-2 lg:p-3 disabled:opacity-60 bg-transparent border-none flex items-center justify-center min-w-8"
       >
-        <img src={leftArrowIcon} alt="Previous" />
+        <img 
+          src={leftArrowIcon} 
+          alt="Previous" 
+          className="w-3 lg:w-4 h-auto" 
+        />
       </button>
 
       {/* Musician Cells */}
       <div className="flex gap-3 relative">
-        {/* Decorative Boxes */}
-        <div className="absolute top-6 -z-10 border-3 border-secondary-purple h-10 w-[105%] left-1/2 -translate-x-1/2"></div>
-        <div className="absolute top-8 -z-10 border-2 border-secondary-purple h-6 w-[100%] left-1/2 -translate-x-1/2"></div>
+        {/* Decorative Boxes Mobile */}
+        <div className="lg:hidden absolute top-7 z-20 border-[3px] border-secondary-purple h-8 w-[105%] left-1/2 -translate-x-1/2"/>
+        <div className="lg:hidden absolute top-[33px] z-20 border-[1px] border-secondary-purple h-[22px] w-[100%] left-1/2 -translate-x-1/2"/>
+
+        {/* Decorative Boxes Desktop */}
+        <div className="hidden lg:block absolute top-7 z-20 border-[5px]
+         border-secondary-purple h-12 w-[105%] left-1/2 -translate-x-1/2"/>
+        <div className="hidden lg:block absolute top-[36px] z-20 border-[2px]
+         border-secondary-purple h-8 w-[100%] left-1/2 -translate-x-1/2"/>
 
         {/* Musicians */}
         {displayedMusicians.map((musician) => (
@@ -69,8 +80,9 @@ const MusicianSelector = ({
             }
             className={`
               w-16 h-16 flex items-center justify-center rounded-full 
-             cursor-pointer relative
+              cursor-pointer relative
               ${musician.name === "Empty" ? "pointer-events-none" : ""}
+              lg:w-24 lg:h-24
             `}
           >
             {/* Selection indicator */}
@@ -81,17 +93,18 @@ const MusicianSelector = ({
                   : unselectedEllipseIcon
               }
               alt=""
-              className="absolute inset-0 w-full h-full z-20"
+              className="absolute inset-0 w-full h-full z-40"
             />
 
             {/* Background color with slightly smaller radius */}
-            <div className="absolute inset-0.5 bg-light-grey rounded-full z-0"></div>
+            <div className="absolute inset-0.5 bg-light-grey rounded-full z-20"></div>
 
             {/* Musician icon */}
             <img
               src={musician.imageIcon}
               alt={musician.name}
-              className="w-16 h-16 rounded-full object-cover z-10"
+              className="w-16 h-16 rounded-full object-cover z-30
+                          lg:w-24 lg:h-24"
             />
           </div>
         ))}
@@ -101,9 +114,13 @@ const MusicianSelector = ({
       <button
         onClick={handleNext}
         disabled={startIndex + selectorCount >= musicians.length}
-        className="p-2 disabled:opacity-50 bg-transparent border-none outline-none shadow-none"
+        className="p-2 lg:p-3 disabled:opacity-60 bg-transparent border-none outline-none shadow-none flex items-center justify-center min-w-8"
       >
-        <img src={rightArrowIcon} alt="Next" />
+        <img 
+          src={rightArrowIcon} 
+          alt="Next" 
+          className="w-3 lg:w-4 h-auto" 
+        />
       </button>
     </div>
   );
@@ -113,6 +130,11 @@ MusicianSelector.propTypes = {
   musicians: PropTypes.arrayOf(MusicianShape).isRequired,
   currentMusician: MusicianShape.isRequired,
   setCurrentMusician: PropTypes.func.isRequired,
+  className: PropTypes.string
+};
+
+MusicianSelector.defaultProps = {
+  className: ""
 };
 
 export default MusicianSelector;
