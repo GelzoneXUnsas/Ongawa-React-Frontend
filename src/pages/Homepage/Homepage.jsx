@@ -331,7 +331,7 @@ const Homepage = () => {
             {/* Image Section */}
             <div className="h-1/2 lg:absolute lg:right-0 lg:w-3/5 lg:h-5/6 lg:top-2">
             {/* Background image container */}
-              <div className="absolute inset-0 lg:inset-[-20%]">
+              <div className="absolute inset-0 lg:inset-[-40%]">
                 <img
                   src={aboutUsBackgroundImg}
                   alt="About Us"
@@ -343,7 +343,7 @@ const Homepage = () => {
                   className="hidden lg:flex absolute inset-[-1px] items-center justify-center"
                   style={{
                     background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 410px)",
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 420px)",
                   }}
                 />
                 
