@@ -7,9 +7,10 @@ import cover3 from "../../assets/images/musicCovers/celestialechoesHD.png";
 import cover4 from "../../assets/images/musicCovers/nocturnalpursuitHD.png";
 import searchIcon from '../../assets/icons/searchIcon.svg';
 import closeIcon from '../../assets/icons/closeNavDropdown.png';
-import heartIcon from "../../assets/icons/heartIcon.svg";
-import playIcon from "../../assets/icons/playIcon.svg";
+import heartIcon from "../../assets/icons/heartIcon-white.svg";
+import playIcon from "../../assets/icons/playIcon-white.svg";
 import timeIcon from "../../assets/icons/timeIcon.svg"
+import ellipseIcon from "../../assets/icons/ellipse.svg"
 
 const beatmaps = [
   {
@@ -144,6 +145,11 @@ export default function BeatmapListingPage() {
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [hoveredBeatmap, setHoveredBeatmap] = useState(null);
+
+  const [swipePositions, setSwipePositions] = useState({});
+  const [touchStart, setTouchStart] = useState(null);
+  const [isSwiping, setIsSwiping] = useState(false);
+
   // const [isSearchActive, setIsSearchActive] = useState(false);
   const navigate = useNavigate();
 
@@ -162,9 +168,12 @@ export default function BeatmapListingPage() {
   const DifficultyIndicator = ({ difficulty }) => {
     return (
       <div className="flex gap-1">
-        <div className={`h-4 w-1 rounded-full ${difficulty === "easy" ? "bg-green-500" : "bg-gray-500"}`}></div>
+        {/* <div className={`h-4 w-1 rounded-full ${difficulty === "easy" ? "bg-green-500" : "bg-gray-500"}`}></div>
         <div className={`h-4 w-1 rounded-full ${difficulty === "medium" ? "bg-yellow-500" : "bg-gray-500"}`}></div>
-        <div className={`h-4 w-1 rounded-full ${difficulty === "hard" ? "bg-red-500" : "bg-gray-500"}`}></div>
+        <div className={`h-4 w-1 rounded-full ${difficulty === "hard" ? "bg-red-500" : "bg-gray-500"}`}></div> */}
+        <div className={`h-4 w-1 rounded-full bg-green-500`}></div>
+        <div className={`h-4 w-1 rounded-full bg-yellow-500`}></div>
+        <div className={`h-4 w-1 rounded-full bg-red-500`}></div>
       </div>
     );
   };
@@ -230,6 +239,67 @@ export default function BeatmapListingPage() {
       setSearchTerm(searchInput);
       setShowDropdown(false);
     }
+  };
+
+  // Swipe threshold values
+  const minSwipeDistance = 50;
+  const maxSwipeDistance = 96; // This is the width of the action panel (24rem)
+
+  // Touch gesture handlers
+  const onTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+    setIsSwiping(true);
+  };
+
+  const onTouchMove = (e, index) => {
+    if (!touchStart || !isSwiping) return;
+
+    const currentTouch = e.targetTouches[0].clientX;
+    const diff = touchStart - currentTouch;
+
+    // Constrain the swipe to be between 0 and maxSwipeDistance
+    let swipeAmount = Math.max(0, Math.min(diff, maxSwipeDistance));
+
+    // Update the swipe position for this specific beatmap
+    setSwipePositions(prev => ({
+      ...prev,
+      [index]: swipeAmount
+    }));
+  };
+
+  const onTouchEnd = (index) => {
+    if (!touchStart || !isSwiping) return;
+
+    // Get the current swipe amount for this beatmap
+    const currentSwipeAmount = swipePositions[index] || 0;
+
+    // If swiped more than minSwipeDistance, snap to full open
+    // Otherwise, snap back to closed
+    const finalSwipeAmount = currentSwipeAmount > minSwipeDistance
+      ? maxSwipeDistance
+      : 0;
+
+    // Update the swipe position for this specific beatmap
+    setSwipePositions(prev => ({
+      ...prev,
+      [index]: finalSwipeAmount
+    }));
+
+    setTouchStart(null);
+    setIsSwiping(false);
+  };
+
+  // Function to determine the transform value based on swipe position
+  const getTransformValue = (index) => {
+    const swipeAmount = swipePositions[index] || 0;
+    return `translateX(-${swipeAmount}px)`;
+  };
+
+  // Function to determine the action panel transform value
+  const getActionPanelTransform = (index) => {
+    const swipeAmount = swipePositions[index] || 0;
+    const percentage = (swipeAmount / maxSwipeDistance) * 100;
+    return `translateX(${100 - percentage}%)`;
   };
 
   return (
@@ -333,7 +403,11 @@ export default function BeatmapListingPage() {
             {hoveredBeatmap === index && (
               <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center pl-2">
                 {/* Difficulty Indicator */}
-                <DifficultyIndicator difficulty={beatmap.difficulty} />
+                {/* <DifficultyIndicator difficulty={beatmap.difficulty} /> */}
+                <div className="flex items-center gap-2">
+                  <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
+                  <DifficultyIndicator difficulty={beatmap.difficulty} />
+                </div>
 
                 {/* Likes and Plays */}
                 <div className="flex items-center gap-4">
@@ -357,44 +431,55 @@ export default function BeatmapListingPage() {
         {filteredBeatmaps.map((beatmap, index) => (
           <div
             key={index}
-            className="flex items-start gap-3 p-1 rounded-xl hover:bg-[#2D294C]"
-            onMouseEnter={() => setHoveredBeatmap(index)}
-            onMouseLeave={() => setHoveredBeatmap(null)}
-            onClick={() => handleBeatmapClick(beatmap.id)}
+            className="relative overflow-hidden rounded-xl"
+            onTouchStart={(e) => onTouchStart(e)}
+            onTouchMove={(e) => onTouchMove(e, index)}
+            onTouchEnd={() => onTouchEnd(index)}
           >
-            <img
-              src={beatmap.image}
-              alt={beatmap.title}
-              className="w-16 h-16 rounded-lg object-cover"
-            />
-            <div className="flex-1">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-base font-medium">{beatmap.title}</h3>
-                  <p className="text-sm text-gray-400">{beatmap.artist}</p>
-                  <p className="text-xs text-gray-500">Mapped: {beatmap.mappedBy}</p>
+            {/* Main content that slides */}
+            <div 
+              className="flex items-start gap-3 p-1 bg-[#2D294C] transition-transform duration-300 ease-out"
+              style={{ transform: getTransformValue(index) }}
+              onClick={() => {
+                // Only navigate if not swiping
+                if (!isSwiping && (swipePositions[index] || 0) === 0) {
+                  handleBeatmapClick(beatmap.id);
+                }
+              }}
+            >
+              <img
+                src={beatmap.image}
+                alt={beatmap.title}
+                className="w-16 h-16 rounded-lg object-cover"
+              />
+              <div className="flex-1">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-base font-medium">{beatmap.title}</h3>
+                    <p className="text-sm text-gray-400">{beatmap.artist}</p>
+                    <p className="text-xs text-gray-500">Mapped: {beatmap.mappedBy}</p>
+                  </div>
                 </div>
+              </div>
+            </div>
 
-                <div className="flex flex-col items-end gap-2">
-                 {/* Only show the Difficulty, Likes, and Plays on hover */}
-                  {hoveredBeatmap === index && (
-                    <>
-                      {/* Difficulty Indicator */}
-                      <DifficultyIndicator difficulty={beatmap.difficulty} />
-
-                      {/* Likes and Plays */}
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-1">
-                          <img src={heartIcon} alt="heart" className="w-4 h-4" />
-                          <span className="text-xs">{beatmap.likes}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <img src={playIcon} alt="play" className="w-4 h-4" />
-                          <span className="text-xs">{beatmap.plays}</span>
-                        </div>
-                      </div>
-                    </>
-                  )}
+            {/* Action panel that gets revealed */}
+            <div
+              className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-[#1D1D2E] transition-transform duration-300 ease-out"
+              style={{ transform: getActionPanelTransform(index) }}
+            >
+              <div className="flex flex-col gap-3 items-center">
+                <div className="flex items-center gap-1">
+                  <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
+                  <DifficultyIndicator difficulty={beatmap.difficulty} />
+                </div>
+                <div className="flex items-center gap-1">
+                  <img src={heartIcon} alt="heart" className="w-4 h-4" />
+                  <span className="text-xs">{beatmap.likes}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <img src={playIcon} alt="play" className="w-4 h-4" />
+                  <span className="text-xs">{beatmap.plays}</span>
                 </div>
               </div>
             </div>
