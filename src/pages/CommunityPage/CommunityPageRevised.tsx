@@ -1,19 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import React from "react";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+
+import {
+    TurnedIn,
+    TurnedInNot,
+    ChatBubbleOutline,
+    ExpandMore,
+    ExpandLess,
+    Delete,
+} from "@mui/icons-material";
+
+import { Reply } from "@mui/icons-material";
+const ReplyIcon = Reply;
 
 const client = generateClient<Schema>();
 
-/* TODO
- *  add tree like structure for interactions
- *      will these be better? generating whole tree
- *
- */
-
 export default function PostList() {
     // store all posts on create
-    const [posts, setPosts] = useState<Schema["Post"]["type"][]>([]); // stores all posts
+    const [posts, setPosts] = useState<Schema["communityPost"]["type"][]>([]); // stores all posts
 
     // useState for creating a new post -> stores header and content fields
     const [postHeader, setPostHeader] = useState<string>("");
@@ -27,7 +34,7 @@ export default function PostList() {
     // needed to manage which post we need to fetch interactions for
     // needed to manage which post we are replying to
     const [focusedPost, setFocusedPost] = useState<
-        Schema["Post"]["type"] | null
+        Schema["communityPost"]["type"] | null
     >(null);
 
     // useState for interactions whose post_id match the current focusedPostId
@@ -35,11 +42,38 @@ export default function PostList() {
     const [interactionTree, setInteractionTree] = useState<
         Record<string, any[]>
     >({});
+    const [replyCount, setReplyCount] = useState<number>(0);
+
+    // current logged in user
+    const { user } = useAuthenticator((context) => [context.user]);
+
+    // current logged in user PULLED FROM DYNAMODB TABLE
+    const [currUser, setCurrUser] = useState<Schema["userLike"]["type"][]>([]);
+
+    useEffect(() => {
+        if (user) {
+            fetchUser(user.userId);
+        }
+    }, [user]);
 
     // API FUNCTIONS
 
+    const fetchUser = async (user_id: string) => {
+        const { data: items, errors } = await client.models.userLike.list({
+            filter: {
+                id: {
+                    eq: user_id,
+                },
+            },
+        });
+
+        setCurrUser(items);
+    };
+
     const fetchPosts = async () => {
-        const { data: items, errors } = await client.models.Post.list({});
+        const { data: items, errors } = await client.models.communityPost.list(
+            {}
+        );
         setPosts(items);
     };
 
@@ -63,28 +97,51 @@ export default function PostList() {
     };
 
     const fetchInteractionByPostId = async (post_id: string) => {
-        const { data: items, errors } = await client.models.Interaction.list({
-            filter: {
-                post_id: {
-                    eq: post_id,
+        const { data: items, errors } =
+            await client.models.communityInteraction.list({
+                filter: {
+                    post_id: {
+                        eq: post_id,
+                    },
                 },
-            },
-        });
+            });
 
+        setReplyCount(items.length);
         setInteractionTree(generateTree(items));
     };
+
+    // const fetchLikedPostsByUserId = async (post_id: string) => {
+    //     const { data: items, errors } =
+    //         await client.models.userLike.list({
+    //             filter: {
+    //                 id: {
+    //                     eq: user.userId,
+    //                 },
+    //             },
+    //         });
+    // };
 
     useEffect(() => {
         fetchPosts();
     }, []);
 
     const createPost = async () => {
-        if (postHeader.trim() == "" || postContent.trim() == "") return;
+        if (postHeader.trim() == "" || postContent.trim() == "") {
+            alert("Please fill in all required fields.");
+            return;
+        }
+        if (!user) {
+            alert("Please sign in to create a post.");
+            return;
+        }
 
-        await client.models.Post.create({
-            user_id: "1", // need to fix this after cognito implementation
+        await client.models.communityPost.create({
+            user_id: user.userId, // need to fix this after cognito implementation
             header: postHeader,
             content: postContent,
+            tags: Object.keys(selectedItems).filter(
+                (key) => selectedItems[key]
+            ),
         });
 
         setPostHeader("");
@@ -92,17 +149,62 @@ export default function PostList() {
         fetchPosts();
     };
 
-    // need to change logic so each user can only like each post once -> talk to l/p about how we want to deal with likes long term
     const likePost = async (pid: string, numLikes: number) => {
-        await client.models.Post.update({
-            id: pid,
-            likes: numLikes + 1,
-        });
+        if (!user) {
+            alert("Please sign in to like a post.");
+            return;
+        }
+
+        if (currUser[0]?.saved_posts?.includes(pid)) {
+            await client.models.communityPost.update({
+                id: pid,
+                saves: numLikes - 1,
+            });
+
+            const { data: item, errors } = await client.models.userLike.list({
+                filter: {
+                    id: {
+                        eq: user.userId,
+                    },
+                },
+            });
+
+            if (item.length > 0) {
+                const updatedLikedPosts =
+                    item[0].saved_posts?.filter((postId) => postId !== pid) ??
+                    [];
+
+                await client.models.userLike.update({
+                    id: user.userId,
+                    saved_posts: updatedLikedPosts, // Remove the post ID
+                });
+            }
+        } else {
+            await client.models.communityPost.update({
+                id: pid,
+                saves: numLikes + 1,
+            });
+
+            const { data: item, errors } = await client.models.userLike.list({
+                filter: {
+                    id: {
+                        eq: user.userId,
+                    },
+                },
+            });
+
+            await client.models.userLike.update({
+                id: user.userId,
+                saved_posts: [...(item[0].saved_posts ?? []), pid],
+            });
+        }
 
         fetchPosts();
+        fetchUser(user.userId);
     };
 
-    const expandPost = async (post: Schema["Post"]["type"] | null) => {
+    const expandPost = async (post: Schema["communityPost"]["type"] | null) => {
+        setReplyCount(-1);
         if (post === null) {
             setFocusedPost(null);
             return;
@@ -111,12 +213,41 @@ export default function PostList() {
         fetchInteractionByPostId(post.id ?? "");
     };
 
+    const deleteInteraction = async (interactionId, userId) => {
+        if (!user) return;
+        if (userId !== user.userId) return;
+        const { data: deletedTodo, errors } =
+            await client.models.communityInteraction.delete({
+                id: interactionId,
+                post_id: focusedPost?.id ?? "",
+            });
+
+        fetchInteractionByPostId(focusedPost?.id ?? "");
+    };
+
+    // const deletePost = async (userId, postId) => {
+    //     if (!user) return;
+    //     if (userId !== user.userId) return;
+    //     const { data: deletedTodo, errors } = await client.models.Post.delete({
+    //         id: postId,
+    //     });
+
+    //     fetchPosts();
+    // };
+
     const createReply = async (parent_id: string, type: "R" | "SR") => {
-        if (!replyContent.trim()) return;
+        if (!user) {
+            alert("Please sign in to reply to a post.");
+            return;
+        }
+        if (!replyContent.trim()) {
+            alert("Please fill in all required fields.");
+            return;
+        }
         if (focusedPost === null) return;
 
-        await client.models.Interaction.create({
-            user_id: "1", // need to fix this after cognito implementation
+        await client.models.communityInteraction.create({
+            user_id: user.userId,
             parent_id: parent_id,
             post_id: focusedPost.id ?? "",
             type: type,
@@ -130,18 +261,79 @@ export default function PostList() {
         fetchInteractionByPostId(focusedPost.id ?? "");
     };
 
-    const Post = (post: Schema["Post"]["type"]) => {
+    const [selectedItems, setSelectedItems] = useState<{
+        [key: string]: boolean;
+    }>({
+        Neon: false,
+        Synthwave: false,
+        Cyberpunk: false,
+        Futuresynth: false,
+        "Neon Bass": false,
+    });
+
+    const ChecklistForm = () => {
+        const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+            setSelectedItems({
+                ...selectedItems,
+                [event.target.name]: event.target.checked,
+            });
+        };
+
+        const handleSubmit = (event: React.FormEvent) => {
+            event.preventDefault();
+            console.log("Selected items:", selectedItems);
+        };
+
+        return (
+            <form onSubmit={handleSubmit}>
+                <div
+                    style={{
+                        display: "flex",
+                        gap: "15px",
+                    }}
+                >
+                    {Object.keys(selectedItems).map((item) => (
+                        <label
+                            key={item}
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 15,
+                                padding: 10,
+                                color: "white",
+                                backgroundColor: "rgba(199, 185, 235, 0.1)",
+                                borderRadius: 5,
+                                border: "none",
+                            }}
+                        >
+                            <input
+                                type="checkbox"
+                                name={item}
+                                checked={selectedItems[item]}
+                                onChange={handleChange}
+                            />
+                            {item.replace("item", "Item ")}
+                        </label>
+                    ))}
+                </div>
+            </form>
+        );
+    };
+
+    const Post = (post: Schema["communityPost"]["type"]) => {
         if (focusedPost !== null && post.id === focusedPost.id) {
+            // active post
             return (
                 <div
                     key={post.id}
                     style={{
-                        border: "2px solid white",
-                        padding: 5,
+                        padding: 40,
                         marginTop: 5,
                         display: "flex",
                         flexDirection: "column",
                         color: "white",
+                        backgroundColor: "rgba(176, 154, 236, 0.1)",
+                        borderRadius: 10,
                     }}
                 >
                     <div
@@ -150,35 +342,52 @@ export default function PostList() {
                             justifyContent: "space-between",
                         }}
                     >
-                        <h1>{post.header}</h1>
                         <div
                             style={{
                                 display: "flex",
-                                gap: 10,
+                                flexDirection: "row",
+                                gap: 20,
+                                alignItems: "center",
+                            }}
+                        >
+                            <h1>{post.user_id.split("-")[0]}</h1>
+                            <p>•</p>
+                            <p>{post.createdAt?.split("T")[0]}</p>
+                        </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: 0,
                             }}
                         >
                             <button
                                 style={{
-                                    color: "red",
+                                    color: "white",
                                     backgroundColor: "transparent",
                                     borderRadius: 180,
-                                    border: "2px solid white",
+                                    border: "none",
                                     height: 25,
                                     display: "flex",
                                     alignItems: "center",
+                                    width: 0,
                                 }}
                                 onClick={() =>
-                                    likePost(post.id ?? "", post.likes ?? 0)
+                                    likePost(post.id ?? "", post.saves ?? 0)
                                 }
                             >
-                                {post.likes} ♡
+                                {currUser[0]?.saved_posts?.includes(
+                                    post.id ?? ""
+                                ) && <TurnedIn />}
+                                {!currUser[0]?.saved_posts?.includes(
+                                    post.id ?? ""
+                                ) && <TurnedInNot />}
                             </button>
                             <button
                                 style={{
                                     color: "white",
                                     backgroundColor: "transparent",
                                     borderRadius: 180,
-                                    border: "2px solid white",
+                                    border: "none",
                                     height: 25,
                                     display: "flex",
                                     alignItems: "center",
@@ -192,35 +401,59 @@ export default function PostList() {
                                     }
                                 }}
                             >
-                                {post.replies} REPLY
+                                <ChatBubbleOutline />
                             </button>
                             <button
                                 style={{
                                     color: "white",
                                     backgroundColor: "transparent",
                                     borderRadius: 180,
-                                    border: "2px solid white",
+                                    border: "none",
                                     height: 25,
                                     display: "flex",
                                     alignItems: "center",
+                                    width: 0,
                                 }}
                                 onClick={() => {
                                     expandPost(null);
+                                    setReplyPostId("");
                                 }}
                             >
-                                HIDE
+                                <ExpandLess />
                             </button>
                         </div>
                     </div>
+                    <div style={{ display: "flex", gap: 20 }}>
+                        {post.tags?.map((tag) => (
+                            <div
+                                style={{
+                                    backgroundColor: "rgba(205, 194, 235, 0.1)",
+                                    borderRadius: 10,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    textAlign: "center",
+                                    padding: 10,
+                                }}
+                            >
+                                <b>{tag}</b>
+                            </div>
+                        ))}
+                    </div>
+                    <h4>{post.header}</h4>
                     <p>{post.content}</p>
+                    <div
+                        style={{
+                            width: "100%",
+                            height: 1,
+                            border: "1px solid white",
+                            margin: 10,
+                            marginBottom: 30,
+                        }}
+                    />
                     {replyPostId === post.id && Reply("R")}
-                    {/* {interactions
-                        .filter(
-                            (interaction) => interaction.parent_id === post.id
-                        )
-                        .map((interation) => Interaction(interation))} */}
                     {interactionTree[post.id ?? 0]?.map((subReply) =>
-                        Interaction(subReply)
+                        Interaction(subReply, 0)
                     )}
                 </div>
             );
@@ -229,12 +462,13 @@ export default function PostList() {
                 <div
                     key={post.id}
                     style={{
-                        border: "2px solid white",
-                        padding: 5,
+                        padding: 40,
                         marginTop: 5,
                         display: "flex",
                         flexDirection: "column",
                         color: "white",
+                        backgroundColor: "rgba(176, 154, 236, 0.1)",
+                        borderRadius: 10,
                     }}
                 >
                     <div
@@ -243,11 +477,22 @@ export default function PostList() {
                             justifyContent: "space-between",
                         }}
                     >
-                        <h1>{post.header}</h1>
                         <div
                             style={{
                                 display: "flex",
-                                gap: 10,
+                                flexDirection: "row",
+                                gap: 20,
+                                alignItems: "center",
+                            }}
+                        >
+                            <h1>{post.user_id.split("-")[0]}</h1>
+                            <p>•</p>
+                            <p>{post.createdAt?.split("T")[0]}</p>
+                        </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: 0,
                             }}
                         >
                             <button
@@ -255,8 +500,33 @@ export default function PostList() {
                                     color: "white",
                                     backgroundColor: "transparent",
                                     borderRadius: 180,
-                                    border: "2px solid white",
+                                    border: "none",
+                                    height: 0,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    fontSize: 30,
+                                    justifyContent: "center",
+                                    width: 0,
+                                }}
+                                onClick={() =>
+                                    likePost(post.id ?? "", post.saves ?? 0)
+                                }
+                            >
+                                {currUser[0]?.saved_posts?.includes(
+                                    post.id ?? ""
+                                ) && <TurnedIn />}
+                                {!currUser[0]?.saved_posts?.includes(
+                                    post.id ?? ""
+                                ) && <TurnedInNot />}
+                            </button>
+                            <button
+                                style={{
+                                    color: "white",
+                                    backgroundColor: "transparent",
+                                    borderRadius: 180,
+                                    border: "none",
                                     height: 25,
+                                    width: 0,
                                     display: "flex",
                                     alignItems: "center",
                                 }}
@@ -264,28 +534,51 @@ export default function PostList() {
                                     expandPost(post);
                                 }}
                             >
-                                EXPAND
+                                <ExpandMore />
                             </button>
                         </div>
                     </div>
+                    <div style={{ display: "flex", gap: 20 }}>
+                        {post.tags?.map((tag) => (
+                            <div
+                                style={{
+                                    backgroundColor: "rgba(205, 194, 235, 0.1)",
+                                    borderRadius: 10,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    textAlign: "center",
+                                    padding: 10,
+                                }}
+                            >
+                                <b>{tag}</b>
+                            </div>
+                        ))}
+                    </div>
+                    <h4>{post.header}</h4>
+                    <p>{post.content}</p>
                 </div>
             );
         }
     };
 
-    const Interaction = (interaction: Schema["Interaction"]["type"]) => {
+    const Interaction = (
+        interaction: Schema["communityInteraction"]["type"],
+        margin: number
+    ) => {
         return (
             <div
                 style={{
                     color: "white",
-                    marginLeft: 50,
+                    marginLeft: margin,
                 }}
                 key={interaction.id}
             >
                 <div
                     style={{
-                        border: "2px solid white",
-                        padding: 5,
+                        backgroundColor: "rgba(176, 154, 236, 0.1)",
+                        borderRadius: 10,
+                        padding: 10,
                         margin: 5,
                     }}
                 >
@@ -295,50 +588,78 @@ export default function PostList() {
                             justifyContent: "space-between",
                         }}
                     >
-                        <p>{interaction.content}</p>
-                        <button
+                        <div
                             style={{
-                                color:
-                                    replyPostId === interaction.id
-                                        ? "green"
-                                        : "white",
-                                backgroundColor: "transparent",
-                                borderRadius: 180,
-                                border:
-                                    replyPostId === interaction.id
-                                        ? "2px solid green"
-                                        : "2px solid white",
-                                height: 25,
                                 display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "center",
+                                gap: 20,
                                 alignItems: "center",
                             }}
-                            onClick={() => {
-                                if (replyPostId === interaction.id) {
-                                    setReplyPostId("-1");
-                                } else {
-                                    setReplyContent("");
-                                    setReplyPostId(interaction.id ?? null);
-                                }
+                        >
+                            <b style={{ fontSize: 20 }}>
+                                {interaction.user_id.split("-")[0]}
+                            </b>
+                            {interaction.createdAt?.split("T")[0]}
+                        </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
                             }}
                         >
-                            REPLY
-                        </button>
+                            {interaction.user_id === user?.userId && (
+                                <button
+                                    style={{
+                                        color: "white",
+                                        backgroundColor: "transparent",
+                                        borderRadius: 180,
+                                        height: 25,
+                                        width: 0,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        border: "none",
+                                    }}
+                                    onClick={() => {
+                                        deleteInteraction(
+                                            interaction.id,
+                                            interaction.user_id
+                                        );
+                                    }}
+                                >
+                                    <Delete />
+                                </button>
+                            )}
+                            <button
+                                style={{
+                                    color: "white",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                    height: 25,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: 0,
+                                }}
+                                onClick={() => {
+                                    if (replyPostId === interaction.id) {
+                                        setReplyPostId("-1");
+                                    } else {
+                                        setReplyContent("");
+                                        setReplyPostId(interaction.id ?? null);
+                                    }
+                                }}
+                            >
+                                <ReplyIcon />
+                            </button>
+                        </div>
                     </div>
+                    <p style={{ paddingTop: 10 }}>{interaction.content}</p>
                     {replyPostId === interaction.id && Reply("SR")}
-                    {/* {interactions.filter(
-                        (subi) =>
-                            subi.type === "SR" &&
-                            subi.parent_id === interaction.id
-                    ) &&
-                        interactions
-                            .filter(
-                                (subi) =>
-                                    subi.type === "SR" &&
-                                    subi.parent_id === interaction.id
-                            )
-                            .map((subi) => Interation(subi))} */}
                     {interactionTree[interaction.id]?.map((subReply) =>
-                        Interaction(subReply)
+                        Interaction(subReply, 50)
                     )}
                 </div>
             </div>
@@ -349,12 +670,10 @@ export default function PostList() {
         return (
             <div
                 style={{
-                    border: "2px solid green",
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "start",
                     justifyContent: "center",
-                    padding: 5,
-                    gap: 5,
+                    gap: 20,
                 }}
             >
                 <input
@@ -364,11 +683,20 @@ export default function PostList() {
                     placeholder="Reply to post..."
                     style={{
                         padding: 10,
-                        marginBottom: 10,
                         color: "white",
+                        height: "40px", // Adding a specific height to align with button
                     }}
                 />
-                <button onClick={() => createReply(replyPostId ?? "", type)}>
+                <button
+                    style={{
+                        height: "40px", // Match the height of the input field
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center", // Ensure the button content is centered
+                        borderRadius: 5,
+                    }}
+                    onClick={() => createReply(replyPostId ?? "", type)}
+                >
                     Reply
                 </button>
             </div>
@@ -381,35 +709,63 @@ export default function PostList() {
                 <strong>Community Page</strong>
             </h1>
             <div>
-                <div>
-                    <input
-                        type="text"
-                        value={postHeader}
-                        onChange={(e) => setPostHeader(e.target.value)}
-                        placeholder="Post header..."
+                <div
+                    style={{
+                        backgroundColor: "rgba(176, 154, 236, 0.1)",
+                        marginBottom: 40,
+                        borderRadius: 10,
+                        padding: 40,
+                    }}
+                >
+                    <div>
+                        <input
+                            type="text"
+                            value={postHeader}
+                            onChange={(e) => setPostHeader(e.target.value)}
+                            placeholder="Post header..."
+                            style={{
+                                padding: 10,
+                                marginBottom: 10,
+                                display: "block",
+                                color: "white",
+                                backgroundColor: "rgba(199, 185, 235, 0.1)",
+                                border: "none",
+                            }}
+                        />
+                        <input
+                            type="text"
+                            value={postContent}
+                            onChange={(e) => setPostContent(e.target.value)}
+                            placeholder="Post content..."
+                            style={{
+                                padding: 10,
+                                marginBottom: 10,
+                                display: "block",
+                                color: "white",
+                                backgroundColor: "rgba(199, 185, 235, 0.1)",
+                                border: "none",
+                            }}
+                        />
+                    </div>
+                    <div
                         style={{
-                            padding: 10,
-                            marginBottom: 10,
-                            display: "block",
-                            color: "white",
+                            display: "flex",
+                            justifyContent: "space-between",
                         }}
-                    />
-                    <input
-                        type="text"
-                        value={postContent}
-                        onChange={(e) => setPostContent(e.target.value)}
-                        placeholder="Post content..."
-                        style={{
-                            padding: 10,
-                            marginBottom: 10,
-                            display: "block",
-                            color: "white",
-                        }}
-                    />
+                    >
+                        <ChecklistForm />
+                        <button
+                            style={{
+                                height: 50,
+                                marginTop: 13,
+                                borderRadius: 5,
+                            }}
+                            onClick={createPost}
+                        >
+                            Add New Post
+                        </button>
+                    </div>
                 </div>
-                <button onClick={createPost} style={{ marginBottom: 50 }}>
-                    Add new Post
-                </button>
                 <div
                     style={{
                         display: "flex",

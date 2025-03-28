@@ -1,0 +1,72 @@
+.amplify-input {
+    background-color: white;
+    color: black;
+    border: none;
+}
+
+.amplify-input:focus,
+.amplify-input:hover {
+    background-color: lightgray;
+    color: black;
+    border: none;
+}
+
+.amplify-button,
+.amplify-button:focus {
+    border: none;
+}
+
+.amplify-button:hover {
+    background-color: rgba(237, 220, 250, 1);
+    color: black;
+    border: none;
+}
+
+.amplify-button.amplify-field-group__control.amplify-field__show-password {
+    color: white;
+}
+
+.amplify-button.amplify-field-group__control.amplify-button--primary {
+    color: black;
+}
+
+.amplify-button.amplify-field-group__control {
+    color: white;
+}
+
+.amplify-button.amplify-field-group__control:hover {
+    color: black;
+}
+
+.amplify-text,
+.amplify-heading {
+    color: white;
+}
+
+[data-amplify-authenticator] {
+    --amplify-components-authenticator-router-background-color: transparent;
+    --amplify-components-authenticator-router-box-shadow: 0 0 0px;
+    --amplify-components-authenticator-router-border-width: 0;
+    --amplify-components-authenticator-form-padding: var(--amplify-space-medium)
+        var(--amplify-space-xl) var(--amplify-space-xl);
+    --amplify-components-button-primary-background-color: rgb(237, 220, 250);
+    --amplify-components-button-primary-color: black;
+    --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px
+        var(--amplify-colors-white-60);
+    --amplify-components-tabs-item-active-border-color: var(
+        --amplify-colors-neutral-10
+    );
+    --amplify-components-tabs-item-border-color: var(
+        --amplify-colors-neutral-60
+    );
+    --amplify-components-tabs-item-color: var(--amplify-colors-neutral-60);
+    --amplify-components-tabs-item-background-color: rgb(40, 40, 70);
+    --amplify-components-tabs-item-active-color: var(
+        --amplify-colors-neutral-10
+    );
+    --amplify-components-button-link-color: var(--amplify-colors-neutral-10);
+    --amplify-components-field-label-color: var(--amplify-colors-neutral-10);
+    --amplify-components-passwordfield-button-active-color: var(
+        --amplify-colors-neutral-10
+    );
+}
