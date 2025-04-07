@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { MusicianShape } from "../../types/types";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import SpotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
 import SoundCloudIcon from "../../assets/icons/soundCloudIcon.svg";
@@ -12,10 +12,14 @@ const InformationBox = ({ currentMusician, className }) => {
       p-3  bg-light-grey border-solid border-main-purple/90 border-[12px]
       outline outline-1 outline-light-grey outline-offset-[-4px] overflow-hidden
       lg:border-[22px] lg:outline-offset-[-6px] lg:p-8
+      short:border-[8px] short:p-1
       `}
     >
       {/* Name */}
-      <div className="relative mr-6 mb-2 p-2 bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]">
+      <div
+        className="relative mr-6 mb-2 p-2 bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]
+                      short:py-1 short:mr-24 short:mb-1"
+      >
         <AnimatePresence mode="wait">
           <motion.h2
             key={currentMusician.id + "-name"}
@@ -24,7 +28,8 @@ const InformationBox = ({ currentMusician, className }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="m-0 text-2xl text-light-grey font-light font-nova-square
-                       lg:text-4xl lg:pl-4"
+                       lg:text-4xl lg:pl-4
+                       short:text-lg"
           >
             {currentMusician.name}
           </motion.h2>
@@ -40,7 +45,8 @@ const InformationBox = ({ currentMusician, className }) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
           className="text-lg text-main-purple font-nova-square mb-1
-                     lg:text-2xl lg:mt-4"
+                     lg:text-2xl lg:mt-4
+                     short:text-base short:m-0"
         >
           {currentMusician.title}
         </motion.p>
@@ -54,15 +60,16 @@ const InformationBox = ({ currentMusician, className }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-sm text-main-purple mb-1
-                      lg:text-base/8 lg:mt-2"
+          className="text-xs text-main-purple mb-1
+                      lg:text-base/8 lg:mt-2
+                      short:m-0 "
         >
           {currentMusician.description}
         </motion.p>
       </AnimatePresence>
 
       {/* Social Media */}
-      <div className="flex items-center justify-between mt-2 lg:mt-8">
+      <div className="flex items-center justify-between mt-2 lg:mt-8 short:mt-0">
         <AnimatePresence mode="wait">
           <motion.p
             key={currentMusician.id + "-follow"}
@@ -71,7 +78,8 @@ const InformationBox = ({ currentMusician, className }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="text-page-background-purple mr-1 mb-0
-                         lg:hidden"
+                         lg:hidden
+                         short:text-sm"
           >
             Follow {currentMusician.name} At:
           </motion.p>
@@ -87,7 +95,11 @@ const InformationBox = ({ currentMusician, className }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src={SpotifyIcon} alt="Spotify" className="w-auto h-10" />
+            <img
+              src={SpotifyIcon}
+              alt="Spotify"
+              className="w-auto h-10 short:h-6"
+            />
           </a>
           <a
             href={currentMusician.soundcloudLink}
@@ -97,14 +109,17 @@ const InformationBox = ({ currentMusician, className }) => {
             <img
               src={SoundCloudIcon}
               alt="SoundCloud"
-              className="w-auto h-10"
+              className="w-auto h-10 short:h-6"
             />
           </a>
         </div>
       </div>
 
       <div className="flex justify-center lg:hidden">
-        <button className="mt-2 px-8 py-3 bg-main-purple text-white font-nova-square outline outline-1 outline-white outline-offset-[-4px]">
+        <button
+          className="mt-2 px-8 py-3 bg-main-purple text-white font-nova-square outline outline-1 outline-white outline-offset-[-4px]
+                            short:mt-1 short:px-6 short:py-2"
+        >
           View More
         </button>
       </div>

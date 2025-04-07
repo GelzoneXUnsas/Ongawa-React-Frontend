@@ -13,8 +13,7 @@ import DisplayStatusBar from "../../components/DisplayStatusBar/DisplayStatusBar
 import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
 import aboutUsBackgroundImg from "../../assets/images/galleryArt/art4.png";
 
-
-import ongawaLogoNameBlack from "../../assets/icons/ongawaLogoNameBlack.png";
+import ongawaLogoNameWhite from "../../assets/icons/ongawaLogoNameWhite.png";
 
 import discordIcon from "../../assets/icons/discordIcon.png";
 import desktopIcon from "../../assets/icons/desktopIcon.png";
@@ -126,9 +125,12 @@ const Homepage = () => {
   return (
     <>
       {/* Main Div */}
-      <div className="bg-page-background-purple snap-y snap-mandatory overflow-y-scroll overflow-x-hidden h-screen" style={{ scrollBehavior: 'smooth' }}>
-      <div className="hidden lg:flex">
-          <DisplayStatusBar/>
+      <div
+        className="bg-page-background-purple snap-y snap-mandatory overflow-y-scroll overflow-x-hidden h-screen"
+        style={{ scrollBehavior: "smooth" }}
+      >
+        <div className="hidden lg:flex">
+          <DisplayStatusBar />
         </div>
 
         {/* Home Section */}
@@ -138,9 +140,9 @@ const Homepage = () => {
             {/* Content inside background image */}
             {/* Ongawa Logo Icon */}
             <img
-              src={ongawaLogoNameBlack}
+              src={ongawaLogoNameWhite}
               alt="Ongawa Logo"
-              className="absolute top-1/2 left-1/2 w-64 lg:w-80 h-auto -translate-x-1/2 -translate-y-1/2"
+              className="absolute top-1/2 left-1/2 w-64 lg:w-80 h-auto -translate-x-1/2 -translate-y-1/2 drop-shadow-lg"
             />
             <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
               {/* Mobile Icons */}
@@ -177,24 +179,29 @@ const Homepage = () => {
           {/* Content inside background image */}
           {/* Title */}
 
-          <div className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]">
+          <div
+            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]
+            short:flex short:mt-16 short:py-1 short:mb-0
+          "
+          >
             <AnimatePresence mode="wait">
-            <motion.h2 
-              key={activeVideo}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="font-light text-5xl text-light-grey font-nova-square m-0">
-              {activeVideo === "gameplay" ? "Gameplay" : "Editor"}
-            </motion.h2>
+              <motion.h2
+                key={activeVideo}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="font-light text-5xl text-light-grey font-nova-square m-0
+                            short:text-3xl"
+              >
+                {activeVideo === "gameplay" ? "Gameplay" : "Editor"}
+              </motion.h2>
             </AnimatePresence>
           </div>
-
- 
+          {/* Video Element and Toggle Buttons */}
           <div className="flex flex-col items-center mx-3">
             {/* Toggle Buttons */}
-            <div className="flex lg:hidden justify-between md:justify-center w-full gap-4 mb-4 mt-32 lg:mt-8">
+            <div className="flex lg:hidden short:hidden justify-between md:justify-center w-full gap-4 mb-4 mt-32 lg:mt-8 short:mt-8">
               <ToggleButton
                 title="Gameplay"
                 isActive={activeVideo === "gameplay"}
@@ -206,39 +213,56 @@ const Homepage = () => {
                 toggleButton={() => setActiveVideo("editor")}
               />
             </div>
-            {/* Video and Description */}
-            <div className="lg:flex lg:items-center lg:gap-2 lg:px-8 lg:pt-8">
-
+            {/* Content */}
+            <div
+              className="lg:flex lg:items-center lg:gap-2 lg:px-8 lg:pt-8
+                         short:flex short:items-center short:gap-2 short:px-8 short:pt-4 short:h-full"
+            >
               {/* Video Toggle Element */}
-              <div className="hidden lg:block">
-                <ToggleArrow 
-                  toggleButton={() => setActiveVideo(activeVideo == "editor" ? "gameplay" : "editor")}
+              <div className="hidden lg:block short:block">
+                <ToggleArrow
+                  toggleButton={() =>
+                    setActiveVideo(
+                      activeVideo == "editor" ? "gameplay" : "editor"
+                    )
+                  }
                   clickAble={true}
                   direction="left"
                 />
-
               </div>
-              <div 
+              {/* Video and description container element */}
+              <div
                 className="
                 lg:flex lg:self-start lg:w-9/12 lg:p-6 
                 lg:bg-page-background-purple/60
                 lg:outline outline- lg:outline-light-grey/50 lg:outline-offset-[-12px]
+
+                short:flex short:self-start short:w-11/12 short:p-3
+              short:bg-page-background-purple/60
+                short:outline outline- short:outline-light-grey/50 short:outline-offset-[-12px]
                 "
               >
                 {/* Video Element */}
                 <div className="relative flex-[2]">
                   {/* Hidden placeholder elements to maintain size */}
                   <div className="invisible" aria-hidden="true">
-                    <div className="
-                      p-1 lg:border-light-grey border-2 flex items-center justify-center 
-                      md:p-2 md:border-3 lg:border-none
-                    ">
+                    <div
+                      className="
+                      p-1 border-2 flex items-center justify-center 
+                      md:p-2 md:border-3 lg:border-none lg:border-light-grey
+                      short:border-none short:p-0 short:m-0
+                    "
+                    >
                       <video
-                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3"
+                        className="block max-h-[calc(100vh-24rem)] short:max-h-52 w-auto object-contain border-[#3A3749] border-2 md:border-3"
                         muted
                       >
                         <source
-                          src={activeVideo === "gameplay" ? "/Demovid.mp4" : "/EditorDemo.mp4"}
+                          src={
+                            activeVideo === "gameplay"
+                              ? "/Demovid.mp4"
+                              : "/EditorDemo.mp4"
+                          }
                           type="video/mp4"
                         />
                       </video>
@@ -255,12 +279,14 @@ const Homepage = () => {
                       className="
                       absolute top-0 left-0 w-full h-full
                       p-1 border-light-grey border-2 flex items-center justify-center 
-                      md:p-2 md:border-3 lg:border-none
+                      md:p-2 md:border-3 lg:border-none 
+                      short:border-none short:p-0 short:m-0
                       "
                     >
                       <video
                         key={activeVideo}
-                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3"
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3
+                                   short:max-h-52"
                         muted
                         loop
                         playsInline
@@ -268,7 +294,11 @@ const Homepage = () => {
                         autoPlay
                       >
                         <source
-                          src={activeVideo === "gameplay" ? "/Demovid.mp4" : "/EditorDemo.mp4"}
+                          src={
+                            activeVideo === "gameplay"
+                              ? "/Demovid.mp4"
+                              : "/EditorDemo.mp4"
+                          }
                           type="video/mp4"
                         />
                         Your browser does not support the video
@@ -276,12 +306,16 @@ const Homepage = () => {
                     </motion.div>
                   </AnimatePresence>
                 </div>
-                
+
                 {/* Description Element */}
                 <div className="mt-8 lg:mt-2 mx-auto max-w-2xl flex-[1] lg:ml-8 relative">
                   {/* Invisible placeholder to maintain size */}
-                  <p className="invisible text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
-                              lg:font-normal lg:text-xl/10 lg:text-left" aria-hidden="true">
+                  <p
+                    className="invisible text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
+                              lg:font-normal lg:text-xl/10 lg:text-left
+                              short:text-sm"
+                    aria-hidden="true"
+                  >
                     {activeVideo == "gameplay"
                       ? "Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!"
                       : "Create your own rhythm experience with Ongawa's customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life."}
@@ -293,7 +327,8 @@ const Homepage = () => {
                       className="
                         absolute top-0 left-0 w-full
                         text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
-                        lg:font-normal lg:text-xl/loose lg:text-left"
+                        lg:font-normal lg:text-xl/loose lg:text-left
+                        short:font-normal short:text-sm short:text-left"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -308,9 +343,13 @@ const Homepage = () => {
               </div>
 
               {/* Video Toggle Element */}
-              <div className="hidden lg:block">
-                <ToggleArrow 
-                  toggleButton={() => setActiveVideo(activeVideo == "editor" ? "gameplay" : "editor")}
+              <div className="hidden lg:block short:block">
+                <ToggleArrow
+                  toggleButton={() =>
+                    setActiveVideo(
+                      activeVideo == "editor" ? "gameplay" : "editor"
+                    )
+                  }
                   clickAble={true}
                   direction="right"
                 />
@@ -320,22 +359,38 @@ const Homepage = () => {
         </div>
 
         {/* About Us Section */}
-        <div id="About Us" className="h-screen relative flex flex-col snap-start overflow-hidden">
+        <div
+          id="About Us"
+          className="h-screen relative flex flex-col snap-start overflow-hidden"
+        >
           {/* Title */}
-          <h2 className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 font-light text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)] z-10">
+          <h2
+            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 font-light text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)] z-10
+                        short:flex short:max-w-[18rem] short:mt-16 short:pl-12 short:py-1 short:text-3xl"
+          >
             About Us
           </h2>
-          
+
           {/* Content Container */}
-          <div className="flex flex-col relative h-full lg:px-8 lg:pt-8">
+          <div
+            className="flex flex-col relative h-full 
+                          lg:px-8 lg:pt-8
+                          short:px-2 short:pt-2"
+          >
             {/* Image Section */}
-            <div className="h-1/2 lg:absolute lg:right-0 lg:w-3/5 lg:h-5/6 lg:top-2">
-            {/* Background image container */}
-              <div className="absolute inset-0 lg:inset-[-40%]">
+            <div
+              className="h-1/2 
+                            lg:absolute lg:right-0 lg:w-3/5 lg:h-5/6 lg:top-2
+                            short:absolute short:right-0 short:w-3/5 short:h-5/6 short:top-2"
+            >
+              {/* Background image container */}
+              <div className="absolute inset-0 lg:inset-[-40%] short:inset-[-30%]">
                 <img
                   src={aboutUsBackgroundImg}
                   alt="About Us"
-                  className="w-auto h-1/2 lg:w-full lg:h-full object-cover lg:object-center"
+                  className="w-auto h-1/2 object-cover 
+                            lg:w-full lg:h-full lg:object-center
+                            short:w-full short:h-full short:object-center"
                 />
 
                 {/* Circular Gradient Overlay for large screens*/}
@@ -346,41 +401,57 @@ const Homepage = () => {
                       "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 420px)",
                   }}
                 />
-                
+
+                {/* Circular Gradient Overlay for short screens*/}
+                <div
+                  className="hidden short:flex absolute inset-[-5px] items-center justify-center"
+                  style={{
+                    background:
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 250px)",
+                  }}
+                />
+
                 {/* Circular Gradient Overlay for small screens*/}
                 <div
-                  className="flex lg:hidden absolute top-0 left-0 w-full h-[calc(50%+4px)] items-center justify-center"
+                  className="flex lg:hidden short:hidden absolute top-0 left-0 w-full h-[calc(50%+4px)] items-center justify-center"
                   style={{
-                    background: "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 220px)",
+                    background:
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 220px)",
                   }}
                 />
               </div>
             </div>
-            
+
             {/* Text Section */}
-            <div className="h-1/2 lg:h-[calc(100%-12rem)] lg:w-1/2 flex flex-col items-center justify-center px-8 py-4 lg:justify-center lg:items-start lg:mt-12 relative z-10">
-              <p 
+            <div
+              className="h-1/2 relative flex flex-col items-center justify-center px-8 py-4 z-10
+                        lg:h-[calc(100%-12rem)] lg:w-1/2 lg:justify-center lg:items-start lg:mt-12
+                        short:h-[calc(100%-12rem)] short:w-1/2 short:justify-center short:items-start short:mt-14"
+            >
+              <p
                 className="
                   z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center mb-6
-                  lg:text-left lg:text-lg/10"
-                >                
-                Ongawa is a rhythm game that goes beyond entertainment, centering
-                around music, creativity, and talent discovery. It supports
-                real-life musicians by showcasing and monetizing their creations.
-              </p>
-              <p 
-              className="
-                z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center
-                lg:text-left lg:text-lg/10"
+                  lg:text-left lg:text-lg/10
+                  short:text-left short:text-xs"
               >
-                
-                Step into the world of Ongawa, where music bridges the gap between
-                reality and imagination. You play as a dedicated salaryman of
-                Ongawa Records, a struggling music label on the brink of collapse.
-                Guided by AWA, a magical, record-shaped companion, you discover a
-                parallel universe where rhythm and creativity hold the key to
-                uncovering hidden musical talents and reviving the company's
-                glory…
+                Ongawa is a rhythm game that goes beyond entertainment,
+                centering around music, creativity, and talent discovery. It
+                supports real-life musicians by showcasing and monetizing their
+                creations.
+              </p>
+              <p
+                className="
+                z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center
+                lg:text-left lg:text-lg/10
+                short:text-left short:text-xs"
+              >
+                Step into the world of Ongawa, where music bridges the gap
+                between reality and imagination. You play as a dedicated
+                salaryman of Ongawa Records, a struggling music label on the
+                brink of collapse. Guided by AWA, a magical, record-shaped
+                companion, you discover a parallel universe where rhythm and
+                creativity hold the key to uncovering hidden musical talents and
+                reviving the company&apos;s glory…
               </p>
             </div>
           </div>
@@ -401,9 +472,10 @@ const Homepage = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.7 }}
-                className=
-                  "absolute inset-0 w-full h-full bg-cover bg-center"
-                style={{ backgroundImage: `url(${currentMusician.backgroundImage})` }}
+                className="absolute inset-0 w-full h-full bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${currentMusician.backgroundImage})`,
+                }}
               />
             </AnimatePresence>
 
@@ -411,15 +483,19 @@ const Homepage = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
             <div className="absolute inset-0 bg-gradient-to-b from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
 
-
             {/* Musician Selector */}
-            <div className="flex justify-center mt-16 mb-4
-                            lg:absolute lg:bottom-8 lg:right-[calc(15%+28px)]">
+            <div
+              className="flex justify-center mt-16 mb-4
+                            lg:absolute lg:bottom-8 lg:right-[calc(15%+28px)]
+                            short:absolute short:bottom-2 short:right-[calc(15%+8px)]"
+            >
               <MusicianSelector
                 musicians={musicians}
                 currentMusician={currentMusician}
                 setCurrentMusician={setCurrentMusician}
-                className="w-full max-w-60 lg:max-w-[550px] lg:max-h-[100px]" 
+                className="w-full max-w-60 
+                            lg:max-w-[550px] lg:max-h-[100px]
+                            short:max-w-[550px] short:max-h-[100px]"
               />
             </div>
 
@@ -431,31 +507,44 @@ const Homepage = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="absolute top-40 z-10 w-full h-auto max-h-[90%]
+                className="absolute top-[7rem] z-10 w-full h-auto max-h-[90%]
                            object-contain object-top 
-                           lg:left-0 lg:-translate-x-80"
+                           lg:left-0 lg:-translate-x-80
+                           short:top-[3rem] short:left-0 short:translate-x-[-15rem]"
                 src={currentMusician.image}
                 alt={currentMusician.name}
               />
             </AnimatePresence>
 
             {/* Information Box */}
-            <div className="absolute bottom-8 z-20 lg:bottom-48 lg:right-[15%]">
-              <InformationBox 
-                currentMusician={currentMusician} 
-                className="mx-4 max-w-96 lg:max-w-[550px] lg:max-h-[500px]" 
-              />
+            <div
+              className="absolute bottom-8 z-20 left-1/2 -translate-x-1/2 flex justify-center overflow-x-auto w-screen px-4
+                    lg:w-auto lg:px-0 lg:overflow-visible lg:translate-x-0 lg:left-auto lg:bottom-48 lg:right-[15%]
+                    short:w-auto short:px-0 short:overflow-visible short:translate-x-0 short:left-auto short:bottom-[6.5rem] short:right-[15%]"
+            >
+              <div className="w-96 flex-shrink-0 lg:w-auto">
+                <InformationBox
+                  currentMusician={currentMusician}
+                  className="w-full 
+                            lg:max-w-[550px] lg:max-h-[500px]
+                            short:max-w-[500px] short:max-h-[225px]"
+                />
+              </div>
             </div>
-            
           </div>
         </div>
 
         {/* FAQs section */}
-        <div id="FAQs" className="min-h-screen flex flex-col relative snap-start">
-          <div className="mt-32">
-            <h2 className="
-                  w-1/2 lg:max-w-[28rem] mr-6 pl-4 lg:pl-16 py-2 lg:!py-3 font-light text-2xl
-                  lg:text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]">
+        <div
+          id="FAQs"
+          className="min-h-screen flex flex-col relative snap-start"
+        >
+          <div className="mt-32 short:mt-14">
+            <h2
+              className="
+                  w-1/2 short:w-1/3 lg:max-w-[28rem] mr-6 pl-4 lg:pl-16 py-2 lg:!py-3 font-light text-2xl
+                  lg:text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]"
+            >
               FAQs
             </h2>
             <div className="lg:w-5/6 pb-8">

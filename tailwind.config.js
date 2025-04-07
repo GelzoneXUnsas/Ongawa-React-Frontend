@@ -103,6 +103,10 @@ export default {
           },
         },
       },
+
+      screens: {
+        short: { raw: "(max-height: 600px)" },
+      },
     },
   },
   plugins: [
