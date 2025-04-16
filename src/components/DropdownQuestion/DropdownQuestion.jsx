@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
 import rightArrowIcon from "../../assets/icons/rightArrowIcon.png";
@@ -21,7 +21,10 @@ const DropdownQuestion = ({ question, answer }) => {
           transition={{ duration: 0.3 }}
         />
         {/* Question */}
-        <p className="w-full ml-4 p-0 pb-3 my-0 text-white font-nova-square border-b-2 border-border-purple-light">
+        <p
+          className="w-full ml-4 p-0 pb-3 my-0 text-white font-nova-square border-b-2 border-border-purple-light
+                       short:text-sm short:pb-1"
+        >
           {question}
         </p>
       </div>
@@ -49,7 +52,9 @@ const DropdownQuestion = ({ question, answer }) => {
             }}
             className="overflow-hidden ml-8"
           >
-            <p className="mt-2 text-gray-300 font-nova-square">{answer}</p>
+            <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">
+              {answer}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>

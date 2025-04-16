@@ -147,13 +147,13 @@ const Homepage = () => {
             <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
               {/* Mobile Icons */}
               <div className="flex flex-col justify-center gap-2">
-                <div className="lg:w-56">
+                {/* <div className="lg:w-56">
                   <DownloadIcon
                     icon={desktopIcon}
                     header="Download"
                     source="Demo"
                   />
-                </div>
+                </div> */}
                 <div className="lg:w-56">
                   <DownloadIcon
                     icon={discordIcon}
@@ -254,7 +254,8 @@ const Homepage = () => {
                     "
                     >
                       <video
-                        className="block max-h-[calc(100vh-24rem)] short:max-h-52 w-auto object-contain border-[#3A3749] border-2 md:border-3"
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3
+                        short:max-h-52 "
                         muted
                       >
                         <source

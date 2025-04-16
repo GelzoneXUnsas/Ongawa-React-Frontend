@@ -29,13 +29,12 @@ const InformationBox = ({ currentMusician, className }) => {
             transition={{ duration: 0.4 }}
             className="m-0 text-2xl text-light-grey font-light font-nova-square
                        lg:text-4xl lg:pl-4
-                       short:text-lg"
+                       short:text-2xl"
           >
             {currentMusician.name}
           </motion.h2>
         </AnimatePresence>
       </div>
-
       {/* Title */}
       <AnimatePresence mode="wait">
         <motion.p
@@ -46,12 +45,11 @@ const InformationBox = ({ currentMusician, className }) => {
           transition={{ duration: 0.4 }}
           className="text-lg text-main-purple font-nova-square mb-1
                      lg:text-2xl lg:mt-4
-                     short:text-base short:m-0"
+                     short:text-lg short:m-2"
         >
           {currentMusician.title}
         </motion.p>
       </AnimatePresence>
-
       {/* Description */}
       <AnimatePresence mode="wait">
         <motion.p
@@ -60,15 +58,15 @@ const InformationBox = ({ currentMusician, className }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-xs text-main-purple mb-1
-                      lg:text-base/8 lg:mt-2
-                      short:m-0 "
+          className="text-sm text-main-purple mb-1
+                      lg:text-lg/10 lg:mt-2
+                      short:m-2"
         >
           {currentMusician.description}
         </motion.p>
       </AnimatePresence>
-
-      {/* Social Media */}
+      {/* Social Media Section */}
+      {/* Social Media
       <div className="flex items-center justify-between mt-2 lg:mt-8 short:mt-0">
         <AnimatePresence mode="wait">
           <motion.p
@@ -83,9 +81,9 @@ const InformationBox = ({ currentMusician, className }) => {
           >
             Follow {currentMusician.name} At:
           </motion.p>
-        </AnimatePresence>
-        {/*Desktop Button */}
-        <button className="hidden lg:block px-16 py-2 bg-main-purple text-2xl text-white font-nova-square outline outline-1 outline-light-grey outline-offset-[-6px]">
+        </AnimatePresence> */}
+      {/*Desktop Buttons */}
+      {/* <button className="hidden lg:block px-16 py-2 bg-main-purple text-2xl text-white font-nova-square outline outline-1 outline-light-grey outline-offset-[-6px]">
           View More
         </button>
 
@@ -113,16 +111,16 @@ const InformationBox = ({ currentMusician, className }) => {
             />
           </a>
         </div>
-      </div>
-
-      <div className="flex justify-center lg:hidden">
+      </div> */}
+      {/* Mobile View More Button */}
+      {/* <div className="flex justify-center lg:hidden">
         <button
           className="mt-2 px-8 py-3 bg-main-purple text-white font-nova-square outline outline-1 outline-white outline-offset-[-4px]
                             short:mt-1 short:px-6 short:py-2"
         >
           View More
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
