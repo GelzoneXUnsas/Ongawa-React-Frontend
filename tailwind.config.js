@@ -27,6 +27,9 @@ export default {
         "search-text-gray": "#B2B2B2",
         "discography-background": "#543F60",
         "dropdown-background": "#1D1D2E",
+        "beatmaps-background": "#2D294C",
+        "yellow-accent": "#CA9F28",
+        "light-purple": "#6D6D99",
       },
 
       boxShadow: {

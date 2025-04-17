@@ -12,6 +12,9 @@ import playIcon from "../../assets/icons/playIcon-white.svg";
 import timeIcon from "../../assets/icons/timeIcon.svg"
 import ellipseIcon from "../../assets/icons/ellipse.svg"
 
+import DifficultyDropdown from '../../components/DifficultyDropdown/DifficultyDropdown';
+import TagsDropdown from '../../components/TagsDropdown/TagsDropdown';
+
 const beatmaps = [
   {
     id: 1,
@@ -32,7 +35,8 @@ const beatmaps = [
     sliders: "61",
     description: "Dive into the cutting-edge realm of Techno Adventures World, where futuristic technology meets thrilling escapades. Explore cyber landscapes, master advanced gadgets, and overcome digital challenges in this electrifying journey through the next frontier.",
     source: ["Techno", "Adventures", "World"],
-    tags: ["Neon", "Synth wave"]
+    tags: ["Neon", "Synth wave"],
+    createdAt: "2025-01-15T14:30:00Z"
   },
   {
     id: 2,
@@ -53,7 +57,8 @@ const beatmaps = [
     sliders: "61",
     description: "Journey through ancient Celtic landscapes with this mystical ballad that weaves tales of legend and lore. Each note carries the whispers of ancient druids and the echoes of forgotten rituals, creating an immersive experience that transcends time.",
     source: ["Celtic", "Mythology", "Ballads"],
-    tags: ["Celtic", "Folk", "Mystical"]
+    tags: ["Celtic", "Folk", "Mystical"],
+    createdAt: "2024-11-23T09:15:00Z"
   },
   {
     id: 3,
@@ -74,7 +79,8 @@ const beatmaps = [
     sliders: "61",
     description: "Float through the cosmos with this ethereal symphony that captures the harmony of the stars. Each beat resonates with the pulse of distant galaxies, creating a celestial journey that will transport you beyond the boundaries of our universe.",
     source: ["Astronomical", "Ambient", "Space"],
-    tags: ["Cosmic", "Ambient", "Ethereal"]
+    tags: ["Cosmic", "Ambient", "Ethereal"],
+    createdAt: "2025-02-05T18:45:00Z"
   },
   {
     id: 4,
@@ -95,7 +101,8 @@ const beatmaps = [
     sliders: "61",
     description: "Enter the shadows with this intense beat-driven track that follows a mysterious chase through moonlit streets. The rhythm accelerates and decelerates, mimicking the heart-pounding tension of pursuit and escape in the darkness of night.",
     source: ["Urban", "Night", "Mystery"],
-    tags: ["Dark", "Intense", "Urban"]
+    tags: ["Dark", "Intense", "Urban"],
+    createdAt: "2025-03-10T21:20:00Z"
   },
   {
     id: 5,
@@ -116,7 +123,8 @@ const beatmaps = [
     sliders: "31",
     description: "Experience the vibrant energy of Tokyo's cityscape in this dynamic electronic track. The melody captures the neon-lit streets, bustling crowds, and serene temple gardens that define Japan's captivating capital city.",
     source: ["Urban", "Japanese", "Electronic"],
-    tags: ["Tokyo", "City", "Electronic"]
+    tags: ["Tokyo", "City", "Electronic"],
+    createdAt: "2024-10-30T11:05:00Z"
   },
   {
     id: 6,
@@ -137,7 +145,8 @@ const beatmaps = [
     sliders: "50",
     description: "A gentle yet intricate melody that unfolds like petals opening to the morning sun. This track combines traditional instruments with subtle electronic elements to create a soundscape as delicate and complex as nature itself.",
     source: ["Nature", "Seasonal", "Organic"],
-    tags: ["Floral", "Spring", "Peaceful"]
+    tags: ["Floral", "Spring", "Peaceful"],
+    createdAt: "2025-02-18T15:40:00Z"
   },
 ];
 
@@ -153,16 +162,73 @@ export default function BeatmapListingPage() {
   // const [isSearchActive, setIsSearchActive] = useState(false);
   const navigate = useNavigate();
 
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [difficultyOpen, setDifficultyOpen] = useState(false);
+  const [tagsOpen, setTagsOpen] = useState(false);
+
   const [searchHistory, setSearchHistory] = useState(() => {
     const savedHistory = localStorage.getItem('searchHistory');
     return savedHistory ? JSON.parse(savedHistory) : [];
   });
   const [showDropdown, setShowDropdown] = useState(false);
   const searchContainerRef = useRef(null);
+  const difficultyDropdownRef = useRef(null);
+  const tagsDropdownRef = useRef(null);
+  const [sortDirection, setSortDirection] = useState("ascending");
 
-  const filteredBeatmaps = beatmaps.filter((b) =>
+  const searchFilteredBeatmaps = beatmaps.filter((b) =>
     b.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const applyFilterAndSort = (beatmapsToFilter) => {
+    // Apply filters based on active filter type
+    let filtered = [...beatmapsToFilter];
+
+    // Add sorting logic based on the active filter and sort direction
+    if (activeFilter === "Title") {
+      filtered.sort((a, b) => {
+        const valueA = a.title.toLowerCase();
+        const valueB = b.title.toLowerCase();
+
+        return sortDirection === "ascending"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      });
+    } else if (activeFilter === "Artist") {
+      filtered.sort((a, b) => {
+        const valueA = a.artist.toLowerCase();
+        const valueB = b.artist.toLowerCase();
+
+        return sortDirection === "ascending"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      });
+    } else if (activeFilter === "Date") {
+      filtered.sort((a, b) => {
+        // Parse dates for comparison
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+
+        return sortDirection === "ascending"
+          ? dateA - dateB
+          : dateB - dateA;
+      });
+    } else {
+      // Default "All" sorting by title
+      filtered.sort((a, b) => {
+        const valueA = a.title.toLowerCase();
+        const valueB = b.title.toLowerCase();
+
+        return sortDirection === "ascending"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      });
+    }
+
+    return filtered;
+  };
+
+  const filteredBeatmaps = applyFilterAndSort(searchFilteredBeatmaps);
 
   // Function to render difficulty indicator
   const DifficultyIndicator = ({ difficulty }) => {
@@ -219,6 +285,20 @@ export default function BeatmapListingPage() {
       ) {
         setShowDropdown(false);
       }
+
+      if (
+        difficultyDropdownRef.current &&
+        !difficultyDropdownRef.current.contains(event.target)
+      ) {
+        setDifficultyOpen(false);
+      }
+
+      if (
+        tagsDropdownRef.current &&
+        !tagsDropdownRef.current.contains(event.target)
+      ) {
+        setTagsOpen(false);
+      }
     };
 
     // Use capture phase to ensure this runs before other click handlers
@@ -239,6 +319,26 @@ export default function BeatmapListingPage() {
       setSearchTerm(searchInput);
       setShowDropdown(false);
     }
+  };
+
+  // Filter click handlers
+  const handleFilterClick = (filter) => {
+    setActiveFilter(filter);
+  };
+
+  const toggleDifficultyDropdown = () => {
+    setDifficultyOpen(!difficultyOpen);
+    setTagsOpen(false);
+  };
+
+  const toggleTagsDropdown = () => {
+    setTagsOpen(!tagsOpen);
+    setDifficultyOpen(false);
+  };
+
+   // Toggle sort direction
+   const toggleSortDirection = () => {
+    setSortDirection(sortDirection === "ascending" ? "descending" : "ascending");
   };
 
   // Swipe threshold values
@@ -303,13 +403,13 @@ export default function BeatmapListingPage() {
   };
 
   return (
-    <div className="p-6 bg-[#2D294C] min-h-screen text-white mt-16">
+    <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
 
       {/* Desktop Search - Hidden on Mobile */}
       <div className="hidden md:flex items-center mb-6">
         <div ref={searchContainerRef} className="relative w-full max-w-full rounded flex items-center mx-4">
-          {/* <div className="bg-[#6D6D99] bg-opacity-50 w-full rounded flex items-center"> */}
-          <div className={`${showDropdown && searchHistory.length > 0 ? 'bg-[#1D1D2E]' : 'bg-[#6D6D99] bg-opacity-50'} w-full rounded-t ${showDropdown && searchHistory.length > 0 ? 'rounded-b-none' : 'rounded'} flex items-center`}>
+          {/* <div className="bg-light-purple bg-opacity-50 w-full rounded flex items-center"> */}
+          <div className={`${showDropdown && searchHistory.length > 0 ? 'bg-dropdown-background' : 'bg-light-purple bg-opacity-50'} w-full rounded-t ${showDropdown && searchHistory.length > 0 ? 'rounded-b-none' : 'rounded'} flex items-center`}>
             <input
               type="text"
               placeholder="Search ..."
@@ -333,12 +433,12 @@ export default function BeatmapListingPage() {
           {/* Search History Dropdown */}
           {showDropdown && searchHistory.length > 0 && (
             <div
-              className="absolute top-full left-0 right-0 bg-[#1D1D2E] rounded-b-lg z-50 p-2"
+              className="absolute top-full left-0 right-0 bg-dropdown-background rounded-b-lg z-50 p-2"
             >
               {searchHistory.map((historyItem, index) => (
                 <div
                   key={index}
-                  className="px-4 py-2 hover:bg-[#2D294C] cursor-pointer rounded-lg group"
+                  className="px-4 py-2 hover:bg-beatmaps-background cursor-pointer rounded-lg group"
                   onClick={() => handleSearchHistoryClick(historyItem)}
                 >
                   <div className="flex items-center justify-between">
@@ -363,7 +463,7 @@ export default function BeatmapListingPage() {
       {/* Mobile Search - Shown only on mobile */} 
       {/* flex md:hidden items-center gap-2 mb-4 */}
       <div className="md:hidden mb-6">
-        <div className="flex items-center bg-[#6D6D99] bg-opacity-50 rounded-lg">
+        <div className="flex items-center bg-light-purple bg-opacity-50 rounded-lg">
           <input
             type="text"
             placeholder="Search ..."
@@ -382,12 +482,78 @@ export default function BeatmapListingPage() {
         </div>
       </div>
 
+      {/* Filtering Options Section - Desktop & Mobile */}
+      <div className="flex flex-wrap items-center gap-3 mb-6 ml-6">
+        {/* Sort Button - Now toggles between ascending/descending */}
+        <button
+          className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
+          onClick={toggleSortDirection}
+          style={{ // temporary styling to override bootstrap
+            border: "none",
+            backgroundColor: "rgba(109, 109, 153, 0.5)"
+          }}
+        >
+          <span>Sort</span>
+          {sortDirection === "ascending" ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+          )}
+        </button>
+
+        {/* Filter Buttons */}
+        <div className="flex gap-2 overflow-x-auto no-scrollbar">
+          {["All", "Title", "Date", "Artist"].map((filter) => (
+            <button
+              key={filter}
+              className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline ${
+                activeFilter === filter
+                  ? "border-b-4 text-yellow-500 underline"
+                  : "text-gray-400"
+              }`}
+              onMouseDown={(e) => {
+                e.preventDefault(); // Prevent default button behavior
+                handleFilterClick(filter);
+              }}
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+              }}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+
+        {/* Vertical Separator */}
+        <div className="h-8 w-px bg-gray-500 mx-1"></div>
+
+        {/* Difficulty Dropdown */}
+        {/* Difficulty Dropdown Component */}
+        <DifficultyDropdown
+          ref={difficultyDropdownRef}
+          isOpen={difficultyOpen}
+          onToggle={toggleDifficultyDropdown}
+        />
+
+        {/* Tags Dropdown */}
+        <TagsDropdown
+          ref={tagsDropdownRef}
+          isOpen={tagsOpen}
+          onToggle={toggleTagsDropdown}
+        />
+      </div>
+
       {/* Desktop Grid View - Hidden on Mobile */}
       <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-6">
         {filteredBeatmaps.map((beatmap, index) => (
           <div
             key={index}
-            className="p-4 rounded-xl hover:bg-[#1D1D2E]/70 cursor-pointer relative"
+            className="p-4 rounded-xl hover:bg-dropdown-background/70 cursor-pointer relative"
             onClick={() => handleBeatmapClick(beatmap.id)}
             onMouseEnter={() => setHoveredBeatmap(index)}
             onMouseLeave={() => setHoveredBeatmap(null)}
@@ -438,7 +604,7 @@ export default function BeatmapListingPage() {
           >
             {/* Main content that slides */}
             <div 
-              className="flex items-start gap-3 p-1 bg-[#2D294C] transition-transform duration-300 ease-out"
+              className="flex items-start gap-3 p-1 bg-beatmaps-background transition-transform duration-300 ease-out"
               style={{ transform: getTransformValue(index) }}
               onClick={() => {
                 // Only navigate if not swiping
@@ -465,7 +631,7 @@ export default function BeatmapListingPage() {
 
             {/* Action panel that gets revealed */}
             <div
-              className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-[#1D1D2E] transition-transform duration-300 ease-out"
+              className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-dropdown-background transition-transform duration-300 ease-out"
               style={{ transform: getActionPanelTransform(index) }}
             >
               <div className="flex flex-col gap-3 items-center">
