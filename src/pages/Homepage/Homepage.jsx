@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+
+import PropTypes from "prop-types";
 
 import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
 import ToggleButton from "../../components/ToggleButton/ToggleButton";
@@ -16,7 +18,6 @@ import aboutUsBackgroundImg from "../../assets/images/galleryArt/art4.png";
 import ongawaLogoNameWhite from "../../assets/icons/ongawaLogoNameWhite.png";
 
 import discordIcon from "../../assets/icons/discordIcon.png";
-import desktopIcon from "../../assets/icons/desktopIcon.png";
 
 import musicianImage1 from "../../assets/images/featuredArtists/musicianModel1.png";
 import musicianImage2 from "../../assets/images/featuredArtists/musicianModel2.png";
@@ -112,7 +113,55 @@ const getFAQs = () => {
   ];
 };
 
-const Homepage = () => {
+const Homepage = ({ muted }) => {
+  // Tracking which section is active on the current viewport
+  const sections = useMemo(
+    () => ["Home", "Gameplay", "About Us", "Musicians", "FAQs"],
+    []
+  );
+  const [activeSection, setActiveSection] = useState("Home");
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof document === "undefined")
+      return;
+
+    // Function to determine which section is currently in view
+    const handleScroll = () => {
+      // eslint-disable-next-line no-undef
+      const scrollPosition = window.scrollY + window.innerHeight / 2; // Middle of the viewport
+
+      for (const section of sections) {
+        // eslint-disable-next-line no-undef
+        const sectionElement = document.getElementById(section);
+        if (sectionElement) {
+          const { top, bottom } = sectionElement.getBoundingClientRect();
+          // eslint-disable-next-line no-undef
+          const offsetTop = top + window.scrollY;
+          // eslint-disable-next-line no-undef
+          const offsetBottom = bottom + window.scrollY;
+
+          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    // Add the event listener
+    // eslint-disable-next-line no-undef
+    window.addEventListener("scroll", handleScroll, true);
+
+    // Initial check for the active section
+    handleScroll();
+
+    // Clean up function
+    return () => {
+      // eslint-disable-next-line no-undef
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [sections]);
+
   // activeVideo either "gameplay" or "editor"
   const [activeVideo, setActiveVideo] = useState("gameplay");
   const musicians = getFeaturedMusicians();
@@ -130,7 +179,7 @@ const Homepage = () => {
         style={{ scrollBehavior: "smooth" }}
       >
         <div className="hidden lg:flex">
-          <DisplayStatusBar />
+          <DisplayStatusBar sections={sections} activeSection={activeSection} />
         </div>
 
         {/* Home Section */}
@@ -288,7 +337,7 @@ const Homepage = () => {
                         key={activeVideo}
                         className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3
                                    short:max-h-52"
-                        muted
+                        muted={activeSection != "Gameplay" || muted}
                         loop
                         playsInline
                         preload="auto"
@@ -313,7 +362,7 @@ const Homepage = () => {
                   {/* Invisible placeholder to maintain size */}
                   <p
                     className="invisible text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
-                              lg:font-normal lg:text-xl/10 lg:text-left
+                              lg:font-normal lg:text-lg/loose lg:text-left
                               short:text-sm"
                     aria-hidden="true"
                   >
@@ -328,7 +377,7 @@ const Homepage = () => {
                       className="
                         absolute top-0 left-0 w-full
                         text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
-                        lg:font-normal lg:text-xl/loose lg:text-left
+                        lg:font-normal lg:text-lg/loose lg:text-left
                         short:font-normal short:text-sm short:text-left"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -562,6 +611,10 @@ const Homepage = () => {
       </div>
     </>
   );
+};
+
+Homepage.propTypes = {
+  muted: PropTypes.bool.isRequired,
 };
 
 export default Homepage;

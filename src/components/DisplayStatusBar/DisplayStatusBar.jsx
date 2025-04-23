@@ -1,47 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { array, string } from "prop-types";
 
-const DisplayStatusBar = () => {
-  const sections = useMemo(
-    () => ["Home", "Gameplay", "About Us", "Musicians", "FAQs"],
-    []
-  );
-  const [activeSection, setActiveSection] = useState("Home");
-
-  useEffect(() => {
-    if (typeof window === "undefined" || typeof document === "undefined") return;
-
-    // Function to determine which section is currently in view
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2; // Middle of the viewport
-
-      for (const section of sections) {
-        const sectionElement = document.getElementById(section);
-        if (sectionElement) {
-          const { top, bottom } = sectionElement.getBoundingClientRect();
-          const offsetTop = top + window.scrollY;
-          const offsetBottom = bottom + window.scrollY;
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    // Add the event listener
-    window.addEventListener("scroll", handleScroll, true);
-
-    // Initial check for the active section
-    handleScroll();
-
-    // Clean up function
-    return () => {
-      window.removeEventListener("scroll", handleScroll, true);
-    };
-  }, [sections]);
-
+const DisplayStatusBar = ({ sections, activeSection }) => {
   const handleNavClick = (section) => {
+    if (typeof window === "undefined" || typeof document === "undefined")
+      return;
+    // eslint-disable-next-line no-undef
     const sectionElement = document.getElementById(section);
 
     if (sectionElement) {
@@ -60,7 +23,9 @@ const DisplayStatusBar = () => {
               className={`relative w-4 h-4 rounded-full 
                 flex items-center justify-center 
                 transition-all duration-300 group
-                ${activeSection === section ? "bg-light-grey" : "bg-transparent"}
+                ${
+                  activeSection === section ? "bg-light-grey" : "bg-transparent"
+                }
                 before:absolute before:w-4 before:h-4 before:rounded-full 
                 before:border-4 before:border-light-grey
                 after:absolute after:w-[calc(100%+4px)] after:h-[calc(100%+4px)] after:rounded-full 
@@ -83,9 +48,7 @@ const DisplayStatusBar = () => {
           {/* Section Title (on the right of the button) */}
           <span
             className={`text-light-grey font-nova-square ml-3 cursor-pointer
-                ${activeSection === section
-                  && "underline"
-                }
+                ${activeSection === section && "underline"}
               `}
             onClick={() => handleNavClick(section)}
           >
@@ -95,6 +58,11 @@ const DisplayStatusBar = () => {
       ))}
     </div>
   );
+};
+
+DisplayStatusBar.propTypes = {
+  sections: array,
+  activeSection: string,
 };
 
 export default DisplayStatusBar;

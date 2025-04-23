@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import React from "react";
+import { useState } from "react";
 import Homepage from "./pages/Homepage/Homepage";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -19,14 +19,16 @@ import { AuthProvider } from "./contexts/authContext";
 import Register from "./pages/Auth/Register";
 
 function Router() {
+  const [muted, setMuted] = useState(false);
+
   return (
     <div>
       <AuthProvider>
-        <Header />
+        <Header muted={muted} setMuted={setMuted} />
         {/* Adding h-screen hides the scrollbar, but messes w/ the scrolling */}
         {/* <div className='no-scrollbar overflow-y-auto'> */}
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<Homepage muted={muted} />} />
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="musicgallery" element={<MusicGalleryPage />} />
           <Route path="beatmaplisting" element={<BeatmapListingPage />} />

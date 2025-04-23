@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import PropTypes from "prop-types";
+
 import { useAuth } from "../../contexts/authContext";
 import { doSignOut } from "../../firebase/auth";
 
@@ -10,20 +12,13 @@ import toggleMusicIconOff from "../../assets/icons/toggleMusicIconOff.png";
 import menuDropdownIcon from "../../assets/icons/menuDropdownIcon.png";
 import NavDropdown from "../NavDropdown/NavDropdown";
 
-const Header = () => {
+const Header = ({ muted, setMuted }) => {
   const { userLoggedIn } = useAuth();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const [musicIsPlaying, setMusicIsPlaying] = useState(true);
-  // const audioRef = useRef(new Audio("/path-to-your-audio-file.mp3"));
   const toggleMusic = () => {
-    // if (musicIsPlaying) {
-    //   audioRef.current.pause();
-    // } else {
-    //   audioRef.current.play();
-    // }
-    setMusicIsPlaying(!musicIsPlaying);
+    setMuted(!muted);
   };
 
   return (
@@ -41,7 +36,7 @@ const Header = () => {
         </div>
         {/* Links and Buttons */}
         <div className="ml-auto font-medium text-[1.05rem] flex flex-row gap-8 pr-4 items-center mb-3">
-          <Link 
+          <Link
             to="/beatmaplisting"
             className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
@@ -74,7 +69,7 @@ const Header = () => {
           </Link>
           <img
             className="h-9"
-            src={musicIsPlaying ? toggleMusicIcon : toggleMusicIconOff}
+            src={muted ? toggleMusicIconOff : toggleMusicIcon}
             alt="Music Toggle"
             onClick={toggleMusic}
           />
@@ -116,6 +111,11 @@ const Header = () => {
       />
     </>
   );
+};
+
+Header.propTypes = {
+  muted: PropTypes.bool.isRequired,
+  setMuted: PropTypes.func.isRequired,
 };
 
 export default Header;

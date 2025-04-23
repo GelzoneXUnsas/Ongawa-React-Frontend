@@ -13,7 +13,7 @@ const MusicianSelector = ({
   musicians,
   currentMusician,
   setCurrentMusician,
-  className
+  className,
 }) => {
   const selectorCount = 4;
   const [startIndex, setStartIndex] = useState(0);
@@ -52,24 +52,24 @@ const MusicianSelector = ({
         disabled={startIndex === 0}
         className="p-2 lg:p-3 disabled:opacity-60 bg-transparent border-none flex items-center justify-center min-w-8"
       >
-        <img 
-          src={leftArrowIcon} 
-          alt="Previous" 
-          className="w-3 lg:w-4 h-auto" 
-        />
+        <img src={leftArrowIcon} alt="Previous" className="w-3 lg:w-4 h-auto" />
       </button>
 
       {/* Musician Cells */}
       <div className="flex gap-3 relative">
         {/* Decorative Boxes Mobile */}
-        <div className="lg:hidden absolute top-7 z-20 border-[3px] border-secondary-purple h-8 w-[105%] left-1/2 -translate-x-1/2"/>
-        <div className="lg:hidden absolute top-[33px] z-20 border-[1px] border-secondary-purple h-[22px] w-[100%] left-1/2 -translate-x-1/2"/>
+        <div className="lg:hidden absolute top-7 z-20 border-[3px] border-secondary-purple h-8 w-[105%] left-1/2 -translate-x-1/2" />
+        <div className="lg:hidden absolute top-[33px] z-20 border-[1px] border-secondary-purple h-[22px] w-[100%] left-1/2 -translate-x-1/2" />
 
         {/* Decorative Boxes Desktop */}
-        <div className="hidden lg:block absolute top-7 z-20 border-[5px]
-         border-secondary-purple h-12 w-[105%] left-1/2 -translate-x-1/2"/>
-        <div className="hidden lg:block absolute top-[36px] z-20 border-[2px]
-         border-secondary-purple h-8 w-[100%] left-1/2 -translate-x-1/2"/>
+        <div
+          className="hidden lg:block absolute top-7 z-20 border-[5px]
+         border-secondary-purple h-12 w-[105%] left-1/2 -translate-x-1/2"
+        />
+        <div
+          className="hidden lg:block absolute top-[36px] z-20 border-[2px]
+         border-secondary-purple h-8 w-[100%] left-1/2 -translate-x-1/2"
+        />
 
         {/* Musicians */}
         {displayedMusicians.map((musician) => (
@@ -116,11 +116,7 @@ const MusicianSelector = ({
         disabled={startIndex + selectorCount >= musicians.length}
         className="p-2 lg:p-3 disabled:opacity-60 bg-transparent border-none outline-none shadow-none flex items-center justify-center min-w-8"
       >
-        <img 
-          src={rightArrowIcon} 
-          alt="Next" 
-          className="w-3 lg:w-4 h-auto" 
-        />
+        <img src={rightArrowIcon} alt="Next" className="w-3 lg:w-4 h-auto" />
       </button>
     </div>
   );
@@ -130,11 +126,7 @@ MusicianSelector.propTypes = {
   musicians: PropTypes.arrayOf(MusicianShape).isRequired,
   currentMusician: MusicianShape.isRequired,
   setCurrentMusician: PropTypes.func.isRequired,
-  className: PropTypes.string
-};
-
-MusicianSelector.defaultProps = {
-  className: ""
+  className: PropTypes.string,
 };
 
 export default MusicianSelector;

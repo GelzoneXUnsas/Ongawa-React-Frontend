@@ -2,8 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MusicianShape } from "../../types/types";
 import PropTypes from "prop-types";
 
-import SpotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
-import SoundCloudIcon from "../../assets/icons/soundCloudIcon.svg";
+// import SpotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
+// import SoundCloudIcon from "../../assets/icons/soundCloudIcon.svg";
 
 const InformationBox = ({ currentMusician, className }) => {
   return (
@@ -128,10 +128,6 @@ const InformationBox = ({ currentMusician, className }) => {
 InformationBox.propTypes = {
   currentMusician: MusicianShape.isRequired,
   className: PropTypes.string,
-};
-
-InformationBox.defaultProps = {
-  className: "",
 };
 
 export default InformationBox;
