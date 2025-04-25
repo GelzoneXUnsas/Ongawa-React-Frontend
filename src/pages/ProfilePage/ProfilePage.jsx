@@ -1,10 +1,19 @@
 import { useState } from "react";
 import discIcon from "../../assets/icons/disc.svg";
 import settingsIcon from "../../assets/icons/settings.svg";
+import bpmIcon from "../../assets/icons/bpmIcon.svg";
+import clockIcon from "../../assets/icons/clockIcon.svg";
+import ellipseIcon from "../../assets/icons/ellipse.svg";
+import bookmarkedIcon from "../../assets/icons/bookmarkedIcon.svg";
+import editIcon from "../../assets/icons/editIcon.svg";
+
+import cover from "../../assets/images/musicCovers/neonpulsesym.png";
 
 const ProfilePage = () => {
   // Active page state
   const [activePage, setActivePage] = useState("statistics");
+  // Active tab in beatmaps section
+  const [activeTab, setActiveTab] = useState("bookmarked");
 
   // Mock data
   const [playerData, setPlayerData] = useState({
@@ -29,11 +38,106 @@ const ProfilePage = () => {
       s: 32,
       a: 690,
     },
+    beatmaps: {
+      bookmarked: [
+        {
+          id: 1,
+          name: "Neon Pulse Symphony",
+          artist: "Techno Maestro",
+          mapper: "Techno Maestro",
+          difficulty: 2.1,
+          maxDifficulty: 4.8,
+          level: 3,
+          time: "3:47",
+          plays: 113,
+        },
+        {
+          id: 2,
+          name: "Neon Pulse Symphony",
+          artist: "Techno Maestro",
+          mapper: "Techno Maestro",
+          difficulty: 2.1,
+          maxDifficulty: 4.8,
+          level: 3,
+          time: "3:47",
+          plays: 113,
+        },
+        {
+          id: 3,
+          name: "Neon Pulse Symphony",
+          artist: "Techno Maestro",
+          mapper: "Techno Maestro",
+          difficulty: 2.1,
+          maxDifficulty: 4.8,
+          level: 3,
+          time: "3:47",
+          plays: 113,
+        },
+        {
+          id: 4,
+          name: "Neon Pulse Symphony",
+          artist: "Techno Maestro",
+          mapper: "Techno Maestro",
+          difficulty: 2.1,
+          maxDifficulty: 4.8,
+          level: 3,
+          time: "3:47",
+          plays: 113,
+        },
+      ],
+      created: [
+        {
+          id: 5,
+          name: "Neon Pulse Symphony",
+          artist: "Techno Maestro",
+          mapper: "Techno Maestro",
+          difficulty: 2.3,
+          difficulty_text: "Easy",
+          time: "3:47",
+          plays: 113,
+        },
+        {
+          id: 6,
+          name: "Neon Pulse Symphony",
+          artist: "Techno Maestro",
+          mapper: "Techno Maestro",
+          difficulty: 2.3,
+          difficulty_text: "Easy",
+          time: "3:47",
+          plays: 113,
+        },
+        {
+          id: 7,
+          name: "Neon Pulse Symphony",
+          artist: "Techno Maestro",
+          mapper: "Techno Maestro",
+          difficulty: 2.3,
+          difficulty_text: "Easy",
+          time: "3:47",
+          plays: 113,
+        },
+        {
+          id: 8,
+          name: "Neon Pulse Symphony",
+          artist: "Techno Maestro",
+          mapper: "Techno Maestro",
+          difficulty: 2.3,
+          difficulty_text: "Easy",
+          time: "3:47",
+          plays: 113,
+        },
+      ],
+    },
   });
 
   // Handle navigation
   const handleNavigation = (page) => {
     setActivePage(page);
+  };
+
+  // Handle tab change
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
   };
 
   return (
@@ -318,13 +422,207 @@ const ProfilePage = () => {
           )}
 
           {activePage === "beatmaps" && (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center">
-                <h2 className="text-2xl mb-4">Beatmaps</h2>
-                {/* <p className="text-gray-300">
-                  This section is currently empty.
-                </p> */}
+            <div className="w-full">
+              {/* Tabs */}
+              <div className="flex mb-6 border-b border-[#6D6D99]">
+                <div
+                  className={`py-3 px-6 cursor-pointer relative ${
+                    activeTab === "bookmarked"
+                      ? "text-yellow-500"
+                      : "text-gray-300"
+                  }`}
+                  onClick={() => handleTabChange("bookmarked")}
+                >
+                  <span>Bookmarked</span>
+                  {activeTab === "bookmarked" && (
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-yellow-500"></div>
+                  )}
+                </div>
+                <div
+                  className={`py-3 px-6 cursor-pointer relative ${
+                    activeTab === "created"
+                      ? "text-yellow-500"
+                      : "text-gray-300"
+                  }`}
+                  onClick={() => handleTabChange("created")}
+                >
+                  <span>Created</span>
+                  {activeTab === "created" && (
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-yellow-500"></div>
+                  )}
+                </div>
               </div>
+
+              {/* Content based on active tab */}
+              {activeTab === "bookmarked" && (
+                <div>
+                  {/* Table Headers */}
+                  <div className="grid grid-cols-12 gap-4 py-3 px-4 border-b border-[#6D6D99] text-sm">
+                    <div className="col-span-4">Name</div>
+                    <div className="col-span-2 text-center">
+                      Difficulty{" "}
+                      <span className="inline-block w-4 h-4 rounded-full bg-gray-600 text-center text-xs leading-4">
+                        ?
+                      </span>
+                    </div>
+                    <div className="col-span-2 text-center">
+                      # of Difficulties
+                    </div>
+                    <div className="col-span-2 text-center">Statistics</div>
+                    <div className="col-span-2 text-center">Saved</div>
+                  </div>
+
+                  {/* Beatmap Items */}
+                  {playerData.beatmaps.bookmarked.map((beatmap) => (
+                    <div
+                      key={beatmap.id}
+                      className="grid grid-cols-12 gap-4 py-4 px-4 items-center border-b border-[#6D6D99]/30"
+                    >
+                      <div className="col-span-4 flex items-center">
+                        <div className="w-20 h-20 bg-gray-800 rounded mr-4 flex-shrink-0 overflow-hidden">
+                          <img
+                            src={cover}
+                            alt="beatmap thumbnail"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <div className="text-white">{beatmap.name}</div>
+                          <div className="text-sm text-gray-400">
+                            {beatmap.artist}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            Mapped: {beatmap.mapper}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-span-2 flex items-center justify-center space-x-2">
+                        <span className="flex items-center">
+                          <span className="w-2 h-4 bg-green-500 mr-1 rounded-sm"></span>
+                          {beatmap.difficulty}
+                        </span>
+                        <span>-</span>
+                        <span className="flex items-center">
+                          <span className="w-2 h-4 bg-red-500 mr-1 rounded-sm"></span>
+                          {beatmap.maxDifficulty}
+                        </span>
+                      </div>
+                      <div className="col-span-2 flex justify-center items-center gap-2">
+                        <img
+                          src={ellipseIcon}
+                          alt="ellipse"
+                          className="w-5 h-5"
+                        />
+                        {beatmap.level}
+                      </div>
+                      <div className="col-span-2 flex justify-center items-center space-x-3">
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={clockIcon}
+                            alt="Duration"
+                            className="w-5 h-5"
+                          />
+                          {beatmap.time}
+                        </div>
+                        <div className="flex items-center">
+                          <img src={bpmIcon} alt="bpm" className="w-7 h-7" />
+                          {beatmap.plays}
+                        </div>
+                      </div>
+                      <div className="col-span-2 flex justify-center">
+                        <img
+                          src={bookmarkedIcon}
+                          alt="Bookmarked"
+                          className="w-6 h-6"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeTab === "created" && (
+                <div>
+                  {/* Table Headers */}
+                  <div className="grid grid-cols-12 gap-4 py-3 px-4 border-b border-[#6D6D99] text-sm">
+                    <div className="col-span-4">Name</div>
+                    <div className="col-span-2 text-center">
+                      Difficulty{" "}
+                      <span className="inline-block w-4 h-4 rounded-full bg-gray-600 text-center text-xs leading-4">
+                        ?
+                      </span>
+                    </div>
+                    <div className="col-span-2 text-center">
+                      # of Difficulties
+                    </div>
+                    <div className="col-span-2 text-center">Statistics</div>
+                    <div className="col-span-2 text-center">Saved</div>
+                  </div>
+
+                  {/* Beatmap Items */}
+                  {playerData.beatmaps.bookmarked.map((beatmap) => (
+                    <div
+                      key={beatmap.id}
+                      className="grid grid-cols-12 gap-4 py-4 px-4 items-center border-b border-[#6D6D99]/30"
+                    >
+                      <div className="col-span-4 flex items-center">
+                        <div className="w-20 h-20 bg-gray-800 rounded mr-4 flex-shrink-0 overflow-hidden">
+                          <img
+                            src={cover}
+                            alt="beatmap thumbnail"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <div className="text-white">{beatmap.name}</div>
+                          <div className="text-sm text-gray-400">
+                            {beatmap.artist}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            Mapped: {beatmap.mapper}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-span-2 flex items-center justify-center space-x-2">
+                        <span className="flex items-center">
+                          <span className="w-2 h-4 bg-green-500 mr-1 rounded-sm"></span>
+                          {beatmap.difficulty}
+                        </span>
+                        <span>-</span>
+                        <span className="flex items-center">
+                          <span className="w-2 h-4 bg-red-500 mr-1 rounded-sm"></span>
+                          {beatmap.maxDifficulty}
+                        </span>
+                      </div>
+                      <div className="col-span-2 flex justify-center items-center gap-2">
+                        <img
+                          src={ellipseIcon}
+                          alt="ellipse"
+                          className="w-5 h-5"
+                        />
+                        {beatmap.level}
+                      </div>
+                      <div className="col-span-2 flex justify-center items-center space-x-3">
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={clockIcon}
+                            alt="Duration"
+                            className="w-5 h-5"
+                          />
+                          {beatmap.time}
+                        </div>
+                        <div className="flex items-center">
+                          <img src={bpmIcon} alt="bpm" className="w-7 h-7" />
+                          {beatmap.plays}
+                        </div>
+                      </div>
+                      <div className="col-span-2 flex justify-center">
+                        <img src={editIcon} alt="bpm" className="w-6 h-6" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
