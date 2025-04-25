@@ -23,7 +23,7 @@ const Header = ({ muted, setMuted }) => {
 
   return (
     <>
-      <nav className="header fixed top-0 left-0 w-full h-[75px] bg-header-gradient z-20 mb-[-75px] flex justify-between items-center overflow-visible opacity-90 font-mukta-mahee">
+      <nav className="header fixed top-0 left-0 w-full h-[75px] bg-header-gradient z-50 mb-[-75px] flex justify-between items-center overflow-visible opacity-90 font-mukta-mahee">
         {/* Ongawa Logo */}
         <div className="ml-8">
           <Link to="/">

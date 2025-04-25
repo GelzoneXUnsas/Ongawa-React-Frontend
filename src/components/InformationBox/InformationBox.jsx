@@ -13,6 +13,7 @@ const InformationBox = ({ currentMusician, className }) => {
       outline outline-1 outline-light-grey outline-offset-[-4px] overflow-hidden
       lg:border-[22px] lg:outline-offset-[-6px] lg:p-8
       short:border-[8px] short:p-1
+      tablet:p-6
       `}
     >
       {/* Name */}
@@ -29,7 +30,8 @@ const InformationBox = ({ currentMusician, className }) => {
             transition={{ duration: 0.4 }}
             className="m-0 text-2xl text-light-grey font-light font-nova-square
                        lg:text-4xl lg:pl-4
-                       short:text-2xl"
+                       short:text-2xl
+                       tablet:text-4xl tablet:pl-4"
           >
             {currentMusician.name}
           </motion.h2>
@@ -45,7 +47,8 @@ const InformationBox = ({ currentMusician, className }) => {
           transition={{ duration: 0.4 }}
           className="text-lg text-main-purple font-nova-square mb-1
                      lg:text-2xl lg:mt-4
-                     short:text-lg short:m-2"
+                     short:text-lg short:m-2
+                     tablet:text-2xl tablet:mt-4"
         >
           {currentMusician.title}
         </motion.p>
@@ -60,7 +63,8 @@ const InformationBox = ({ currentMusician, className }) => {
           transition={{ duration: 0.4 }}
           className="text-sm text-main-purple mb-1
                       lg:text-lg/10 lg:mt-2
-                      short:m-2"
+                      short:m-2
+                      tablet:text-lg/10 tablet:mt-2"
         >
           {currentMusician.description}
         </motion.p>

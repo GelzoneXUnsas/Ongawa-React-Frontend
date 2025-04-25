@@ -106,6 +106,7 @@ export default {
 
       screens: {
         short: { raw: "(max-height: 600px)" },
+        tablet: { raw: "(min-width: 820px) and (min-height: 1180px)" },
       },
     },
   },

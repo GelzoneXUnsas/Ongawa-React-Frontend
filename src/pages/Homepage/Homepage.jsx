@@ -378,7 +378,8 @@ const Homepage = ({ muted }) => {
                         absolute top-0 left-0 w-full
                         text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
                         lg:font-normal lg:text-lg/loose lg:text-left
-                        short:font-normal short:text-sm short:text-left"
+                        short:font-normal short:text-sm short:text-left
+                        tablet:text-xl/loose"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -434,7 +435,10 @@ const Homepage = ({ muted }) => {
                             short:absolute short:right-0 short:w-3/5 short:h-5/6 short:top-2"
             >
               {/* Background image container */}
-              <div className="absolute inset-0 lg:inset-[-40%] short:inset-[-30%]">
+              <div
+                className="absolute inset-0 lg:inset-[-40%] tablet:inset-[-35%] short:inset-[-30%]
+                              tablet:top-4"
+              >
                 <img
                   src={aboutUsBackgroundImg}
                   alt="About Us"
@@ -463,10 +467,19 @@ const Homepage = ({ muted }) => {
 
                 {/* Circular Gradient Overlay for small screens*/}
                 <div
-                  className="flex lg:hidden short:hidden absolute top-0 left-0 w-full h-[calc(50%+4px)] items-center justify-center"
+                  className="flex lg:hidden short:hidden tablet:hidden absolute top-[-12px] left-0 w-full h-[calc(50%+4px)] items-center justify-center"
                   style={{
                     background:
                       "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 220px)",
+                  }}
+                />
+
+                {/* Circular Gradient Overlay for tablet screens*/}
+                <div
+                  className="tablet:flex lg:hidden short:hidden absolute top-[-12px] left-0 w-full h-[calc(50%+12px)] items-center justify-center"
+                  style={{
+                    background:
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 340px)",
                   }}
                 />
               </div>
@@ -482,7 +495,8 @@ const Homepage = ({ muted }) => {
                 className="
                   z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center mb-6
                   lg:text-left lg:text-lg/10
-                  short:text-left short:text-xs"
+                  short:text-left short:text-xs
+                  tablet:text-lg/loose"
               >
                 Ongawa is a rhythm game that goes beyond entertainment,
                 centering around music, creativity, and talent discovery. It
@@ -493,7 +507,8 @@ const Homepage = ({ muted }) => {
                 className="
                 z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center
                 lg:text-left lg:text-lg/10
-                short:text-left short:text-xs"
+                short:text-left short:text-xs
+                tablet:text-lg/loose"
               >
                 Step into the world of Ongawa, where music bridges the gap
                 between reality and imagination. You play as a dedicated
@@ -572,12 +587,13 @@ const Homepage = ({ muted }) => {
                     lg:w-auto lg:px-0 lg:overflow-visible lg:translate-x-0 lg:left-auto lg:bottom-48 lg:right-[15%]
                     short:w-auto short:px-0 short:overflow-visible short:translate-x-0 short:left-auto short:bottom-[6.5rem] short:right-[15%]"
             >
-              <div className="w-96 flex-shrink-0 lg:w-auto">
+              <div className="w-96 flex-shrink-0 lg:w-auto tablet:w-[600px]">
                 <InformationBox
                   currentMusician={currentMusician}
                   className="w-full 
                             lg:max-w-[550px] lg:max-h-[500px]
-                            short:max-w-[500px] short:max-h-[225px]"
+                            short:max-w-[500px] short:max-h-[225px]
+                            tablet:max-w-[550px] tablet:max-h-[400px]"
                 />
               </div>
             </div>
@@ -593,7 +609,7 @@ const Homepage = ({ muted }) => {
             <h2
               className="
                   w-1/2 short:w-1/3 lg:max-w-[28rem] mr-6 pl-4 lg:pl-16 py-2 lg:!py-3 font-light text-2xl
-                  lg:text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]"
+                  lg:text-5xl tablet:text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]"
             >
               FAQs
             </h2>
