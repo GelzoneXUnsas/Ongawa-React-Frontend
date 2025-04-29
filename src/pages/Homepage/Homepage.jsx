@@ -18,18 +18,22 @@ import aboutUsBackgroundImg from "../../assets/images/galleryArt/art4.png";
 import ongawaLogoNameWhite from "../../assets/icons/ongawaLogoNameWhite.png";
 
 import discordIcon from "../../assets/icons/discordIcon.png";
+import musicIcon from "../../assets/icons/music-icon.png";
+import OngawaIcon from "../../assets/icons/musicianIcons/OngawaIcon.png";
 
-import musicianImage1 from "../../assets/images/featuredArtists/musicianModel1.png";
-import musicianImage2 from "../../assets/images/featuredArtists/musicianModel2.png";
-import musicianImage3 from "../../assets/images/featuredArtists/musicianModel3.png";
+import musicianImageBronte from "../../assets/images/featuredArtists/musicianModelBronte.png";
+import musicianImageVento from "../../assets/images/featuredArtists/musicianModelVento.png";
+import musicianImageDolce from "../../assets/images/featuredArtists/musicianModelDolce.png";
+import musicianImageViora from "../../assets/images/featuredArtists/musicianModelViora.png";
 
-import musicianBassIcon from "../../assets/icons/musicianIcons/BassIcon.png";
-import musicianDrumIcon from "../../assets/icons/musicianIcons/DrumsIcon.png";
-import musicianPianoIcon from "../../assets/icons/musicianIcons/PianoIcon.png";
+import musicianBronteIcon from "../../assets/icons/musicianIcons/BronteIcon.png";
+import musicianVentoIcon from "../../assets/icons/musicianIcons/VentoIcon.png";
+import musicianDolceIcon from "../../assets/icons/musicianIcons/DolceIcon.png";
 
-import musicianBackground1 from "../../assets/images/featuredArtists/musicianBackground1.png";
-import musicianBackground2 from "../../assets/images/featuredArtists/musicianBackground2.png";
-import musicianBackground3 from "../../assets/images/featuredArtists/musicianBackground3.png";
+import musicianBackgroundBronte from "../../assets/images/featuredArtists/musicianBackgroundBronte.png";
+import musicianBackgroundVento from "../../assets/images/featuredArtists/musicianBackgroundVento.png";
+import musicianBackgroundDolce from "../../assets/images/featuredArtists/musicianBackgroundDolce.png";
+import musicianBackgroundViora from "../../assets/images/featuredArtists/musicianBackgroundViora.png";
 
 const getFeaturedMusicians = () => {
   return [
@@ -37,9 +41,9 @@ const getFeaturedMusicians = () => {
       id: 1,
       name: "Bronte",
       title: "Ruins Striker",
-      image: musicianImage1,
-      imageIcon: musicianDrumIcon,
-      backgroundImage: musicianBackground1,
+      image: musicianImageBronte,
+      imageIcon: musicianBronteIcon,
+      backgroundImage: musicianBackgroundBronte,
       description:
         "A survivor hardened by loss, Bronte channels her anger into every strike of her drum hammer. She doesn’t care about heroism—only making sure her world doesn’t disappear without a fight.",
       playcount: 538,
@@ -51,9 +55,9 @@ const getFeaturedMusicians = () => {
       id: 2,
       name: "Vento",
       title: "Riftborn Rhapsodist",
-      image: musicianImage3,
-      imageIcon: musicianBassIcon,
-      backgroundImage: musicianBackground2,
+      image: musicianImageVento,
+      imageIcon: musicianVentoIcon,
+      backgroundImage: musicianBackgroundVento,
       description:
         "A sharp-tongued fighter who lives for the thrill, Vento’s guitar is as much a weapon as it is an escape. He masks his past with humor, but when it’s time to play, he doesn’t hold back.",
       playcount: 386,
@@ -65,11 +69,25 @@ const getFeaturedMusicians = () => {
       id: 3,
       name: "Dolce",
       title: "Silent Crescendo",
-      image: musicianImage2,
-      imageIcon: musicianPianoIcon,
-      backgroundImage: musicianBackground3,
+      image: musicianImageDolce,
+      imageIcon: musicianDolceIcon,
+      backgroundImage: musicianBackgroundDolce,
       description:
         "A strategist first and a musician second, Dolce treats every battle like a composition. Precision and efficiency guide his every move—after all, a single mistake can mean the difference between survival and ruin.",
+      playcount: 479,
+      songcount: 14,
+      spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
+      soundcloudLink: "https://soundcloud.com/technomaestro",
+    },
+    {
+      id: 4,
+      name: "Viora",
+      title: "Dissonant Heir",
+      image: musicianImageViora,
+      imageIcon: OngawaIcon,
+      backgroundImage: musicianBackgroundViora,
+      description:
+        "Born into royalty but disillusioned by its corruption, Viora cast off a life of forced tradition to pursue her own voice. Her music, once a symbol of duty, is now her rebellion.",
       playcount: 479,
       songcount: 14,
       spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
@@ -196,18 +214,20 @@ const Homepage = ({ muted }) => {
             <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
               {/* Mobile Icons */}
               <div className="flex flex-col justify-center gap-2">
-                {/* <div className="lg:w-56">
+                <div className="lg:w-56">
                   <DownloadIcon
-                    icon={desktopIcon}
-                    header="Download"
-                    source="Demo"
+                    icon={musicIcon}
+                    header="Feature Your"
+                    source="Music"
+                    link="https://docs.google.com/forms/u/2/d/e/1FAIpQLSdyoXG2hOznFApdDy_IDDnxtDk5JK4KLy_37xMZgxXMBYzNjg/viewform?usp=send_form"
                   />
-                </div> */}
+                </div>
                 <div className="lg:w-56">
                   <DownloadIcon
                     icon={discordIcon}
                     header="Join Our"
                     source="Discord"
+                    link="https://discord.com/invite/JEzqqj94Pn"
                   />
                 </div>
               </div>
@@ -248,9 +268,9 @@ const Homepage = ({ muted }) => {
             </AnimatePresence>
           </div>
           {/* Video Element and Toggle Buttons */}
-          <div className="flex flex-col items-center mx-3">
+          <div className="flex flex-col items-center mx-3 md:mx-16">
             {/* Toggle Buttons */}
-            <div className="flex lg:hidden short:hidden justify-between md:justify-center w-full gap-4 mb-4 mt-32 lg:mt-8 short:mt-8">
+            <div className="flex lg:hidden short:hidden justify-between w-full gap-4 mb-4 mt-32 lg:mt-8 short:mt-8">
               <ToggleButton
                 title="Gameplay"
                 isActive={activeVideo === "gameplay"}

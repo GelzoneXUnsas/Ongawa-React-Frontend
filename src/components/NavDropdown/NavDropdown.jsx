@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types'; 
+import PropTypes from "prop-types";
 
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import closeNavDropdown from "../../assets/icons/closeNavDropdown.png";
 import shareIcon from "../../assets/icons/shareIcon.png";
 import youtubeIcon from "../../assets/icons/youtubeIcon.png";
@@ -72,21 +72,21 @@ const NavDropdown = ({
               {userLoggedIn ? "Sign Out" : "Login"}
             </Link>
             <div className="flex justify-center align-center gap-4 mt-2">
-              <a href="https://www.ongawa.io/" target="blank">
+              <a href="https://www.ongawa.io/" target="_blank">
                 <img className="h-6" src={shareIcon} alt="share" />
               </a>
-              <a href="https://discord.gg/vheHu3mX" target="blank">
+              <a href="https://discord.gg/vheHu3mX" target="_blank">
                 <img className="h-6" src={discordIcon} alt="discord" />
               </a>
               <a
                 href="https://www.linkedin.com/showcase/ongawa/?viewAsMember=true"
-                target="blank"
+                target="_blank"
               >
                 <img className="h-6" src={linkedinIcon} alt="linkedIn" />
               </a>
               <a
                 href="https://www.youtube.com/@Ongawa_gg/featured"
-                target="blank"
+                target="_blank"
               >
                 <img className="h-8" src={youtubeIcon} alt="youtube" />
               </a>
@@ -104,6 +104,5 @@ NavDropdown.propTypes = {
   userLoggedIn: PropTypes.bool.isRequired,
   doSignOut: PropTypes.func.isRequired,
 };
-
 
 export default NavDropdown;
