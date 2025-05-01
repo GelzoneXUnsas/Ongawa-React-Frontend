@@ -102,32 +102,32 @@ const getFAQs = () => {
     {
       question: "What makes Ongawa different from other rhythm games?",
       answer:
-        "Ongawa uniquely blends music creation, music streaming, and RPG elements within a rhythm game. It provides a platform for indie musicians to showcase their work in an interactive way, offering a fresh experience for both players and artists.",
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Ongawa uniquely blends music creation, music streaming, and RPG elements within a rhythm game. It provides a platform for indie musicians to showcase their work in an interactive way, offering a fresh experience for both players and artists.</p>,
     },
     {
       question: "How do I participate in Ongawa as a musician?",
       answer:
-        "To become a musician on Ongawa, simply sign up as a musician and upload your original tracks to be featured in the game. This allows your music to be played by others and integrated into the rhythm game experience.",
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">To become a musician on Ongawa, simply sign up as a musician and upload your original tracks to be featured in the game. This allows your music to be played by others and integrated into the rhythm game experience.</p>,
     },
     {
       question: "Is Ongawa available on mobile or desktop?",
       answer:
-        "Currently, Ongawa will be available only on mobile. But you can try a simple demo version of the game on PC/Mac via Itch.io here: Virtuosos Demo. ",
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Currently, Ongawa will be available only on mobile. But you can try a simple demo version of the game on PC/Mac via Itch.io here: <a href='https://gelzonexunsas.itch.io/virtuosos'>Ongawa Demo</a></p>,
     },
     {
       question: "Can I play Ongawa alone, or is it multiplayer?",
       answer:
-        " At the moment, Ongawa is single-player only. However, multiplayer functionality is currently in development and will be available soon.",
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">At the moment, Ongawa is single-player only. However, multiplayer functionality is currently in development and will be available soon.</p>,
     },
     {
       question: "Can I monetize my music on Ongawa?",
       answer:
-        " Yes, Ongawa offers a platform for musicians to monetize their music through in-game exposure and revenue-sharing features. This allows artists to earn from their tracks and gain recognition within the game.",
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Yes, Ongawa offers a platform for musicians to monetize their music through in-game exposure and revenue-sharing features. This allows artists to earn from their tracks and gain recognition within the game.</p>,
     },
     {
       question: "How can I support Ongawa as a fan or player?",
       answer:
-        " Fans can support Ongawa by playing the game, sharing it with others, supporting musicians on the platform, or contributing to the game’s development through feedback or crowdfunding. Join our community and connect with us on Discord: Join our Discord.",
+        <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Fans can support Ongawa by playing the game, sharing it with others, supporting musicians on the platform, or contributing to the game’s development through feedback or crowdfunding. Join our community and connect with us on Discord: <a href='https://discord.gg/yourdiscordlink'>Join our Discord</a>.</p>,
     },
   ];
 };
@@ -325,8 +325,10 @@ const Homepage = ({ muted }) => {
                     >
                       <video
                         className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3
-                        short:max-h-52 "
+                        short:max-h-52" 
                         muted
+                        autoPlay
+                        loop
                       >
                         <source
                           src={
@@ -383,7 +385,7 @@ const Homepage = ({ muted }) => {
                   {/* Invisible placeholder to maintain size */}
                   <p
                     className="invisible text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
-                              lg:font-normal lg:text-lg/loose lg:text-left
+                              lg:font-normal lg:text-lg leading-loose lg:text-left
                               short:text-sm"
                     aria-hidden="true"
                   >

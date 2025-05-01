@@ -52,9 +52,9 @@ const DropdownQuestion = ({ question, answer }) => {
             }}
             className="overflow-hidden ml-8"
           >
-            <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">
+            
               {answer}
-            </p>
+            
           </motion.div>
         )}
       </AnimatePresence>
