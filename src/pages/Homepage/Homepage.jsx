@@ -29,6 +29,7 @@ import musicianImageViora from "../../assets/images/featuredArtists/musicianMode
 import musicianBronteIcon from "../../assets/icons/musicianIcons/BronteIcon.png";
 import musicianVentoIcon from "../../assets/icons/musicianIcons/VentoIcon.png";
 import musicianDolceIcon from "../../assets/icons/musicianIcons/DolceIcon.png";
+import musicianVioraIcon from "../../assets/icons/musicianIcons/VioraIcon.png";
 
 import musicianBackgroundBronte from "../../assets/images/featuredArtists/musicianBackgroundBronte.png";
 import musicianBackgroundVento from "../../assets/images/featuredArtists/musicianBackgroundVento.png";
@@ -84,7 +85,7 @@ const getFeaturedMusicians = () => {
       name: "Viora",
       title: "Dissonant Heir",
       image: musicianImageViora,
-      imageIcon: OngawaIcon,
+      imageIcon: musicianVioraIcon,
       backgroundImage: musicianBackgroundViora,
       description:
         "Born into royalty but disillusioned by its corruption, Viora cast off a life of forced tradition to pursue her own voice. Her music, once a symbol of duty, is now her rebellion.",

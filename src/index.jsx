@@ -12,9 +12,9 @@ import "./index.css";
 import "./index.css";
 import Router from "./Router";
 import { BrowserRouter } from "react-router-dom";
-// import { Amplify } from 'aws-amplify';
-// import { record } from 'aws-amplify/analytics';
-// import outputs from '../amplify_outputs.json';
+import { Amplify } from 'aws-amplify';
+//import { record } from 'aws-amplify/analytics';
+//import outputs from '../amplify_outputs.json';
 
 
 Amplify.configure({
