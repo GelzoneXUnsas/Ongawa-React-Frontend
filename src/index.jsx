@@ -16,11 +16,10 @@ import { BrowserRouter } from "react-router-dom";
 // import { record } from 'aws-amplify/analytics';
 // import outputs from '../amplify_outputs.json';
 
-// Amplify.configure({
-//   ...Amplify.getConfig(),
-//   Analytics: amplifyconfig.Analytics,
-// });
 
+Amplify.configure({
+  ...Amplify.getConfig(),
+});
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

@@ -25,6 +25,7 @@ export default {
         "page-background": "#2d2c5f",
         "page-background-purple": "#1D1D2E",
         "page-accent-gray": "#242424",
+        "page-background-purple": "#1D1D2E",
         white: "#fff",
         lilac: "#f1dbfc",
         "icon-color": "#FFF",

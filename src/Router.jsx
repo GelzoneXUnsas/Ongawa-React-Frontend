@@ -3,6 +3,7 @@ import { useState } from "react";
 import Homepage from "./pages/Homepage/Homepage";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+//import GoogleTag from './components/GoogleTag';
 
 import GalleryPage from "./pages/GalleryPage/GalleryPage";
 import MusicGalleryPage from "./pages/GalleryPage/MusicGalleryPage";
