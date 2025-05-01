@@ -17,7 +17,6 @@ import outputs from "../amplify_outputs.json";
 
 Amplify.configure({
   ...Amplify.getConfig(),
-  Analytics: amplifyconfig.Analytics,
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
