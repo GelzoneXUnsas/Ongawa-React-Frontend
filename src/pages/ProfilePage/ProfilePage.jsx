@@ -9,6 +9,9 @@ import editIcon from "../../assets/icons/editIcon.svg";
 
 import cover from "../../assets/images/musicCovers/neonpulsesym.png";
 
+import CommunityTab from "./CommunityTab";
+import CustomizationTab from "./CustomizationTab";
+
 const ProfilePage = () => {
   // Active page state
   const [activePage, setActivePage] = useState("statistics");
@@ -627,25 +630,11 @@ const ProfilePage = () => {
           )}
 
           {activePage === "community" && (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center">
-                <h2 className="text-2xl mb-4">Community</h2>
-                {/* <p className="text-gray-300">
-                  This section is currently empty.
-                </p> */}
-              </div>
-            </div>
+            <CommunityTab />
           )}
 
           {activePage === "customization" && (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center">
-                <h2 className="text-2xl mb-4">Customization</h2>
-                {/* <p className="text-gray-300">
-                  This section is currently empty.
-                </p> */}
-              </div>
-            </div>
+            <CustomizationTab />
           )}
 
           {activePage === "settings" && (
