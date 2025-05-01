@@ -28,44 +28,9 @@ import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
 import artist3Image from "../../assets/images/featuredArtists/artist3.png";
 import spotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
 import soundcloudIcon from "../../assets/icons/soundCloudIcon.svg";
-const cacheImage = (url, key) => {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = () => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        localStorage.setItem(key, reader.result);
-        resolve(reader.result);
-      };
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.onerror = (err) => reject(err);
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-  });
-};
 
-const getCachedImage = (key) => {
-  // eslint-disable-next-line no-undef
-  return localStorage.getItem(key);
-};
 
-const cacheImages = (urls) => {
-  const cachePromises = urls.map(url => {
-    const key = `cache_${url}`;
-    return cacheImage(url, key);
-  });
-  
-  return Promise.all(cachePromises);
-};
 
-const getCachedImages = (urls) => {
-  return urls.map(url => {
-    const key = `cache_${url}`;
-    return getCachedImage(key);
-  });
-};
 
 const getFeaturedArtists = () => {
   return [
