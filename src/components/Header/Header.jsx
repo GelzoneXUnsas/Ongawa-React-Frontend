@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -12,13 +12,17 @@ import toggleMusicIconOff from "../../assets/icons/toggleMusicIconOff.png";
 import menuDropdownIcon from "../../assets/icons/menuDropdownIcon.png";
 import NavDropdown from "../NavDropdown/NavDropdown";
 
-const Header = ({ muted, setMuted }) => {
+const Header = ({ setMuted }) => {
   const { userLoggedIn } = useAuth();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [muted, setLocalMuted] = useState(true);
+  useEffect(() => {
+    setMuted(muted);
+  }, [muted, setMuted]);
 
   const toggleMusic = () => {
-    setMuted(!muted);
+    setLocalMuted(!muted);
   };
 
   return (
