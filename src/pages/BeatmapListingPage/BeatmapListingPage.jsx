@@ -1,154 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import cover1 from "../../assets/images/musicCovers/celticwhispersballadHD.png";
-import cover2 from "../../assets/images/musicCovers/neonpulsesymHD.png";
-import cover3 from "../../assets/images/musicCovers/celestialechoesHD.png";
-import cover4 from "../../assets/images/musicCovers/nocturnalpursuitHD.png";
 import searchIcon from '../../assets/icons/searchIcon.svg';
 import closeIcon from '../../assets/icons/closeNavDropdown.png';
 import heartIcon from "../../assets/icons/heartIcon-white.svg";
 import playIcon from "../../assets/icons/playIcon-white.svg";
 import timeIcon from "../../assets/icons/timeIcon.svg"
 import ellipseIcon from "../../assets/icons/ellipse.svg"
+import { beatmaps } from "../../data/beatmaps";
 
 import DifficultyDropdown from '../../components/DifficultyDropdown/DifficultyDropdown';
 import TagsDropdown from '../../components/TagsDropdown/TagsDropdown';
-
-const beatmaps = [
-  {
-    id: 1,
-    title: "Neon Pulse Symphony",
-    artist: "Techno Maestro",
-    mappedBy: "Techno Maestro",
-    image: cover1,
-    difficulty: "medium",
-    likes: 0,
-    plays: 0,
-    downloads: 61,
-    duration: "3:47",
-    hpDrain: 5,
-    approachRate: 7,
-    level: "2.3",
-    bpm: "113",
-    notes: "185",
-    sliders: "61",
-    description: "Dive into the cutting-edge realm of Techno Adventures World, where futuristic technology meets thrilling escapades. Explore cyber landscapes, master advanced gadgets, and overcome digital challenges in this electrifying journey through the next frontier.",
-    source: ["Techno", "Adventures", "World"],
-    tags: ["Neon", "Synth wave"],
-    createdAt: "2025-01-15T14:30:00Z"
-  },
-  {
-    id: 2,
-    title: "Celtic Whispers Ballad",
-    artist: "Folklore Minstrel",
-    mappedBy: "Folklore Minstrel",
-    image: cover2,
-    difficulty: "hard",
-    likes: 2,
-    plays: 0,
-    downloads: 43,
-    duration: "4:12",
-    hpDrain: 8,
-    approachRate: 9,
-    level: "4.7",
-    bpm: "113",
-    notes: "185",
-    sliders: "61",
-    description: "Journey through ancient Celtic landscapes with this mystical ballad that weaves tales of legend and lore. Each note carries the whispers of ancient druids and the echoes of forgotten rituals, creating an immersive experience that transcends time.",
-    source: ["Celtic", "Mythology", "Ballads"],
-    tags: ["Celtic", "Folk", "Mystical"],
-    createdAt: "2024-11-23T09:15:00Z"
-  },
-  {
-    id: 3,
-    title: "Celestial Echoes",
-    artist: "Celestial Harmonics",
-    mappedBy: "StarNavigator",
-    image: cover3,
-    difficulty: "easy",
-    likes: 0,
-    plays: 1,
-    downloads: 87,
-    duration: "5:23",
-    hpDrain: 6,
-    approachRate: 6,
-    level: "3.5",
-    bpm: "113",
-    notes: "185",
-    sliders: "61",
-    description: "Float through the cosmos with this ethereal symphony that captures the harmony of the stars. Each beat resonates with the pulse of distant galaxies, creating a celestial journey that will transport you beyond the boundaries of our universe.",
-    source: ["Astronomical", "Ambient", "Space"],
-    tags: ["Cosmic", "Ambient", "Ethereal"],
-    createdAt: "2025-02-05T18:45:00Z"
-  },
-  {
-    id: 4,
-    title: "Neon Pulse Symphony",
-    artist: "ShadowWeaver",
-    mappedBy: "ShadowWeaver",
-    image: cover4,
-    difficulty: "medium",
-    likes: 0,
-    plays: 0,
-    downloads: 52,
-    duration: "4:05",
-    hpDrain: 6,
-    approachRate: 8,
-    level: "3.8",
-    bpm: "113",
-    notes: "185",
-    sliders: "61",
-    description: "Enter the shadows with this intense beat-driven track that follows a mysterious chase through moonlit streets. The rhythm accelerates and decelerates, mimicking the heart-pounding tension of pursuit and escape in the darkness of night.",
-    source: ["Urban", "Night", "Mystery"],
-    tags: ["Dark", "Intense", "Urban"],
-    createdAt: "2025-03-10T21:20:00Z"
-  },
-  {
-    id: 5,
-    title: "Tokyo, Japan",
-    artist: "Liam Burnett-Blue",
-    mappedBy: "Unsplash",
-    image: cover2,
-    difficulty: "medium",
-    likes: 0,
-    plays: 0,
-    downloads: 38,
-    duration: "3:29",
-    hpDrain: 5,
-    approachRate: 7,
-    level: "3.0",
-    bpm: "110",
-    notes: "155",
-    sliders: "31",
-    description: "Experience the vibrant energy of Tokyo's cityscape in this dynamic electronic track. The melody captures the neon-lit streets, bustling crowds, and serene temple gardens that define Japan's captivating capital city.",
-    source: ["Urban", "Japanese", "Electronic"],
-    tags: ["Tokyo", "City", "Electronic"],
-    createdAt: "2024-10-30T11:05:00Z"
-  },
-  {
-    id: 6,
-    title: "Flowering Blossoms",
-    artist: "Meric Dağlı",
-    mappedBy: "meric",
-    image: cover4,
-    difficulty: "medium",
-    likes: 0,
-    plays: 0,
-    downloads: 31,
-    duration: "4:43",
-    hpDrain: 4,
-    approachRate: 5,
-    level: "2.8",
-    bpm: "113",
-    notes: "120",
-    sliders: "50",
-    description: "A gentle yet intricate melody that unfolds like petals opening to the morning sun. This track combines traditional instruments with subtle electronic elements to create a soundscape as delicate and complex as nature itself.",
-    source: ["Nature", "Seasonal", "Organic"],
-    tags: ["Floral", "Spring", "Peaceful"],
-    createdAt: "2025-02-18T15:40:00Z"
-  },
-];
 
 export default function BeatmapListingPage() {
   const [searchInput, setSearchInput] = useState("");
@@ -231,7 +93,7 @@ export default function BeatmapListingPage() {
   const filteredBeatmaps = applyFilterAndSort(searchFilteredBeatmaps);
 
   // Function to render difficulty indicator
-  const DifficultyIndicator = ({ difficulty }) => {
+  const DifficultyIndicator = () => {
     return (
       <div className="flex gap-1">
         {/* <div className={`h-4 w-1 rounded-full ${difficulty === "easy" ? "bg-green-500" : "bg-gray-500"}`}></div>
@@ -569,10 +431,9 @@ export default function BeatmapListingPage() {
             {hoveredBeatmap === index && (
               <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center pl-2">
                 {/* Difficulty Indicator */}
-                {/* <DifficultyIndicator difficulty={beatmap.difficulty} /> */}
                 <div className="flex items-center gap-2">
                   <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
-                  <DifficultyIndicator difficulty={beatmap.difficulty} />
+                  <DifficultyIndicator />
                 </div>
 
                 {/* Likes and Plays */}
@@ -637,7 +498,7 @@ export default function BeatmapListingPage() {
               <div className="flex flex-col gap-3 items-center">
                 <div className="flex items-center gap-1">
                   <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
-                  <DifficultyIndicator difficulty={beatmap.difficulty} />
+                  <DifficultyIndicator />
                 </div>
                 <div className="flex items-center gap-1">
                   <img src={heartIcon} alt="heart" className="w-4 h-4" />
