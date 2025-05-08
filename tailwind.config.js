@@ -108,6 +108,8 @@ export default {
       screens: {
         short: { raw: "(max-height: 600px)" },
         tablet: { raw: "(min-width: 820px) and (min-height: 1180px)" },
+        two_k: { raw: "(min-width: 1921px)" },
+        four_k: { raw: "(min-width: 2049px)" },
       },
     },
   },
