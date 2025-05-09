@@ -52,6 +52,15 @@ export default function BeatmapPage() {
     }
   }
 
+  // Mock leaderboard data for the specific beatmap
+  const leaderboardData = [
+    { rank: 1, player: "Techno Maestro", score: "100,000" },
+    { rank: 2, player: "Be4tM4ster", score: "98,947" },
+    { rank: 3, player: "QuestCompoSer", score: "98,234" },
+    { rank: 4, player: "sOnicH4rmony", score: "98,123" },
+    { rank: 5, player: "melodicexplorer94", score: "97,351" }
+  ];
+
   // If beatmap is not found
   if (!beatmap) {
     return (
@@ -192,15 +201,15 @@ export default function BeatmapPage() {
             {/* HP Drain section */}
             <div className="flex items-center gap-2">
               <span className="font-medium w-36">HP Drain:</span>
-              <span className="font-medium mr-3">{currentDifficultyData.hpDrain}</span>
-              <ProgressBar value={currentDifficultyData.hpDrain} max={10} />
+              <span className="font-medium mr-3 w-5 text-right">{currentDifficultyData.hpDrain}</span>
+              <Meter value={currentDifficultyData.hpDrain} max={10} />
             </div>
 
             {/* Approach Rate section */}
             <div className="flex items-center gap-2">
               <span className="font-medium w-36">Approach Rate:</span>
-              <span className="font-medium mr-3">{currentDifficultyData.approachRate}</span>
-              <ProgressBar value={currentDifficultyData.approachRate} max={10} />
+              <span className="font-medium mr-3 w-5 text-right">{currentDifficultyData.approachRate}</span>
+              <Meter value={currentDifficultyData.approachRate} max={10} />
             </div>
           </div>
         </div>
@@ -239,18 +248,46 @@ export default function BeatmapPage() {
             </div>
           </div>
         </div>
+
+        {/* Global Leaderboard */}
+        <div className="mb-12 mt-20">
+          <h4 className="font-bold mb-4">Global Leaderboard:</h4>
+          <div className="w-full h-[400px] overflow-y-auto no-scrollbar">
+            {/* Table Head */}
+            <div className="grid grid-cols-12 gap-4 py-3 px-4 border-t border-b text-sm sticky top-0 z-10">
+              <div className="col-span-2 text-left text-gray-300 text-base">Rank</div>
+              <div className="col-span-7 text-left text-gray-300 text-base">Player</div>
+              <div className="col-span-3 text-right text-gray-300 text-base">Score</div>
+            </div>
+
+            {/* Table Rows */}
+            {leaderboardData.map((entry) => (
+              <div
+                key={entry.rank}
+                className="grid grid-cols-12 gap-4 py-3 px-4 items-center"
+              >
+                <div className="col-span-2 flex items-center text-white font-medium">
+                  <span className="text-xs">#</span>
+                  <span>{entry.rank}</span>
+                </div>
+                <div className="col-span-7 text-yellow-accent font-medium">{entry.player}</div>
+                <div className="col-span-3 text-right text-white">{entry.score}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
 // Helper Components
-const ProgressBar = ({ value, max }) => {
+const Meter = ({ value, max }) => {
   const percentage = (value / max) * 100;
   return (
-    <div className="w-50 bg-white rounded-full h-4">
-      <div 
-        className="bg-light-purple rounded-full h-4"
+    <div className="w-[360px] bg-white rounded-full h-4 overflow-hidden">
+      <div
+        className="bg-light-purple h-full rounded-full transition-all duration-300 ease-in-out"
         style={{ width: `${percentage}%` }}
       ></div>
     </div>
