@@ -20,8 +20,12 @@ export default {
       },
 
       colors: {
+        "main-purple": "#3E3E7E",
+        "secondary-purple": "#6D6D99",
         "page-background": "#2d2c5f",
+        "page-background-purple": "#1D1D2E",
         "page-accent-gray": "#242424",
+        "page-background-purple": "#1D1D2E",
         white: "#fff",
         lilac: "#f1dbfc",
         "icon-color": "#FFF",
@@ -30,7 +34,12 @@ export default {
         "search-text-gray": "#B2B2B2",
         "link-text-gray": "#C3C3C8",
         "discography-background": "#543F60",
-        "dropdown-background": "#1D1D2E",
+        "dropdown-background-color": "#1D1D2E",
+        "light-grey": "#D9D9D9",
+        "inactive-button": "#3E3E7E",
+        "inactive-text": "#6D6D99",
+        "border-purple-light": "#47475F",
+        "heading-dark-purple": "#484878",
       },
 
       boxShadow: {
@@ -94,6 +103,11 @@ export default {
             transform: "translate(0px, 0px) scale(1)",
           },
         },
+      },
+
+      screens: {
+        short: { raw: "(max-height: 600px)" },
+        tablet: { raw: "(min-width: 820px) and (min-height: 1180px)" },
       },
     },
   },

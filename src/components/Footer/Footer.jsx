@@ -1,103 +1,78 @@
-import { useNavigate } from "react-router-dom";
-import styles from "./Footer.module.css";
+import { Link } from "react-router-dom";
 
-import logoIcon from "../../assets/icons/ongawaIconWhite.svg";
-// import instagramIcon from "../../assets/icons/instagramIcon.svg";
-// import xIcon from "../../assets/icons/xIcon.svg";
-// import tiktokIcon from "../../assets/icons/tiktokIcon.svg";
-
-import { FaLinkedinIn } from "react-icons/fa";
+import linkedInIcon from "../../assets/icons/linkedinIcon.svg";
+import ongawaLogoIcon from "../../assets/icons/ongawaIconWhite.svg";
+import instagramIcon from "../../assets/icons/instagramIcon.svg";
+import xIcon from "../../assets/icons/xIcon.svg";
 
 const Footer = () => {
-  const navigate = useNavigate();
-  const gameDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
   return (
-    <div className={styles.footer}>
-      <div className={styles.footerContainer}>
-        <div className={styles.footerSections}>
-          <div className="p-2">
-            <span
-              onClick={() => {
-                navigate("/beatmaplisting");
-              }}
-              className="hover:underline cursor-pointer"
-            >
-              Beatmaps
-            </span>
-          </div>
-          {/* <div className={styles.footerSectionPageItem}
-                onClick={() => {
-                    navigate("/comingsoon");
-                }}>
-                Artists
-            </div>
-            <div className={styles.footerSectionPageItem}
-                onClick={() => {
-                    navigate("/comingsoon");
-                    }}>
-                Community
-            </div> */}
-          <div className="p-2">
-            <span
-              className="hover:underline cursor-pointer"
-              onClick={() => {
-                navigate("/gallery");
-              }}
-            >
-              Art
-            </span>
-          </div>
-          <div className="p-2">
-            <span
-              className="hover:underline cursor-pointer"
-              onClick={() => {
-                navigate("/musicianlisting");
-              }}
-            >
-              Artists
-            </span>
-          </div>
-          <div className="p-2">
-            <span
-              className="hover:underline cursor-pointer"
-              onClick={() => {
-                navigate("/community");
-              }}
-            >
-              Community
-            </span>
-          </div>
-        </div>
-        <div className="mb-4 flex flex-row justify-center">
-          <div className={styles.footerSocialsItem}>
-            <a href={gameDownloadLink} target="_blank" rel="noreferrer">
-              <img
-                className="h-[4vh] text-white text-4xl hover:text-purple-accent hover:scale-110 transition-transform duration-300"
-                src={logoIcon}
-                alt="Ongawa Logo"
-              />
-            </a>
-          </div>
-          {/* <button className={styles.footerSocialsItem}>
-                <a href="https://www.linkedin.com/showcase/virtuososgame/?viewAsMember=true" target="_blank" rel="noreferrer">
-                    <img src={logoIcon} alt="Virtuosos Logo" />
-                </a>
-            </button> */}
+    <div className="py-8 w-full flex flex-col items-center gap-5 bg-page-background-purple">
+      {/* Links to other Pages */}
+      <Link
+        to={"/beatmaplisting"}
+        className="font-roboto font-bold text-white hover:text-white"
+      >
+        Beatmaps
+      </Link>
+      <Link
+        to={"/musicianlisting"}
+        className="font-roboto font-bold text-white hover:text-white"
+      >
+        Artists
+      </Link>
+      <Link
+        to={"/community"}
+        className="font-roboto font-bold text-white hover:text-white"
+      >
+        Community
+      </Link>
+      <Link
+        to={"/gallery"}
+        className="font-roboto font-bold text-white hover:text-white"
+      >
+        Art
+      </Link>
 
-          <div className="{styles.footerSocialsItem}">
-            <a
-              href="https://www.linkedin.com/showcase/virtuososgame/?viewAsMember=true"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaLinkedinIn className="text-white translate-y-5 text-4xl sm:text-2xl md:text-3xl lg:text-4xl hover:text-purple-accent hover:scale-110 transition-transform duration-300" />
-            </a>
-          </div>
-        </div>
-        <div className={styles.footerEmail}>
-          contact ongawa.game@gmail.com for support
-        </div>
+      {/* Icons */}
+      <div className="flex justify-between items-center gap-4">
+        {/* Ongawa Logo */}
+        <a href="https://gelzonexunsas.itch.io/virtuosos" target="blank">
+          <img
+            className="w-auto h-6 cursor-pointer"
+            alt="Ongawa Icon"
+            src={ongawaLogoIcon}
+          />
+        </a>
+        {/* LinkedIn Logo */}
+        <a
+          href="https://www.linkedin.com/showcase/ongawa/?viewAsMember=true"
+          target="blank"
+        >
+          <img
+            className="w-auto h-6 cursor-pointer"
+            alt="LinkedIn Icon"
+            src={linkedInIcon}
+          />
+        </a>
+        {/* Instagram Logo */}
+        <a href="https://www.instagram.com/Ongawa.gg/" target="blank">
+          <img
+            className="w-auto h-6 cursor-pointer"
+            alt="Instagram Icon"
+            src={instagramIcon}
+          />
+        </a>
+        {/* X/Twitter Logo */}
+        <a href="https://x.com/Ongawa_gg" target="blank">
+          <img className="w-auto h-6 cursor-pointer" alt="X Icon" src={xIcon} />
+        </a>
       </div>
+
+      {/* Contact Information */}
+      <p className="font-roboto font-medium text-xs text-white">
+        contact ongawa.game@gmail.com for support
+      </p>
     </div>
   );
 };

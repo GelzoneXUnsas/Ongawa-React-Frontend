@@ -9,17 +9,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./global.css";
 import "./index.css";
+import "./index.css";
 import Router from "./Router";
 import { BrowserRouter } from "react-router-dom";
-import { Amplify } from "aws-amplify";
-import { record } from "aws-amplify/analytics";
-import outputs from "../amplify_outputs.json";
+import { Amplify } from 'aws-amplify';
+//import { record } from 'aws-amplify/analytics';
+//import outputs from '../amplify_outputs.json';
+
 
 Amplify.configure({
   ...Amplify.getConfig(),
-  Analytics: amplifyconfig.Analytics,
 });
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
