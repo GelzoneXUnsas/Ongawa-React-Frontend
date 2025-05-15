@@ -165,7 +165,7 @@ const CommunityTab = () => {
           <span
             className={
               activeTab === "interacted"
-                ? "font-medium underline underline-offset-8 decoration-yellow-500 decoration-2"
+                ? "underline underline-offset-8 decoration-yellow-500 decoration-2"
                 : ""
             }
           >
@@ -181,7 +181,7 @@ const CommunityTab = () => {
           <span
             className={
               activeTab === "created"
-                ? "font-medium underline underline-offset-8 decoration-yellow-500 decoration-2"
+                ? "underline underline-offset-8 decoration-yellow-500 decoration-2"
                 : ""
             }
           >
