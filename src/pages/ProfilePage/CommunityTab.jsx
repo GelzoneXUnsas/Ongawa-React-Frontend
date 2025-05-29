@@ -153,7 +153,7 @@ const CommunityTab = () => {
   };
 
   return (
-    <div className="bg-[#2D294C] p-6 h-full">
+    <div className="bg-[#2D294C] p-6 h-full w-full">
       {/* Tabs */}
       <div className="flex border-b border-[#6D6D99] pb-2 gap-8">
         <div

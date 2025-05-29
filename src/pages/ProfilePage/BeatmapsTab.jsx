@@ -107,7 +107,7 @@ const BeatmapsTab = () => {
   };
 
   return (
-    <div className="p-6 h-full">
+    <div className="p-6 h-full w-full">
       {/* Tabs */}
       <div className="flex border-b border-[#6D6D99] pb-2 gap-8">
         <div
