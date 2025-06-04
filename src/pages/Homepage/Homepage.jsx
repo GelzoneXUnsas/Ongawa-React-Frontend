@@ -1,445 +1,659 @@
-import { useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useState, useEffect, useMemo } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
-// import styles from "./Homepage.module.css";
+import PropTypes from "prop-types";
 
-import React from "react";
-import { motion } from "framer-motion";
+import DownloadIcon from "../../components/DownloadIcon/DownloadIcon";
+import ToggleButton from "../../components/ToggleButton/ToggleButton";
+import ToggleArrow from "../../components/ToggleArrow/ToggleArrow";
+import MusicianSelector from "../../components/MusicianSelector/MusicianSelector";
+import InformationBox from "../../components/InformationBox/InformationBox";
+import DropdownQuestion from "../../components/DropdownQuestion/DropdownQuestion";
+import BackgroundCarousel from "../../components/BackgroundCarousel/BackgroundCarousel";
+import DisplayStatusBar from "../../components/DisplayStatusBar/DisplayStatusBar";
 
-import headerBackgroundImg from '../../assets/images/headerBackground.png';
-import ongawaTitle from '../../assets/icons/ongawaTitleModified.svg';
+import gameplayDemoBackgroundImg from "../../assets/images/galleryArt/art1.png";
+import aboutUsBackgroundImg from "../../assets/images/galleryArt/art4.png";
 
-//import appleDownloadIcon from "../../assets/icons/appleDownloadIcon.svg";
-//import googlePlayDownloadIcon from "../../assets/icons/googlePlayDownloadIcon.svg";
-import discordButton from "../../assets/icons/discordButton.svg";
-import newsletterButton from "../../assets/icons/newsletterButton.svg";
-import verifiedIcon from "../../assets/icons/verifiedIcon.svg";
+import ongawaLogoNameWhite from "../../assets/icons/ongawaLogoNameWhite.png";
 
-import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
-import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
-import artist3Image from "../../assets/images/featuredArtists/artist3.png";
-import spotifyIcon from "../../assets/icons/SpotifyIcon1.svg";
-import soundcloudIcon from "../../assets/icons/soundCloudIcon.svg";
+import discordIcon from "../../assets/icons/discordIcon.png";
+import musicIcon from "../../assets/icons/music-icon.png";
+import OngawaIcon from "../../assets/icons/musicianIcons/OngawaIcon.png";
 
+import musicianImageBronte from "../../assets/images/featuredArtists/musicianModelBronte.png";
+import musicianImageVento from "../../assets/images/featuredArtists/musicianModelVento.png";
+import musicianImageDolce from "../../assets/images/featuredArtists/musicianModelDolce.png";
+import musicianImageViora from "../../assets/images/featuredArtists/musicianModelViora.png";
 
-const cacheImage = (url, key) => {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = () => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        localStorage.setItem(key, reader.result);
-        resolve(reader.result);
-      };
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.onerror = (err) => reject(err);
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-  });
+import musicianBronteIcon from "../../assets/icons/musicianIcons/BronteIcon.png";
+import musicianVentoIcon from "../../assets/icons/musicianIcons/VentoIcon.png";
+import musicianDolceIcon from "../../assets/icons/musicianIcons/DolceIcon.png";
+import musicianVioraIcon from "../../assets/icons/musicianIcons/VioraIcon.png";
+
+import musicianBackgroundBronte from "../../assets/images/featuredArtists/musicianBackgroundBronte.png";
+import musicianBackgroundVento from "../../assets/images/featuredArtists/musicianBackgroundVento.png";
+import musicianBackgroundDolce from "../../assets/images/featuredArtists/musicianBackgroundDolce.png";
+import musicianBackgroundViora from "../../assets/images/featuredArtists/musicianBackgroundViora.png";
+
+const getFeaturedMusicians = () => {
+  return [
+    {
+      id: 1,
+      name: "Bronte",
+      title: "Ruins Striker",
+      image: musicianImageBronte,
+      imageIcon: musicianBronteIcon,
+      backgroundImage: musicianBackgroundBronte,
+      description:
+        "A survivor hardened by loss, Bronte channels her anger into every strike of her drum hammer. She doesn’t care about heroism—only making sure her world doesn’t disappear without a fight.",
+      playcount: 538,
+      songcount: 25,
+      spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
+      soundcloudLink: "https://soundcloud.com/technomaestro",
+    },
+    {
+      id: 2,
+      name: "Vento",
+      title: "Riftborn Rhapsodist",
+      image: musicianImageVento,
+      imageIcon: musicianVentoIcon,
+      backgroundImage: musicianBackgroundVento,
+      description:
+        "A sharp-tongued fighter who lives for the thrill, Vento’s guitar is as much a weapon as it is an escape. He masks his past with humor, but when it’s time to play, he doesn’t hold back.",
+      playcount: 386,
+      songcount: 16,
+      spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
+      soundcloudLink: "https://soundcloud.com/technomaestro",
+    },
+    {
+      id: 3,
+      name: "Dolce",
+      title: "Silent Crescendo",
+      image: musicianImageDolce,
+      imageIcon: musicianDolceIcon,
+      backgroundImage: musicianBackgroundDolce,
+      description:
+        "A strategist first and a musician second, Dolce treats every battle like a composition. Precision and efficiency guide his every move—after all, a single mistake can mean the difference between survival and ruin.",
+      playcount: 479,
+      songcount: 14,
+      spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
+      soundcloudLink: "https://soundcloud.com/technomaestro",
+    },
+    {
+      id: 4,
+      name: "Viora",
+      title: "Dissonant Heir",
+      image: musicianImageViora,
+      imageIcon: musicianVioraIcon,
+      backgroundImage: musicianBackgroundViora,
+      description:
+        "Born into royalty but disillusioned by its corruption, Viora cast off a life of forced tradition to pursue her own voice. Her music, once a symbol of duty, is now her rebellion.",
+      playcount: 479,
+      songcount: 14,
+      spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
+      soundcloudLink: "https://soundcloud.com/technomaestro",
+    },
+  ];
 };
 
-const getCachedImage = (key) => {
-  // eslint-disable-next-line no-undef
-  return localStorage.getItem(key);
+const getFAQs = () => {
+  return [
+    {
+      question: "What makes Ongawa different from other rhythm games?",
+      answer:
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Ongawa uniquely blends music creation, music streaming, and RPG elements within a rhythm game. It provides a platform for indie musicians to showcase their work in an interactive way, offering a fresh experience for both players and artists.</p>,
+    },
+    {
+      question: "How do I participate in Ongawa as a musician?",
+      answer:
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">To become a musician on Ongawa, simply sign up as a musician and upload your original tracks to be featured in the game. This allows your music to be played by others and integrated into the rhythm game experience.</p>,
+    },
+    {
+      question: "Is Ongawa available on mobile or desktop?",
+      answer:
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Currently, Ongawa will be available only on mobile. But you can try a simple demo version of the game on PC/Mac via Itch.io here: <a href='https://gelzonexunsas.itch.io/virtuosos'>Ongawa Demo</a></p>,
+    },
+    {
+      question: "Can I play Ongawa alone, or is it multiplayer?",
+      answer:
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">At the moment, Ongawa is single-player only. However, multiplayer functionality is currently in development and will be available soon.</p>,
+    },
+    {
+      question: "Can I monetize my music on Ongawa?",
+      answer:
+      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Yes, Ongawa offers a platform for musicians to monetize their music through in-game exposure and revenue-sharing features. This allows artists to earn from their tracks and gain recognition within the game.</p>,
+    },
+    {
+      question: "How can I support Ongawa as a fan or player?",
+      answer:
+        <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Fans can support Ongawa by playing the game, sharing it with others, supporting musicians on the platform, or contributing to the game’s development through feedback or crowdfunding. Join our community and connect with us on Discord: <a href='https://discord.gg/yourdiscordlink'>Join our Discord</a>.</p>,
+    },
+  ];
 };
 
-const cacheImages = (urls) => {
-  const cachePromises = urls.map(url => {
-    const key = `cache_${url}`;
-    return cacheImage(url, key);
-  });
-  
-  return Promise.all(cachePromises);
-};
-
-const getCachedImages = (urls) => {
-  return urls.map(url => {
-    const key = `cache_${url}`;
-    return getCachedImage(key);
-  });
-};
-
-const getFeaturedArtists = () => {
-  return [{
-    name: "Techno Maestro",
-    id: 1,
-    image: artist1Image,
-    playcount: 538,
-    songcount: 25,
-    spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
-    soundcloudLink: "https://soundcloud.com/technomaestro",
-  },
-  {
-    name: "The Shadow Weaver",
-    id: 2,
-    image: artist2Image,
-    playcount: 386,
-    songcount: 16,
-    spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
-    soundcloudLink: "https://soundcloud.com/technomaestro",
-  },
-  {
-    name: "The Sound Sorcerer",
-    id: 3,
-    image: artist3Image,
-    playcount: 479,
-    songcount: 14,
-    spotifyLink: "https://open.spotify.com/artist/3w8dJ7f4i1Vb8Qzq5f5K9g",
-    soundcloudLink: "https://soundcloud.com/technomaestro",
-}];
-};
-
-// const sparkle =(delay, offset) => ({
-//   startingPos: {x: -100, opacity: 0},
-//   endingPos: {
-//       x: 0,
-//       opacity: 1,
-//       transition: {duration: 0.5, delay: delay}
-//   }
-// })
-//const appStoreDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
-  //const googlePlayDownloadLink = "https://gelzonexunsas.itch.io/virtuosos";
-  const featuredArtistsVariants = (isLarge) => isLarge ? {
-    initial: { opacity: 0, y: -100 },
-    animate: { opacity: 1, y: 0 },
-  } : {
-    initial: { opacity: 0, x: -100 },
-    animate: { opacity: 1, x: 0 },
-  };
-const Homepage = () => {
-  // let autoPlayDemoVideo = true;
-  const [featuredArtists, setFeaturedArtists] = useState([]);
-  const [cachedImages, setCachedImages] = useState({});
-  const navigate = useNavigate();
-
-  let isLarge = useMediaQuery('(min-width: 1024px)');
-
-  const featuredArtistsMemo = useMemo(() => getFeaturedArtists(), []);
-  const featured_artists_variants = useMemo(() => featuredArtistsVariants(isLarge), [isLarge]);
+const Homepage = ({ muted }) => {
+  // Tracking which section is active on the current viewport
+  const sections = useMemo(
+    () => ["Home", "Gameplay", "About Us", "Musicians", "FAQs"],
+    []
+  );
+  const [activeSection, setActiveSection] = useState("Home");
 
   useEffect(() => {
-    const imageUrls = [
-      verifiedIcon,
-      artist1Image,
-      artist2Image,
-      artist3Image,
-      headerBackgroundImg,
-      ongawaTitle
-    ];
-    const cachedImageUrls = getCachedImages(imageUrls);
+    if (typeof window === "undefined" || typeof document === "undefined")
+      return;
 
-    const uncachedUrls = imageUrls.filter((url, index) => !cachedImageUrls[index]);
+    // Function to determine which section is currently in view
+    const handleScroll = () => {
+      // eslint-disable-next-line no-undef
+      const scrollPosition = window.scrollY + window.innerHeight / 2; // Middle of the viewport
 
-    if (uncachedUrls.length > 0) {
-      cacheImages(uncachedUrls).then(() => {
-        const updatedCachedImages = imageUrls.reduce((acc, url) => {
-          acc[url] = getCachedImage(`cache_${url}`);
-          return acc;
-        }, {});
-        setCachedImages(updatedCachedImages);
-      }).catch(err => {
-        console.error('Error caching images:', err);
-      });
-    } else {
-      const updatedCachedImages = imageUrls.reduce((acc, url) => {
-        acc[url] = cachedImageUrls[imageUrls.indexOf(url)];
-        return acc;
-      }, {});
-      setCachedImages(updatedCachedImages);
-    }
+      for (const section of sections) {
+        // eslint-disable-next-line no-undef
+        const sectionElement = document.getElementById(section);
+        if (sectionElement) {
+          const { top, bottom } = sectionElement.getBoundingClientRect();
+          // eslint-disable-next-line no-undef
+          const offsetTop = top + window.scrollY;
+          // eslint-disable-next-line no-undef
+          const offsetBottom = bottom + window.scrollY;
 
-    
-    setFeaturedArtists(featuredArtistsMemo);
-  }, [featuredArtistsMemo]);
+          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    // Add the event listener
+    // eslint-disable-next-line no-undef
+    window.addEventListener("scroll", handleScroll, true);
+
+    // Initial check for the active section
+    handleScroll();
+
+    // Clean up function
+    return () => {
+      // eslint-disable-next-line no-undef
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [sections]);
+
+  // activeVideo either "gameplay" or "editor"
+  const [activeVideo, setActiveVideo] = useState("gameplay");
+  const musicians = getFeaturedMusicians();
+  const [currentMusician, setCurrentMusician] = useState(musicians[0]);
+
+  const faqs = getFAQs();
+
+  // TODO: Implement Cache
 
   return (
     <>
-    <div className="homepage flex flex-col w-full bg-page-accent-gray overflow-hidden text-center text-body-overpass-base text-white font-body-overpass">
-      <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-96">
-        <div className="bgImgContainer w-full lg:-mt-64">
-          <img src={cacheImage[headerBackgroundImg] || headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover overflow-visible" preload="auto" alt="" />
+      {/* Main Div */}
+      <div
+        className="bg-page-background-purple snap-y snap-mandatory overflow-y-scroll overflow-x-hidden h-screen"
+        style={{ scrollBehavior: "smooth" }}
+      >
+        <div className="hidden lg:flex">
+          <DisplayStatusBar sections={sections} activeSection={activeSection} />
         </div>
-        <div className="flex justify-center items-center md:5 z-20">
-        <img src={cacheImage[ongawaTitle] || ongawaTitle} className="absolute w-[33%] top-24 z-3 lg:w-[12%] md:w-[18.2%] sm:w-[20%] lg:top-36 z-20 overflow-visible" preload="auto" alt="" />
+
+        {/* Home Section */}
+        <div id="Home" className="h-screen relative snap-start">
+          {/* Background image div */}
+          <BackgroundCarousel>
+            {/* Content inside background image */}
+            {/* Ongawa Logo Icon */}
+            <img
+              src={ongawaLogoNameWhite}
+              alt="Ongawa Logo"
+              className="absolute top-1/2 left-1/2 w-64 lg:w-80 h-auto -translate-x-1/2 -translate-y-1/2 drop-shadow-lg"
+            />
+            <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 flex gap-4">
+              {/* Mobile Icons */}
+              <div className="flex flex-col justify-center gap-2">
+                <div className="lg:w-56">
+                  <DownloadIcon
+                    icon={musicIcon}
+                    header="Feature Your"
+                    source="Music"
+                    link="https://docs.google.com/forms/u/2/d/e/1FAIpQLSdyoXG2hOznFApdDy_IDDnxtDk5JK4KLy_37xMZgxXMBYzNjg/viewform?usp=send_form"
+                  />
+                </div>
+                <div className="lg:w-56">
+                  <DownloadIcon
+                    icon={discordIcon}
+                    header="Join Our"
+                    source="Discord"
+                    link="https://discord.com/invite/JEzqqj94Pn"
+                  />
+                </div>
+              </div>
+            </div>
+          </BackgroundCarousel>
         </div>
-        <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
-      </div>
-      <div className="visionAndDemoContainer justify-items-center bg-page-accent-gray pt-12 relative lg:flex-row lg:flex lg:pt-4">
 
-        {/* below are just for the particles effect. order is left to right of page */}
-        <div className="particles1 absolute bottom-24 left-0 w-10 h-10 bg-purple-accent rounded-full filter blur-md lg:bottom-16 lg:-left-14 lg:w-16 lg:h-16 lg:blur-xl z-2"></div>
-        <div className="particles2 absolute top-0 left-8 w-4 h-4 bg-white rounded-full filter blur animate-pulse z-2"></div>
-        
-        <div className="particles3 absolute top-4 left-14 w-36 h-36 lg:top-24 lg:left-[14rem] lg:w-48 lg:h-48 bg-slate-500  rounded-full mix-blend-lighten filter blur-2xl animate-merge_left z-2"></div>
-        <div className="particles4 absolute top-4 left-56 w-36 h-36 lg:top-24 lg:left-[25rem] lg:w-48 lg:h-48  bg-purple-900 rounded-full mix-blend-lighten filter blur-2xl animate-merge_right z-2"></div>
+        {/* Gameplay Demo Section */}
+        {/* Background image div */}
+        <div
+          id="Gameplay"
+          className="h-screen bg-cover relative flex flex-col snap-start"
+          style={{
+            backgroundImage: `linear-gradient(rgba(29,29,46,0.9), rgba(29,29,46, 0.9)),
+           url(${gameplayDemoBackgroundImg})`,
+          }}
+        >
+          {/* Content inside background image */}
+          {/* Title */}
 
-        <div className="particles5 absolute -bottom-4 left-20 w-4 h-4 bg-white rounded-full filter blur-md z-2"></div>
-        <div className="particles6 absolute top-44 left-28 w-2 h-2 bg-purple-accent rounded-full filter blur z-2"></div>
-
-        <div className="particles7 hidden lg:block absolute bottom-6 left-56 w-2 h-2 bg-purple-accent rounded-full filter blur z-2"></div>
-        <div className="particles8 absolute -bottom-12 left-[22rem] w-8 h-8 bg-purple-accent rounded-full filter blur-lg animate-pulse z-2"></div>
-
-        <div className="particles9 hidden lg:block absolute bottom-0 left-[46rem] w-2 h-2 bg-purple-accent rounded-full filter blur-sm z-2"></div>
-        <div className="particles10 hidden lg:block absolute bottom-32 left-[44rem] w-8 h-8 bg-white rounded-full filter blur-xl z-2"></div>
-        <div className="particles11 hidden lg:block absolute top-24 left-[53rem] w-8 h-8 bg-purple-accent rounded-full filter blur-xl z-2"></div>
-
-
-        <div className="particles12 hidden lg:block absolute -bottom-4 right-[14rem] w-8 h-8 bg-white rounded-full filter blur-lg z-2"></div>
-
-        <div className="particles13 absolute top-48 right-32 w-10 h-10 bg-purple-accent rounded-full filter blur-md"></div>
-        <div className="particles14 absolute top-4 right-4 w-2 h-2 bg-purple-accent rounded-full filter blur-sm"></div>
-
-        <div className="particles15 absolute top-32 -right-6 w-10 h-10 bg-slate-200 rounded-full filter blur-md"></div>
-
-
-        <div className="visionSection overflow-auto flex flex-col self-center lg:justify-center lg:p-20 lg:ml-12">    
-          {/* <motion.div 
-            whileInView={{opacity: 1, x: 0}}
-            initial={{opacity: 0, x: -100}}
-            transition={{duration: 1}}
-            className="visionSectionTitle text-center inline-block m-0 pb-1 font-title-lexend text-title-lexend-large leading-8 z-10">
-            OUR VISION
-          </motion.div> */}
-          <motion.div 
-            whileInView={{opacity: 1}}
-            initial={{opacity: 0}}
-            transition={{duration: 1}}
-            className="visionSectionBody leading-6 font-medium text-title-lexend-medium inline-block p-8 pt-2 z-10">
-            Transforming indie music into an interactive adventure—tap, swipe, and hold to the beat!
-          </motion.div>
-          {/*
-           <div className="downloadSection bg-page-accent-gray pt-8 h-24">
-          <div className="downloadText leading-6 font-medium pb-2 z-3">Download for free</div>
-          <div className="downloadLinks flex justify-center gap-2 lg:gap-14">
-            <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3"
-              alt="Download from the App Store"
-              src={appleDownloadIcon}
-              onClick={() => {
-                window.open(appStoreDownloadLink, "_blank");
-              }}
-            />
-            <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3"
-              alt="Download from the Play Store"
-              src={googlePlayDownloadIcon}
-              onClick={() => {
-                window.open(googlePlayDownloadLink, "_blank");
-              }}
-            />
+          <div
+            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]
+            short:flex short:mt-16 short:py-1 short:mb-0
+          "
+          >
+            <AnimatePresence mode="wait">
+              <motion.h2
+                key={activeVideo}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="font-light text-5xl text-light-grey font-nova-square m-0
+                            short:text-3xl"
+              >
+                {activeVideo === "gameplay" ? "Gameplay" : "Editor"}
+              </motion.h2>
+            </AnimatePresence>
           </div>
-        </div> */}
-        </div>
-        <motion.div 
-          whileInView={{opacity: 1, x: 0}}
-          initial={{opacity: 0, x: 100}}
-          transition={{duration: 1}}
-          className="demoVideoContainer w-full h-auto flex justify-center z-10 pt-4">
-          <video class="w-[90%] h-auto py-[5vw] rounded-[2.5rem] z-10 object-contain 2xl:w-[70%] 2xl:py-0" width="1980" height="720" 
-          muted
-          loop
-          playsInline
+          {/* Video Element and Toggle Buttons */}
+          <div className="flex flex-col items-center mx-3 md:mx-16">
+            {/* Toggle Buttons */}
+            <div className="flex lg:hidden short:hidden justify-between w-full gap-4 mb-4 mt-32 lg:mt-8 short:mt-8">
+              <ToggleButton
+                title="Gameplay"
+                isActive={activeVideo === "gameplay"}
+                toggleButton={() => setActiveVideo("gameplay")}
+              />
+              <ToggleButton
+                title="Level Editor"
+                isActive={activeVideo === "editor"}
+                toggleButton={() => setActiveVideo("editor")}
+              />
+            </div>
+            {/* Content */}
+            <div
+              className="lg:flex lg:items-center lg:gap-2 lg:px-8 lg:pt-8
+                         short:flex short:items-center short:gap-2 short:px-8 short:pt-4 short:h-full"
+            >
+              {/* Video Toggle Element */}
+              <div className="hidden lg:block short:block">
+                <ToggleArrow
+                  toggleButton={() =>
+                    setActiveVideo(
+                      activeVideo == "editor" ? "gameplay" : "editor"
+                    )
+                  }
+                  clickAble={true}
+                  direction="left"
+                />
+              </div>
+              {/* Video and description container element */}
+              <div
+                className="
+                lg:flex lg:self-start lg:w-9/12 lg:p-6 
+                lg:bg-page-background-purple/60
+                lg:outline outline- lg:outline-light-grey/50 lg:outline-offset-[-12px]
 
-          preload="auto"        
-          autoPlay>
-  <source src="/Demovid.mp4" type="video/mp4"/>
-  Your browser does not support the video tag.
-    </video>
-        </motion.div>
-      </div>
-      <div className="downloadSectionContainer w-full h-auto flex justify-center z-1 lg:justify-start lg:pl-[17rem] lg:-mt-28">
-      {/* the old signupandDownloadContainer <div className="signupAndDownloadContainer w-full h-auto flex flex-col justify-center z-1 lg:flex-row lg:gap-[32rem]"> */}
-        {/* <div className="signupContainer pt-8 lg:pt-12">
-          <a href="https://forms.gle/pySBHibGemoQsA8J8">
-          <button className="SignUpbutton bg-page-background rounded py-2 px-3 text-body-overpass-base font-body-overpass border-none cursor-pointer -mt-4 mb-2 hover:bg-custom-hover-blue transition-all duration-700">
-            Sign Up
-          </button>
-          </a>
-          <div>Subscribe to our newsletter!</div>
-        </div> */}
-        <div className="downloadSection bg-page-accent-gray pt-8 h-24 lg:pl-0 ">
-          <div className="downloadText leading-6 font-medium pb-2 z-3">Keep up with us!</div>
-          <div className="downloadLinks flex justify-center gap-2 lg:gap-14">
-          <a href="https://forms.gle/pySBHibGemoQsA8J8">
-          {/* <button className="SignUpbutton bg-page-background rounded-2xl py-2 px-3 text-body-overpass-base font-body-overpass border-none cursor-pointer -mt-4 mb-2 hover:bg-custom-hover-blue transition-all duration-700">
-            Sign Up
-          </button> */}
-          <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16 transform transition-transform duration-300 hover:scale-105"
-              alt="Sign up to our Newsletter!"
-              loading="lazy"
-              src={newsletterButton}
-            />
-          </a>
-          <a href="https://discord.gg/JEzqqj94Pn" className="no-underline">
-          <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16 transform transition-transform duration-300 hover:scale-105"
-              alt="Sign up to our Newsletter!"
-              loading="lazy"
-              src={discordButton}
-            />
-          {/* <button className="DiscordButton bg-white text-page-accent-gray rounded-2xl py-2 px-3 text-body-overpass-base font-body-overpass border-none cursor-pointer flex flex-row gap-2 items-center -mt-4 mb-2 hover:bg-custom-hover-blue transition-all duration-700">
-            <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 w-6"
-              alt="Download from the App Store"
-              loading="lazy"
-              src={discordLogo}
-            />
-            Click to Join!
-          </button> */}
-          </a>
-            
-            {/* 
-            <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 transform transition-transform duration-300 hover:scale-105"
-              alt="Download from the App Store"
-              loading="lazy"
-              src={appleDownloadIcon}
-              onClick={() => {
-                window.open(appStoreDownloadLink, "_blank");
-              }}
-            />
-            <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 transform transition-transform duration-300 hover:scale-105"
-              alt="Download from the Play Store"
-              loading="lazy"
-              src={googlePlayDownloadIcon}
-              onClick={() => {
-                window.open(googlePlayDownloadLink, "_blank");
-              }}
-            />
-            */}
-          </div>
-        </div>
-      </div>
-
-      <div className="aboutUsSection bg-page-accent-gray text-white pt-12 lg:px-52">
-        <div className="aboutUsTitle text-left inline-block mx-auto font-title-lexend text-title-lexend-medium leading-4 p-3 pb-1">
-          About Us
-        </div>
-        <div className="aboutUsDescription leading-6 font-medium inline-block p-8 pt-2">
-          <p>
-            Ongawa is a rhythm game that goes beyond entertainment. We've
-            crafted an experience that seamlessly weaves together immersive
-            storytelling and game mechanics, placing music at the forefront. But
-            we're not stopping there.
-          </p>
-          <p>
-            Our website platform is a collaborative space where creators can
-            share their compositions, their passions, and their stories. With
-            the ability to integrate music distribution services right into our
-            website, an artist’s creations won't just be confined to the game.
-            They'll reach a broader audience, helping them gain the recognition
-            they deserve.
-          </p>
-        </div>
-      </div>
-
-      <div className="featuredArtistsSection bg-gradient-overlay-featured-artists shadow-custom-featured-artists bg-page-accent-gray pt-5 pb-3">
-        <b className="featuredArtistsSectionTitle text-title-lexend-medium font-bold leading-8 font-title-lexend text-center inline-block mx-auto px-4 py-0">
-          Meet our Featured Musicians!
-        </b>
-        <div class="featuredArtistsGridContainer pt-2 lg:grid lg:grid-cols-custom-grid-browser lg:gap-4 lg:px-10 lg:pt-8 ">
-          {
-            featuredArtists.map((musician, index) => {
-              return (
-                <motion.div 
-                  key={index} 
-                  variants={featured_artists_variants}
-                  initial="initial"
-                  whileInView="animate"
-                  transition={{duration: 1}}
-                  className="ArtistsAndDivider flex flex-col lg:flex-row ">
-                  <div className="featuredArtistDetails flex flex-row justify-start px-9 py-0 hover:scale-105 transform transition-transform duration-300 cursor-pointer" onClick={() => navigate(`/musician?id=${musician.id}`)}>
-                    <div className="artistImgAndLinks flex-[0.25] flex justify-around p-2 flex-col" >
-                      <img 
-                        className="artistImage w-[85%] flex-shrink-0 self-center rounded-full" 
-                        src={cachedImages[musician.image] ||musician.image} 
-                        alt="artist"/>
-                      <div className="artistLinks flex flex-row justify-between p-3 pt-1 bg-image-background">
-                        <img className="artistLinkIcons w-[40%] flex-shrink-0 rounded-full bg-slate-300" loading="lazy" src={spotifyIcon} alt="artist"/>
-                        <img className="artistLinkIcons w-[40%] flex-shrink-0 rounded-full bg-slate-300" loading="lazy" src={soundcloudIcon} alt="artist"/>
-                      </div>
-                    </div>
-                    <div className="artistRelatedInfo flex justify-around pl-[0.3rem] flex-1 flex-col">
-                      <div className="artistTitleContainer flex flex-row pt-3 pl-3 justify-start">
-                        <div className="artistNameVerified flex items-center">
-                          <div className="artistName flex font-overpass-mono text-body-overpass-base font-bold leading-inherit text-left items-center">
-                            {musician.name}
-                          </div>
-                          <img className="verifiedIcon w-4 h-4 pl-2" src={cachedImages[verifiedIcon] || verifiedIcon} alt="verified" />
-                        </div>
-                      </div>
-                      <div className="artistStatistics flex flex-row justify-end pr-8">
-                        <div className="artistStatLabels flex flex-col">
-                          <div className="songcountText text-right pr-8">songs</div>
-                          <div className="playcountText text-right pr-8">total playcount</div>
-                        </div>
-                        <div className="artistStatValues flex flex-col text-right text-lilac">
-                          <div className="songCountValue">{musician.songcount}</div>
-                          <div className="playCountValue">{musician.playcount}</div>
-                        </div>
-                      </div>
+                short:flex short:self-start short:w-11/12 short:p-3
+              short:bg-page-background-purple/60
+                short:outline outline- short:outline-light-grey/50 short:outline-offset-[-12px]
+                "
+              >
+                {/* Video Element */}
+                <div className="relative flex-[2]">
+                  {/* Hidden placeholder elements to maintain size */}
+                  <div className="invisible" aria-hidden="true">
+                    <div
+                      className="
+                      p-1 border-2 flex items-center justify-center 
+                      md:p-2 md:border-3 lg:border-none lg:border-light-grey
+                      short:border-none short:p-0 short:m-0
+                    "
+                    >
+                      <video
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3
+                        short:max-h-52" 
+                        muted
+                        autoPlay
+                        loop
+                      >
+                        <source
+                          src={
+                            activeVideo === "gameplay"
+                              ? "/Demovid.mp4"
+                              : "/EditorDemo.mp4"
+                          }
+                          type="video/mp4"
+                        />
+                      </video>
                     </div>
                   </div>
-                  {index !== featuredArtists.length - 1 && (
-                    <hr className="flex my-2 border-b border-gray-300 lg:flex lg:w-14 lg:border-l lg:rotate-90 lg:border-gray-300" />
-                  )}
-                </motion.div>
-              );
-            })
-          }
-        </div>
-      </div>
-      <div className="footerSection bg-page-white text-white pt-[.5] pb-2"> </div>
-      {/*  
-      <div className="signupAndDiscordContainer w-full h-auto flex justify-center items-center z-1 lg:flex-row lg:gap-[15rem] py-8 shadow-custom-inset-about-us">
-        <div className="signupContainer flex">
-          <a href="https://forms.gle/pySBHibGemoQsA8J8">
-          {/* <button className="SignUpbutton bg-page-background rounded-2xl py-2 px-3 text-body-overpass-base font-body-overpass border-none cursor-pointer -mt-4 mb-2 hover:bg-custom-hover-blue transition-all duration-700">
-            Sign Up
-          </button> 
-          <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16 transform transition-transform duration-300 hover:scale-105"
-              alt="Sign up to our Newsletter!"
-              loading="lazy"
-              src={newsletterButton}
-            />
-          </a>
-          {/* <div className="font-bold">Subscribe to our newsletter!</div> 
+                  {/* Actual animated content */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeVideo}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="
+                      absolute top-0 left-0 w-full h-full
+                      p-1 border-light-grey border-2 flex items-center justify-center 
+                      md:p-2 md:border-3 lg:border-none 
+                      short:border-none short:p-0 short:m-0
+                      "
+                    >
+                      <video
+                        key={activeVideo}
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3
+                                   short:max-h-52"
+                        muted={activeSection != "Gameplay" || muted}
+                        loop
+                        playsInline
+                        preload="auto"
+                        autoPlay
+                      >
+                        <source
+                          src={
+                            activeVideo === "gameplay"
+                              ? "/Demovid.mp4"
+                              : "/EditorDemo.mp4"
+                          }
+                          type="video/mp4"
+                        />
+                        Your browser does not support the video
+                      </video>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                {/* Description Element */}
+                <div className="mt-8 lg:mt-2 mx-auto max-w-2xl flex-[1] lg:ml-8 relative">
+                  {/* Invisible placeholder to maintain size */}
+                  <p
+                    className="invisible text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
+                              lg:font-normal lg:text-lg leading-loose lg:text-left
+                              short:text-sm"
+                    aria-hidden="true"
+                  >
+                    {activeVideo == "gameplay"
+                      ? "Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!"
+                      : "Create your own rhythm experience with Ongawa's customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life."}
+                  </p>
+                  {/* Actual animated content */}
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={activeVideo}
+                      className="
+                        absolute top-0 left-0 w-full
+                        text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
+                        lg:font-normal lg:text-lg/loose lg:text-left
+                        short:font-normal short:text-sm short:text-left
+                        tablet:text-xl/loose"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      {activeVideo == "gameplay"
+                        ? "Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!"
+                        : "Create your own rhythm experience with Ongawa's customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life."}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* Video Toggle Element */}
+              <div className="hidden lg:block short:block">
+                <ToggleArrow
+                  toggleButton={() =>
+                    setActiveVideo(
+                      activeVideo == "editor" ? "gameplay" : "editor"
+                    )
+                  }
+                  clickAble={true}
+                  direction="right"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="discordContainer flex flex-col justify-center items-center">
-          <a href="https://discord.gg/JEzqqj94Pn" className="no-underline">
-          <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 h-16 transform transition-transform duration-300 hover:scale-105"
-              alt="Sign up to our Newsletter!"
-              loading="lazy"
-              src={discordButton}
-            />
-          {/* <button className="DiscordButton bg-white text-page-accent-gray rounded-2xl py-2 px-3 text-body-overpass-base font-body-overpass border-none cursor-pointer flex flex-row gap-2 items-center -mt-4 mb-2 hover:bg-custom-hover-blue transition-all duration-700">
-            <img
-              className="rounded overflow-hidden object-contain mix-blend-normal z-3 w-6"
-              alt="Download from the App Store"
-              loading="lazy"
-              src={discordLogo}
-            />
-            Click to Join!
-          </button>
-          </a>
-          {/* <div className="font-bold">Come join our discord community!</div>
+        {/* About Us Section */}
+        <div
+          id="About Us"
+          className="h-screen relative flex flex-col snap-start overflow-hidden"
+        >
+          {/* Title */}
+          <h2
+            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 font-light text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)] z-10
+                        short:flex short:max-w-[18rem] short:mt-16 short:pl-12 short:py-1 short:text-3xl"
+          >
+            About Us
+          </h2>
+
+          {/* Content Container */}
+          <div
+            className="flex flex-col relative h-full 
+                          lg:px-8 lg:pt-8
+                          short:px-2 short:pt-2"
+          >
+            {/* Image Section */}
+            <div
+              className="h-1/2 
+                            lg:absolute lg:right-0 lg:w-3/5 lg:h-5/6 lg:top-2
+                            short:absolute short:right-0 short:w-3/5 short:h-5/6 short:top-2"
+            >
+              {/* Background image container */}
+              <div
+                className="absolute inset-0 lg:inset-[-40%] tablet:inset-[-35%] short:inset-[-30%]
+                              tablet:top-4"
+              >
+                <img
+                  src={aboutUsBackgroundImg}
+                  alt="About Us"
+                  className="w-auto h-1/2 object-cover 
+                            lg:w-full lg:h-full lg:object-center
+                            short:w-full short:h-full short:object-center"
+                />
+
+                {/* Circular Gradient Overlay for large screens*/}
+                <div
+                  className="hidden lg:flex absolute inset-[-1px] items-center justify-center"
+                  style={{
+                    background:
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 420px)",
+                  }}
+                />
+
+                {/* Circular Gradient Overlay for short screens*/}
+                <div
+                  className="hidden short:flex absolute inset-[-5px] items-center justify-center"
+                  style={{
+                    background:
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 250px)",
+                  }}
+                />
+
+                {/* Circular Gradient Overlay for small screens*/}
+                <div
+                  className="flex lg:hidden short:hidden tablet:hidden absolute top-[-12px] left-0 w-full h-[calc(50%+4px)] items-center justify-center"
+                  style={{
+                    background:
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 220px)",
+                  }}
+                />
+
+                {/* Circular Gradient Overlay for tablet screens*/}
+                <div
+                  className="tablet:flex lg:hidden short:hidden absolute top-[-12px] left-0 w-full h-[calc(50%+12px)] items-center justify-center"
+                  style={{
+                    background:
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 340px)",
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Text Section */}
+            <div
+              className="h-1/2 relative flex flex-col items-center justify-center px-8 py-4 z-10
+                        lg:h-[calc(100%-12rem)] lg:w-1/2 lg:justify-center lg:items-start lg:mt-12
+                        short:h-[calc(100%-12rem)] short:w-1/2 short:justify-center short:items-start short:mt-14"
+            >
+              <p
+                className="
+                  z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center mb-6
+                  lg:text-left lg:text-lg/10
+                  short:text-left short:text-xs
+                  tablet:text-lg/loose"
+              >
+                Ongawa is a rhythm game that goes beyond entertainment,
+                centering around music, creativity, and talent discovery. It
+                supports real-life musicians by showcasing and monetizing their
+                creations.
+              </p>
+              <p
+                className="
+                z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center
+                lg:text-left lg:text-lg/10
+                short:text-left short:text-xs
+                tablet:text-lg/loose"
+              >
+                Step into the world of Ongawa, where music bridges the gap
+                between reality and imagination. You play as a dedicated
+                salaryman of Ongawa Records, a struggling music label on the
+                brink of collapse. Guided by AWA, a magical, record-shaped
+                companion, you discover a parallel universe where rhythm and
+                creativity hold the key to uncovering hidden musical talents and
+                reviving the company&apos;s glory…
+              </p>
+            </div>
+          </div>
         </div>
 
-        
-        
+        {/* Musician Section */}
+        <div
+          id="Musicians"
+          className="h-screen flex flex-col items-center justify-center relative snap-start"
+        >
+          {/* Background image and gradient overlay container */}
+          <div className="flex-grow w-full relative">
+            {/* Background image */}
+            <AnimatePresence mode="sync">
+              <motion.div
+                key={currentMusician.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.7 }}
+                className="absolute inset-0 w-full h-full bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${currentMusician.backgroundImage})`,
+                }}
+              />
+            </AnimatePresence>
+
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[rgba(35,35,35,0.1)] to-[rgba(35,35,35,0.6)]" />
+
+            {/* Musician Selector */}
+            <div
+              className="flex justify-center mt-16 mb-4
+                            lg:absolute lg:bottom-8 lg:right-[calc(15%+28px)]
+                            short:absolute short:bottom-2 short:right-[calc(15%+8px)]"
+            >
+              <MusicianSelector
+                musicians={musicians}
+                currentMusician={currentMusician}
+                setCurrentMusician={setCurrentMusician}
+                className="w-full max-w-60 
+                            lg:max-w-[550px] lg:max-h-[100px]
+                            short:max-w-[550px] short:max-h-[100px]"
+              />
+            </div>
+
+            {/* Musician image */}
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentMusician.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="absolute top-[7rem] z-10 w-full h-auto max-h-[90%]
+                           object-contain object-top 
+                           lg:left-0 lg:-translate-x-80
+                           short:top-[3rem] short:left-0 short:translate-x-[-15rem]"
+                src={currentMusician.image}
+                alt={currentMusician.name}
+              />
+            </AnimatePresence>
+
+            {/* Information Box */}
+            <div
+              className="absolute bottom-8 z-20 left-1/2 -translate-x-1/2 flex justify-center overflow-x-auto w-screen px-4
+                    lg:w-auto lg:px-0 lg:overflow-visible lg:translate-x-0 lg:left-auto lg:bottom-48 lg:right-[15%]
+                    short:w-auto short:px-0 short:overflow-visible short:translate-x-0 short:left-auto short:bottom-[6.5rem] short:right-[15%]"
+            >
+              <div className="w-96 flex-shrink-0 lg:w-auto tablet:w-[600px]">
+                <InformationBox
+                  currentMusician={currentMusician}
+                  className="w-full 
+                            lg:max-w-[550px] lg:max-h-[500px]
+                            short:max-w-[500px] short:max-h-[225px]
+                            tablet:max-w-[550px] tablet:max-h-[400px]"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQs section */}
+        <div
+          id="FAQs"
+          className="min-h-screen flex flex-col relative snap-start"
+        >
+          <div className="mt-32 short:mt-14">
+            <h2
+              className="
+                  w-1/2 short:w-1/3 lg:max-w-[28rem] mr-6 pl-4 lg:pl-16 py-2 lg:!py-3 font-light text-2xl
+                  lg:text-5xl tablet:text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]"
+            >
+              FAQs
+            </h2>
+            <div className="lg:w-5/6 pb-8">
+              {faqs.map((faq, index) => (
+                <DropdownQuestion
+                  key={index}
+                  question={faq.question}
+                  answer={faq.answer}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-      */}
-    </div>
     </>
   );
+};
+
+Homepage.propTypes = {
+  muted: PropTypes.bool.isRequired,
 };
 
 export default Homepage;

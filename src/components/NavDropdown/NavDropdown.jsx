@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
-import React from "react";
+import PropTypes from "prop-types";
 
+import { Link } from "react-router-dom";
 import closeNavDropdown from "../../assets/icons/closeNavDropdown.png";
 import shareIcon from "../../assets/icons/shareIcon.png";
 import youtubeIcon from "../../assets/icons/youtubeIcon.png";
@@ -16,8 +16,8 @@ const NavDropdown = ({
   return (
     <>
       {isMobileMenuOpen && (
-        <div className="z-20 h-full w-full position-absolute opacity-90 bg-dropdown-background">
-          <div className="flex justify-end mt-4 mr-10">
+        <div className="z-30 h-full w-full fixed inset-0 opacity-90 bg-dropdown-background-color">
+          <div className="flex justify-end mt-16 mr-10">
             <img src={closeNavDropdown} onClick={() => closeMobileMenu()} />
           </div>
           <div
@@ -25,68 +25,68 @@ const NavDropdown = ({
                           [@media(max-height:400px)]:gap-1 
                           [@media(max-height:400px)]:mt-0"
           >
-            <a
-              href="/"
+            <Link
+              to="/"
               onClick={() => closeMobileMenu()}
-              className="text-white no-underline hover:no-underline hover:text-white 
-                            px-24 py-3 border-2 border-white text-4xl"
+              className="text-white font-light font-nova-square no-underline hover:no-underline hover:text-white 
+                            px-24 py-3 border-2 border-white text-3xl"
             >
               Home
-            </a>
-            <a
-              href="/beatmaplisting"
+            </Link>
+            <Link
+              to="/beatmaplisting"
               onClick={() => closeMobileMenu()}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto font-normal text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               Beatmaps
-            </a>
-            <a
-              href="/musicianlisting"
+            </Link>
+            <Link
+              to="/musicianlisting"
               onClick={() => closeMobileMenu()}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               Musicians
-            </a>
-            <a
-              href="/gallery"
+            </Link>
+            <Link
+              to="/gallery"
               onClick={() => closeMobileMenu()}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               Art
-            </a>
-            <a
-              href="/community"
+            </Link>
+            <Link
+              to="/community"
               onClick={() => closeMobileMenu()}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               Social
-            </a>
-            <a
-              href="/login"
+            </Link>
+            <Link
+              to="/login"
               onClick={() => {
                 doSignOut();
                 closeMobileMenu();
               }}
-              className="text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               {userLoggedIn ? "Sign Out" : "Login"}
-            </a>
+            </Link>
             <div className="flex justify-center align-center gap-4 mt-2">
-              <a href="https://www.ongawa.io/" target="blank">
+              <a href="https://www.ongawa.io/" target="_blank">
                 <img className="h-6" src={shareIcon} alt="share" />
               </a>
-              <a href="https://discord.gg/vheHu3mX" target="blank">
+              <a href="https://discord.gg/vheHu3mX" target="_blank">
                 <img className="h-6" src={discordIcon} alt="discord" />
               </a>
               <a
                 href="https://www.linkedin.com/showcase/ongawa/?viewAsMember=true"
-                target="blank"
+                target="_blank"
               >
                 <img className="h-6" src={linkedinIcon} alt="linkedIn" />
               </a>
               <a
                 href="https://www.youtube.com/@Ongawa_gg/featured"
-                target="blank"
+                target="_blank"
               >
                 <img className="h-8" src={youtubeIcon} alt="youtube" />
               </a>
@@ -96,6 +96,13 @@ const NavDropdown = ({
       )}
     </>
   );
+};
+
+NavDropdown.propTypes = {
+  isMobileMenuOpen: PropTypes.bool.isRequired,
+  closeMobileMenu: PropTypes.func.isRequired,
+  userLoggedIn: PropTypes.bool.isRequired,
+  doSignOut: PropTypes.func.isRequired,
 };
 
 export default NavDropdown;
