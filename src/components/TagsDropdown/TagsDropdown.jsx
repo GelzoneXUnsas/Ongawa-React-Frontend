@@ -48,7 +48,7 @@ const TagsDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
       </button>
 
       {isOpen && (
-        <div className="absolute mt-1 w-72 bg-dropdown-background rounded-md shadow-lg z-10 p-4 border border-yellow-500">
+        <div className="absolute mt-1 w-72 bg-dropdown-background-color rounded-md shadow-lg z-10 p-4 border border-yellow-500">
           <h3 className="text-xl">Tags</h3>
           <div className="mb-4">
             <input

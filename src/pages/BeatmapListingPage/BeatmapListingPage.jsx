@@ -271,7 +271,7 @@ export default function BeatmapListingPage() {
       <div className="hidden md:flex items-center mb-6">
         <div ref={searchContainerRef} className="relative w-full max-w-full rounded flex items-center mx-4">
           {/* <div className="bg-light-purple bg-opacity-50 w-full rounded flex items-center"> */}
-          <div className={`${showDropdown && searchHistory.length > 0 ? 'bg-dropdown-background' : 'bg-light-purple bg-opacity-50'} w-full rounded-t ${showDropdown && searchHistory.length > 0 ? 'rounded-b-none' : 'rounded'} flex items-center`}>
+          <div className={`${showDropdown && searchHistory.length > 0 ? 'bg-dropdown-background-color' : 'bg-light-purple bg-opacity-50'} w-full rounded-t ${showDropdown && searchHistory.length > 0 ? 'rounded-b-none' : 'rounded'} flex items-center`}>
             <input
               type="text"
               placeholder="Search ..."
@@ -295,7 +295,7 @@ export default function BeatmapListingPage() {
           {/* Search History Dropdown */}
           {showDropdown && searchHistory.length > 0 && (
             <div
-              className="absolute top-full left-0 right-0 bg-dropdown-background rounded-b-lg z-50 p-2"
+              className="absolute top-full left-0 right-0 bg-dropdown-background-color rounded-b-lg z-50 p-2"
             >
               {searchHistory.map((historyItem, index) => (
                 <div
@@ -415,7 +415,7 @@ export default function BeatmapListingPage() {
         {filteredBeatmaps.map((beatmap, index) => (
           <div
             key={index}
-            className="p-4 rounded-xl hover:bg-dropdown-background/70 cursor-pointer relative"
+            className="p-4 rounded-xl hover:bg-dropdown-background-color/70 cursor-pointer relative"
             onClick={() => handleBeatmapClick(beatmap.id)}
             onMouseEnter={() => setHoveredBeatmap(index)}
             onMouseLeave={() => setHoveredBeatmap(null)}
@@ -425,11 +425,11 @@ export default function BeatmapListingPage() {
               alt={beatmap.title}
               className="rounded-lg mb-4 w-full h-70 object-cover"
             />
-            <h3 className="text-lg font-semibold m-0">{beatmap.title}</h3>
-            <p className="text-sm text-gray-400 mb-2">{beatmap.artist}</p>
-            <p className="text-xs text-gray-500">Mapped: {beatmap.mappedBy}</p>
+            <p className="text-lg font-semibold mb-2 text-white font-overpass-mono">{beatmap.title}</p>
+            <p className="text-sm text-gray-400 mb-2 font-overpass-mono">{beatmap.artist}</p>
+            <p className="text-xs text-gray-500 font-overpass-mono">Mapped: {beatmap.mappedBy}</p>
             {hoveredBeatmap === index && (
-              <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center pl-2">
+              <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
                 {/* Difficulty Indicator */}
                 <div className="flex items-center gap-2">
                   <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
@@ -482,9 +482,9 @@ export default function BeatmapListingPage() {
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-base font-medium">{beatmap.title}</h3>
-                    <p className="text-sm text-gray-400">{beatmap.artist}</p>
-                    <p className="text-xs text-gray-500">Mapped: {beatmap.mappedBy}</p>
+                    <p className="text-base font-medium font-overpass-mono mb-1">{beatmap.title}</p>
+                    <p className="text-sm text-gray-400 mb-1 font-overpass-mono">{beatmap.artist}</p>
+                    <p className="text-xs text-gray-500 font-overpass-mono">Mapped: {beatmap.mappedBy}</p>
                   </div>
                 </div>
               </div>
@@ -492,7 +492,7 @@ export default function BeatmapListingPage() {
 
             {/* Action panel that gets revealed */}
             <div
-              className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-dropdown-background transition-transform duration-300 ease-out"
+              className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-dropdown-background-color transition-transform duration-300 ease-out"
               style={{ transform: getActionPanelTransform(index) }}
             >
               <div className="flex flex-col gap-3 items-center">

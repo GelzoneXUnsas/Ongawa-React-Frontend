@@ -92,7 +92,7 @@ export default function BeatmapPage() {
         {/* Main content */}
         <div className="flex flex-col md:flex-row gap-6 mb-8">
           {/* Image */}
-          <div className="md:w-1/3">
+          <div className="md:flex-[0.3] md:max-w-sm">
             <img 
               src={beatmap.image} 
               alt={beatmap.title} 
@@ -101,20 +101,20 @@ export default function BeatmapPage() {
           </div>
 
           {/* Details */}
-          <div className="md:w-2/3">
+          <div className="md:flex-[0.7] flex flex-col md:justify-between">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl md:text-3xl font-bold mb-2 mt-2">{beatmap.title}</h1>
+              <h1 className="text-2xl md:text-4xl font-bold mb-2 mt-2 text-white">{beatmap.title}</h1>
 
-              <div className="hidden md:flex rounded-lg" style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}>
+              <div className="hidden md:flex rounded-md py-2 px-4 gap-6" style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}>
                 {["easy", "medium", "hard"].map((diff) => (
                   <button
                     key={diff}
                     onClick={() => handleDifficultyChange(diff)}
                     className={`flex items-center justify-center transition-all bg-transparent border-none`}
-                    style={{ // temporary styling to override bootstrap
-                      border: "none",
-                      backgroundColor: "transparent"
-                    }}
+                    // style={{ // temporary styling to override bootstrap
+                    //   border: "none",
+                    //   backgroundColor: "transparent"
+                    // }}
                   >
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center transition-opacity ${
@@ -169,10 +169,10 @@ export default function BeatmapPage() {
             <div className="flex gap-4 items-center">
               <button
                 className="bg-yellow-accent px-6 py-2 rounded-md font-medium text-black"
-                style={{ // temporary styling to override bootstrap
-                  border: "none",
-                  backgroundColor: "#CA9F28"
-                }} 
+                // style={{ // temporary styling to override bootstrap
+                //   border: "none",
+                //   backgroundColor: "#CA9F28"
+                // }}
               >
                 Download
               </button>
@@ -251,7 +251,7 @@ export default function BeatmapPage() {
 
         {/* Global Leaderboard */}
         <div className="mb-12 mt-20">
-          <h4 className="font-bold mb-4">Global Leaderboard:</h4>
+          <h2 className="text-xl md:text-2xl font-bold mb-4 text-white">Global Leaderboard:</h2>
           <div className="w-full h-[400px] overflow-y-auto no-scrollbar">
             {/* Table Head */}
             <div className="grid grid-cols-12 gap-4 py-3 px-4 border-t border-b text-sm sticky top-0 z-10">

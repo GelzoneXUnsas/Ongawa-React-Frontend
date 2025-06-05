@@ -32,7 +32,7 @@ const DifficultyDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
       </button>
 
       {isOpen && (
-        <div className="absolute mt-1 w-62 bg-dropdown-background rounded-md shadow-lg z-10 p-4 border border-yellow-500">
+        <div className="absolute mt-1 w-62 bg-dropdown-background-color rounded-md shadow-lg z-10 p-4 border border-yellow-500">
           <p className="text-lg">Difficulty</p>
           <div className="flex items-center justify-center gap-4">
             <div className="bg-light-purple bg-opacity-50 rounded-md w-16 text-center">
