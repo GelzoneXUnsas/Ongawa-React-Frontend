@@ -1,323 +1,136 @@
-import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
 
-import React from "react";
-import axios from "axios";
+import recordIcon from "../../assets/icons/recordYellowIcon.svg";
 
-import headerBackgroundImg from '../../assets/images/headerBackground.png';
-import searchIcon from '../../assets/icons/searchIcon.svg';
-
-import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
-import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
-import artist3Image from "../../assets/images/featuredArtists/artist3.png";
-const images = [artist1Image, artist2Image, artist3Image];
-
-// import heartIcon from '../../assets/icons/heartIcon.svg';
-
-const BACKEND_URL = 'http://api-virtuosos.us-west-1.elasticbeanstalk.com';
+// Example tags and content
+const TAGS = ["Traditional", "Folklore", "Celtic", "World", "Fantasy"];
+const CONTENT = [
+  { id: 1, title: "Celtic Song", tags: ["Celtic"] },
+  { id: 2, title: "Fantasy Chant", tags: ["Fantasy", "World"] },
+  { id: 3, title: "Old Tale", tags: ["Traditional", "Folklore"] },
+];
 
 function CommunityPage() {
-    const posts_list = {
-        post_info: 
-            [
-                {
-                    authorImg: 'artist1Image',
-                    authorName: 'The Shadow Weaver',
-                    postDate: '2024-02-17',
-                    postTitle: 'Unraveling the Sonic Mysteries',
-                    postContent: "Hey fellow gamers and music enthusiasts! 🎮🎵 Just completed Level 5 in the rhythm adventure – those beats were...",
-                    likeCount: 2300,
-                    commentCount: 1400,
-                    viewCount: 6800,
-                },
-                {
-                    authorImg: 'artist2Image',
-                    authorName: 'Techno Maestro',
-                    postDate: '2024-03-04',
-                    postTitle: 'Exciting Update: New levels!',
-                    postContent: "Dear players, get ready for a sonic adventure upgrade! 🚀🎮 We're thrilled to announce the release of three new levels next week. Your feedback has been invaluable – let us know what you hope to encounter in these upcoming challenges. 🌟 #GameUpdate #CommunityFeedback",
-                    likeCount: 5500,
-                    commentCount: 2400,
-                    viewCount: 7800,
-                },
-                {
-                    authorImg: 'artist3Image',
-                    authorName: 'The Sound Sorcerer',
-                    postDate: '2023-04-29',
-                    postTitle: 'Crafting a Musical Odyssey',
-                    postContent: "Greetings fellow creators! 🎵✨ Just composed a new track inspired by the game's enchanting world. Share your...",
-                    likeCount: 2100,
-                    commentCount: 1200,
-                    viewCount: 6500,
-                },
-                
-            ]
-    }
-    const [originalPostList, setOriginalPostList] = useState([]);
-    const [postList, setPostList] = useState([]);
-    const [searchParams] = useSearchParams();
-    const searchQuery = searchParams.get('search');
+  const [contentSelection, setContentSelection] = useState("Home");
+  const [selectedTags, setSelectedTags] = useState([]);
 
-    const [query, setQuery] = useState(searchQuery || '');
-    const [sortOption, setSortOption] = useState('newest');
-    // const [results, setResults] = useState([]);
+  // Toggle tag selection
+  const toggleTag = (tag) => {
+    setSelectedTags((prevTags) => {
+      const tagAlreadySelected = prevTags.includes(tag);
 
-    async function fetchAll() {
-        try {
-            const route = BACKEND_URL + '/beatmapListing/' + (searchQuery? ('?search=' + searchQuery) : '');
-            // console.log('ROUTE', route);
-            const response = await axios.get(route);
-            return response.data.beatmap_info;
-        }
-        catch (error) {
-            console.log('FETCH_ALL', error);
-            console.log('Returning static posts')
-            return posts_list.post_info;
-        }
-    }
-
-    useEffect(() => {
-        document.title = 'Community - Ongawa';
-        fetchAll().then(result => {
-            console.log('RESULT', result);
-            if (result) setPostList(result);
-            setOriginalPostList(result);
-        });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const handleSort = useCallback((option) => {
-        let sortedList = [...postList];
-        if (option === 'latest') {
-            sortedList.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
-        } else if (option === 'oldest') {
-            sortedList.sort((a, b) => new Date(a.postDate) - new Date(b.postDate));
-        } else if (option === 'popularity') {
-            sortedList.sort((a, b) => b.likeCount - a.likeCount);
-        }
-        setPostList(sortedList);
-    }, [postList]);
-
-    useEffect(() => {
-        handleSort(sortOption);
-    }, [sortOption, postList, handleSort]);
-
-    // uncomment this to use api call for search (how it is commonly done)
-    // const handleSearch = async (e) => {
-    //     e.preventDefault();
-    //     // setQuery(e.target.value);
-    //     const result = await makeGetCall(query);
-    //     if (result && result.data) {
-    //         setPostList(result.data.beatmap_info);
-    //     }
-    // };
-
-    // uncomment this too to use with handleSearch
-    // async function makeGetCall(keyword) {
-    //     try {
-    //         const route = BACKEND_URL + '/beatmapListing' + (keyword ? `?search=${keyword}` : '');
-    //         const response = await axios.get(route);
-    //         return response;
-    //     } catch (error) {
-    //         console.log("makeGetCall", error);
-    //         return false;
-    //     }
-    // }
-
-    const handleInputChange = (e) => {
-        setQuery(e.target.value);
-        // console.log('input', e.target.value);
-    };
-    
-
-
-    // can delete this function and the call to this function after backend is established
-    // this function just checks if the backend fetchall call succeded and populated the postlist. if not, it sets it to the default static posts
-    function check(e){
-        if (postList.length === 0){
-            console.log('setting default posts list',postList)
-            setPostList(posts_list.post_info);
-            setOriginalPostList(posts_list.post_info);
-        }
-    }
-    check();
-
-    //delete everything below and replace with the handleSearch function above when backend is established
-    // this is another way to search filter since normally we want to make get requests to the backend with search parameters but since no backend yet
-    // we will have to just filter the postList useState variable on the server (not ideal)
-
-    const handleSearchStatic = (e) => {
-        e.preventDefault();
-    
-        // If the query is empty, reset to the original list
-        if (query.trim() === '') {
-            setPostList(originalPostList);
-            return;
-        }
-    
-        // Convert query to lowercase to make the search case-insensitive
-        const lowercaseQuery = query.toLowerCase();
-    
-        // Filter the posts based on the query
-        const filteredPosts = originalPostList.filter((post) => {
-            return (
-                post.songName.toLowerCase().includes(lowercaseQuery) ||
-                post.artist.toLowerCase().includes(lowercaseQuery) ||
-                post.beatmap_artist.toLowerCase().includes(lowercaseQuery) ||
-                post.source.toLowerCase().includes(lowercaseQuery) ||
-                post.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
-                post.description.toLowerCase().includes(lowercaseQuery)
-            );
-        });
-    
-        setPostList(filteredPosts);
-    };
-    
-
-    // only until here for deleting search stuff
-
-    return (
-        <div className="CommuityPage w-full bg-page-accent-gray overflow-hidden text-center text-white text-body-overpass-base font-body-overpass min-h-screen">
-            
-            <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
-                <div className="bgImgContainer w-full lg:-mt-64">
-                    <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
-                </div>
-                <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">COMMUNITY</div>
-                <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
-            </div>
-            <div class="searchBarContainer flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    onChange={handleInputChange}
-                    class="flex-grow py-2 px-4 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-900"
-                />
-                <button
-                    type="button"
-                    onClick={handleSearchStatic}
-                    class="px-4 py-2 text-white rounded-r-lg border-none hover:bg-page-accent-gray focus:outline-none focus:ring-2 focus:ring-purple-900 transform transition-transform duration-300 hover:scale-105"
-                    style={{
-                        backgroundColor: '#2d2c5f',
-                        border: "none",
-                    }}
-                >
-                    <img src={searchIcon} alt="Search" className="w-5 h-5" />
-                </button>
-            </div>
-
-            <div className="sortByContainer flex px-4 justify-start lg:px-28">
-                <select
-                    value={sortOption}
-                    onChange={(e) => setSortOption(e.target.value)}
-                    className="sortByDropdown w-52 py-2 border border-gray-300 rounded-lg bg-gray-800 text-white text-font-size-xs lg:w-56"
-                    style={{
-                        background: `url('arrow icon here') no-repeat right center`,
-                        backgroundColor: '#1f2937'
-                    }}
-                >
-                    <option value="latest">Sort by: Latest</option>
-                    <option value="oldest">Sort by: Oldest</option>
-                    <option value="popularity">Sort by: Popularity</option>
-                </select>
-            </div>
-
-            {/* <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown button
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </div> */}
-
-
-            {/* <div className={styles.beatmapListingFilterItem}>
-                    <select className={styles.beatmapListingFilterItem} placeholder="sort by">
-                        <option value="1">sort by: newest</option>
-                        <option value="2">sort by: oldest</option>
-                        <option value="3">sort by: most played</option>
-                        <option value="4">sort by: least played</option>
-                    </select>
-                </div> */}
-            
-            <div className="bmListingDisplayModeContainer flex flex-col font-title-lexend text-[16px] font-bold pt-4 text-white items-center ">
-                <div className="bmListingDisplayMode w-1/4 text-white flex justify-center">songs</div>
-                {/* <div className={styles.bmListinDisplayModeItem}>artists</div> */}
-                <hr className="hr flex w-4/5"></hr>
-            </div>
-
-            <PostList postList={postList} />
-            
-        </div>
-    );
-}
-
-
-function PostList (props) {
-    // const navigate = useNavigate();
-    
-    const rows = props.postList.map((post, index) => {
-        return ( 
-            <div className="postContainer bg-community-post-gradient flex flex-col text-start w-80  p-4 text-[13px] gap-3">
-                <div className="postHeader items-center w-full">
-                    <div className="metaInfo flex items-center justify-between w-full">
-                        <div className="authorInfo flex items-center gap-1">
-                            <div className="authorImgContainer flex flex-shrink-0 rounded-full w-10 h-10 overflow-hidden">
-                                <img className="authorImg " src={images[index]} alt="Profile pictue"/>
-                            </div>
-
-                            <div className="authorNameContainer ">
-                                {post.authorName}   
-                            </div>
-                        </div>
-                        <div className="postDateContainer ">
-                            {post.postDate}   
-                        </div>
-                    </div>
-
-
-                    <div className="postTitle flex mt-2">
-                        {post.postTitle} 
-                    </div>
-                </div>
-
-                <div className="postContent flex ">
-                    {post.postContent}
-                </div>
-                <hr className="flex my-2 border-b-4 border-white w-full" />
-
-                <div className="postStats flex justify-between">
-                    <div className="likesSection flex">
-                        Likes:
-                        {post.likeCount}
-                    </div>
-                    <div className="commentsSection flex">
-                        Comments:
-                        {post.commentCount}
-                    </div>
-                    <div className="viewsSection flex">
-                        Views:
-                        {post.viewCount}
-                    </div>
-                </div>
-
-
-                {/* Post */}
-            </div>
-        );
+      if (tagAlreadySelected) {
+        // Remove the tag
+        return prevTags.filter((t) => t !== tag);
+      } else {
+        // Add the tag
+        return [...prevTags, tag];
+      }
     });
-    return (
-        <div className="postListContainer flex flex-row flex-wrap justify-center py-4 gap-3">
-            {rows}
+  };
+
+  // Filter content based on selected tags
+  const filteredContent = selectedTags.length
+    ? CONTENT.filter((item) =>
+        item.tags.some((tag) => selectedTags.includes(tag))
+      )
+    : CONTENT;
+
+  return (
+    <div className="flex">
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block w-1/5 min-h-screen relative bg-[#555589]/40">
+        {/* Sticky Sidebar Content */}
+        <div className="sticky top-24 p-4">
+          {/* Toggle: Home / Following */}
+          <div className="flex flex-col gap-2 mb-6">
+            {["Home", "Following"].map((option) => {
+              const isSelected = contentSelection === option;
+              return (
+                <button
+                  key={option}
+                  className={`flex items-center gap-4 px-2 py-1 text-left font-nova-square text-lg ${
+                    isSelected ? "text-accent-yellow" : "text-light-grey"
+                  }`}
+                  onClick={() => {
+                    if (!isSelected) setContentSelection(option);
+                  }}
+                >
+                  <span className="w-4 h-4 flex items-center justify-center">
+                    {isSelected && (
+                      <img
+                        src={recordIcon}
+                        alt="Selected"
+                        className="h-6 w-6 max-w-none"
+                      />
+                    )}
+                  </span>
+                  <span
+                    className={` mr-8 ${
+                      isSelected
+                        ? "w-full border-accent-yellow border-b-[1px]"
+                        : undefined
+                    }`}
+                  >
+                    {option}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Filters */}
+          <h2 className="text-xl text-white font-nova-square font-light mb-2">
+            Filters
+          </h2>
+          <div className="ml-4">
+            <h3 className="text-xl text-white font-nova-square font-light mb-2">
+              Curated Content
+            </h3>
+            <h3 className="text-xl text-white font-nova-square font-light mb-2">
+              Tags
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {TAGS.map((tag) => (
+                <button
+                  key={tag}
+                  className={`px-3 py-1 rounded border ${
+                    selectedTags.includes(tag)
+                      ? "text-accent-yellow border-accent-yellow"
+                      : "text-light-grey border-light-grey"
+                  }`}
+                  onClick={() => toggleTag(tag)}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Post Button */}
+          <button className="mt-6 ml-4 text-dark-purple text-xl font-semibold bg-accent-yellow px-12 py-2 rounded-lg">
+            Post
+          </button>
         </div>
-    );
+      </div>
+
+      {/* Main Content */}
+      <div className="w-full lg:w-4/5 min-h-screen p-4">
+        <h2 className="text-xl font-bold mb-4">Community Posts</h2>
+        {filteredContent.map((item) => (
+          <div
+            key={item.id}
+            className="border p-4 mb-3 rounded shadow-sm bg-white"
+          >
+            <h3 className="text-lg font-medium">{item.title}</h3>
+            <p className="text-sm text-gray-600">
+              Tags: {item.tags.join(", ")}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default CommunityPage;
-
-
-
-

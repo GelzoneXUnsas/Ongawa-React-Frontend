@@ -36,7 +36,7 @@ function Router() {
           <Route path="musicianlisting" element={<MusicanListingPage />} />
           <Route path="musician" element={<MusicianPage />} />
           <Route path="beatmap" element={<BeatmapPage />} />
-          <Route path="community" element={<ComingSoonPage />} />
+          <Route path="community" element={<CommunityPage />} />
           <Route path="comingsoon" element={<ComingSoonPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
