@@ -271,11 +271,11 @@ export default function BeatmapListingPage() {
       <div className="hidden md:flex items-center mb-6">
         <div ref={searchContainerRef} className="relative w-full max-w-full rounded flex items-center mx-4">
           {/* <div className="bg-light-purple bg-opacity-50 w-full rounded flex items-center"> */}
-          <div className={`${showDropdown && searchHistory.length > 0 ? 'bg-dropdown-background-color' : 'bg-light-purple bg-opacity-50'} w-full rounded-t ${showDropdown && searchHistory.length > 0 ? 'rounded-b-none' : 'rounded'} flex items-center`}>
+          <div className={`${showDropdown && searchHistory.length > 0 ? 'bg-dropdown-background-color' : 'bg-light-purple bg-opacity-50'} w-full rounded-t ${showDropdown && searchHistory.length > 0 ? 'rounded-b-none' : 'rounded'} h-12`}>
             <input
               type="text"
               placeholder="Search ..."
-              className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg"
+              className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg h-full"
               style={{ border: "none"}} // to override styling in index.css (temporary)
               value={searchInput}
               onChange={(e) => {
@@ -289,8 +289,10 @@ export default function BeatmapListingPage() {
                   }
                 }}
             />
-            <div className="w-px h-6 bg-white mx-3"></div>
-            <img src={searchIcon} alt="Search" className="w-6 h-6 fill-white-500 mr-4" />
+            <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
+              <div className="w-px h-6 bg-white"></div>
+              <img src={searchIcon} alt="Search" className="w-6 h-6" />
+            </div>
           </div>
           {/* Search History Dropdown */}
           {showDropdown && searchHistory.length > 0 && (
@@ -325,89 +327,201 @@ export default function BeatmapListingPage() {
       {/* Mobile Search - Shown only on mobile */} 
       {/* flex md:hidden items-center gap-2 mb-4 */}
       <div className="md:hidden mb-6">
-        <div className="flex items-center bg-light-purple bg-opacity-50 rounded-lg">
+        <div className="bg-light-purple bg-opacity-50 rounded-lg h-10 relative">
           <input
             type="text"
             placeholder="Search ..."
-            className="text-white border-none w-full rounded focus:ring-0 px-4 py-2"
+            className="text-white border-none w-full h-full rounded focus:ring-0 px-4 py-2"
             style={{ border: "none" }}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <div className="w-px h-6 bg-white"></div>
-          {searchInput ? (
-            <img src={closeIcon} alt="Close" onClick={() => setSearchInput("")} className="w-4 h-4 mx-3" /> 
-          ) : (
-            <img src={searchIcon} alt="Search" className="w-5 h-5 mx-3" />
-          )}
+          <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
+            <div className="w-px h-6 bg-white"></div>
+            {searchInput ? (
+              <img src={closeIcon} alt="Close" onClick={() => setSearchInput("")} className="w-4 h-4 mx-3" /> 
+            ) : (
+              <img src={searchIcon} alt="Search" className="w-5 h-5 mx-3" />
+              )}
+          </div>
         </div>
       </div>
 
       {/* Filtering Options Section - Desktop & Mobile */}
-      <div className="flex flex-wrap items-center gap-3 mb-6 ml-6">
-        {/* Sort Button - Now toggles between ascending/descending */}
-        <button
-          className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
-          onClick={toggleSortDirection}
-          style={{ // temporary styling to override bootstrap
-            border: "none",
-            backgroundColor: "rgba(109, 109, 153, 0.5)"
-          }}
-        >
-          <span>Sort</span>
-          {sortDirection === "ascending" ? (
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="18 15 12 9 6 15"></polyline>
-            </svg>
-          )}
-        </button>
+      <div className="mb-6 md:mx-4">
+        {/* Desktop Layout - Single Row */}
+        <div className="hidden md:flex flex-wrap items-center gap-3">
+          {/* Sort Button */}
+          <button
+            className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
+            onClick={toggleSortDirection}
+            style={{
+              // temporary styling to override bootstrap
+              border: "none",
+              backgroundColor: "rgba(109, 109, 153, 0.5)",
+            }}
+          >
+            <span>Sort</span>
+            {sortDirection === "ascending" ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+            )}
+          </button>
 
-        {/* Filter Buttons */}
-        <div className="flex gap-2 overflow-x-auto no-scrollbar">
-          {["All", "Title", "Date", "Artist"].map((filter) => (
-            <button
-              key={filter}
-              className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline ${
-                activeFilter === filter
-                  ? "border-b-4 text-yellow-500 underline"
-                  : "text-gray-400"
-              }`}
-              onMouseDown={(e) => {
-                e.preventDefault(); // Prevent default button behavior
-                handleFilterClick(filter);
-              }}
-              style={{
-                backgroundColor: "transparent",
-                border: "none",
-              }}
-            >
-              {filter}
-            </button>
-          ))}
+          {/* Filter Buttons */}
+          <div className="flex gap-2 overflow-x-auto no-scrollbar">
+            {["All", "Title", "Date", "Artist"].map((filter) => (
+              <button
+                key={filter}
+                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline ${
+                  activeFilter === filter
+                    ? "border-b-4 text-yellow-500 underline"
+                    : "text-gray-400"
+                }`}
+                onMouseDown={(e) => {
+                  e.preventDefault(); // Prevent default button behavior
+                  handleFilterClick(filter);
+                }}
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+
+          {/* Vertical Separator */}
+          <div className="h-8 w-px bg-gray-500 mx-1"></div>
+
+          {/* Difficulty Dropdown */}
+          <DifficultyDropdown
+            ref={difficultyDropdownRef}
+            isOpen={difficultyOpen}
+            onToggle={toggleDifficultyDropdown}
+          />
+
+          {/* Tags Dropdown */}
+          <TagsDropdown
+            ref={tagsDropdownRef}
+            isOpen={tagsOpen}
+            onToggle={toggleTagsDropdown}
+          />
         </div>
 
-        {/* Vertical Separator */}
-        <div className="h-8 w-px bg-gray-500 mx-1"></div>
+        {/* Mobile Layout - Two Rows */}
+        <div className="md:hidden space-y-3">
+          {/* First Row: Sort Button and Filter Buttons */}
+          <div className="flex items-center gap-3">
+            {/* Sort Button */}
+            <button
+              className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2 flex-shrink-0"
+              onClick={toggleSortDirection}
+              style={{
+                // temporary styling to override bootstrap
+                border: "none",
+                backgroundColor: "rgba(109, 109, 153, 0.5)",
+              }}
+            >
+              <span>Sort</span>
+              {sortDirection === "ascending" ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+              )}
+            </button>
 
-        {/* Difficulty Dropdown */}
-        {/* Difficulty Dropdown Component */}
-        <DifficultyDropdown
-          ref={difficultyDropdownRef}
-          isOpen={difficultyOpen}
-          onToggle={toggleDifficultyDropdown}
-        />
+            {/* Filter Buttons - Scrollable on mobile */}
+            <div className="flex gap-2 overflow-x-auto no-scrollbar flex-1">
+              {["All", "Title", "Date", "Artist"].map((filter) => (
+                <button
+                  key={filter}
+                  className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline whitespace-nowrap flex-shrink-0 ${
+                    activeFilter === filter
+                      ? "border-b-4 text-yellow-500 underline"
+                      : "text-gray-400"
+                  }`}
+                  onMouseDown={(e) => {
+                    e.preventDefault(); // Prevent default button behavior
+                    handleFilterClick(filter);
+                  }}
+                  style={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+          </div>
 
-        {/* Tags Dropdown */}
-        <TagsDropdown
-          ref={tagsDropdownRef}
-          isOpen={tagsOpen}
-          onToggle={toggleTagsDropdown}
-        />
+          {/* Second Row: Difficulty and Tags Dropdowns */}
+          <div className="flex items-center gap-3">
+            <DifficultyDropdown
+              ref={difficultyDropdownRef}
+              isOpen={difficultyOpen}
+              onToggle={toggleDifficultyDropdown}
+            />
+
+            <TagsDropdown
+              ref={tagsDropdownRef}
+              isOpen={tagsOpen}
+              onToggle={toggleTagsDropdown}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Desktop Grid View - Hidden on Mobile */}
