@@ -148,17 +148,23 @@ export default function BeatmapListingPage() {
         setShowDropdown(false);
       }
 
-      if (
-        difficultyDropdownRef.current &&
-        !difficultyDropdownRef.current.contains(event.target)
-      ) {
+      // Check if click is outside ALL difficulty dropdown instances
+      const allDifficultyDropdowns = document.querySelectorAll('[data-dropdown="difficulty"]');
+      const isClickInsideAnyDifficultyDropdown = Array.from(allDifficultyDropdowns).some(
+        dropdown => dropdown.contains(event.target)
+      );
+
+      if (!isClickInsideAnyDifficultyDropdown) {
         setDifficultyOpen(false);
       }
 
-      if (
-        tagsDropdownRef.current &&
-        !tagsDropdownRef.current.contains(event.target)
-      ) {
+      // Check if click is outside ALL tags dropdown instances
+      const allTagsDropdowns = document.querySelectorAll('[data-dropdown="tags"]');
+      const isClickInsideAnyTagsDropdown = Array.from(allTagsDropdowns).some(
+        dropdown => dropdown.contains(event.target)
+      );
+
+      if (!isClickInsideAnyTagsDropdown) {
         setTagsOpen(false);
       }
     };
@@ -525,7 +531,7 @@ export default function BeatmapListingPage() {
       </div>
 
       {/* Desktop Grid View - Hidden on Mobile */}
-      <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-6">
+      <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-3">
         {filteredBeatmaps.map((beatmap, index) => (
           <div
             key={index}
