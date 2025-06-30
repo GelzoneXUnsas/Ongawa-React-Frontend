@@ -40,6 +40,9 @@ export default {
         "inactive-text": "#6D6D99",
         "border-purple-light": "#47475F",
         "heading-dark-purple": "#484878",
+        "beatmaps-background": "#2D294C",
+        "yellow-accent": "#CA9F28",
+        "light-purple": "#6D6D99",
       },
 
       boxShadow: {
