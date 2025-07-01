@@ -16,14 +16,17 @@ const DropdownQuestion = ({ question, answer }) => {
         <motion.img
           src={rightArrowIcon}
           alt="Toggle Arrow"
-          className="w-4 h-4 mt-1"
+          className="w-4 h-4 mt-1 lg:mt-2"
           animate={{ rotate: isOpen ? 90 : 0 }}
           transition={{ duration: 0.3 }}
         />
         {/* Question */}
         <p
           className="w-full ml-4 p-0 pb-3 my-0 text-white font-nova-square border-b-2 border-border-purple-light
-                       short:text-sm short:pb-1"
+                       short:text-sm short:pb-1
+                       lg:text-xl
+                       two_k:text-2xl/loose
+                       four_k:text-4xl/loose"
         >
           {question}
         </p>
@@ -50,11 +53,9 @@ const DropdownQuestion = ({ question, answer }) => {
                 opacity: { duration: 0.2 },
               },
             }}
-            className="overflow-hidden ml-8"
+            className="overflow-hidden ml-8 lg:text-xl two_k:text-3xl/loose four_k:text-5xl/loose"
           >
-            
-              {answer}
-            
+            {answer}
           </motion.div>
         )}
       </AnimatePresence>
@@ -64,7 +65,7 @@ const DropdownQuestion = ({ question, answer }) => {
 
 DropdownQuestion.propTypes = {
   question: PropTypes.string.isRequired,
-  answer: PropTypes.string.isRequired,
+  answer: PropTypes.object.isRequired,
 };
 
 export default DropdownQuestion;
