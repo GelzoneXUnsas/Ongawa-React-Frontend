@@ -6,7 +6,6 @@ import Footer from "./components/Footer/Footer";
 //import GoogleTag from './components/GoogleTag';
 
 import GalleryPage from "./pages/GalleryPage/GalleryPage";
-import MusicGalleryPage from "./pages/GalleryPage/MusicGalleryPage";
 import MusicanListingPage from "./pages/MusicianListing/MusicianListingPage";
 import MusicianPage from "./pages/MusicianPage/MusicianPage";
 import BeatmapListingPage from "./pages/BeatmapListingPage/BeatmapListingPage";
@@ -31,12 +30,12 @@ function Router() {
         <Routes>
           <Route path="/" element={<Homepage muted={muted} />} />
           <Route path="gallery" element={<GalleryPage />} />
-          <Route path="musicgallery" element={<MusicGalleryPage />} />
           <Route path="beatmaplisting" element={<BeatmapListingPage />} />
           <Route path="musicianlisting" element={<MusicanListingPage />} />
           <Route path="musician" element={<MusicianPage />} />
           <Route path="beatmap" element={<BeatmapPage />} />
           <Route path="community" element={<CommunityPage />} />
+          <Route path="beatmaplisting/:id" element={<BeatmapPage />} />
           <Route path="comingsoon" element={<ComingSoonPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />

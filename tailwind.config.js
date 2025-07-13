@@ -24,6 +24,7 @@ export default {
         "secondary-purple": "#6D6D99",
         "page-background": "#2d2c5f",
         "page-background-purple": "#1D1D2E",
+        "page-background-purple-dark": "#2D294C",
         "page-accent-gray": "#242424",
         white: "#fff",
         lilac: "#f1dbfc",
@@ -41,6 +42,10 @@ export default {
         "inactive-text": "#6D6D99",
         "border-purple-light": "#47475F",
         "heading-dark-purple": "#484878",
+        "off-white": "#B6B6CC",
+        "beatmaps-background": "#2D294C",
+        "yellow-accent": "#CA9F28",
+        "light-purple": "#6D6D99",
       },
 
       boxShadow: {
@@ -109,6 +114,8 @@ export default {
       screens: {
         short: { raw: "(max-height: 600px)" },
         tablet: { raw: "(min-width: 820px) and (min-height: 1180px)" },
+        two_k: { raw: "(min-width: 1921px)" },
+        four_k: { raw: "(min-width: 2049px)" },
       },
     },
   },
