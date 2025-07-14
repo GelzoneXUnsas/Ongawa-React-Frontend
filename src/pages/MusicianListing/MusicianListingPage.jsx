@@ -1,212 +1,631 @@
-import {useCallback, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
-import React from "react";
-import axios from "axios";
+import searchIcon from "../../assets/icons/searchIcon.svg";
+import closeIcon from "../../assets/icons/closeNavDropdown.png";
+import timeIcon from "../../assets/icons/timeIcon.svg";
+import { musicians } from "../../data/musicians";
 
-import headerBackgroundImg from '../../assets/images/headerBackground.png';
-import searchIcon from '../../assets/icons/searchIcon.svg';
+export default function MusicianListingPage() {
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  // const [hoveredMusician, setHoveredMusician] = useState(null);
 
-import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
-import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
-import artist3Image from "../../assets/images/featuredArtists/artist3.png";
-const images = [artist1Image, artist2Image, artist3Image];
-//images for beatmap covers
+  // const [swipePositions, setSwipePositions] = useState({});
+  // const [touchStart, setTouchStart] = useState(null);
+  // const [isSwiping, setIsSwiping] = useState(false);
 
-const musican_list = {
-    musician_infos: 
-        [
-            {
-                id : 1,
-                musicianName : 'Techo Maestro',
-                artistImg: 'artist1Image',
-                totalSongs: 25,
-                totalPlaycount: 538,
-            },
-            {
-                id : 2,
-                musicianName : 'The Shadow Weaver',
-                artistImg: 'artist2Image',
-                totalSongs: 16,
-                totalPlaycount: 386,
-            },
-            {
-                id : 3,
-                musicianName : 'The Sound Sorcerer',
-                artistImg: 'artist3Image',
-                totalSongs: 14,
-                totalPlaycount: 479,
-            },
-        ]
-}
+  const navigate = useNavigate();
 
+  const [activeFilter, setActiveFilter] = useState("All");
+  // const [difficultyOpen, setDifficultyOpen] = useState(false);
+  // const [tagsOpen, setTagsOpen] = useState(false);
 
+  const [searchHistory, setSearchHistory] = useState(() => {
+    const savedHistory = localStorage.getItem("musicianSearchHistory");
+    return savedHistory ? JSON.parse(savedHistory) : [];
+  });
+  const [showDropdown, setShowDropdown] = useState(false);
+  const searchContainerRef = useRef(null);
+  const [sortDirection, setSortDirection] = useState("ascending");
 
+  const searchFilteredMusicians = musicians.filter((m) =>
+    m.musicianName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
+  const applyFilterAndSort = (musiciansToFilter) => {
+    // Apply filters based on active filter type
+    let filtered = [...musiciansToFilter];
 
+    // Add sorting logic based on the active filter and sort direction
+    if (activeFilter === "Name") {
+      filtered.sort((a, b) => {
+        const valueA = a.musicianName.toLowerCase();
+        const valueB = b.musicianName.toLowerCase();
 
+        return sortDirection === "ascending"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      });
+    } else if (activeFilter === "Songs") {
+      filtered.sort((a, b) => {
+        const valueA = a.totalSongs;
+        const valueB = b.totalSongs;
 
+        return sortDirection === "ascending"
+          ? valueA - valueB
+          : valueB - valueA;
+      });
+    } else if (activeFilter === "Plays") {
+      filtered.sort((a, b) => {
+        const valueA = a.totalPlaycount;
+        const valueB = b.totalPlaycount;
 
+        return sortDirection === "ascending"
+          ? valueA - valueB
+          : valueB - valueA;
+      });
+    } else {
+      // Default "All" sorting by name
+      filtered.sort((a, b) => {
+        const valueA = a.musicianName.toLowerCase();
+        const valueB = b.musicianName.toLowerCase();
 
- const BACKEND_URL = 'http://localhost:5001';
-//const BACKEND_URL = 'http://api-virtuosos.us-west-1.elasticbeanstalk.com';
-
-function MusicianListingPage() {
-    const [musicianList, setMusicianList] = useState([]);
-    const [searchParams] = useSearchParams();
-    const searchQuery = searchParams.get('search');
-    const [query, setQuery] = useState(searchQuery || '');
-     // eslint-disable-next-line no-unused-vars
-    const [sortOption, setSortOption] = useState('newest');
-
-    // const [results, setResults] = useState([]);
-
-    async function fetchAll() {
-        try {
-            const route = BACKEND_URL + '/musicianListing/' + (searchQuery? ('?search=' + searchQuery) : '');
-            console.log('ROUTE', route);
-            const response = await axios.get(route);
-            console.log(response.data);
-            return response.data.musician_infos;
-        }
-        catch (error) {
-            console.log(error);
-            return false;
-        }
+        return sortDirection === "ascending"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      });
     }
 
-    const handleSort = useCallback((option) => {
-        let sortedList = [...musicianList];
-        if (option === 'alphabetical') {
-            sortedList.sort((a, b) => a.musicianName.localeCompare(b.musicianName));
-        } else if (option === 'Mpop') {
-            sortedList.sort((a, b) => b.totalPlaycount - a.totalPlaycount);
-        } else if (option === 'Msongs') {
-            sortedList.sort((a, b) => b.totalSongs - a.totalSongs);
-        }
-        setMusicianList(sortedList);
-    }, [musicianList]);
-    useEffect(() => {
-        handleSort(sortOption);
-    }, [sortOption, musicianList, handleSort]);
+    return filtered;
+  };
 
+  const filteredMusicians = applyFilterAndSort(searchFilteredMusicians);
 
+  const handleMusicianClick = (id) => {
+    navigate(`/musician/${id}`);
+  };
 
-    useEffect(() => {
-        document.title = 'Musicains - Ongawa';
-        fetchAll().then(result => {
-            console.log('RESULT', result);
-            if (result)
-                setMusicianList(result);
-        });
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        },[]);
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setQuery(e.target.value);
-        console.log('Query:', query);
-
-        updateList(query);
-    };
-
-    const handleInputChange = (e) => {
-        setQuery(e.target.value);
-        console.log('input', e.target.value);
-    };
-    
-    async function makeGetCall(keyword) {
-        try {
-            const route = BACKEND_URL + '/musicianListing';
-            const response = await axios.get(route, keyword);
-            return response;
-        }
-        catch (error) {
-            console.log(error);
-            return false;
-        }
-    }
-
-    //make get call everytime a user searches for a musician
-    function updateList(keyword) {
-        makeGetCall(keyword).then( result => {
-            if (result && result.status === 200)
-                setMusicianList([...musicianList, keyword]);
-        });
-    }
-
-    return (
-        <div className="beatmapListingPage w-full bg-page-accent-gray overflow-hidden text-center text-white text-body-overpass-base font-body-overpass min-h-screen">
-            <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
-                <div className="bgImgContainer w-full lg:-mt-64">
-                    <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
-                </div>
-                <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">MUSICIANS</div>
-                <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
-            </div>
-            <div className="w-auto h-20 px-4 py-4 flex flex-col bg-[#232323] justify-around text-[#B2B2B2] font-['Overpass_Mono'] text-[var(--body-overpass-base-size)] font-medium">
-            <div class="searchBarContainer flex items-center px-4 pt-2 gap-1 rounded-lg shadow-md">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    onChange={handleInputChange}
-                    class="flex-grow py-2 px-4 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-900"
-                />
-                <button
-                    type="button"
-                    onClick={handleSearch}
-                    class="px-4 py-2 text-white rounded-r-lg border-none hover:bg-page-accent-gray focus:outline-none focus:ring-2 focus:ring-purple-900 transform transition-transform duration-300 hover:scale-105"
-                    style={{
-                        backgroundColor: '#2d2c5f',
-                        border: "none",
-                    }}
-                >
-                    <img src={searchIcon} alt="Search" className="w-5 h-5" />
-                </button>
-            </div>
-            
-
-
-            </div>
-            <div className="flex flex-col bg-[#232323] text-white">
-                <hr></hr>
-                    <MusicianList musicianList={musican_list.musician_infos} />
-            </div>
-        </div>
+  // Save search history to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(
+      "musicianSearchHistory",
+      JSON.stringify(searchHistory)
     );
-}
+  }, [searchHistory]);
 
+  // Add search to history
+  useEffect(() => {
+    if (searchTerm) {
+      setSearchHistory((prevHistory) => {
+        // Remove the searchTerm if it already exists
+        const filteredHistory = prevHistory.filter(
+          (term) => term !== searchTerm
+        );
+        // Add the searchTerm at the top and keep the history limited to 5 items
+        return [searchTerm, ...filteredHistory].slice(0, 5);
+      });
+    }
+  }, [searchTerm]);
 
+  // Function to remove individual search history items
+  const removeSearchHistoryItem = (event, historicalSearch) => {
+    // Prevent the click from bubbling up to the parent div
+    event.stopPropagation();
 
+    // Remove the item from search history
+    setSearchHistory((prevHistory) =>
+      prevHistory.filter((item) => item !== historicalSearch)
+    );
+  };
 
-function MusicianList(props) {
-    const navigate = useNavigate();
-    const rows = props.musicianList.map((musician) => (
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+
+      // // Check if click is outside ALL difficulty dropdown instances
+      // const allDifficultyDropdowns = document.querySelectorAll(
+      //   '[data-dropdown="difficulty"]'
+      // );
+      // const isClickInsideAnyDifficultyDropdown = Array.from(
+      //   allDifficultyDropdowns
+      // ).some((dropdown) => dropdown.contains(event.target));
+
+      // if (!isClickInsideAnyDifficultyDropdown) {
+      //   setDifficultyOpen(false);
+      // }
+
+      // // Check if click is outside ALL tags dropdown instances
+      // const allTagsDropdowns = document.querySelectorAll(
+      //   '[data-dropdown="tags"]'
+      // );
+      // const isClickInsideAnyTagsDropdown = Array.from(allTagsDropdowns).some(
+      //   (dropdown) => dropdown.contains(event.target)
+      // );
+
+      // if (!isClickInsideAnyTagsDropdown) {
+      //   setTagsOpen(false);
+      // }
+    };
+
+    // Use capture phase to ensure this runs before other click handlers
+    document.addEventListener("mousedown", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside, true);
+    };
+  }, []);
+
+  const handleSearchHistoryClick = (historicalSearch) => {
+    setSearchInput(historicalSearch);
+    setSearchTerm(historicalSearch);
+    setShowDropdown(false);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      setSearchTerm(searchInput);
+      setShowDropdown(false);
+    }
+  };
+
+  // Filter click handlers
+  const handleFilterClick = (filter) => {
+    setActiveFilter(filter);
+  };
+
+  // const toggleDifficultyDropdown = () => {
+  //   setDifficultyOpen(!difficultyOpen);
+  //   setTagsOpen(false);
+  // };
+
+  // const toggleTagsDropdown = () => {
+  //   setTagsOpen(!tagsOpen);
+  //   setDifficultyOpen(false);
+  // };
+
+  // Toggle sort direction
+  const toggleSortDirection = () => {
+    setSortDirection(
+      sortDirection === "ascending" ? "descending" : "ascending"
+    );
+  };
+
+  // Swipe threshold values
+  // const minSwipeDistance = 50;
+  // const maxSwipeDistance = 96; // This is the width of the action panel (24rem)
+
+  // // Touch gesture handlers
+  // const onTouchStart = (e) => {
+  //   setTouchStart(e.targetTouches[0].clientX);
+  //   setIsSwiping(true);
+  // };
+
+  // const onTouchMove = (e, index) => {
+  //   if (!touchStart || !isSwiping) return;
+
+  //   const currentTouch = e.targetTouches[0].clientX;
+  //   const diff = touchStart - currentTouch;
+
+  //   // Constrain the swipe to be between 0 and maxSwipeDistance
+  //   let swipeAmount = Math.max(0, Math.min(diff, maxSwipeDistance));
+
+  //   // Update the swipe position for this specific musician
+  //   setSwipePositions((prev) => ({
+  //     ...prev,
+  //     [index]: swipeAmount,
+  //   }));
+  // };
+
+  // const onTouchEnd = (index) => {
+  //   if (!touchStart || !isSwiping) return;
+
+  //   // Get the current swipe amount for this musician
+  //   const currentSwipeAmount = swipePositions[index] || 0;
+
+  //   // If swiped more than minSwipeDistance, snap to full open
+  //   // Otherwise, snap back to closed
+  //   const finalSwipeAmount =
+  //     currentSwipeAmount > minSwipeDistance ? maxSwipeDistance : 0;
+
+  //   // Update the swipe position for this specific musician
+  //   setSwipePositions((prev) => ({
+  //     ...prev,
+  //     [index]: finalSwipeAmount,
+  //   }));
+
+  //   setTouchStart(null);
+  //   setIsSwiping(false);
+  // };
+
+  // // Function to determine the transform value based on swipe position
+  // const getTransformValue = (index) => {
+  //   const swipeAmount = swipePositions[index] || 0;
+  //   return `translateX(-${swipeAmount}px)`;
+  // };
+
+  // // Function to determine the action panel transform value
+  // const getActionPanelTransform = (index) => {
+  //   const swipeAmount = swipePositions[index] || 0;
+  //   const percentage = (swipeAmount / maxSwipeDistance) * 100;
+  //   return `translateX(${100 - percentage}%)`;
+  // };
+
+  return (
+    <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
+      {/* Desktop Search - Hidden on Mobile */}
+      <div className="hidden md:flex items-center mb-6">
         <div
-    key={musician.id} // Ensure each child has a unique key
-    className="outline-none cursor-pointer rounded-[15px] p-4 group" // removed hover:bg-[#2d2c5f]
-    onClick={() => navigate(`/musician?id=${musician.id}`)}
->
-    <img
-        className="w-48 h-48 object-cover rounded-[15px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] mx-auto group-hover:scale-105 transition-transform duration-300"
-        src={images[musician.id - 1]}
-        alt="Profile img"
-    />
-    <div className="text-[var(--icon-color,#FFF)] text-center font-['Lexend_Exa'] text-[18px] font-bold leading-[24px] group-hover:translate-y-[5px] transition-transform duration-300">
-        {musician.musicianName}
-    </div>
-    <p className="text-[var(--icon-color,#FFF)] text-center font-['Overpass_Mono'] text-[16px] font-medium leading-[24px] group-hover:translate-y-[5px] transition-transform duration-300">
-        {musician.totalSongs} songs | {musician.totalPlaycount} plays
-    </p>
-</div>
-    ));
-
-    return (
-        <div className="flex flex-col md:flex-row md:justify-center md:space-x-4 space-y-4 md:space-y-0 py-4 w-full">
-            {rows}
+          ref={searchContainerRef}
+          className="relative w-full max-w-full rounded flex items-center mx-4"
+        >
+          <div
+            className={`${
+              showDropdown && searchHistory.length > 0
+                ? "bg-dropdown-background-color"
+                : "bg-light-purple bg-opacity-50"
+            } w-full rounded-t ${
+              showDropdown && searchHistory.length > 0
+                ? "rounded-b-none"
+                : "rounded"
+            } h-12`}
+          >
+            <input
+              type="text"
+              placeholder="Search ..."
+              className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg h-full"
+              style={{ border: "none" }} // to override styling in index.css (temporary)
+              value={searchInput}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+                setShowDropdown(true);
+              }}
+              onKeyDown={handleKeyDown}
+              onFocus={() => {
+                if (searchHistory.length > 0) {
+                  setShowDropdown(true);
+                }
+              }}
+            />
+            <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
+              <div className="w-px h-6 bg-white"></div>
+              <img src={searchIcon} alt="Search" className="w-6 h-6" />
+            </div>
+          </div>
+          {/* Search History Dropdown */}
+          {showDropdown && searchHistory.length > 0 && (
+            <div className="absolute top-full left-0 right-0 bg-dropdown-background-color rounded-b-lg z-50 p-2">
+              {searchHistory.map((historyItem, index) => (
+                <div
+                  key={index}
+                  className="px-4 py-2 hover:bg-beatmaps-background cursor-pointer rounded-lg group"
+                  onClick={() => handleSearchHistoryClick(historyItem)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <img src={timeIcon} alt="Search" className="w-4 h-4" />
+                      <span>{historyItem}</span>
+                    </div>
+                    <img
+                      src={closeIcon}
+                      alt="Remove"
+                      className="w-3 h-3"
+                      onClick={(e) => removeSearchHistoryItem(e, historyItem)}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-    );
+      </div>
+
+      {/* Mobile Search - Shown only on mobile */}
+      <div className="md:hidden mb-6">
+        <div className="bg-light-purple bg-opacity-50 rounded-lg h-10 relative">
+          <input
+            type="text"
+            placeholder="Search musicians..."
+            className="text-white border-none w-full h-full rounded focus:ring-0 px-4 py-2"
+            style={{ border: "none" }}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
+            <div className="w-px h-6 bg-white"></div>
+            {searchInput ? (
+              <img
+                src={closeIcon}
+                alt="Close"
+                onClick={() => setSearchInput("")}
+                className="w-4 h-4 mx-3"
+              />
+            ) : (
+              <img src={searchIcon} alt="Search" className="w-5 h-5 mx-3" />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Filtering Options Section - Desktop & Mobile */}
+      <div className="mb-6 md:mx-4">
+        {/* Desktop Layout - Single Row */}
+        <div className="hidden md:flex flex-wrap items-center gap-3">
+          {/* Sort Button */}
+          <button
+            className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
+            onClick={toggleSortDirection}
+            style={{
+              // temporary styling to override bootstrap
+              border: "none",
+              backgroundColor: "rgba(109, 109, 153, 0.5)",
+            }}
+          >
+            <span>Sort</span>
+            {sortDirection === "ascending" ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+            )}
+          </button>
+
+          {/* Filter Buttons */}
+          <div className="flex gap-2 overflow-x-auto no-scrollbar">
+            {["All", "Name", "Songs", "Plays"].map((filter) => (
+              <button
+                key={filter}
+                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline ${
+                  activeFilter === filter
+                    ? "border-b-4 text-yellow-500 underline"
+                    : "text-gray-400"
+                }`}
+                onMouseDown={(e) => {
+                  e.preventDefault(); // Prevent default button behavior
+                  handleFilterClick(filter);
+                }}
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+
+          {/* Vertical Separator */}
+          {/* <div className="h-8 w-px bg-gray-500 mx-1"></div>
+
+          <DifficultyDropdown
+            ref={difficultyDropdownRef}
+            isOpen={difficultyOpen}
+            onToggle={toggleDifficultyDropdown}
+          />
+
+          <TagsDropdown
+            ref={tagsDropdownRef}
+            isOpen={tagsOpen}
+            onToggle={toggleTagsDropdown}
+          /> */}
+        </div>
+
+        {/* Mobile Layout - Two Rows */}
+        <div className="md:hidden space-y-3">
+          {/* First Row: Sort Button and Filter Buttons */}
+          <div className="flex items-center gap-3">
+            {/* Sort Button */}
+            <button
+              className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2 flex-shrink-0"
+              onClick={toggleSortDirection}
+              style={{
+                // temporary styling to override bootstrap
+                border: "none",
+                backgroundColor: "rgba(109, 109, 153, 0.5)",
+              }}
+            >
+              <span>Sort</span>
+              {sortDirection === "ascending" ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+              )}
+            </button>
+
+            {/* Filter Buttons - Scrollable on mobile */}
+            <div className="flex gap-2 overflow-x-auto no-scrollbar flex-1">
+              {["All", "Name", "Songs", "Plays"].map((filter) => (
+                <button
+                  key={filter}
+                  className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline whitespace-nowrap flex-shrink-0 ${
+                    activeFilter === filter
+                      ? "border-b-4 text-yellow-500 underline"
+                      : "text-gray-400"
+                  }`}
+                  onMouseDown={(e) => {
+                    e.preventDefault(); // Prevent default button behavior
+                    handleFilterClick(filter);
+                  }}
+                  style={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Second Row: Difficulty and Tags Dropdowns */}
+          {/* <div className="flex items-center gap-3">
+            <DifficultyDropdown
+              ref={difficultyDropdownRef}
+              isOpen={difficultyOpen}
+              onToggle={toggleDifficultyDropdown}
+            />
+
+            <TagsDropdown
+              ref={tagsDropdownRef}
+              isOpen={tagsOpen}
+              onToggle={toggleTagsDropdown}
+            />
+          </div> */}
+        </div>
+      </div>
+
+      {/* Desktop Grid View - Hidden on Mobile */}
+      <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-3">
+        {filteredMusicians.map((musician, index) => (
+          <div
+            key={index}
+            className="p-4 rounded-xl hover:bg-dropdown-background-color/70 cursor-pointer relative"
+            onClick={() => handleMusicianClick(musician.id)}
+            // onMouseEnter={() => setHoveredMusician(index)}
+            // onMouseLeave={() => setHoveredMusician(null)}
+          >
+            <img
+              src={musician.artistImg}
+              alt={musician.musicianName}
+              className="rounded-lg mb-4 w-full h-70 object-cover"
+            />
+            <p className="text-lg font-semibold mb-2 text-white font-overpass-mono text-center">
+              {musician.musicianName}
+            </p>
+            <p className="text-xs text-gray-500 font-overpass-mono text-center">
+              {musician.totalSongs} songs | {musician.totalPlaycount} plays
+            </p>
+            {/* {hoveredMusician === index && (
+              <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+
+                <div className="flex items-center gap-2">
+                  <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
+                  <span className="text-xs">{musician.totalSongs} songs</span>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <img src={playIcon} alt="play" className="w-4 h-4" />
+                  <span className="text-xs">{musician.totalPlaycount}</span>
+                </div>
+              </div>
+            )} */}
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile List View - Hidden on Desktop */}
+      <div className="md:hidden space-y-1">
+        {filteredMusicians.map((musician, index) => (
+          <div
+            key={index}
+            className="relative overflow-hidden rounded-xl"
+            // onTouchStart={(e) => onTouchStart(e)}
+            // onTouchMove={(e) => onTouchMove(e, index)}
+            // onTouchEnd={() => onTouchEnd(index)}
+          >
+            {/* Main content that slides */}
+            <div
+              className="flex items-start gap-3 p-1 bg-beatmaps-background transition-transform duration-300 ease-out"
+              // style={{ transform: getTransformValue(index) }}
+              // onClick={() => {
+              //   // Only navigate if not swiping
+              //   if (!isSwiping && (swipePositions[index] || 0) === 0) {
+              //     handleMusicianClick(musician.id);
+              //   }
+              // }}
+            >
+              <img
+                src={musician.artistImg}
+                alt={musician.musicianName}
+                className="w-16 h-16 rounded-lg object-cover"
+              />
+              <div className="flex-1">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="text-base font-medium font-overpass-mono mb-1">
+                      {musician.musicianName}
+                    </p>
+                    <p className="text-xs text-gray-500 font-overpass-mono">
+                      {musician.totalSongs} songs | {musician.totalPlaycount}{" "}
+                      plays
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action panel that gets revealed */}
+            {/* <div
+              className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-dropdown-background-color transition-transform duration-300 ease-out"
+              style={{ transform: getActionPanelTransform(index) }}
+            >
+              <div className="flex flex-col gap-3 items-center">
+                <div className="flex items-center gap-1">
+                  <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
+                  <span className="text-xs">{musician.totalSongs} songs</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <img src={playIcon} alt="play" className="w-4 h-4" />
+                  <span className="text-xs">{musician.totalPlaycount}</span>
+                </div>
+              </div>
+            </div> */}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
-
-
-export default MusicianListingPage;
