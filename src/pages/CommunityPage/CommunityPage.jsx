@@ -15,7 +15,28 @@ import testImg4 from "../../assets/images/test/16-9_Test_Image.png";
 import testImg5 from "../../assets/images/test/16-10_Test_Image.png";
 
 // Example tags and content
-const TAGS = ["Traditional", "Folklore", "Celtic", "World", "Fantasy"];
+const TAGS = [
+  "Traditional",
+  "Folklore",
+  "Celtic",
+  "World",
+  "Fantasy",
+  "Lo-fi",
+  "Orchestral",
+  "Electronic",
+  "Ambient",
+  "Vocals",
+  "Instrumental",
+  "Choral",
+  "Nature",
+  "Mythical",
+  "Sacred",
+  "Modern Fusion",
+  "Tribal",
+  "Epic",
+  "Meditative",
+  "Experimental",
+];
 const COMMUNITY_POSTS = [
   {
     id: 1,
@@ -90,53 +111,86 @@ const COMMUNITY_POSTS = [
 ];
 
 // Tags Modal Component
-function TagsModal({ isOpen, onClose, tags }) {
+function TagsModal({
+  isOpen,
+  onClose,
+  allTags,
+  tempSelectedTags,
+  setTempSelectedTags,
+  applyTags,
+  resetTempSelectedTags,
+}) {
   const [searchTerm, setSearchTerm] = useState("");
 
   if (!isOpen) return null;
 
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+  const handleTagToggle = (tag) => {
+    setTempSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
   };
 
-  const filteredTags = tags.filter((tag) =>
+  const filteredTags = allTags.filter((tag) =>
     tag.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleApply = () => {
+    applyTags();
+    onClose();
+  };
+
+  const handleCancel = () => {
+    resetTempSelectedTags();
+    onClose();
+  };
 
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      onClick={handleBackdropClick}
+      onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div className="bg-page-background-purple rounded-2xl p-8 w-[80%] px-12 mx-8 max-h-[90vh] overflow-y-auto">
         <h2 className="text-2xl text-accent-yellow font-nova-square font-light mb-4">
-          Tags
+          Select Tags
         </h2>
-        <div className="mb-8">
-          <input
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-2 text-white border rounded-lg focus:outline-none focus:ring-0 focus:border-light-grey font-nova-square "
-          />
+
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full mb-8 p-2 text-white border rounded-lg focus:outline-none focus:border-light-grey font-nova-square"
+        />
+
+        <div className="flex flex-wrap gap-3 mt-8 mb-8">
+          {filteredTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => handleTagToggle(tag)}
+              className={`px-3 py-1 rounded border font-nova-square text-sm ${
+                tempSelectedTags.includes(tag)
+                  ? "text-accent-yellow border-accent-yellow"
+                  : "text-light-grey border-light-grey"
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
         </div>
 
-        <div className="flex flex-wrap gap-3">
-          {filteredTags.length ? (
-            filteredTags.map((tag) => (
-              <span
-                key={tag}
-                className=" text-light-grey text-sm font-medium px-3 py-1 rounded border-light-grey border-[1px]"
-              >
-                {tag}
-              </span>
-            ))
-          ) : (
-            <p className="text-light-grey font-nova-square">No tags found.</p>
-          )}
+        <div className="flex justify-end gap-4">
+          <button
+            onClick={handleCancel}
+            className="text-white px-6 py-2 rounded border border-light-grey hover:bg-light-grey/10"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleApply}
+            className="text-dark-purple bg-accent-yellow px-6 py-2 rounded font-semibold"
+          >
+            Apply
+          </button>
         </div>
       </div>
     </div>
@@ -145,8 +199,12 @@ function TagsModal({ isOpen, onClose, tags }) {
 
 TagsModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onClose: PropTypes.func.isRequired,
+  allTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tempSelectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setTempSelectedTags: PropTypes.func.isRequired,
+  applyTags: PropTypes.func.isRequired,
+  resetTempSelectedTags: PropTypes.func.isRequired,
 };
 
 // Curated Content Modal Component
@@ -191,7 +249,18 @@ function CuratedContentModal({
               step="0.01"
               value={curatedValue}
               onChange={handleSliderChange}
-              className="w-full h-[1px] appearance-none bg-accent-yellow"
+              className="w-full h-[2px] appearance-none bg-accent-yellow
+                        [&::-webkit-slider-thumb]:appearance-none 
+                        [&::-webkit-slider-thumb]:w-4 
+                        [&::-webkit-slider-thumb]:h-4 
+                      [&::-webkit-slider-thumb]:bg-accent-yellow 
+                        [&::-webkit-slider-thumb]:rounded-full 
+                        [&::-webkit-slider-thumb]:cursor-pointer 
+                      [&::-moz-range-thumb]:bg-accent-yellow 
+                        [&::-moz-range-thumb]:rounded-full 
+                        [&::-moz-range-thumb]:w-4 
+                        [&::-moz-range-thumb]:h-4 
+                        [&::-moz-range-thumb]:cursor-pointer"
             />
           </div>
 
@@ -214,36 +283,52 @@ CuratedContentModal.propTypes = {
 
 function CommunityPage() {
   const [contentSelection, setContentSelection] = useState("Home");
-  const [selectedTags, setSelectedTags] = useState([]);
 
   // Curated Content Data
   const [curatedValue, setCuratedValue] = useState(0.5); // Float from 0 to 1
   const [curatedModalOpen, setCuratedModalOpen] = useState(false);
 
-  // Tags Data
+  // Tag selection
+  const [sidebarTags, setSidebarTags] = useState([]);
+  const [activeTags, setActiveTags] = useState([]);
+  // Tags for modal before applying
+  const [tempSelectedTags, setTempSelectedTags] = useState([]);
   const [tagsModalOpen, setTagsModalOpen] = useState(false);
 
-  // Toggle tag selection
-  const toggleTag = (tag) => {
-    setSelectedTags((prevTags) => {
-      const tagAlreadySelected = prevTags.includes(tag);
-
-      if (tagAlreadySelected) {
-        // Remove the tag
-        return prevTags.filter((t) => t !== tag);
-      } else {
-        // Add the tag
-        return [...prevTags, tag];
-      }
-    });
+  // Open modal - initialize tempSelectedTags from sidebarTags
+  const openTagsModal = () => {
+    setTempSelectedTags(sidebarTags);
+    setTagsModalOpen(true);
   };
 
-  // Filter content based on selected tags
-  const filteredContent = selectedTags.length
-    ? COMMUNITY_POSTS.filter((item) =>
-        item.tags.some((tag) => selectedTags.includes(tag))
-      )
-    : COMMUNITY_POSTS;
+  // Apply tags from modal to sidebarTags
+  const applyTags = () => {
+    setSidebarTags(tempSelectedTags);
+    // Reset activeTags to only those tags in sidebarTags that are currently active
+    setActiveTags((prevActive) =>
+      prevActive.filter((tag) => tempSelectedTags.includes(tag))
+    );
+  };
+
+  // Cancel modal resets tempSelectedTags to sidebarTags
+  const resetTempSelectedTags = () => {
+    setTempSelectedTags(sidebarTags);
+  };
+
+  // Toggle active tag on sidebar (for filtering)
+  const toggleActiveTag = (tag) => {
+    setActiveTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  // Filter posts based on activeTags; if no activeTags, show all
+  const filteredContent =
+    activeTags.length > 0
+      ? COMMUNITY_POSTS.filter((post) =>
+          post.tags.some((tag) => activeTags.includes(tag))
+        )
+      : COMMUNITY_POSTS;
 
   return (
     <div className="relative flex bg-[#29294C]">
@@ -307,24 +392,30 @@ function CommunityPage() {
             </h3>
             <h3
               className="text-xl text-white font-nova-square font-light mb-2 cursor-pointer hover:text-accent-yellow transition-colors"
-              onClick={() => setTagsModalOpen(true)}
+              onClick={openTagsModal}
             >
               Tags
             </h3>
             <div className="flex flex-wrap gap-2">
-              {TAGS.map((tag) => (
-                <button
-                  key={tag}
-                  className={`px-3 py-1 rounded border ${
-                    selectedTags.includes(tag)
-                      ? "text-accent-yellow border-accent-yellow"
-                      : "text-light-grey border-light-grey"
-                  }`}
-                  onClick={() => toggleTag(tag)}
-                >
-                  {tag}
-                </button>
-              ))}
+              {sidebarTags.length === 0 ? (
+                <p className="text-light-grey font-nova-square font-light">
+                  No Tags Selected
+                </p>
+              ) : (
+                sidebarTags.map((tag) => (
+                  <button
+                    key={tag}
+                    className={`px-3 py-1 rounded border cursor-pointer ${
+                      activeTags.includes(tag)
+                        ? "text-accent-yellow border-accent-yellow"
+                        : "text-light-grey border-light-grey"
+                    }`}
+                    onClick={() => toggleActiveTag(tag)}
+                  >
+                    {tag}
+                  </button>
+                ))
+              )}
             </div>
           </div>
 
@@ -366,7 +457,11 @@ function CommunityPage() {
       <TagsModal
         isOpen={tagsModalOpen}
         onClose={() => setTagsModalOpen(false)}
-        tags={TAGS}
+        allTags={TAGS}
+        tempSelectedTags={tempSelectedTags}
+        setTempSelectedTags={setTempSelectedTags}
+        applyTags={applyTags}
+        resetTempSelectedTags={resetTempSelectedTags}
       />
     </div>
   );
