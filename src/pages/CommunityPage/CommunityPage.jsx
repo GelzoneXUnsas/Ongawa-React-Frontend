@@ -45,8 +45,9 @@ const COMMUNITY_POSTS = [
     dateCreated: "June 12, 2025",
     title: "Celtic Song",
     tags: ["Celtic", "Traditional"],
-    text: "This haunting melody originates from the hills of Ireland and tells the story of a wandering bard. Inspired by ancient Gaelic rhythms and played with a traditional harp. Perfect for a quiet evening or storytelling session.",
+    text: "This haunting melody originates from the hills of Ireland...",
     media: [testImg5, testImg1],
+    cover: testImg1,
   },
   {
     id: 2,
@@ -55,8 +56,9 @@ const COMMUNITY_POSTS = [
     dateCreated: "June 14, 2025",
     title: "Fantasy Chant",
     tags: ["Fantasy", "World"],
-    text: 'An original composition inspired by high fantasy tales and magical worlds. "Voices rise beneath the moons, calling forth the ancients." Features layered harmonies and ambient soundscapes to evoke elven realms.',
+    text: "An original composition inspired by high fantasy tales...",
     media: ["/media/fantasy_chant.mp3", "/Demovid.mp4", testImg1],
+    cover: testImg3,
   },
   {
     id: 3,
@@ -65,8 +67,9 @@ const COMMUNITY_POSTS = [
     dateCreated: "June 15, 2025",
     title: "Harvest Dance",
     tags: ["Folklore", "Traditional"],
-    text: "This rhythmic piece captures the energy of a village's autumn harvest celebration. Instruments include Taiko drums and bamboo flutes. The music is traditionally performed in a circle dance under lanterns.",
+    text: "This rhythmic piece captures the energy of a village's autumn harvest celebration...",
     media: ["/media/harvest_dance.mp4", testImg3, testImg1],
+    cover: testImg2,
   },
   {
     id: 4,
@@ -75,8 +78,9 @@ const COMMUNITY_POSTS = [
     dateCreated: "June 17, 2025",
     title: "Andean Wind Spirits",
     tags: ["World", "Traditional"],
-    text: "A composition based on ancient Andean mountain myths. Uses panpipes, charango, and native drums. Conveys the feeling of wind weaving through mountain passes.",
+    text: "A composition based on ancient Andean mountain myths...",
     media: ["/media/andean_spirits.mp3", testImg3, testImg5],
+    cover: testImg4,
   },
   {
     id: 5,
@@ -85,8 +89,9 @@ const COMMUNITY_POSTS = [
     dateCreated: "June 18, 2025",
     title: "Desert Echoes",
     tags: ["Fantasy", "World"],
-    text: 'An ambient soundscape inspired by mirages and ancient ruins buried in sand. "The wind speaks in forgotten tongues beneath the dunes." Designed for background listening during RPG sessions or meditation.',
+    text: "An ambient soundscape inspired by mirages and ancient ruins...",
     media: ["/media/desert_echoes.mp3", testImg4, testImg5],
+    cover: testImg5,
   },
   {
     id: 6,
@@ -95,8 +100,9 @@ const COMMUNITY_POSTS = [
     dateCreated: "June 19, 2025",
     title: "Reel of the Red Fox",
     tags: ["Celtic", "Folklore"],
-    text: "A fast-paced Irish reel inspired by folklore surrounding the elusive red fox. Fiddle-driven with bodhrán percussion. Often played in local pubs during festival nights.",
+    text: "A fast-paced Irish reel inspired by folklore surrounding the elusive red fox...",
     media: ["/EditorDemo.mp4", testImg2, testImg3],
+    cover: testImg1,
   },
   {
     id: 7,
@@ -105,8 +111,9 @@ const COMMUNITY_POSTS = [
     dateCreated: "June 20, 2025",
     title: "Moonlight over Kyoto",
     tags: ["Traditional", "World"],
-    text: "A slow, elegant koto and shakuhachi duet meant to reflect the serenity of Kyoto's temples at night. Best enjoyed with headphones and soft lighting.",
+    text: "A slow, elegant koto and shakuhachi duet meant to reflect the serenity...",
     media: [testImg1, "/media/kyoto_moonlight.mp3"],
+    cover: testImg2,
   },
 ];
 
@@ -439,6 +446,7 @@ function CommunityPage() {
               tags={item.tags}
               title={item.title}
               text={item.text}
+              cover={item.cover}
               media={item.media}
             />
           ))}
