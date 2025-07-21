@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 
 import { AnimatePresence, motion } from "framer-motion";
 
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+
 import SaveIcon from "../../assets/icons/saveIcon.png";
 import CommentIcon from "../../assets/icons/commentIcon.png";
 import SharePostIcon from "../../assets/icons/sharePostIcon.png";
@@ -28,7 +31,7 @@ const CommunityPost = ({
   text,
   cover,
   media = [],
-  type = "cover",
+  type = "post",
 }) => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
 
@@ -144,11 +147,23 @@ const CommunityPost = ({
                 className="w-full flex justify-center"
               >
                 {isAudio ? (
-                  <img
-                    src={recordPlaceholder}
-                    alt="Audio"
-                    className="w-36 h-36 object-contain rounded"
-                  />
+                  <div className="w-full flex flex-col items-center gap-2">
+                    <img
+                      src={recordPlaceholder}
+                      alt="Audio"
+                      className="w-36 h-36 object-contain rounded"
+                    />
+                    <div className="w-[80%] max-w-[42rem] mt-4">
+                      <AudioPlayer
+                        className="rounded-3xl"
+                        src={currentMediaUrl}
+                        onPlay={() => console.log("Playing audio")}
+                        showJumpControls={false}
+                        layout="horizontal"
+                        customAdditionalControls={[]}
+                      />
+                    </div>
+                  </div>
                 ) : isVideo ? (
                   <video
                     key={currentMediaUrl}
