@@ -1,21 +1,45 @@
-import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 const schema = a.schema({
-  Todo: a.model({
-      content: a.string(),
-      isDone: a.boolean()
-    })
-    .authorization(allow => [allow.publicApiKey()])
+  Post: a.customType({
+    id: a.id().required(),
+    Artist_name: a.string().required(),
+    albumID: a.integer(),
+    albumName: a.string(),
+    albumNameUnicode: a.string(),
+    ArtistUnicode: a.string(),
+    beatmapLink: a.customType({
+      approachRate: a.integer(),
+      difficulty: a.string(),
+      difficultyUnicode: a.string(),
+      hp: a.integer(),
+      noteCount: a.integer(),
+      rating: a.integer(),
+      sliderCount: a.integer()
+    }),
+    beatmap_artist: a.string(),
+    bpm: a.integer(),
+    description: a.string(),
+    mp3Path: a.string(),
+    releaseDate: a.string(),
+    songCoverImg: a.string(),
+    songDuration: a.integer(),
+    Source: a.string(),
+    Tags: a.string().array(),
+    Title: a.string(),
+    TitleUnicode: a.string(),
+    Version: a.string(),
+  }),
 });
 
-// Used for code completion / highlighting when making requests from frontend
 export type Schema = ClientSchema<typeof schema>;
 
-// defines the data resource to be deployed
 export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'apiKey',
-    apiKeyAuthorizationMode: { expiresInDays: 30 }
-  }
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
+  },
 });
