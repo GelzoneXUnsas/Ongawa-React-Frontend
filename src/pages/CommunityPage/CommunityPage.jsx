@@ -436,7 +436,34 @@ function CommunityPage() {
       {/* Main Content */}
       <div className="w-full lg:w-4/5 min-h-screen">
         <h2 className="text-xl font-bold mb-4">Community Posts</h2>
-        <div className="flex flex-col m-12 gap-12">
+        {/* Toggle: Home / Following */}
+        <div className="flex justify-between px-12 mt-12 md:hidden">
+          {["Home", "Following"].map((option) => {
+            const isSelected = contentSelection === option;
+            return (
+              <button
+                key={option}
+                className={`flex gap-4 px-2 py-1 text-left font-nova-square text-lg ${
+                  isSelected ? "text-accent-yellow" : "text-light-grey"
+                }`}
+                onClick={() => {
+                  if (!isSelected) setContentSelection(option);
+                }}
+              >
+                <span
+                  className={` mr-8 ${
+                    isSelected
+                      ? "w-full border-accent-yellow border-b-[1px]"
+                      : undefined
+                  }`}
+                >
+                  {option}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="flex flex-col m-6 md:m-12 gap-12">
           {filteredContent.map((item) => (
             <CommunityPost
               key={item.id}
