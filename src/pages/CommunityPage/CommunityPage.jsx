@@ -6,6 +6,7 @@ import CommunityPost from "../../components/CommunityPost/CommunityPost";
 
 import geoBg from "../../assets/images/backgrounds/geo_bg.png";
 import recordIcon from "../../assets/icons/recordYellowIcon.svg";
+import rightArrowIcon from "../../assets/icons/rightArrowIcon.png";
 
 // Test images
 import testImg1 from "../../assets/images/test/1-1_Test_Image.png";
@@ -436,32 +437,40 @@ function CommunityPage() {
       {/* Main Content */}
       <div className="w-full lg:w-4/5 min-h-screen">
         <h2 className="text-xl font-bold mb-4">Community Posts</h2>
-        {/* Toggle: Home / Following */}
-        <div className="flex justify-between px-12 mt-12 md:hidden">
-          {["Home", "Following"].map((option) => {
-            const isSelected = contentSelection === option;
-            return (
-              <button
-                key={option}
-                className={`flex gap-4 px-2 py-1 text-left font-nova-square text-lg ${
-                  isSelected ? "text-accent-yellow" : "text-light-grey"
-                }`}
-                onClick={() => {
-                  if (!isSelected) setContentSelection(option);
-                }}
-              >
-                <span
-                  className={` mr-8 ${
-                    isSelected
-                      ? "w-full border-accent-yellow border-b-[1px]"
-                      : undefined
+        {/* Small Screen Sizes Filtering */}
+        <div className="flex justify-between px-12 mt-12 lg:hidden">
+          {/* Toggle: Home / Following */}
+          <div className="flex">
+            {["Home", "Following"].map((option) => {
+              const isSelected = contentSelection === option;
+              return (
+                <button
+                  key={option}
+                  className={`flex gap-4 px-2 py-1 text-left font-nova-square text-lg ${
+                    isSelected ? "text-accent-yellow" : "text-light-grey"
                   }`}
+                  onClick={() => {
+                    if (!isSelected) setContentSelection(option);
+                  }}
                 >
-                  {option}
-                </span>
-              </button>
-            );
-          })}
+                  <span
+                    className={` mr-8 ${
+                      isSelected
+                        ? "w-full border-accent-yellow border-b-[1px]"
+                        : undefined
+                    }`}
+                  >
+                    {option}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          {/* Filter Dropdown */}
+          <div className="flex items-center gap-3 bg-[#555589]/30 p-1 px-3 rounded-lg">
+            <p className="m-0 font-nova-square text-light-grey">Filter</p>
+            <img className="w-2 rotate-90" src={rightArrowIcon} />
+          </div>
         </div>
         <div className="flex flex-col m-6 md:m-12 gap-12">
           {filteredContent.map((item) => (
