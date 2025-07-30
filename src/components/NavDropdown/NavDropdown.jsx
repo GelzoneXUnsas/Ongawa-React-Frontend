@@ -48,6 +48,13 @@ const NavDropdown = ({
               Musicians
             </Link>
             <Link
+              to="/worlds"
+              onClick={() => closeMobileMenu()}
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+            >
+              Worlds
+            </Link>
+            <Link
               to="/gallery"
               onClick={() => closeMobileMenu()}
               className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"

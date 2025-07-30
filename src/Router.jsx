@@ -17,6 +17,8 @@ import ComingSoonPage from "./pages/ComingSoonPage/ComingSoonPage";
 import Login from "./pages/Auth/Login";
 import { AuthProvider } from "./contexts/authContext";
 import Register from "./pages/Auth/Register";
+import WorldsPage from "./pages/WorldsPage/WorldsPage";
+import WorldPage from "./pages/WorldPage/WorldPage";
 
 function Router() {
   const [muted, setMuted] = useState(false);
@@ -29,11 +31,13 @@ function Router() {
         {/* <div className='no-scrollbar overflow-y-auto'> */}
         <Routes>
           <Route path="/" element={<Homepage muted={muted} />} />
-          <Route path="gallery" element={<GalleryPage />} />
-          <Route path="beatmaplisting" element={<BeatmapListingPage />} />
           <Route path="musicianlisting" element={<MusicanListingPage />} />
           <Route path="musician" element={<MusicianPage />} />
+          <Route path="worlds" element={<WorldsPage />} />
+          <Route path="worlds/:id" element={<WorldPage />} />
+          <Route path="beatmaplisting" element={<BeatmapListingPage />} />
           <Route path="beatmaplisting/:id" element={<BeatmapPage />} />
+          <Route path="gallery" element={<GalleryPage />} />
           <Route path="community" element={<ComingSoonPage />} />
           <Route path="comingsoon" element={<ComingSoonPage />} />
           <Route path="login" element={<Login />} />
