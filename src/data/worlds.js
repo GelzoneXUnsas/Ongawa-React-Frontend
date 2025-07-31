@@ -1,8 +1,8 @@
 import world1 from "../assets/images/worlds/world1.png";
 import cover1 from "../assets/images/musicCovers/celticwhispersballadHD.png";
 import cover3 from "../assets/images/musicCovers/celestialechoesHD.png";
-import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
-import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
+import artist1Image from "../assets/images/featuredArtists/artist1.jpg";
+import artist2Image from "../assets/images/featuredArtists/artist2.jpg";
 
 // discography could later just be an array of beatmap or song ids that artist wants in this world. depends on database structure
 export const worlds = [
@@ -101,7 +101,7 @@ export const worlds = [
     createdAt: "2025-01-15T14:30:00Z"
   },
   {
-    id: 1,
+    id: 2,
     title: "Serenity",
     image: world1,
     artist: "Celestial Harmonics",
