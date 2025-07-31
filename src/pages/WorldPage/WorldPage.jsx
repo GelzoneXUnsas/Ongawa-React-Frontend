@@ -55,7 +55,7 @@ export default function BeatmapPage() {
         <span
           role="button"
           onClick={handleBack}
-          className="absolute top-14 left-14 flex items-center text-lg font-medium font-mukta-mahee cursor-pointer"
+          className="absolute top-6 left-6 md:top-14 md:left-14 flex items-center text-lg font-medium font-mukta-mahee cursor-pointer"
         >
           <span className="bg-black/50 px-[10px] py-[6px] rounded-[5px] text-yellow-accent">◄ Back</span>
         </span>
@@ -69,7 +69,7 @@ export default function BeatmapPage() {
           <h1 className="text-4xl mb-2 font-nova-square font-medium text-white">{world.title}</h1>
 
           {/* Artist Info */}
-          <div className="flex flex-col gap-8 md:px-8">
+          <div className="flex flex-col gap-8 md:px-10">
             {/* Artist name and image */}
             <div className="flex items-center gap-2 mb-1">
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center overflow-hidden">
@@ -90,6 +90,33 @@ export default function BeatmapPage() {
 
 
         {/* Discography Section */}
+        <section className="mt-6">
+          <h2 className="text-3xl font-nova-square font-medium mb-6 text-white">Discography</h2>
+
+          {/* Beatmaps List */}
+          <div className="flex flex-col gap-6 md:px-10">
+            {world.discography.map((track, index) => (
+              <div
+                key={index}
+                className="flex rounded-xl gap-4 items-center hover:scale-[1.01] transition-transform duration-300"
+              >
+                {/* Album Cover */}
+                <img
+                  src={track.image}
+                  alt={track.title}
+                  className="w-24 h-24 object-cover rounded-md"
+                />
+
+                {/* Text Info */}
+                <div className="flex flex-col justify-center gap-1">
+                  <h3 className="text-xl font-nova-square text-white font-light m-0">{track.title}</h3>
+                  <p className="text-gray-300 font-roboto text-sm m-0">{track.artist}</p>
+                  <p className="text-gray-300 font-roboto text-sm m-0">Mapped: {track.mappedBy}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* Musician Notes Section */}
       </div>
