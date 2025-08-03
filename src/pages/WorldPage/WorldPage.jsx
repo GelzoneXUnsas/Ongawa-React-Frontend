@@ -68,9 +68,9 @@ export default function BeatmapPage() {
         <section className="flex flex-col gap-6">
           <h1 className="text-4xl mb-2 font-nova-square font-medium text-white">{world.title}</h1>
 
-          {/* Artist Info */}
+          {/* Musician Info */}
           <div className="flex flex-col gap-8 md:px-10">
-            {/* Artist name and image */}
+            {/* Musician name and image */}
             <div className="flex items-center gap-2 mb-1">
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center overflow-hidden">
                 <img
@@ -82,6 +82,7 @@ export default function BeatmapPage() {
               <span className="text-gray-300 font-nova-square">{world.artist}</span>
             </div>
             
+            {/* Musician Bio */}
             <div>
               <p className="text-gray-300 leading-relaxed font-roboto">{world.artistBio}</p>
             </div>
@@ -119,6 +120,28 @@ export default function BeatmapPage() {
         </section>
 
         {/* Musician Notes Section */}
+        <section className="flex flex-col gap-6 my-6">
+          <h3 className="text-4xl mb-2 font-nova-square font-medium text-white">From the Musician</h3>
+
+          {/* Musician Remarks */}
+          <div className="md:flex md:gap-8 md:px-10 items-start">
+            {/* Musician image */}
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-24 md:w-36 bg-blue-600 rounded-xl flex overflow-hidden float-left mr-4 mb-2">
+                <img
+                  src={world.artistImage}
+                  alt={world.artist}
+                  className="w-full h-full object-cover"
+                  />
+              </div>
+            </div>
+            
+            {/* Musician words */}
+            <div>
+              <p className="text-gray-300 leading-relaxed font-roboto">{world.artistQuote}</p>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
