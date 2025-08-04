@@ -31,7 +31,7 @@ const CommunityPost = ({
   text,
   cover,
   media = [],
-  type = "cover",
+  type = "post",
 }) => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
 
@@ -124,7 +124,7 @@ const CommunityPost = ({
               <button
                 onClick={goToPrevMedia}
                 disabled={currentMediaIndex === 0}
-                className={`absolute left-0 z-10 ${
+                className={`absolute left-2 z-20 p-2 md:p-3 bg-black/30 rounded-full ${
                   currentMediaIndex === 0
                     ? "opacity-30 cursor-default"
                     : "hover:opacity-100"
@@ -133,7 +133,7 @@ const CommunityPost = ({
                 <img
                   src={leftArrowIcon}
                   alt="Previous"
-                  className="h-10 w-auto"
+                  className="h-3 w-3 md:h-4 md:w-4"
                 />
               </button>
             )}
@@ -159,26 +159,38 @@ const CommunityPost = ({
                       <AudioPlayer
                         className="rounded-3xl"
                         src={currentMediaUrl}
-                        onPlay={() => console.log("Playing audio")}
                         showJumpControls={false}
                         layout="horizontal"
                         customAdditionalControls={[]}
                       />
                     </div>
                   </div>
-                ) : isVideo ? (
-                  <video
-                    key={currentMediaUrl}
-                    src={currentMediaUrl}
-                    controls
-                    className="max-h-52 w-auto rounded"
-                  />
                 ) : (
-                  <img
-                    src={currentMediaUrl}
-                    alt={`Media ${currentMediaIndex + 1}`}
-                    className="max-h-52 w-auto object-contain rounded"
-                  />
+                  <div className="relative w-full max-w-2xl aspect-[16/9] overflow-hidden rounded">
+                    {/* Blurred background */}
+                    <img
+                      src={currentMediaUrl}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover blur-md scale-110 brightness-75"
+                      aria-hidden="true"
+                    />
+
+                    {/* Foreground media */}
+                    {isVideo ? (
+                      <video
+                        key={currentMediaUrl}
+                        src={currentMediaUrl}
+                        controls
+                        className="absolute inset-0 w-full h-full object-contain z-10"
+                      />
+                    ) : (
+                      <img
+                        src={currentMediaUrl}
+                        alt={`Media ${currentMediaIndex + 1}`}
+                        className="absolute inset-0 w-full h-full object-contain z-10"
+                      />
+                    )}
+                  </div>
                 )}
               </motion.div>
             </AnimatePresence>
@@ -187,13 +199,17 @@ const CommunityPost = ({
               <button
                 onClick={goToNextMedia}
                 disabled={currentMediaIndex === media.length - 1}
-                className={`absolute right-0 z-10 ${
+                className={`absolute right-2 z-20 p-2 md:p-3 bg-black/30 rounded-full ${
                   currentMediaIndex === media.length - 1
                     ? "opacity-30 cursor-default"
                     : "hover:opacity-100"
                 }`}
               >
-                <img src={rightArrowIcon} alt="Next" className="h-10 w-auto" />
+                <img
+                  src={rightArrowIcon}
+                  alt="Next"
+                  className="h-3 w-3 md:h-4 md:w-4"
+                />
               </button>
             )}
           </>
