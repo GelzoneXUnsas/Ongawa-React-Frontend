@@ -12,6 +12,7 @@ import BeatmapListingPage from "./pages/BeatmapListingPage/BeatmapListingPage";
 import BeatmapPage from "./pages/BeatmapPage/BeatmapPage";
 // eslint-disable-next-line no-unused-vars
 import CommunityPage from "./pages/CommunityPage/CommunityPage";
+import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 import ComingSoonPage from "./pages/ComingSoonPage/ComingSoonPage";
 
 import Login from "./pages/Auth/Login";
@@ -34,10 +35,10 @@ function Router() {
           <Route path="musicianlisting" element={<MusicanListingPage />} />
           <Route path="musician" element={<MusicianPage />} />
           <Route path="community" element={<CommunityPage />} />
-          {/* <Route path="/community/:id" element={<CommunityPostPage />} />
-          <Route path="/community/new" element={<CreatePostPage />} /> */}
+          {/* <Route path="/community/:id" element={<CommunityPostPage />} /> */}
+          <Route path="/community/new" element={<CreatePostPage />} />
           <Route path="beatmaplisting/:id" element={<BeatmapPage />} />
-          <Route path="comingsoon" element={<ComingSoonPage />} />
+          <Route path="comingsoon" elem0ent={<ComingSoonPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="*" element={<Navigate to="/" />} />

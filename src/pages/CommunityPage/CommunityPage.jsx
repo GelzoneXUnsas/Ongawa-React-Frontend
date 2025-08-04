@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import CommunityPost from "../../components/CommunityPost/CommunityPost";
 import SocialFilterModal from "../../components/SocialFilterModal/SocialFilterModal";
@@ -118,6 +119,7 @@ const COMMUNITY_POSTS = [
 ];
 
 function CommunityPage() {
+  const navigate = useNavigate();
   const [contentSelection, setContentSelection] = useState("Home");
 
   // Filter State
@@ -279,7 +281,10 @@ function CommunityPage() {
           </div>
 
           {/* Post Button */}
-          <button className="mt-6 ml-4 text-dark-purple text-xl font-semibold bg-accent-yellow px-12 py-2 rounded-lg">
+          <button
+            className="mt-6 ml-4 text-dark-purple text-xl font-semibold bg-accent-yellow px-12 py-2 rounded-lg"
+            onClick={() => navigate("/community/new")}
+          >
             Post
           </button>
         </div>
@@ -334,7 +339,10 @@ function CommunityPage() {
               />
             </button>
             {/* Mobile Post Button */}
-            <button className="p-2 px-4 text-dark-purple font-nova-square bg-accent-yellow rounded-lg">
+            <button
+              className="p-2 px-4 text-dark-purple font-nova-square bg-accent-yellow rounded-lg"
+              onClick={() => navigate("/community/new")}
+            >
               Post
             </button>
           </div>
