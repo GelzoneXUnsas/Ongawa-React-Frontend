@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import igIcon from "../../assets/icons/instagramIcon.svg";
 import xIcon from "../../assets/icons/xIcon.svg";
@@ -9,6 +10,7 @@ import { musicians } from "../../data/musicians";
 export default function MusicianPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [expandedAlbums, setExpandedAlbums] = useState(new Set());
 
   const musician = musicians.find((m) => m.id === parseInt(id));
 
@@ -18,6 +20,16 @@ export default function MusicianPage() {
 
   const handleSongClick = (beatmapId) => {
     navigate(`/beatmaplisting/${beatmapId}`);
+  };
+
+  const toggleAlbum = (albumIndex) => {
+    const newExpanded = new Set(expandedAlbums);
+    if (newExpanded.has(albumIndex)) {
+      newExpanded.delete(albumIndex);
+    } else {
+      newExpanded.add(albumIndex);
+    }
+    setExpandedAlbums(newExpanded);
   };
 
   if (!musician) {
@@ -128,51 +140,143 @@ export default function MusicianPage() {
               This musician has no albums yet.
             </div>
           ) : (
-            <div className="space-y-12">
+            <div className="space-y-6 md:space-y-12">
               {musician.albums.map((album, albumIndex) => (
-                <div
-                  key={albumIndex}
-                  className="flex gap-4 md:gap-6 rounded-xl"
-                  // style={{ backgroundColor: "rgba(128, 128, 128, 0.15)" }}
-                >
-                  {/* Album Art */}
-                  <div className="w-28 h-28 md:w-56 md:h-56 rounded-xl overflow-hidden flex-shrink-0">
-                    <img
-                      src={album.albumArt}
-                      alt={album.albumTitle}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Right Content: Info + Tracklist */}
-                  <div className="flex-1 flex flex-col overflow-hidden">
-                    {/* Album Info */}
-                    <div className="mb-2">
-                      <h3 className="text-white text-lg md:text-xl font-semibold mb-1 mt-0">
-                        {album.albumTitle}
-                      </h3>
-                      <div className="text-xs text-gray-400 font-overpass-mono mb-1">
-                        {album.releaseDate}
+                <div key={albumIndex} className="rounded-xl">
+                  {/* Mobile View with Dropdown */}
+                  <div className="md:hidden">
+                    {/* Album Header */}
+                    <div className="flex gap-4 items-start">
+                      {/* Album Art */}
+                      <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+                        <img
+                          src={album.albumArt}
+                          alt={album.albumTitle}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                      <div className="text-xs text-gray-400 font-overpass-mono">
-                        Total Playtime: {album.totalPlaytime}
+
+                      {/* Album Info */}
+                      <div className="flex-1 flex flex-col">
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <h3 className="text-white text-lg font-semibold mb-1 mt-0">
+                              {album.albumTitle}
+                            </h3>
+                            <div className="text-xs text-gray-400 font-overpass-mono mb-1">
+                              {album.releaseDate}
+                            </div>
+                            <div className="text-xs text-gray-400 font-overpass-mono">
+                              Mapped: {musician.musicianName}
+                            </div>
+                          </div>
+
+                          {/* Dropdown Arrow - Mobile Only */}
+                          <button
+                            onClick={() => toggleAlbum(albumIndex)}
+                            className="ml-4 p-2 text-white hover:text-gray-300 transition-colors"
+                          >
+                            {/* <svg
+                              className={`w-4 h-4 transform transition-transform ${
+                                expandedAlbums.has(albumIndex) ? 'rotate-180' : ''
+                              }`}
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 9l-7 7-7-7"
+                              />
+                            </svg> */}
+                            <div
+                              className={`w-0 h-0 transform transition-transform ${
+                                expandedAlbums.has(albumIndex)
+                                  ? "rotate-180"
+                                  : ""
+                              }`}
+                              style={{
+                                borderLeft: "10px solid transparent",
+                                borderRight: "10px solid transparent",
+                                borderTop: "10px solid white",
+                              }}
+                            />
+                          </button>
+                        </div>
+
+                        {/* Expandable Track List - Mobile (Right under album info) */}
+                        {expandedAlbums.has(albumIndex) && (
+                          <div className="mt-4">
+                            {/* <div className="w-full h-px bg-[#4A4667] mb-2"></div> */}
+                            <div className="overflow-y-auto max-h-32 pr-4">
+                              <div className="space-y-1">
+                                {album.tracks.map((track, trackIndex) => (
+                                  <div
+                                    key={trackIndex}
+                                    className="flex items-center justify-between py-2 text-sm text-white cursor-pointer"
+                                    onClick={() =>
+                                      handleSongClick(track.beatmapId)
+                                    }
+                                  >
+                                    <span className="text-gray-300">
+                                      {track.name}
+                                    </span>
+                                    <span className="text-gray-400">
+                                      {track.duration}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <div className="w-full h-px bg-[#4A4667] my-1"></div>
-                    {/* Scrollable Track List */}
-                    <div className="overflow-y-auto max-h-24 md:max-h-32 pr-4 mt-2">
-                      {album.tracks.map((track, trackIndex) => (
-                        <div
-                          key={trackIndex}
-                          className="flex items-center justify-between py-2 md:px-2 text-sm text-white cursor-pointer hover:bg-[#4A4667] rounded-md transition-colors"
-                          onClick={() => handleSongClick(track.beatmapId)}
-                        >
-                          <span className="text-gray-300">{track.name}</span>
-                          <span className="text-gray-400">
-                            {track.duration}
-                          </span>
+                  </div>
+
+                  {/* Desktop View - Always Expanded */}
+                  <div className="hidden md:flex gap-6 rounded-xl">
+                    {/* Album Art */}
+                    <div className="w-56 h-56 rounded-xl overflow-hidden flex-shrink-0">
+                      <img
+                        src={album.albumArt}
+                        alt={album.albumTitle}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Right Content: Info + Tracklist */}
+                    <div className="flex-1 flex flex-col overflow-hidden">
+                      {/* Album Info */}
+                      <div className="mb-2">
+                        <h3 className="text-white text-xl font-semibold mb-1 mt-0">
+                          {album.albumTitle}
+                        </h3>
+                        <div className="text-xs text-gray-400 font-overpass-mono mb-1">
+                          {album.releaseDate}
                         </div>
-                      ))}
+                        <div className="text-xs text-gray-400 font-overpass-mono">
+                          Total Playtime: {album.totalPlaytime}
+                        </div>
+                      </div>
+                      <div className="w-full h-px bg-[#4A4667] my-1"></div>
+                      {/* Scrollable Track List */}
+                      <div className="overflow-y-auto max-h-32 pr-4 mt-2">
+                        {album.tracks.map((track, trackIndex) => (
+                          <div
+                            key={trackIndex}
+                            className="flex items-center justify-between py-2 px-2 text-sm text-white cursor-pointer hover:bg-[#4A4667] rounded-md transition-colors"
+                            onClick={() => handleSongClick(track.beatmapId)}
+                          >
+                            <span className="text-gray-300">{track.name}</span>
+                            <span className="text-gray-400">
+                              {track.duration}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

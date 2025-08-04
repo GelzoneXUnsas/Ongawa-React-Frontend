@@ -258,6 +258,7 @@ export default function MusicianListingPage() {
 
   return (
     <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
+      <h2 className="mt-2 text-white md:mx-4">Musicians</h2>
       {/* Desktop Search - Hidden on Mobile */}
       <div className="hidden md:flex items-center mb-6">
         <div
@@ -277,7 +278,7 @@ export default function MusicianListingPage() {
           >
             <input
               type="text"
-              placeholder="Search ..."
+              placeholder="Search for musicians"
               className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg h-full"
               style={{ border: "none" }} // to override styling in index.css (temporary)
               value={searchInput}
@@ -330,7 +331,7 @@ export default function MusicianListingPage() {
         <div className="bg-light-purple bg-opacity-50 rounded-lg h-10 relative">
           <input
             type="text"
-            placeholder="Search musicians..."
+            placeholder="Search for musicians"
             className="text-white border-none w-full h-full rounded focus:ring-0 px-4 py-2"
             style={{ border: "none" }}
             value={searchInput}
@@ -354,7 +355,7 @@ export default function MusicianListingPage() {
       </div>
 
       {/* Filtering Options Section - Desktop & Mobile */}
-      <div className="mb-6 md:mx-4">
+      <div className="mb-6 md:mx-4 mr-2">
         {/* Desktop Layout - Single Row */}
         <div className="hidden md:flex flex-wrap items-center gap-3">
           {/* Sort Button */}
@@ -578,7 +579,7 @@ export default function MusicianListingPage() {
           >
             {/* Main content that slides */}
             <div
-              className="flex items-start gap-3 p-1 bg-beatmaps-background transition-transform duration-300 ease-out"
+              className="flex items-start gap-3 p-1 bg-beatmaps-background transition-transform duration-300 ease-out cursor-pointer"
               // style={{ transform: getTransformValue(index) }}
               // onClick={() => {
               //   // Only navigate if not swiping
@@ -586,6 +587,7 @@ export default function MusicianListingPage() {
               //     handleMusicianClick(musician.id);
               //   }
               // }}
+              onClick={() => handleMusicianClick(musician.id)}
             >
               <img
                 src={musician.artistImg}

@@ -32,7 +32,7 @@ function Router() {
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="beatmaplisting" element={<BeatmapListingPage />} />
           <Route path="musicianlisting" element={<MusicanListingPage />} />
-          <Route path="musician" element={<MusicianPage />} />
+          <Route path="musician/:id" element={<MusicianPage />} />
           <Route path="beatmaplisting/:id" element={<BeatmapPage />} />
           <Route path="community" element={<ComingSoonPage />} />
           <Route path="comingsoon" element={<ComingSoonPage />} />
