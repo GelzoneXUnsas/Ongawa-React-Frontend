@@ -91,7 +91,7 @@ export default function BeatmapPage() {
 
 
         {/* Discography Section */}
-        <section className="mt-6">
+        <section className="my-6">
           <h2 className="text-3xl font-nova-square font-medium mb-6 text-white">Discography</h2>
 
           {/* Beatmaps List */}
@@ -114,6 +114,13 @@ export default function BeatmapPage() {
                   <p className="text-gray-300 font-roboto text-sm m-0">{track.artist}</p>
                   <p className="text-gray-300 font-roboto text-sm m-0">Mapped: {track.mappedBy}</p>
                 </div>
+
+
+                {/* Difficulty range */}
+
+                {/* HP drain */}
+
+                {/* Duration and BPM */}
               </div>
             ))}
           </div>
@@ -121,23 +128,21 @@ export default function BeatmapPage() {
 
         {/* Musician Notes Section */}
         <section className="flex flex-col gap-6 my-6">
-          <h3 className="text-4xl mb-2 font-nova-square font-medium text-white">From the Musician</h3>
+          <h3 className="text-3xl mb-2 font-nova-square font-medium text-white">From the Musician</h3>
 
           {/* Musician Remarks */}
           <div className="md:flex md:gap-8 md:px-10 items-start">
             {/* Musician image */}
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-24 md:w-36 bg-blue-600 rounded-xl flex overflow-hidden float-left mr-4 mb-2">
-                <img
-                  src={world.artistImage}
-                  alt={world.artist}
-                  className="w-full h-full object-cover"
-                  />
-              </div>
+            <div className="w-32 md:w-36 bg-blue-600 rounded-xl flex overflow-hidden float-left md:float-none mr-4 md:mr-0 my-2 flex-shrink-0">
+              <img
+                src={world.artistImage}
+                alt={world.artist}
+                className="w-full h-full object-cover"
+                />
             </div>
             
             {/* Musician words */}
-            <div>
+            <div className="flex-1">
               <p className="text-gray-300 leading-relaxed font-roboto">{world.artistQuote}</p>
             </div>
           </div>
