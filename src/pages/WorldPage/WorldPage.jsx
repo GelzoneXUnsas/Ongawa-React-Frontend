@@ -121,6 +121,8 @@ export default function BeatmapPage() {
                 {/* HP drain */}
 
                 {/* Duration and BPM */}
+
+                
               </div>
             ))}
           </div>
