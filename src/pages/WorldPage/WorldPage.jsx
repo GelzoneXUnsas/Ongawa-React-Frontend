@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+import clockIcon from "../../assets/icons/clockIcon.svg";
+import bpmIcon from "../../assets/icons/bpmIcon.svg";
+import ellipseIcon from "../../assets/icons/ellipse.svg";
+import redRectangleIcon from "../../assets/icons/rectangleRed.png";
+import greenRectangleIcon from "../../assets/icons/rectangleGreen.png";
+
 import { worlds } from "../../data/worlds";
 
 export default function BeatmapPage() {
@@ -99,29 +105,57 @@ export default function BeatmapPage() {
             {world.discography.map((track, index) => (
               <div
                 key={index}
-                className="flex rounded-xl gap-4 items-center hover:scale-[1.01] transition-transform duration-300"
+                className="flex rounded-xl gap-4 items-center justify-between hover:scale-[1.01] transition-transform duration-300"
               >
-                {/* Album Cover */}
-                <img
-                  src={track.image}
-                  alt={track.title}
-                  className="w-24 h-24 object-cover rounded-md"
-                />
+                <div className="flex gap-4"> 
+                  {/* Album Cover */}
+                  <img
+                    src={track.image}
+                    alt={track.title}
+                    className="w-24 h-24 object-cover rounded-md"
+                  />
 
-                {/* Text Info */}
-                <div className="flex flex-col justify-center gap-1">
-                  <h3 className="text-xl font-nova-square text-white font-light m-0">{track.title}</h3>
-                  <p className="text-gray-300 font-roboto text-sm m-0">{track.artist}</p>
-                  <p className="text-gray-300 font-roboto text-sm m-0">Mapped: {track.mappedBy}</p>
+                  {/* Text Info */}
+                  <div className="flex flex-col justify-center gap-1">
+                    <h3 className="text-xl font-nova-square text-white font-light m-0">{track.title}</h3>
+                    <p className="text-gray-300 font-roboto text-sm m-0">{track.artist}</p>
+                    <p className="text-gray-300 font-roboto text-sm m-0">Mapped: {track.mappedBy}</p>
+                  </div>
                 </div>
 
 
                 {/* Difficulty range */}
+                <div className="hidden md:flex items-center gap-2">
+                  <div className="flex items-center gap-1">
+                    <img src={greenRectangleIcon} alt="Duration" className="w-2" />
+                    <span>{track.difficulties.easy.level}</span>
+                  </div>
+                  -
+                  <div className="flex items-center gap-1">
+                    <img src={redRectangleIcon} alt="Duration" className="w-2" />
+                    <span>{track.difficulties.hard.level}</span>
+                  </div>
+                </div>
+
 
                 {/* HP drain */}
+                <div className="hidden md:flex items-center gap-2">
+                  <img src={ellipseIcon} alt="Duration" className="w-5" />
+                  {/* this part needs to be thought out. do we want an average hpDrain from all difficulties or a range? */}
+                  <span>{track.difficulties.easy.hpDrain}</span>
+                </div>
 
                 {/* Duration and BPM */}
-
+                <div className="hidden md:flex items-center gap-4">
+                  <div className="flex items-center gap-1">
+                    <img src={clockIcon} alt="Duration" className="w-5 h-5" />
+                    <span>{track.duration}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <img src={bpmIcon} alt="BPM" className="w-7 h-7" />
+                    <span>{track.bpm}</span>
+                  </div>
+                </div>
                 
               </div>
             ))}
