@@ -7,6 +7,7 @@ import heartIcon from "../../assets/icons/heartIcon-white.svg";
 import playIcon from "../../assets/icons/playIcon-white.svg";
 import timeIcon from "../../assets/icons/timeIcon.svg"
 import ellipseIcon from "../../assets/icons/ellipse.svg"
+import clockIcon from "../../assets/icons/clockIcon.svg";
 import { worlds } from "../../data/worlds";
 
 import DifficultyDropdown from '../../components/DifficultyDropdown/DifficultyDropdown';
@@ -39,12 +40,31 @@ export default function WorldsPage() {
   const [sortDirection, setSortDirection] = useState("ascending");
 
   // optimization solution to calculating the total number of plays the world has based on plays of its discography
-  const enrichedWorlds = worlds.map(world => ({
+  const enrichedWorlds = worlds.map(world => {
+    const totalPlays = world.discography
+      ? world.discography.reduce((sum, item) => sum + (item.plays || 0), 0)
+      : 0;
+
+    const totalBeatmaps = world.discography ? world.discography.length : 0;
+
+    const totalDurationSeconds = world.discography
+      ? world.discography.reduce((sum, item) => {
+          if (!item.duration) return sum;
+          const [minutes, seconds] = item.duration.split(":").map(Number);
+          return sum + (minutes * 60 + seconds);
+        }, 0)
+      : 0;
+
+    // Convert back to MM:SS format
+    const totalDuration = `${Math.floor(totalDurationSeconds / 60)}:${String(totalDurationSeconds % 60).padStart(2, "0")}`;
+
+    return {
       ...world,
-      totalPlays: world.discography
-        ? world.discography.reduce((sum, item) => sum + (item.plays || 0), 0)
-        : 0,
-    }));
+      totalPlays,
+      totalBeatmaps,
+      totalDuration, // now stored as "MM:SS"
+    };
+  });
 
   const searchFilteredWorlds = enrichedWorlds.filter((b) =>
     b.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -558,12 +578,21 @@ export default function WorldsPage() {
             <p className="text-lg font-semibold mb-2 text-white font-overpass-mono">{world.title}</p>
             <p className="text-sm text-gray-400 mb-2 font-overpass-mono">{world.artist}</p>
             {hoveredWorld === index && (
-              <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+              <div className="absolute bottom-2 left-4 right-4 flex justify-between items-center">
                 {/* Difficulty Indicator */}
-                <div className="flex items-center gap-2">
-                  <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
-                  <DifficultyIndicator />
+                <div className="flex items-center gap-4">
+                  
+                  <div className="flex items-center gap-1">
+                    <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
+                    <span className="text-xs">{world.totalBeatmaps}</span>
+                  </div>
+
+                  <div className="flex items-center gap-1">
+                    <img src={clockIcon} alt="Duration" className="w-4 h-4" />
+                    <span className="text-xs">{world.totalDuration}</span>
+                  </div>
                 </div>
+                
 
                 {/* Likes and Plays */}
                 <div className="flex items-center gap-4">
