@@ -78,6 +78,10 @@ export default {
       animation: {
         merge_left: "merge_left 7s infinite",
         merge_right: "merge_right 7s infinite",
+        "slide-up": "slide-up 0.25s ease-out",
+        "slide-down": "slide-down 0.25s ease-out",
+        "fade-in": "fade-in 0.25s ease-out",
+        "fade-out": "fade-out 0.25s ease-out",
       },
 
       keyframes: {
@@ -107,6 +111,26 @@ export default {
           "100%": {
             transform: "translate(0px, 0px) scale(1)",
           },
+        },
+
+        "slide-up": {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+
+        "slide-down": {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(100%)" },
+        },
+
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+
+        "fade-out": {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
         },
       },
 

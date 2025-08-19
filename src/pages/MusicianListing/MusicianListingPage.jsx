@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import searchIcon from "../../assets/icons/searchIcon.svg";
 import closeIcon from "../../assets/icons/closeNavDropdown.png";
 import timeIcon from "../../assets/icons/timeIcon.svg";
+import filterIcon from "../../assets/icons/filterIcon.svg";
 import { musicians } from "../../data/musicians";
 
 export default function MusicianListingPage() {
@@ -28,6 +29,9 @@ export default function MusicianListingPage() {
   const [showDropdown, setShowDropdown] = useState(false);
   const searchContainerRef = useRef(null);
   const [sortDirection, setSortDirection] = useState("ascending");
+
+  const [showMobileFilterModal, setShowMobileFilterModal] = useState(false);
+  const [isModalClosing, setIsModalClosing] = useState(false);
 
   const searchFilteredMusicians = musicians.filter((m) =>
     m.musicianName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -194,6 +198,19 @@ export default function MusicianListingPage() {
     setSortDirection(
       sortDirection === "ascending" ? "descending" : "ascending"
     );
+  };
+
+  // Handle mobile filter selection from modal
+  const handleMobileFilterSelect = (filter) => {
+    setActiveFilter(filter);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalClosing(true);
+    setTimeout(() => {
+      setShowMobileFilterModal(false);
+      setIsModalClosing(false);
+    }, 200); // Match the animation duration? (seems to be smoother when a bit shorter)
   };
 
   // Swipe threshold values
@@ -381,7 +398,7 @@ export default function MusicianListingPage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <polyline points="6 9 12 15 18 9"></polyline>
+                <polyline points="18 15 12 9 6 15"></polyline>
               </svg>
             ) : (
               <svg
@@ -395,7 +412,7 @@ export default function MusicianListingPage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <polyline points="18 15 12 9 6 15"></polyline>
+                <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             )}
           </button>
@@ -441,11 +458,11 @@ export default function MusicianListingPage() {
         </div>
 
         {/* Mobile Layout - Two Rows */}
-        <div className="md:hidden space-y-3">
-          {/* First Row: Sort Button and Filter Buttons */}
-          <div className="flex items-center gap-3">
-            {/* Sort Button */}
-            <button
+        {/* <div className="md:hidden space-y-3"> */}
+        {/* First Row: Sort Button and Filter Buttons */}
+        {/* <div className="flex items-center gap-3"> */}
+        {/* Sort Button */}
+        {/* <button
               className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2 flex-shrink-0"
               onClick={toggleSortDirection}
               style={{
@@ -484,10 +501,10 @@ export default function MusicianListingPage() {
                   <polyline points="18 15 12 9 6 15"></polyline>
                 </svg>
               )}
-            </button>
+            </button> */}
 
-            {/* Filter Buttons - Scrollable on mobile */}
-            <div className="flex gap-2 overflow-x-auto no-scrollbar flex-1">
+        {/* Filter Buttons - Scrollable on mobile */}
+        {/* <div className="flex gap-2 overflow-x-auto no-scrollbar flex-1">
               {["All", "Name", "Songs", "Plays"].map((filter) => (
                 <button
                   key={filter}
@@ -508,11 +525,11 @@ export default function MusicianListingPage() {
                   {filter}
                 </button>
               ))}
-            </div>
-          </div>
+            </div> */}
+        {/* </div> */}
 
-          {/* Second Row: Difficulty and Tags Dropdowns */}
-          {/* <div className="flex items-center gap-3">
+        {/* Second Row: Difficulty and Tags Dropdowns */}
+        {/* <div className="flex items-center gap-3">
             <DifficultyDropdown
               ref={difficultyDropdownRef}
               isOpen={difficultyOpen}
@@ -525,7 +542,7 @@ export default function MusicianListingPage() {
               onToggle={toggleTagsDropdown}
             />
           </div> */}
-        </div>
+        {/* </div> */}
       </div>
 
       {/* Desktop Grid View - Hidden on Mobile */}
@@ -628,6 +645,109 @@ export default function MusicianListingPage() {
           </div>
         ))}
       </div>
+
+      {/* Floating Action Button For Filter - Mobile Only */}
+      {/*
+        TODOs:
+        - Potentially create a reusable component for use in other pages
+        - Use framer motion over CSS animations?
+      */}
+      <button
+        className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-light-purple hover:bg-border-purple-light rounded-full shadow-lg flex items-center justify-center z-40 transition-all duration-200"
+        onClick={() => {
+          setShowMobileFilterModal(true);
+          setIsModalClosing(false); // reset closing state when opening modal?
+        }}
+      >
+        <img src={filterIcon} alt="Search" className="w-6 h-6" />
+      </button>
+
+      {/* Mobile Filter Modal */}
+      {showMobileFilterModal && (
+        <div
+          className={`md:hidden fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50 ${
+            isModalClosing ? "animate-fade-out" : "animate-fade-in"
+          }`}
+          onClick={handleCloseModal}
+        >
+          <div
+            className={`bg-beatmaps-background w-full rounded-t-xl p-6 ${
+              isModalClosing ? "animate-slide-down" : "animate-slide-up"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-semibold text-white mb-0">Sorting</h3>
+              <button
+                onClick={handleCloseModal}
+                className="text-gray-400 hover:text-white mb-12"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+
+            <div className="border-t border-gray-600 mb-6"></div>
+
+            {/* Sort Dropdown and Filter Options */}
+            <div className="flex items-center gap-4 mb-10">
+              {/* Sort Dropdown */}
+              <button
+                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg flex items-center gap-2 font-medium"
+                onClick={toggleSortDirection}
+              >
+                <span>Sort</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={`transition-transform duration-200 ${
+                    sortDirection === "ascending" ? "rotate-180" : "rotate-0"
+                  }`}
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+
+              {/* Filter Options */}
+              <div className="flex gap-4">
+                {["Name", "Songs", "Plays"].map((filter) => (
+                  <button
+                    key={filter}
+                    className={`px-0 py-2 font-medium transition-colors ${
+                      activeFilter === filter
+                        ? "text-white"
+                        : "text-gray-400 hover:text-gray-300"
+                    }`}
+                    onClick={() => handleMobileFilterSelect(filter)}
+                  >
+                    {filter === "Name"
+                      ? "Name"
+                      : filter === "Songs"
+                      ? "Songs"
+                      : "Plays"}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
