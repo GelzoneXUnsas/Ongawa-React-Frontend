@@ -39,9 +39,11 @@ export default function MusicianPage() {
           <h2 className="text-2xl mb-4 text-white">Musician not found</h2>
           <span
             onClick={handleBack}
-            className="text-white px-6 py-2 flex items-center justify-center cursor-pointer"
+            className="text-white px-6 py-2 inline-flex items-center justify-center cursor-pointer w-fit"
           >
-            <span className="mr-2 text-yellow-accent">◄ Back</span>
+            <span className="mr-2 text-yellow-accent font-mukta-mahee">
+              ◀ Back
+            </span>
           </span>
         </div>
       </div>
@@ -54,16 +56,16 @@ export default function MusicianPage() {
       <span
         role="button"
         onClick={handleBack}
-        className="mb-7 mt-3 md:mb-10 md:mt-7 flex items-center text-lg font-medium cursor-pointer"
+        className="mb-7 mt-3 md:mb-10 md:mt-7 inline-flex items-center text-lg cursor-pointer w-fit"
       >
-        <span className="text-yellow-accent">◄ Back</span>
+        <span className="text-yellow-accent font-mukta-mahee">◀ Back</span>
       </span>
 
       <div className="max-w-5xl mx-auto">
         {/* Main Content */}
         <div className="flex flex-col md:flex-row gap-6 mb-8">
           {/* Artist Image */}
-          <div className="md:flex-[0.3] md:max-w-sm">
+          <div className="md:flex-[0.3] md:max-w-sm shadow-lg rounded-xl overflow-hidden">
             <img
               src={musician.artistImg}
               alt={musician.musicianName}
@@ -74,11 +76,11 @@ export default function MusicianPage() {
           {/* Artist Info */}
           <div className="md:flex-[0.7] flex flex-col md:justify-end">
             <div>
-              <h1 className="text-2xl md:text-4xl font-bold mb-2 mt-2 text-white">
+              <h1 className="text-2xl md:text-4xl font-medium mb-2 mt-2 text-white font-nova-square">
                 {musician.musicianName}
               </h1>
 
-              <div className="text-gray-400 mb-6">
+              <div className="text-gray-400 mb-6 font-roboto">
                 <span>{musician.totalSongs} songs</span>
                 <span className="mx-2">•</span>
                 <span>{musician.totalPlaycount} total playcount</span>
@@ -124,19 +126,19 @@ export default function MusicianPage() {
 
         <div className="mb-12">
           {/* Description */}
-          <p className="text-white leading-relaxed mb-6">
+          <p className="text-white leading-relaxed mb-6 font-roboto">
             {musician.description}
           </p>
         </div>
 
         {/* Discography Section */}
         <div className="mb-12">
-          <h2 className="text-xl md:text-2xl font-bold mb-6 text-white">
+          <h2 className="text-xl md:text-2xl font-medium mb-6 text-white font-nova-square">
             Discography
           </h2>
 
           {musician.albums.length === 0 ? (
-            <div className="text-gray-400">
+            <div className="text-gray-400 font-roboto">
               This musician has no albums yet.
             </div>
           ) : (
@@ -160,14 +162,15 @@ export default function MusicianPage() {
                       <div className="flex-1 flex flex-col">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <h3 className="text-white text-lg font-semibold mb-1 mt-0">
+                            <h3 className="text-white text-lg font-normal mb-1 mt-0 font-nova-square">
                               {album.albumTitle}
                             </h3>
-                            <div className="text-xs text-gray-400 font-overpass-mono mb-1">
+                            <div className="text-xs text-gray-400 font-nova-square mb-1">
                               {album.releaseDate}
                             </div>
-                            <div className="text-xs text-gray-400 font-overpass-mono">
-                              Mapped: {musician.musicianName}
+                            <div className="text-xs text-gray-400 font-nova-square">
+                              {/* Mapped: {musician.musicianName} */}
+                              Total Playtime: {album.totalPlaytime}
                             </div>
                           </div>
 
@@ -251,13 +254,13 @@ export default function MusicianPage() {
                     <div className="flex-1 flex flex-col overflow-hidden">
                       {/* Album Info */}
                       <div className="mb-2">
-                        <h3 className="text-white text-xl font-semibold mb-1 mt-0">
+                        <h3 className="text-white text-xl font-normal mb-1 mt-0 font-nova-square">
                           {album.albumTitle}
                         </h3>
-                        <div className="text-xs text-gray-400 font-overpass-mono mb-1">
+                        <div className="text-xs text-gray-400 font-nova-square mb-1">
                           {album.releaseDate}
                         </div>
-                        <div className="text-xs text-gray-400 font-overpass-mono">
+                        <div className="text-xs text-gray-400 font-nova-square">
                           Total Playtime: {album.totalPlaytime}
                         </div>
                       </div>
