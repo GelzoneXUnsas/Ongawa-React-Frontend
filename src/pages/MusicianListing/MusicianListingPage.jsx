@@ -18,7 +18,7 @@ export default function MusicianListingPage() {
 
   const navigate = useNavigate();
 
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("Name");
   // const [difficultyOpen, setDifficultyOpen] = useState(false);
   // const [tagsOpen, setTagsOpen] = useState(false);
 
@@ -275,7 +275,9 @@ export default function MusicianListingPage() {
 
   return (
     <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
-      <h2 className="mt-2 text-white md:mx-4">Musicians</h2>
+      <h2 className="mt-2 text-white md:mx-4 font-nova-square font-medium">
+        Musicians
+      </h2>
       {/* Desktop Search - Hidden on Mobile */}
       <div className="hidden md:flex items-center mb-6">
         <div
@@ -295,7 +297,7 @@ export default function MusicianListingPage() {
           >
             <input
               type="text"
-              placeholder="Search for musicians"
+              placeholder="Search ..."
               className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg h-full"
               style={{ border: "none" }} // to override styling in index.css (temporary)
               value={searchInput}
@@ -348,7 +350,7 @@ export default function MusicianListingPage() {
         <div className="bg-light-purple bg-opacity-50 rounded-lg h-10 relative">
           <input
             type="text"
-            placeholder="Search for musicians"
+            placeholder="Search ..."
             className="text-white border-none w-full h-full rounded focus:ring-0 px-4 py-2"
             style={{ border: "none" }}
             value={searchInput}
@@ -371,7 +373,7 @@ export default function MusicianListingPage() {
         </div>
       </div>
 
-      {/* Filtering Options Section - Desktop & Mobile */}
+      {/* Filtering Options Section - Desktop */}
       <div className="mb-6 md:mx-4 mr-2">
         {/* Desktop Layout - Single Row */}
         <div className="hidden md:flex flex-wrap items-center gap-3">
@@ -385,7 +387,7 @@ export default function MusicianListingPage() {
               backgroundColor: "rgba(109, 109, 153, 0.5)",
             }}
           >
-            <span>Sort</span>
+            <span className="font-nova-square">Sort</span>
             {sortDirection === "ascending" ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -419,10 +421,10 @@ export default function MusicianListingPage() {
 
           {/* Filter Buttons */}
           <div className="flex gap-2 overflow-x-auto no-scrollbar">
-            {["All", "Name", "Songs", "Plays"].map((filter) => (
+            {["Name", "Songs", "Plays"].map((filter) => (
               <button
                 key={filter}
-                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline ${
+                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline font-nova-square ${
                   activeFilter === filter
                     ? "border-b-4 text-yellow-500 underline"
                     : "text-gray-400"
@@ -560,7 +562,7 @@ export default function MusicianListingPage() {
               alt={musician.musicianName}
               className="rounded-lg mb-4 w-full h-70 object-cover"
             />
-            <p className="text-lg font-semibold mb-2 text-white font-overpass-mono text-center">
+            <p className="text-lg font-normal mb-2 text-white font-nova-square text-center">
               {musician.musicianName}
             </p>
             <p className="text-xs text-gray-500 font-overpass-mono text-center">
@@ -585,7 +587,7 @@ export default function MusicianListingPage() {
       </div>
 
       {/* Mobile List View - Hidden on Desktop */}
-      <div className="md:hidden space-y-1">
+      <div className="md:hidden space-y-3">
         {filteredMusicians.map((musician, index) => (
           <div
             key={index}
@@ -596,7 +598,7 @@ export default function MusicianListingPage() {
           >
             {/* Main content that slides */}
             <div
-              className="flex items-start gap-3 p-1 bg-beatmaps-background transition-transform duration-300 ease-out cursor-pointer"
+              className="flex items-start gap-3 bg-beatmaps-background transition-transform duration-300 ease-out cursor-pointer"
               // style={{ transform: getTransformValue(index) }}
               // onClick={() => {
               //   // Only navigate if not swiping
@@ -609,17 +611,19 @@ export default function MusicianListingPage() {
               <img
                 src={musician.artistImg}
                 alt={musician.musicianName}
-                className="w-16 h-16 rounded-lg object-cover"
+                className="w-20 h-20 rounded-lg object-cover"
               />
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="text-base font-medium font-overpass-mono mb-1">
+                    <p className="text-base font-normal font-nova-square mb-1">
                       {musician.musicianName}
                     </p>
+                    <p className="text-xs text-gray-500 font-overpass-mono mb-1">
+                      {musician.totalSongs} songs
+                    </p>
                     <p className="text-xs text-gray-500 font-overpass-mono">
-                      {musician.totalSongs} songs | {musician.totalPlaycount}{" "}
-                      plays
+                      {musician.totalPlaycount} plays
                     </p>
                   </div>
                 </div>
@@ -677,7 +681,9 @@ export default function MusicianListingPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold text-white mb-0">Sorting</h3>
+              <h3 className="text-xl font-medium text-white font-nova-square mb-0">
+                Sorting
+              </h3>
               <button
                 onClick={handleCloseModal}
                 className="text-gray-400 hover:text-white mb-12"
@@ -702,10 +708,10 @@ export default function MusicianListingPage() {
             <div className="flex items-center gap-4 mb-10">
               {/* Sort Dropdown */}
               <button
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg flex items-center gap-2 font-medium"
+                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg flex items-center gap-2"
                 onClick={toggleSortDirection}
               >
-                <span>Sort</span>
+                <span className="font-nova-square">Sort</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -729,7 +735,7 @@ export default function MusicianListingPage() {
                 {["Name", "Songs", "Plays"].map((filter) => (
                   <button
                     key={filter}
-                    className={`px-0 py-2 font-medium transition-colors ${
+                    className={`px-0 py-2 transition-colors font-nova-square ${
                       activeFilter === filter
                         ? "text-white"
                         : "text-gray-400 hover:text-gray-300"
