@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import CommunityPost from "../../components/CommunityPost/CommunityPost";
 import SocialFilterModal from "../../components/SocialFilterModal/SocialFilterModal";
@@ -119,7 +119,6 @@ const COMMUNITY_POSTS = [
 ];
 
 function CommunityPage() {
-  const navigate = useNavigate();
   const [contentSelection, setContentSelection] = useState("Home");
 
   // Filter State
@@ -281,12 +280,12 @@ function CommunityPage() {
           </div>
 
           {/* Post Button */}
-          <button
-            className="mt-6 ml-4 text-dark-purple text-xl font-semibold bg-accent-yellow px-12 py-2 rounded-lg"
-            onClick={() => navigate("/community/new")}
+          <Link
+            className="mt-6 ml-4 font-nova-square text-dark-purple text-xl bg-accent-yellow px-12 py-2 rounded-lg"
+            to="/community/new"
           >
             Post
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -339,29 +338,31 @@ function CommunityPage() {
               />
             </button>
             {/* Mobile Post Button */}
-            <button
-              className="p-2 px-4 text-dark-purple font-nova-square bg-accent-yellow rounded-lg"
-              onClick={() => navigate("/community/new")}
+            <Link
+              to="/community/new"
+              className="p-1 px-5 text-dark-purple font-nova-square bg-accent-yellow rounded-lg"
             >
               Post
-            </button>
+            </Link>
           </div>
         </div>
 
         {/* Posts */}
         <div className="flex flex-col m-6 md:m-12 gap-12">
           {filteredContent.map((item) => (
-            <CommunityPost
-              key={item.id}
-              author={item.author}
-              profilePicture={item.profilePicture}
-              dateCreated={item.dateCreated}
-              tags={item.tags}
-              title={item.title}
-              text={item.text}
-              cover={item.cover}
-              media={item.media}
-            />
+            <Link key={item.id} to={`/community/${item.id}`}>
+              <CommunityPost
+                key={item.id}
+                author={item.author}
+                profilePicture={item.profilePicture}
+                dateCreated={item.dateCreated}
+                tags={item.tags}
+                title={item.title}
+                text={item.text}
+                cover={item.cover}
+                media={item.media}
+              />
+            </Link>
           ))}
         </div>
       </div>

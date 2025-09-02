@@ -103,9 +103,6 @@ pre {
 /**
    * Remove the gray background on active links in IE 10.
    */
-a {
-  background-color: transparent;
-}
 
 /**
    * 1. Remove the bottom border in Chrome 57-
@@ -467,18 +464,6 @@ h5 {
   h5 {
     font-size: 1.25rem;
   }
-}
-
-a {
-  color: #0366ee;
-  text-decoration: none;
-}
-
-a:hover,
-a:active,
-a:focus {
-  color: #0246a2;
-  text-decoration: underline;
 }
 
 mark {

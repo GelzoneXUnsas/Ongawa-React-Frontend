@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import leftArrowIcon from "../../assets/icons/leftArrowIcon.png";
 import geoBg from "../../assets/images/backgrounds/geo_bg.png";
@@ -28,22 +28,21 @@ const TAGS = [
 ];
 
 function CreatePostPage() {
-  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [source, setSource] = useState("");
   const [tags, setTags] = useState([]);
   const [media, setMedia] = useState(null);
 
   return (
-    <div className="min-h-screen bg-page-background text-white ">
-      <button
-        className=" mt-24 ml-6 flex gap-2 font-nova-square"
-        onClick={() => navigate("/community")}
+    <div className="min-h-screen bg-page-background text-light-grey ">
+      {/* Back Button */}
+      <Link
+        className="w-10 mt-24 ml-6 flex gap-2 font-nova-square"
+        to="/community"
       >
-        <img className="w-2 h-auto" src={leftArrowIcon} />
+        <img className="h-5 self-center" src={leftArrowIcon} />
         Back
-      </button>
+      </Link>
 
       {/* Background image with opacity */}
       <div
@@ -52,7 +51,7 @@ function CreatePostPage() {
       />
 
       <div className="py-4 px-8 md:px-12 font-nova-square">
-        <h1 className="mt-4 text-3xl font-normal font-nova-square mb-8 text-white">
+        <h1 className="mt-4 text-3xl font-normal font-nova-square mb-8 text-light-grey">
           Create a Post
         </h1>
 
@@ -61,7 +60,7 @@ function CreatePostPage() {
           <p className="m-0 text-lg font-normal">Title</p>
           <input
             type="text"
-            className="w-full mt-2 px-4 py-2 rounded text-white font-normal focus:outline-none focus:ring-0 focus:border-white"
+            className="w-full mt-2 px-4 py-2 rounded text-light-grey font-normal focus:outline-none focus:ring-0 focus:border-white"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -72,7 +71,7 @@ function CreatePostPage() {
           <p className="m-0 text-lg font-normal">Description</p>
           <textarea
             rows="4"
-            className="w-full mt-2 px-4 py-2 h-40 rounded text-white font-normal focus:outline-none focus:ring-0 focus:border-white"
+            className="w-full mt-2 px-4 py-2 h-40 rounded text-light-grey font-normal focus:outline-none focus:ring-0 focus:border-white"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -119,17 +118,8 @@ function CreatePostPage() {
 
         {/* Create Button */}
         <button
-          className="mb-8 bg-accent-yellow text-dark-purple px-6 py-2 rounded-lg text-lg font-semibold"
-          onClick={() => {
-            // Placeholder action
-            console.log({
-              title,
-              description,
-              source,
-              tags,
-              media,
-            });
-          }}
+          className="mb-8 bg-accent-yellow font-nova-square text-dark-purple px-6 py-2 rounded-lg text-lg "
+          onClick={() => {}}
         >
           Create
         </button>
