@@ -9,6 +9,7 @@ import geoBg from "../../assets/images/backgrounds/geo_bg.png";
 // Test images
 import testImg1 from "../../assets/images/test/1-1_Test_Image.png";
 import testImg5 from "../../assets/images/test/16-10_Test_Image.png";
+// Mock Community Post
 const COMMUNITY_POST = {
   id: 1,
   author: "Aoife Byrne",
@@ -33,6 +34,13 @@ const COMMUNITY_POST = {
           profilePicture: "/images/profiles/samira.jpg",
           dateCreated: "June 14, 2025",
           text: "Especially the harmony around 1:20!",
+        },
+        {
+          id: 202,
+          author: "James Earnest",
+          profilePicture: "/images/profiles/james.jpg",
+          dateCreated: "June 18, 2025",
+          text: "I had the same thought!",
         },
       ],
     },
@@ -105,6 +113,7 @@ function CommunityPostPage() {
                 profilePicture={reply.profilePicture}
                 dateCreated={reply.dateCreated}
                 text={reply.text}
+                subreplies={reply.replies}
               />
             </div>
           ))}

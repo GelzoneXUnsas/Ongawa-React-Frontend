@@ -101,7 +101,7 @@ const CommunityPost = ({
       </p>
 
       {/* Text Content */}
-      <p className="text-sm md:text-base prose prose-sm max-w-none text-light-grey">
+      <p className="text-sm md:text-base prose prose-sm max-w-none text-light-grey break-words whitespace-normal">
         {stripHtmlTags(text)}
       </p>
 

@@ -2,7 +2,13 @@ import PropTypes from "prop-types";
 import ReplyIcon from "../../assets/icons/commentIcon.png";
 import ShareIcon from "../../assets/icons/sharePostIcon.png";
 
-const CommunityReply = ({ author, profilePicture, dateCreated, text }) => {
+const CommunityReply = ({
+  author,
+  profilePicture,
+  dateCreated,
+  text,
+  subreplies,
+}) => {
   return (
     <div>
       {/* Header */}
@@ -34,9 +40,23 @@ const CommunityReply = ({ author, profilePicture, dateCreated, text }) => {
       </div>
 
       {/* Content */}
-      <p className="text-sm md:text-base text-light-grey font-nova-square">
+      <p className="text-sm md:text-base text-light-grey font-nova-square break-words whitespace-normal">
         {text}
       </p>
+
+      {/* Subreplies */}
+      <div className="ml-8 md:ml-12">
+        {subreplies.map((subreply) => (
+          <CommunityReply
+            key={subreply.id}
+            author={subreply.author}
+            profilePicture={subreply.profilePicture}
+            dateCreated={subreply.dateCreated}
+            text={subreply.text}
+            subreplies={subreply.replies}
+          />
+        ))}
+      </div>
     </div>
   );
 };
@@ -46,6 +66,19 @@ CommunityReply.propTypes = {
   profilePicture: PropTypes.string.isRequired,
   dateCreated: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
+  subreplies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      author: PropTypes.string.isRequired,
+      profilePicture: PropTypes.string.isRequired,
+      dateCreated: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+    })
+  ),
+};
+
+CommunityReply.defaultProps = {
+  subreplies: [],
 };
 
 export default CommunityReply;
