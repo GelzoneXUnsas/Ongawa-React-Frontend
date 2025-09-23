@@ -9,6 +9,7 @@ import geoBg from "../../assets/images/backgrounds/geo_bg.png";
 // Test images
 import testImg1 from "../../assets/images/test/1-1_Test_Image.png";
 import testImg5 from "../../assets/images/test/16-10_Test_Image.png";
+
 // Mock Community Post
 const COMMUNITY_POST = {
   id: 1,
@@ -23,29 +24,35 @@ const COMMUNITY_POST = {
   replies: [
     {
       id: 101,
+      parentId: null,
+      replyThreadParentId: null,
       author: "Lior Mizrahi",
       profilePicture: "/images/profiles/lior.jpg",
       dateCreated: "June 13, 2025",
       text: "This is a beautiful song!",
-      replies: [
-        {
-          id: 201,
-          author: "Samira Khan",
-          profilePicture: "/images/profiles/samira.jpg",
-          dateCreated: "June 14, 2025",
-          text: "Especially the harmony around 1:20!",
-        },
-        {
-          id: 202,
-          author: "James Earnest",
-          profilePicture: "/images/profiles/james.jpg",
-          dateCreated: "June 18, 2025",
-          text: "I had the same thought!",
-        },
-      ],
+    },
+    {
+      id: 201,
+      parentId: 101,
+      replyThreadParentId: 101,
+      author: "Samira Khan",
+      profilePicture: "/images/profiles/samira.jpg",
+      dateCreated: "June 14, 2025",
+      text: "Especially the harmony around 1:20!",
+    },
+    {
+      id: 202,
+      parentId: 201,
+      replyThreadParentId: 101,
+      author: "James Earnest",
+      profilePicture: "/images/profiles/james.jpg",
+      dateCreated: "June 18, 2025",
+      text: "I had the same thought!",
     },
     {
       id: 102,
+      parentId: null,
+      replyThreadParentId: null,
       author: "Takeshi Nakamura",
       profilePicture: "/images/profiles/takeshi.jpg",
       dateCreated: "June 13, 2025",
@@ -106,17 +113,17 @@ function CommunityPostPage() {
       {/* Post Replies */}
       <div className="mt-6 flex flex-col items-center">
         <div className="w-96 max-w-[90%] md:w-9/12">
-          {COMMUNITY_POST.replies.map((reply) => (
-            <div key={reply.id} className="border-t border-light-grey pt-4">
-              <CommunityReply
-                author={reply.author}
-                profilePicture={reply.profilePicture}
-                dateCreated={reply.dateCreated}
-                text={reply.text}
-                subreplies={reply.replies}
-              />
-            </div>
-          ))}
+          {COMMUNITY_POST.replies
+            .filter((r) => r.parentId === null)
+            .map((reply) => (
+              <div key={reply.id} className="border-t border-light-grey pt-4">
+                <CommunityReply
+                  key={reply.id}
+                  reply={reply}
+                  allReplies={COMMUNITY_POST.replies}
+                />
+              </div>
+            ))}
         </div>
       </div>
     </div>
