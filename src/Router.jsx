@@ -14,6 +14,7 @@ import BeatmapPage from "./pages/BeatmapPage/BeatmapPage";
 // eslint-disable-next-line no-unused-vars
 import CommunityPage from "./pages/CommunityPage/CommunityPage";
 import ComingSoonPage from "./pages/ComingSoonPage/ComingSoonPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 
 import Login from "./pages/Auth/Login";
 import { AuthProvider } from "./contexts/authContext";
@@ -38,6 +39,7 @@ function Router() {
           <Route path="beatmap" element={<BeatmapPage />} />
           <Route path="community" element={<ComingSoonPage />} />
           <Route path="comingsoon" element={<ComingSoonPage />} />
+          <Route path="user/:id" element={<ProfilePage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="*" element={<Navigate to="/" />} />

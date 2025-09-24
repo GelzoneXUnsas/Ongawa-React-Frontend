@@ -122,7 +122,7 @@ const BeatmapsTab = () => {
       <div className="hidden md:block p-6 pb-0">
         <div className="flex border-b border-[#6D6D99] pb-2 gap-8">
           <div
-            className={`py-3 cursor-pointer relative text-lg ${
+            className={`py-3 cursor-pointer relative text-lg font-nova-square ${
               activeTab === "bookmarked" ? "text-yellow-500" : "text-gray-300"
             }`}
             onClick={() => handleTabChange("bookmarked")}
@@ -138,7 +138,7 @@ const BeatmapsTab = () => {
             </span>
           </div>
           <div
-            className={`py-3 cursor-pointer relative text-lg ${
+            className={`py-3 cursor-pointer relative text-lg font-nova-square ${
               activeTab === "created" ? "text-yellow-500" : "text-gray-300"
             }`}
             onClick={() => handleTabChange("created")}
@@ -163,7 +163,7 @@ const BeatmapsTab = () => {
             onClick={toggleDropdown}
             className="flex items-center justify-between w-full bg-[#6D6D99]/20 px-4 py-3 rounded-lg text-white"
           >
-            <span className="text-lg">
+            <span className="text-lg font-nova-square">
               {activeTab === "bookmarked" ? "Bookmarked" : "Created"}
             </span>
             <img src={triangleDownIcon} alt="disc" className="w-6 h-6" />
@@ -173,7 +173,7 @@ const BeatmapsTab = () => {
             <div className="absolute top-full left-0 right-0 mt-1 bg-[#1D1D2E] rounded-lg shadow-lg z-20">
               <button
                 onClick={() => handleTabChange("bookmarked")}
-                className={`w-full text-left px-4 py-3 hover:bg-[#5A5A7B] rounded-t-lg ${
+                className={`w-full text-left px-4 py-3 hover:bg-[#5A5A7B] rounded-t-lg font-nova-square ${
                   activeTab === "bookmarked" ? "text-yellow-500" : "text-white"
                 }`}
               >
@@ -181,7 +181,7 @@ const BeatmapsTab = () => {
               </button>
               <button
                 onClick={() => handleTabChange("created")}
-                className={`w-full text-left px-4 py-3 hover:bg-[#5A5A7B] rounded-b-lg ${
+                className={`w-full text-left px-4 py-3 hover:bg-[#5A5A7B] rounded-b-lg font-nova-square ${
                   activeTab === "created" ? "text-yellow-500" : "text-white"
                 }`}
               >
@@ -196,18 +196,22 @@ const BeatmapsTab = () => {
       <div className="px-4 md:px-6">
         {/* Desktop Table Headers */}
         <div className="hidden md:grid grid-cols-12 gap-4 py-3 px-4 border-b border-[#6D6D99] text-sm sticky top-0 bg-[#2D294C] z-10">
-          <div className="col-span-4 text-lg">Name</div>
-          <div className="col-span-2 text-center text-lg">
+          <div className="col-span-4 text-lg font-nova-square">Name</div>
+          <div className="col-span-2 text-center text-lg font-nova-square">
             Difficulty{" "}
             <span className="inline-block w-4 h-4 rounded-full bg-gray-600 text-center text-md leading-4">
               ?
             </span>
           </div>
-          <div className="col-span-2 text-center text-lg">
-            # of Difficulties
+          <div className="col-span-2 text-center text-lg font-nova-square">
+            # of Beatmaps
           </div>
-          <div className="col-span-2 text-center text-lg">Statistics</div>
-          <div className="col-span-2 text-center text-lg">Saved</div>
+          <div className="col-span-2 text-center text-lg font-nova-square">
+            Statistics
+          </div>
+          <div className="col-span-2 text-center text-lg font-nova-square">
+            Saved
+          </div>
         </div>
 
         {/* Content based on active tab */}
@@ -230,13 +234,13 @@ const BeatmapsTab = () => {
                       />
                     </div>
                     <div className="flex-1">
-                      <div className="text-white font-medium">
+                      <div className="text-white font-medium font-nova-square">
                         {beatmap.name}
                       </div>
-                      <div className="text-sm text-gray-400">
+                      <div className="text-sm text-gray-400 font-roboto">
                         {beatmap.artist}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-gray-500 font-roboto">
                         Mapped: {beatmap.mapper}
                       </div>
                     </div>
@@ -246,7 +250,7 @@ const BeatmapsTab = () => {
                       className="w-6 h-6 text-yellow-500"
                     />
                   </div>
-                  <div className="flex justify-between items-center text-sm">
+                  <div className="flex justify-between items-center text-sm font-nova-square">
                     <div className="flex items-center space-x-2">
                       <span className="flex items-center">
                         <span className="w-2 h-4 bg-green-500 mr-1 rounded-sm"></span>
@@ -294,16 +298,18 @@ const BeatmapsTab = () => {
                       />
                     </div>
                     <div>
-                      <div className="text-white">{beatmap.name}</div>
-                      <div className="text-sm text-gray-400">
+                      <div className="text-white font-nova-square">
+                        {beatmap.name}
+                      </div>
+                      <div className="text-sm text-gray-400 font-roboto">
                         {beatmap.artist}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-gray-500 font-roboto">
                         Mapped: {beatmap.mapper}
                       </div>
                     </div>
                   </div>
-                  <div className="col-span-2 flex items-center justify-center space-x-2">
+                  <div className="col-span-2 flex items-center justify-center space-x-2 font-nova-square">
                     <span className="flex items-center">
                       <span className="w-2 h-4 bg-green-500 mr-1 rounded-sm"></span>
                       {beatmap.difficulty}
@@ -314,11 +320,11 @@ const BeatmapsTab = () => {
                       {beatmap.maxDifficulty}
                     </span>
                   </div>
-                  <div className="col-span-2 flex justify-center items-center gap-2">
+                  <div className="col-span-2 flex justify-center items-center gap-2 font-nova-square">
                     <img src={ellipseIcon} alt="ellipse" className="w-5 h-5" />
                     {beatmap.level}
                   </div>
-                  <div className="col-span-2 flex justify-center items-center space-x-3">
+                  <div className="col-span-2 flex justify-center items-center space-x-3 font-nova-square">
                     <div className="flex items-center gap-2">
                       <img src={clockIcon} alt="Duration" className="w-5 h-5" />
                       {beatmap.time}
@@ -360,13 +366,13 @@ const BeatmapsTab = () => {
                       />
                     </div>
                     <div className="flex-1">
-                      <div className="text-white font-medium">
+                      <div className="text-white font-medium font-nova-square">
                         {beatmap.name}
                       </div>
-                      <div className="text-sm text-gray-400">
+                      <div className="text-sm text-gray-400 font-roboto">
                         {beatmap.artist}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-gray-500 font-roboto">
                         Mapped: {beatmap.mapper}
                       </div>
                     </div>
@@ -376,7 +382,7 @@ const BeatmapsTab = () => {
                       className="w-6 h-6 text-gray-400"
                     />
                   </div>
-                  <div className="flex justify-between items-center text-sm">
+                  <div className="flex justify-between items-center text-sm font-nova-square">
                     <div className="flex items-center space-x-2">
                       <span className="flex items-center">
                         <span className="w-2 h-4 bg-green-500 mr-1 rounded-sm"></span>
@@ -424,16 +430,18 @@ const BeatmapsTab = () => {
                       />
                     </div>
                     <div>
-                      <div className="text-white">{beatmap.name}</div>
-                      <div className="text-sm text-gray-400">
+                      <div className="text-white font-nova-square">
+                        {beatmap.name}
+                      </div>
+                      <div className="text-sm text-gray-400 font-roboto">
                         {beatmap.artist}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-gray-500 font-roboto">
                         Mapped: {beatmap.mapper}
                       </div>
                     </div>
                   </div>
-                  <div className="col-span-2 flex items-center justify-center space-x-2">
+                  <div className="col-span-2 flex items-center justify-center space-x-2 font-nova-square">
                     <span className="flex items-center">
                       <span className="w-2 h-4 bg-green-500 mr-1 rounded-sm"></span>
                       {beatmap.difficulty}
@@ -444,11 +452,11 @@ const BeatmapsTab = () => {
                       {beatmap.maxDifficulty}
                     </span>
                   </div>
-                  <div className="col-span-2 flex justify-center items-center gap-2">
+                  <div className="col-span-2 flex justify-center items-center gap-2 font-nova-square">
                     <img src={ellipseIcon} alt="ellipse" className="w-5 h-5" />
                     {beatmap.level}
                   </div>
-                  <div className="col-span-2 flex justify-center items-center space-x-3">
+                  <div className="col-span-2 flex justify-center items-center space-x-3 font-nova-square">
                     <div className="flex items-center gap-2">
                       <img src={clockIcon} alt="Duration" className="w-5 h-5" />
                       {beatmap.time}
