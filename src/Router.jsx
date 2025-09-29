@@ -1,5 +1,6 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useState } from "react";
+
 import Homepage from "./pages/Homepage/Homepage";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -12,6 +13,8 @@ import BeatmapListingPage from "./pages/BeatmapListingPage/BeatmapListingPage";
 import BeatmapPage from "./pages/BeatmapPage/BeatmapPage";
 // eslint-disable-next-line no-unused-vars
 import CommunityPage from "./pages/CommunityPage/CommunityPage";
+import CommunityPostPage from "./pages/CommunityPostPage/CommunityPostPage";
+import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 import ComingSoonPage from "./pages/ComingSoonPage/ComingSoonPage";
 
 import Login from "./pages/Auth/Login";
@@ -31,11 +34,13 @@ function Router() {
           <Route path="/" element={<Homepage muted={muted} />} />
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="beatmaplisting" element={<BeatmapListingPage />} />
+          <Route path="community" element={<CommunityPage />} />
+          <Route path="/community/:id" element={<CommunityPostPage />} />
+          <Route path="/community/new" element={<CreatePostPage />} />
           <Route path="musicianlisting" element={<MusicianListingPage />} />
           <Route path="musician/:id" element={<MusicianPage />} />
           <Route path="beatmaplisting/:id" element={<BeatmapPage />} />
-          <Route path="community" element={<ComingSoonPage />} />
-          <Route path="comingsoon" element={<ComingSoonPage />} />
+          <Route path="comingsoon" elem0ent={<ComingSoonPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="*" element={<Navigate to="/" />} />
