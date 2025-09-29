@@ -16,6 +16,7 @@ import CommunityPage from "./pages/CommunityPage/CommunityPage";
 import CommunityPostPage from "./pages/CommunityPostPage/CommunityPostPage";
 import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 import ComingSoonPage from "./pages/ComingSoonPage/ComingSoonPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 
 import Login from "./pages/Auth/Login";
 import { AuthProvider } from "./contexts/authContext";
@@ -35,12 +36,17 @@ function Router() {
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="beatmaplisting" element={<BeatmapListingPage />} />
           <Route path="community" element={<CommunityPage />} />
-          <Route path="/community/:id" element={<CommunityPostPage />} />
-          <Route path="/community/new" element={<CreatePostPage />} />
+          <Route path="community/:id" element={<CommunityPostPage />} />
+          <Route path="community/new" element={<CreatePostPage />} />
+
           <Route path="musicianlisting" element={<MusicianListingPage />} />
           <Route path="musician/:id" element={<MusicianPage />} />
-          <Route path="beatmaplisting/:id" element={<BeatmapPage />} />
-          <Route path="comingsoon" elem0ent={<ComingSoonPage />} />
+
+           <Route path="beatmaplisting/:id" element={<BeatmapPage />} />
+
+           <Route path="comingsoon" element={<ComingSoonPage />} />
+
+          <Route path="user/:id" element={<ProfilePage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="*" element={<Navigate to="/" />} />
