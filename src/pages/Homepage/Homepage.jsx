@@ -19,7 +19,6 @@ import ongawaLogoNameWhite from "../../assets/icons/ongawaLogoNameWhite.png";
 
 import discordIcon from "../../assets/icons/discordIcon.png";
 import musicIcon from "../../assets/icons/music-icon.png";
-import OngawaIcon from "../../assets/icons/musicianIcons/OngawaIcon.png";
 
 import musicianImageBronte from "../../assets/images/featuredArtists/musicianModelBronte.png";
 import musicianImageVento from "../../assets/images/featuredArtists/musicianModelVento.png";
@@ -101,33 +100,67 @@ const getFAQs = () => {
   return [
     {
       question: "What makes Ongawa different from other rhythm games?",
-      answer:
-      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Ongawa uniquely blends music creation, music streaming, and RPG elements within a rhythm game. It provides a platform for indie musicians to showcase their work in an interactive way, offering a fresh experience for both players and artists.</p>,
+      answer: (
+        <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">
+          Ongawa uniquely blends music creation, music streaming, and RPG
+          elements within a rhythm game. It provides a platform for indie
+          musicians to showcase their work in an interactive way, offering a
+          fresh experience for both players and artists.
+        </p>
+      ),
     },
     {
       question: "How do I participate in Ongawa as a musician?",
-      answer:
-      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">To become a musician on Ongawa, simply sign up as a musician and upload your original tracks to be featured in the game. This allows your music to be played by others and integrated into the rhythm game experience.</p>,
+      answer: (
+        <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">
+          To become a musician on Ongawa, simply sign up as a musician and
+          upload your original tracks to be featured in the game. This allows
+          your music to be played by others and integrated into the rhythm game
+          experience.
+        </p>
+      ),
     },
     {
       question: "Is Ongawa available on mobile or desktop?",
-      answer:
-      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Currently, Ongawa will be available only on mobile. But you can try a simple demo version of the game on PC/Mac via Itch.io here: <a href='https://gelzonexunsas.itch.io/virtuosos'>Ongawa Demo</a></p>,
+      answer: (
+        <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">
+          Currently, Ongawa will be available only on mobile. But you can try a
+          simple demo version of the game on PC/Mac via Itch.io here:{" "}
+          <a href="https://gelzonexunsas.itch.io/virtuosos">Ongawa Demo</a>
+        </p>
+      ),
     },
     {
       question: "Can I play Ongawa alone, or is it multiplayer?",
-      answer:
-      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">At the moment, Ongawa is single-player only. However, multiplayer functionality is currently in development and will be available soon.</p>,
+      answer: (
+        <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">
+          At the moment, Ongawa is single-player only. However, multiplayer
+          functionality is currently in development and will be available soon.
+        </p>
+      ),
     },
     {
       question: "Can I monetize my music on Ongawa?",
-      answer:
-      <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Yes, Ongawa offers a platform for musicians to monetize their music through in-game exposure and revenue-sharing features. This allows artists to earn from their tracks and gain recognition within the game.</p>,
+      answer: (
+        <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">
+          Yes, Ongawa offers a platform for musicians to monetize their music
+          through in-game exposure and revenue-sharing features. This allows
+          artists to earn from their tracks and gain recognition within the
+          game.
+        </p>
+      ),
     },
     {
       question: "How can I support Ongawa as a fan or player?",
-      answer:
-        <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">Fans can support Ongawa by playing the game, sharing it with others, supporting musicians on the platform, or contributing to the game’s development through feedback or crowdfunding. Join our community and connect with us on Discord: <a href='https://discord.gg/yourdiscordlink'>Join our Discord</a>.</p>,
+      answer: (
+        <p className="mt-2 text-gray-300 font-nova-square short:text-xs short:mb-0">
+          Fans can support Ongawa by playing the game, sharing it with others,
+          supporting musicians on the platform, or contributing to the game’s
+          development through feedback or crowdfunding. Join our community and
+          connect with us on Discord:{" "}
+          <a href="https://discord.gg/yourdiscordlink">Join our Discord</a>.
+        </p>
+      ),
     },
   ];
 };
@@ -194,7 +227,7 @@ const Homepage = ({ muted }) => {
     <>
       {/* Main Div */}
       <div
-        className="bg-page-background-purple snap-y snap-mandatory overflow-y-scroll overflow-x-hidden h-screen"
+        className="bg-page-background-purple snap-y snap-mandatory overflow-y-scroll overflow-x-hidden h-dvh"
         style={{ scrollBehavior: "smooth" }}
       >
         <div className="hidden lg:flex">
@@ -202,7 +235,7 @@ const Homepage = ({ muted }) => {
         </div>
 
         {/* Home Section */}
-        <div id="Home" className="h-screen relative snap-start">
+        <div id="Home" className="h-dvh relative snap-start">
           {/* Background image div */}
           <BackgroundCarousel>
             {/* Content inside background image */}
@@ -240,7 +273,7 @@ const Homepage = ({ muted }) => {
         {/* Background image div */}
         <div
           id="Gameplay"
-          className="h-screen bg-cover relative flex flex-col snap-start"
+          className="h-dvh bg-cover relative flex flex-col snap-start"
           style={{
             backgroundImage: `linear-gradient(rgba(29,29,46,0.9), rgba(29,29,46, 0.9)),
            url(${gameplayDemoBackgroundImg})`,
@@ -269,7 +302,7 @@ const Homepage = ({ muted }) => {
             </AnimatePresence>
           </div>
           {/* Video Element and Toggle Buttons */}
-          <div className="flex flex-col items-center mx-3 md:mx-16">
+          <div className="flex flex-col items-center mx-3 md:mx-16 short:mx-0">
             {/* Toggle Buttons */}
             <div className="flex lg:hidden short:hidden justify-between w-full gap-4 mb-4 mt-32 lg:mt-8 short:mt-8">
               <ToggleButton
@@ -286,7 +319,7 @@ const Homepage = ({ muted }) => {
             {/* Content */}
             <div
               className="lg:flex lg:items-center lg:gap-2 lg:px-8 lg:pt-8
-                         short:flex short:items-center short:gap-2 short:px-8 short:pt-4 short:h-full"
+                         short:flex short:items-center short:gap-2 short:px-8 short:py-4 short:h-full"
             >
               {/* Video Toggle Element */}
               <div className="hidden lg:block short:block">
@@ -305,11 +338,11 @@ const Homepage = ({ muted }) => {
                 className="
                 lg:flex lg:self-start lg:w-9/12 lg:p-6 
                 lg:bg-page-background-purple/60
-                lg:outline outline- lg:outline-light-grey/50 lg:outline-offset-[-12px]
+                lg:outline lg:outline-light-grey/50 lg:outline-offset-[-12px]
 
-                short:flex short:self-start short:w-11/12 short:p-3
+                short:flex short:self-start short:w-11/12 short:p-3 short:max-h-60
               short:bg-page-background-purple/60
-                short:outline outline- short:outline-light-grey/50 short:outline-offset-[-12px]
+                short:outline short:outline-light-grey/50 short:outline-offset-[-12px]
                 "
               >
                 {/* Video Element */}
@@ -324,8 +357,8 @@ const Homepage = ({ muted }) => {
                     "
                     >
                       <video
-                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3
-                        short:max-h-52" 
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover border-[#3A3749] border-2 md:border-3
+                        short:max-h-52"
                         muted
                         autoPlay
                         loop
@@ -358,7 +391,7 @@ const Homepage = ({ muted }) => {
                     >
                       <video
                         key={activeVideo}
-                        className="block max-h-[calc(100vh-24rem)] w-auto object-contain border-[#3A3749] border-2 md:border-3
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover border-[#3A3749] border-2 md:border-3
                                    short:max-h-52"
                         muted={activeSection != "Gameplay" || muted}
                         loop
@@ -381,28 +414,17 @@ const Homepage = ({ muted }) => {
                 </div>
 
                 {/* Description Element */}
-                <div className="mt-8 lg:mt-2 mx-auto max-w-2xl flex-[1] lg:ml-8 relative">
-                  {/* Invisible placeholder to maintain size */}
-                  <p
-                    className="invisible text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
-                              lg:font-normal lg:text-lg leading-loose lg:text-left
-                              short:text-sm"
-                    aria-hidden="true"
-                  >
-                    {activeVideo == "gameplay"
-                      ? "Hitting notes in time with the music and diving into a journey of discovery and creativity in Ongawa. Combining rhythm-based gameplay with Role-playing elements, uncover hidden musical talents while controlling unique characters, each with their own skills and playstyles!"
-                      : "Create your own rhythm experience with Ongawa's customizable level editor. Add unique notes, events, SFX, and narratives, or let AI generate note patterns from your music. Design the perfect challenge and bring your vision to life."}
-                  </p>
-                  {/* Actual animated content */}
+                <div className="mt-8 lg:mt-2 mx-auto max-w-2xl flex-[1] lg:ml-8 short:mx-4">
                   <AnimatePresence mode="wait">
                     <motion.p
                       key={activeVideo}
                       className="
-                        absolute top-0 left-0 w-full
                         text-mukta-mahee font-semibold text-base/10 text-light-grey text-center 
                         lg:font-normal lg:text-lg/loose lg:text-left
-                        short:font-normal short:text-sm short:text-left
-                        tablet:text-xl/loose"
+                        short:font-normal short:text-xs short:text-left
+                        tablet:text-xl/loose
+                        two_k:text-3xl/loose
+                        four_k:text-5xl/loose"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -435,7 +457,7 @@ const Homepage = ({ muted }) => {
         {/* About Us Section */}
         <div
           id="About Us"
-          className="h-screen relative flex flex-col snap-start overflow-hidden"
+          className="h-dvh relative flex flex-col snap-start overflow-hidden"
         >
           {/* Title */}
           <h2
@@ -475,7 +497,7 @@ const Homepage = ({ muted }) => {
                   className="hidden lg:flex absolute inset-[-1px] items-center justify-center"
                   style={{
                     background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 420px)",
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 60%)",
                   }}
                 />
 
@@ -484,25 +506,25 @@ const Homepage = ({ muted }) => {
                   className="hidden short:flex absolute inset-[-5px] items-center justify-center"
                   style={{
                     background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 250px)",
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 60%)",
                   }}
                 />
 
                 {/* Circular Gradient Overlay for small screens*/}
                 <div
-                  className="flex lg:hidden short:hidden tablet:hidden absolute top-[-12px] left-0 w-full h-[calc(50%+4px)] items-center justify-center"
+                  className="flex lg:hidden short:hidden tablet:hidden absolute top-0 left-0 w-full h-[calc(50%+4px)] items-center justify-center"
                   style={{
                     background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 220px)",
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 100%)",
                   }}
                 />
 
                 {/* Circular Gradient Overlay for tablet screens*/}
                 <div
-                  className="tablet:flex lg:hidden short:hidden absolute top-[-12px] left-0 w-full h-[calc(50%+12px)] items-center justify-center"
+                  className="tablet:flex lg:hidden short:hidden absolute top-0 left-0 w-full h-[calc(50%+12px)] items-center justify-center"
                   style={{
                     background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 340px)",
+                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 50%)",
                   }}
                 />
               </div>
@@ -519,7 +541,9 @@ const Homepage = ({ muted }) => {
                   z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center mb-6
                   lg:text-left lg:text-lg/10
                   short:text-left short:text-xs
-                  tablet:text-lg/loose"
+                  tablet:text-lg/loose
+                  two_k:text-3xl/loose
+                  four_k:text-5xl/loose"
               >
                 Ongawa is a rhythm game that goes beyond entertainment,
                 centering around music, creativity, and talent discovery. It
@@ -531,7 +555,9 @@ const Homepage = ({ muted }) => {
                 z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center
                 lg:text-left lg:text-lg/10
                 short:text-left short:text-xs
-                tablet:text-lg/loose"
+                tablet:text-lg/loose
+                two_k:text-3xl/loose
+                four_k:text-5xl/loose"
               >
                 Step into the world of Ongawa, where music bridges the gap
                 between reality and imagination. You play as a dedicated
@@ -548,7 +574,7 @@ const Homepage = ({ muted }) => {
         {/* Musician Section */}
         <div
           id="Musicians"
-          className="h-screen flex flex-col items-center justify-center relative snap-start"
+          className="h-dvh flex flex-col items-center justify-center relative snap-start"
         >
           {/* Background image and gradient overlay container */}
           <div className="flex-grow w-full relative">
@@ -624,10 +650,7 @@ const Homepage = ({ muted }) => {
         </div>
 
         {/* FAQs section */}
-        <div
-          id="FAQs"
-          className="min-h-screen flex flex-col relative snap-start"
-        >
+        <div id="FAQs" className="min-h-dvh flex flex-col relative snap-start">
           <div className="mt-32 short:mt-14">
             <h2
               className="

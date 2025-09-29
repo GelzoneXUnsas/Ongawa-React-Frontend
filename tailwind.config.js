@@ -24,12 +24,14 @@ export default {
         "secondary-purple": "#6D6D99",
         "page-background": "#2d2c5f",
         "page-background-purple": "#1D1D2E",
+        "page-background-purple-dark": "#2D294C",
         "page-accent-gray": "#242424",
-        "page-background-purple": "#1D1D2E",
         white: "#fff",
         lilac: "#f1dbfc",
         "icon-color": "#FFF",
         "purple-accent": "#D5A6ED",
+        "accent-yellow": "#CA9F28",
+        "dark-purple": "#1D1D2E",
         "custom-hover-blue": "#002ead",
         "search-text-gray": "#B2B2B2",
         "link-text-gray": "#C3C3C8",
@@ -40,6 +42,10 @@ export default {
         "inactive-text": "#6D6D99",
         "border-purple-light": "#47475F",
         "heading-dark-purple": "#484878",
+        "off-white": "#B6B6CC",
+        "beatmaps-background": "#2D294C",
+        "yellow-accent": "#CA9F28",
+        "light-purple": "#6D6D99",
       },
 
       boxShadow: {
@@ -73,6 +79,10 @@ export default {
       animation: {
         merge_left: "merge_left 7s infinite",
         merge_right: "merge_right 7s infinite",
+        "slide-up": "slide-up 0.25s ease-out",
+        "slide-down": "slide-down 0.25s ease-out",
+        "fade-in": "fade-in 0.25s ease-out",
+        "fade-out": "fade-out 0.25s ease-out",
       },
 
       keyframes: {
@@ -103,11 +113,33 @@ export default {
             transform: "translate(0px, 0px) scale(1)",
           },
         },
+
+        "slide-up": {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+
+        "slide-down": {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(100%)" },
+        },
+
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+
+        "fade-out": {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
       },
 
       screens: {
         short: { raw: "(max-height: 600px)" },
         tablet: { raw: "(min-width: 820px) and (min-height: 1180px)" },
+        two_k: { raw: "(min-width: 1921px)" },
+        four_k: { raw: "(min-width: 2049px)" },
       },
     },
   },

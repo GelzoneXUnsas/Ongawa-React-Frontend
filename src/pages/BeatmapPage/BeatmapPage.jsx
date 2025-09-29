@@ -1,335 +1,305 @@
-// import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-// import styles from "./BeatmapPage.module.css";
-// import homeStyles from "../Homepage/Homepage.module.css";
-import React, { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa"; // Import the back arrow icon
-//import axios from "axios";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-import headerBackgroundImg from '../../assets/images/headerBackground.png';
+import clockIcon from "../../assets/icons/clockIcon.svg";
+import bpmIcon from "../../assets/icons/bpmIcon.svg";
+import noteIcon from "../../assets/icons/notecountIcon.svg"
+import sliderIcon from "../../assets/icons/sliderIcon.svg"
+import toggleMusicIcon from "../../assets/icons/toggleMusicIcon.png"
+import toggleMusicIconOff from "../../assets/icons/toggleMusicIconOff.png"
+import { beatmaps } from "../../data/beatmaps";
 
-
-import durationIcon from '../../assets/icons/durationicon.svg';
-import bpmIcon from '../../assets/icons/bpmIcon.svg';
-import noteCountIcon from '../../assets/icons/notecountIcon.svg';
-import sliderCountIcon from '../../assets/icons/bm-slider-icon.svg';
-import bm30ValueBar from '../../assets/icons/bm-fill-bar-30.svg';
-import bmDifficultyBar from '../../assets/icons/bm-difficultyBar.svg';
-
-import playIcon from '../../assets/icons/playIcon.svg';
-import heartIcon from '../../assets/icons/heartIcon.svg';
-import verifiedIcon from "../../assets/icons/verifiedIcon.svg";
-import easyIcon from "../../assets/icons/bmEasyIcon.svg";
-
-//images for beatmap covers 
-import cover1 from '../../assets/images/musicCovers/celticwhispersballad.png';
-import cover2 from '../../assets/images/musicCovers/neonpulsesym.png';
-import cover3 from '../../assets/images/musicCovers/celestialechoes.png';
-import cover4 from '../../assets/images/musicCovers/nocturnalpursuit.png';
-
-//images for artists
-import artist2Image from "../../assets/images/featuredArtists/artist2.jpg";
-import artist1Image from "../../assets/images/featuredArtists/artist1.jpg";
-import artist3Image from "../../assets/images/featuredArtists/artist3.png";
-
-import tempBeatmap from "../../assets/beatmapFiles/beatmapMockFile.zip";
-
-const albumCovers = {'cover1': cover1, 'cover2': cover2, 'cover3': cover3, 'cover4': cover4};
-const artistImages = {'artist1Image': artist1Image, 'artist2Image': artist2Image, 'artist3Image': artist3Image};
-
-
-// const BACKEND_URL = 'http://localhost:5001';
-//const BACKEND_URL = 'https://api-virtuosos.us-west-1.elasticbeanstalk.com';
-
-
-function BeatmapPage() {
-    const beatmap_list = {
-        beatmap_info: 
-            [
-                {
-                    id : 1,
-                    songName : 'Celtic Whispers Ballad',
-                    artist : 'Folklore Minstrel',
-                    beatmap_artist : 'Folklore Minstrel',
-                    songCoverImg: 'cover1',
-                    artistImg: 'artist2Image',
-                    releaseDate: '2024-05-18',
-                    difficultyLink : ['Easy', 'Normal', 'Hard'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '3:45',
-                    bpm : 145,
-                    noteCount: 1000,
-                    sliderCount: 50,
-                    source: "Folklore Chronicles World",
-                    tags: ['Celtic', 'Folklore', 'Traditional', 'World'],
-                    description: 'Embark on a folkloric journey with "Celtic Whispers Ballad." Folklore Minstrel, both artist and beatmap creator, weaves traditional tunes into an immersive experience. Each note carries the essence of a rich musical adventure.'
-                },
-                {
-                    id : 2,
-                    songName : 'Neon Pulse Symphony',
-                    artist : 'Techo Maestro',
-                    beatmap_artist : 'Techo Maestro',
-                    songCoverImg: 'cover2',
-                    artistImg: 'artist1Image',
-                    releaseDate: '2024-05-18',
-                    difficultyLevels : ['Easy', 'Normal', 'Hard'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '2:30',
-                    bpm : 150,
-                    noteCount: 800,
-                    sliderCount: 61,
-                    source: "Techno Adventures World",
-                    tags: ['Neon', 'Synthwave'],
-                    description : 'Dive into the cutting-edge realm of Techno Adventures World, where futuristic technology meets thrilling escapades. Explore cyber landscapes, master advanced gadgets, and overcome digital challenges in this electrifying journey through the next frontier.'
-                },
-                {
-                    id : 3,
-                    songName : 'Celestial Echoes',
-                    artist : 'Celestial Harmonics',
-                    beatmap_artist : 'StarNavigator',
-                    songCoverImg: 'cover3',
-                    artistImg: 'artist3Image',
-                    releaseDate: '2024-05-18',
-                    difficultyLink : ['Easy', 'Normal'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '1:55',
-                    bpm : 220,
-                    noteCount: 780,
-                    sliderCount: 43,
-                    source: "Celestial Harmonics Universe",
-                    tags: ['Night', 'Starry'],
-                    description: "Immerse yourself in the ethereal beauty of the Celestial Harmonics Universe. This cosmic odyssey blends astral melodies with interstellar exploration, creating a symphony of wonder and discovery among the stars. Let the harmonies guide you through the celestial expanse."
-    
-                },
-                {
-                    id : 4,
-                    songName : 'Nocturnal Pursuit',
-                    artist : 'ShadowWeaver',
-                    beatmap_artist : 'ShadowWeaver',
-                    songCoverImg: 'cover4',
-                    artistImg: 'artist1Image',
-                    releaseDate: '2024-05-18',
-                    difficultyLink : ['Easy', 'Normal'],
-                    playCount: 0,
-                    likeCount: 0,
-                    songDuration: '4:03',
-                    bpm : 120,
-                    noteCount: 607,
-                    sliderCount: 76,
-                    source: "ShadowWeaver Mysteries",
-                    tags: ['Dark', 'Mystery'],
-                    description : 'Embark on a shadowy journey through the enigmatic world of ShadowWeaver Mysteries. Unravel secrets, solve riddles, and uncover hidden truths in this mysterious realm. Each note is a clue, each beat a step closer to the truth.'
-                }
-            ]
+export default function BeatmapPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [beatmap, setBeatmap] = useState(null);
+  const [currentDifficulty, setCurrentDifficulty] = useState("easy");
+  const [currentDifficultyData, setCurrentDifficultyData] = useState(null);
+  
+  // Find the beatmap based on ID from URL params
+  useEffect(() => {
+    // For now, we'll use the mockup data
+    const beatmapId = parseInt(id);
+    const found = beatmaps.find(b => b.id === beatmapId);
+    if (found) {
+      setBeatmap(found);
+      setCurrentDifficulty("easy"); // Default to easy difficulty
+      setCurrentDifficultyData(found.difficulties.easy);
     }
-    const navigate = useNavigate();
-    const [beatmap, setBeatmap] = useState([]);
-    const [searchParams] = useSearchParams();
-    const id = searchParams.get('id');
-    console.log('ID', id);
-    async function fetchAll() {
-        try {
-            /*
-            const route = BACKEND_URL + `/beatmapListing?id=${id}`;
-            const response = await axios.get(route);
-            */
-            const response = beatmap_list;
-            console.log(response.data.beatmap_info[0]);
-            return response.data.beatmap_info;
-        }
-        catch (error) {
-            console.log(error);
-            return beatmap_list.beatmap_info;
-        }
+  }, [id]);
+
+  // Handle back button
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  const [musicIsPlaying, setMusicIsPlaying] = useState(true);
+  // const audioRef = useRef(new Audio("/path-to-your-audio-file.mp3"));
+  const toggleMusic = () => {
+    // if (musicIsPlaying) {
+    //   audioRef.current.pause();
+    // } else {
+    //   audioRef.current.play();
+    // }
+    setMusicIsPlaying(!musicIsPlaying);
+  };
+
+  // Handle difficulty change
+  const handleDifficultyChange = (diff) => {
+    setCurrentDifficulty(diff);
+    if (beatmap && beatmap.difficulties[diff]) {
+      setCurrentDifficultyData(beatmap.difficulties[diff]);
     }
+  }
 
-    useEffect(() => {
-        fetchAll().then(result => {
-            console.log('RESULT', result);
-            if (result && result.length > 0)
-                setBeatmap(result[0]);
-                console.log('beatmap', beatmap);
-                if (beatmap.length < 1) {
-                    setBeatmap(beatmap_list.beatmap_info[id-1]);
-                    console.log('done');
-                }
-        });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+  // Mock leaderboard data for the specific beatmap
+  const leaderboardData = [
+    { rank: 1, player: "Techno Maestro", score: "100,000" },
+    { rank: 2, player: "Be4tM4ster", score: "98,947" },
+    { rank: 3, player: "QuestCompoSer", score: "98,234" },
+    { rank: 4, player: "sOnicH4rmony", score: "98,123" },
+    { rank: 5, player: "melodicexplorer94", score: "97,351" }
+  ];
 
-    const handleBackClick = () => {
-        navigate(-1); // Go back to the previous page
-    };
-
+  // If beatmap is not found
+  if (!beatmap) {
     return (
-        <div className="w-full flex flex-col bg-page-accent-gray text-center text-body-overpass-base text-white font-body-overpass">
-            <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
-                <div className="bgImgContainer w-full lg:-mt-64">
-                    <img src={headerBackgroundImg} className="headerBackgroundImg w-full relative object-cover" alt="" />
-                </div>
-                <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">BEATMAPS</div>
-                <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
-            </div>
-
-            <div className="backArrowContainer flex ">
-                <button onClick={handleBackClick} className="self-start lg:ml-[73px] flex gap-1  border-none bg-transparent text-lilac text-font-size-xs items-center hover:underline hover:text-gray-300 hover:border-none ">
-                    <FaArrowLeft size={20} />
-                    Back
-                </button>
-            </div>
-
-            <div className="bmContent flex flex-col lg:items-center">
-                <div className="bmSongInfoSection h-40 flex flex-col justify-center items-start pt-8 px-4 pb-2 lg:w-11/12 ">
-                    <div className="bmSongNameContainer flex text-lg font-title-lexend ">
-                        {beatmap.songName}
-                    </div>
-                    <div className="countInfoSection flex font-title-lexend gap-2">
-                        <div className="playCountInfoContainer flex gap-[2px] text-sm font-medium font-overpass-mono ">
-                            <img src={playIcon} className="playIcon fill-white " alt="" />
-                            <b className="pt-2">
-                                {beatmap.playCount}
-                            </b>
-                        </div>
-                        <div className="likeCountInfoContainer flex gap-[2px] text-sm font-medium font-overpass-mono">
-                            <img src={heartIcon} className="heartIcon fill-white" alt="" />
-                            <b className="pt-2">
-                                {beatmap.likeCount}
-                            </b>
-                        </div>
-                    </div>
-                    <div className="bmAdditionalInfoSection flex w-full py-4 justify-between ">
-                        <div className="bmArtistInfoSection flex flex-col justify-between">
-                            <div className="artistDetails flex ">
-                                <img className="artistImage rounded-full h-8 flex" src={artistImages[beatmap.artistImg]} alt="artist"/>
-                                {/* <img className="artistImage w-8 h-8 flex-shrink-0 rounded-full bg-lightgray bg-cover bg-no-repeat" src={artistImages[beatmap.artistImg]} alt=""/> */}
-                                <div className="artistTitleContainer flex self-center justify-around pb-4">
-                                    <div className="artistName w-full font-overpass-mono text-base font-normal leading-4 pt-1 text-center px-2">
-                                        {beatmap.artist}
-                                    </div>
-                                    <img className="verifiedIcon w-3 h-3 p-1" src={verifiedIcon} alt=""/>
-                                </div>
-                            </div>
-                            <div className="releaseDate text-sm font-light font-overpass-mono text-left">
-                                released {beatmap.releaseDate}
-                            </div>    
-                        </div>
-                        <div className="bmDifficultySection flex flex-col justify-between">
-                            <div className= "bmDifficultyInfoSection flex justify-end">
-                                <img src={easyIcon} className="diffIcon w-4 h-4" alt=""/>
-                                <div className= "difficultyScore text-base pl-2">
-                                    2.3  
-                                </div>
-                            </div>
-                            <div className= "diffBarContainer">
-                                <img src={bmDifficultyBar} className= "diffBar" alt=""/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr></hr>
-
-                <div className="gameInfoAndDescripContainer flex flex-col lg:flex-row px-4 py-4 lg:w-11/12">
-                    <div className="beatmapGameInfoSectionContainer flex lg:flex-1 lg:justify-center">
-                        <div className="beatmapGameInfoSection flex flex-col py-3 justify-center items-center lg:border lg:border-neutral-200 lg:self-center lg:rounded-2xl lg:shadow-lilac lg:shadow-md lg:w-7/12">
-                            <div className="beatmapInfo flex gap-1 ">
-                                <img src={albumCovers[beatmap.songCoverImg]} className="coverImg" alt=""></img>
-                                <div className="beatmapInfoSection flex flex-col gap-2">
-                                    <div className="mapperInfo pt-2 font-light font-overpass-mono flex text-left">
-                                        Mapped by {beatmap.beatmap_artist}
-                                    </div>
-                                    <div className="bmData flex gap-2 pl-2">
-                                        <div className="bmDataItem h-4 flex">
-                                            <img src={durationIcon} className="bmsvg pt-[2px]" alt="" />
-                                            <b>
-                                                {beatmap.songDuration}
-                                            </b>
-                                        </div>
-                                        <div className="bmDataItem h-5 flex">
-                                            <img className="bmsvg " src={bpmIcon} alt="" />
-                                            <b>
-                                                {beatmap.bpm}
-                                            </b>
-                                        </div>
-                                        <div className="bmDataItem h-4 flex">
-                                            <img className="bmsvg pt-[2px]" src={noteCountIcon} alt="" />
-                                            <b>
-                                                {beatmap.noteCount}
-                                            </b>
-                                        </div>
-                                        <div className="bmDataItem h-4 flex">
-                                            <img className="bmsvg pt-[2px]" src={sliderCountIcon} alt="" />
-                                            <b>
-                                                {beatmap.sliderCount}
-                                            </b>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bmStatInfo mt-2">
-                                <div className="bmStatItem flex px-2 py-2 items-center justify-center">
-                                    <div className="bmStatAttribute w-20 font-light">
-                                        HP Drain
-                                    </div>
-                                    <div className="valueBar px-2 content-center">
-                                        <img src={bm30ValueBar} className="bmValueBar " alt=""/>
-                                    </div>
-                                    <div className="bmStatValue">5</div>
-                                </div>
-                                <div className="bmStatItem flex px-2 py-2 items-center justify-center">
-                                    <div className="bmStatAttribute w-20 font-light">
-                                        Approach Rate
-                                    </div>
-                                    <div className="valueBar px-2 content-center">
-                                        <img src={bm30ValueBar} className="bmValueBar " alt=""/>
-                                    </div>
-                                    <div className="bmStatValue ">7</div>
-                                </div>
-                                <a href={tempBeatmap} target="_blank" rel="noopener noreferrer" download>
-                                    <button type="button" className="downloadButton w-1/2 h-8 bg-transparent border border-white transition-colors duration-700 hover:bg-white hover:text-black">
-                                        Download
-                                    </button>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <hr className="block lg:hidden" ></hr>
-                    
-                    <div className="descripAndTagSection flex flex-col flex-1">
-                        <div className="bmDescription flex py-2 px-4 text-left">
-                            {beatmap.description}
-                        </div>
-
-                        <div className="tagSection flex flex-col text-left font-['Overpass_Mono'] px-4 py-8 text-base font-normal"> 
-                            <div className="tagItem flex pb-4">
-                                <div className="tagTitle pr-4">
-                                    Source:
-                                </div>
-                                <div className="tagValues text-[#d5a6ed]">
-                                    {beatmap.source}
-                                </div>
-                            </div>
-                            <div className="tagItem flex pb-4">
-                                <div className="tagTitle pr-4">
-                                    Tags:
-                                </div>
-                                <div className="tagValues text-[#d5a6ed]">
-                                    {(beatmap.tags) && (beatmap.tags).join(', ')}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div className="p-6 bg-beatmaps-background min-h-screen text-white flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl mb-4">Beatmap not found</h2>
+          <span 
+            onClick={handleBack}
+            className="text-white px-6 py-2 flex items-center justify-center cursor-pointer"
+          >
+            <span className="mr-2 text-yellow-accent">◄ Back</span>
+          </span>
         </div>
+      </div>
     );
-}
+  }
 
-export default BeatmapPage;
+  return (
+    <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
+      {/* Back Button */}
+      <span role="button"
+        onClick={handleBack}
+        className="mb-7 mt-3 md:mb-10 md:mt-7 flex items-center text-lg font-medium cursor-pointer"
+      >
+        <span className="text-yellow-accent">◄ Back</span>
+      </span>
 
+      <div className="max-w-5xl mx-auto">
+        {/* Main content */}
+        <div className="flex flex-col md:flex-row gap-6 mb-8">
+          {/* Image */}
+          <div className="md:flex-[0.3] md:max-w-sm">
+            <img 
+              src={beatmap.image} 
+              alt={beatmap.title} 
+              className="w-full aspect-square object-cover rounded-xl"
+            />
+          </div>
 
+          {/* Details */}
+          <div className="md:flex-[0.7] flex flex-col md:justify-between">
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl md:text-4xl font-bold mb-2 mt-2 text-white">{beatmap.title}</h1>
 
+              <div className="hidden md:flex rounded-md py-2 px-4 gap-6" style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}>
+                {["easy", "medium", "hard"].map((diff) => (
+                  <button
+                    key={diff}
+                    onClick={() => handleDifficultyChange(diff)}
+                    className={`flex items-center justify-center transition-all bg-transparent border-none`}
+                    // style={{ // temporary styling to override bootstrap
+                    //   border: "none",
+                    //   backgroundColor: "transparent"
+                    // }}
+                  >
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center transition-opacity ${
+                        currentDifficulty === diff ? "opacity-100" : "opacity-60"
+                      } ${getDifficultyColor(diff)}`}
+                    >
+                      <div className="w-7 h-7 rounded-full bg-beatmaps-background flex items-center justify-center">
+                        <div className={`w-5 h-5 rounded-full ${getDifficultyColor(diff)}`}></div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center overflow-hidden">
+                <span className="text-xs">{beatmap.artist.charAt(0)}</span>
+              </div>
+              <span className="text-gray-300">{beatmap.artist}</span>
+            </div>
+            
+            <p className="text-gray-400 mb-4">Mapped: {beatmap.mappedBy}</p>
+            
+            {/* Stats */}
+            <div className="flex items-center gap-6 mb-6">
+              <div className="flex items-center gap-1">
+                <img src={clockIcon} alt="Duration" className="w-5 h-5" />
+                <span>{beatmap.duration}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <img src={bpmIcon} alt="BPM" className="w-7 h-7" />
+                <span>{beatmap.bpm}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <img src={noteIcon} alt="Plays" className="w-5 h-5" />
+                <span>{currentDifficultyData.notes}</span>
+              </div>
+              <div className="flex items-center gap-1">
+              <img src={sliderIcon} alt="Sliders" className="w-7 h-7" />
+                <span>{currentDifficultyData.sliders}</span>
+              </div>
+            </div>
+            
+            {/* Difficulty */}
+            <div className="flex items-center gap-2 mb-6">
+              <div className={`w-3 h-3 rounded-full ${getDifficultyColor(currentDifficulty)}`}></div>
+              <span>{currentDifficultyData.level} | {currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1)}</span>
+            </div>
+            
+            {/* Action buttons */}
+            <div className="flex gap-4 items-center">
+              <button
+                className="bg-yellow-accent px-6 py-2 rounded-md font-medium text-black"
+                // style={{ // temporary styling to override bootstrap
+                //   border: "none",
+                //   backgroundColor: "#CA9F28"
+                // }}
+              >
+                Download
+              </button>
+              {/* <button
+                className="bg-[#3D3854] hover:bg-[#4A445E] transition p-2 rounded-md"
+                style={{ border: "none"}} 
+              >
+                <span className="text-2xl">♫</span>
+              </button> */}
+              <img
+                className="h-9 cursor-pointer"
+                src={musicIsPlaying ? toggleMusicIcon : toggleMusicIconOff}
+                alt="Music Toggle"
+                onClick={toggleMusic}
+              />
+            </div>
+          </div>
+        </div>
+        
+        {/* Divider */}
+        <div className="w-full h-px bg-[#4A4667] my-8"></div>
+        
+        {/* Game stats */}
+        <div className="mb-16">
+          <div className="flex flex-col gap-4">
+            {/* HP Drain section */}
+            <div className="flex items-center gap-2">
+              <span className="font-medium w-36">HP Drain:</span>
+              <span className="font-medium mr-3 w-5 text-right">{currentDifficultyData.hpDrain}</span>
+              <Meter value={currentDifficultyData.hpDrain} max={10} />
+            </div>
 
+            {/* Approach Rate section */}
+            <div className="flex items-center gap-2">
+              <span className="font-medium w-36">Approach Rate:</span>
+              <span className="font-medium mr-3 w-5 text-right">{currentDifficultyData.approachRate}</span>
+              <Meter value={currentDifficultyData.approachRate} max={10} />
+            </div>
+          </div>
+        </div>
+        
+        {/* Description */}
+        <div className="mb-12">
+          <p className="text-gray-300 leading-relaxed">
+            {beatmap.description}
+          </p>
+        </div>
+        
+        {/* Source and Tags */}
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> */}
+        <div className="grid grid-cols-1 gap-4">
+          {/* Source */}
+          <div className="grid grid-cols-[80px_1fr] md:grid-cols-[100px_1fr]">
+            <p className="font-medium mb-0">Source:</p>
+            <div className="flex flex-wrap gap-2">
+              {beatmap.source.map((src, index) => (
+                <span key={index} className="text-gray-300">
+                  {src}{index < beatmap.source.length - 1 ? "," : ""}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Tags */}
+          <div className="grid grid-cols-[80px_1fr] md:grid-cols-[100px_1fr]">
+            <p className="font-medium mb-0">Tags:</p>
+            <div className="flex flex-wrap gap-2">
+              {beatmap.tags.map((tag, index) => (
+                <span key={index} className="text-gray-300">
+                  {tag}{index < beatmap.tags.length - 1 ? "," : ""}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Global Leaderboard */}
+        <div className="mb-12 mt-20">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 text-white">Global Leaderboard:</h2>
+          <div className="w-full h-[400px] overflow-y-auto no-scrollbar">
+            {/* Table Head */}
+            <div className="grid grid-cols-12 gap-4 py-3 px-4 border-t border-b text-sm sticky top-0 z-10">
+              <div className="col-span-2 text-left text-gray-300 text-base">Rank</div>
+              <div className="col-span-7 text-left text-gray-300 text-base">Player</div>
+              <div className="col-span-3 text-right text-gray-300 text-base">Score</div>
+            </div>
+
+            {/* Table Rows */}
+            {leaderboardData.map((entry) => (
+              <div
+                key={entry.rank}
+                className="grid grid-cols-12 gap-4 py-3 px-4 items-center"
+              >
+                <div className="col-span-2 flex items-center text-white font-medium">
+                  <span className="text-xs">#</span>
+                  <span>{entry.rank}</span>
+                </div>
+                <div className="col-span-7 text-yellow-accent font-medium">{entry.player}</div>
+                <div className="col-span-3 text-right text-white">{entry.score}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Helper Components
+const Meter = ({ value, max }) => {
+  const percentage = (value / max) * 100;
+  return (
+    <div className="w-[360px] bg-white rounded-full h-4 overflow-hidden">
+      <div
+        className="bg-light-purple h-full rounded-full transition-all duration-300 ease-in-out"
+        style={{ width: `${percentage}%` }}
+      ></div>
+    </div>
+  );
+};
+
+// Helper function to get difficulty color
+const getDifficultyColor = (difficulty) => {
+  switch(difficulty) {
+    case "easy": return "bg-green-500";
+    case "medium": return "bg-yellow-500";
+    case "hard": return "bg-red-500";
+    default: return "bg-gray-500";
+  }
+};
