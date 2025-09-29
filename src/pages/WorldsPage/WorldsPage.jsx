@@ -7,15 +7,16 @@ import heartIcon from "../../assets/icons/heartIcon-white.svg";
 import playIcon from "../../assets/icons/playIcon-white.svg";
 import timeIcon from "../../assets/icons/timeIcon.svg"
 import ellipseIcon from "../../assets/icons/ellipse.svg"
-import { beatmaps } from "../../data/beatmaps";
+import clockIcon from "../../assets/icons/clockIcon.svg";
+import { worlds } from "../../data/worlds";
 
 import DifficultyDropdown from '../../components/DifficultyDropdown/DifficultyDropdown';
 import TagsDropdown from '../../components/TagsDropdown/TagsDropdown';
 
-export default function BeatmapListingPage() {
+export default function WorldsPage() {
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [hoveredBeatmap, setHoveredBeatmap] = useState(null);
+  const [hoveredWorld, setHoveredWorld] = useState(null);
 
   const [swipePositions, setSwipePositions] = useState({});
   const [touchStart, setTouchStart] = useState(null);
@@ -38,7 +39,34 @@ export default function BeatmapListingPage() {
   const tagsDropdownRef = useRef(null);
   const [sortDirection, setSortDirection] = useState("ascending");
 
-  const searchFilteredBeatmaps = beatmaps.filter((b) =>
+  // optimization solution to calculating the total number of plays the world has based on plays of its discography
+  const enrichedWorlds = worlds.map(world => {
+    const totalPlays = world.discography
+      ? world.discography.reduce((sum, item) => sum + (item.plays || 0), 0)
+      : 0;
+
+    const totalBeatmaps = world.discography ? world.discography.length : 0;
+
+    const totalDurationSeconds = world.discography
+      ? world.discography.reduce((sum, item) => {
+          if (!item.duration) return sum;
+          const [minutes, seconds] = item.duration.split(":").map(Number);
+          return sum + (minutes * 60 + seconds);
+        }, 0)
+      : 0;
+
+    // Convert back to MM:SS format
+    const totalDuration = `${Math.floor(totalDurationSeconds / 60)}:${String(totalDurationSeconds % 60).padStart(2, "0")}`;
+
+    return {
+      ...world,
+      totalPlays,
+      totalBeatmaps,
+      totalDuration, // now stored as "MM:SS"
+    };
+  });
+
+  const searchFilteredWorlds = enrichedWorlds.filter((b) =>
     b.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -90,7 +118,7 @@ export default function BeatmapListingPage() {
     return filtered;
   };
 
-  const filteredBeatmaps = applyFilterAndSort(searchFilteredBeatmaps);
+  const filteredWorlds = applyFilterAndSort(searchFilteredWorlds);
 
   // Function to render difficulty indicator
   const DifficultyIndicator = () => {
@@ -107,7 +135,7 @@ export default function BeatmapListingPage() {
   };
 
   const handleBeatmapClick = (id) => {
-    navigate(`/beatmaplisting/${id}`);
+    navigate(`/worlds/${id}`);
   };
 
   // Save search history to localStorage whenever it changes
@@ -269,6 +297,8 @@ export default function BeatmapListingPage() {
     const percentage = (swipeAmount / maxSwipeDistance) * 100;
     return `translateX(${100 - percentage}%)`;
   };
+
+  
 
   return (
     <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
@@ -532,39 +562,47 @@ export default function BeatmapListingPage() {
 
       {/* Desktop Grid View - Hidden on Mobile */}
       <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-3">
-        {filteredBeatmaps.map((beatmap, index) => (
+        {filteredWorlds.map((world, index) => (
           <div
             key={index}
-            className="p-4 rounded-xl hover:bg-dropdown-background-color/70 cursor-pointer relative"
-            onClick={() => handleBeatmapClick(beatmap.id)}
-            onMouseEnter={() => setHoveredBeatmap(index)}
-            onMouseLeave={() => setHoveredBeatmap(null)}
+            className="p-4 rounded-xl hover:bg-dropdown-background-color/70 cursor-pointer relative flex flex-col items-center text-center"
+            onClick={() => handleBeatmapClick(world.id)}
+            onMouseEnter={() => setHoveredWorld(index)}
+            onMouseLeave={() => setHoveredWorld(null)}
           >
             <img
-              src={beatmap.image}
-              alt={beatmap.title}
-              className="rounded-lg mb-4 w-full h-70 object-cover"
+              src={world.image}
+              alt={world.title}
+              className="aspect-square w-32 sm:w-40 md:w-48 lg:w-56 rounded-full object-cover mb-4 mx-auto"
             />
-            <p className="text-lg font-semibold mb-2 text-white font-overpass-mono">{beatmap.title}</p>
-            <p className="text-sm text-gray-400 mb-2 font-overpass-mono">{beatmap.artist}</p>
-            <p className="text-xs text-gray-500 font-overpass-mono">Mapped: {beatmap.mappedBy}</p>
-            {hoveredBeatmap === index && (
-              <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+            <p className="text-lg font-semibold mb-2 text-white font-overpass-mono">{world.title}</p>
+            <p className="text-sm text-gray-400 mb-2 font-overpass-mono">{world.artist}</p>
+            {hoveredWorld === index && (
+              <div className="absolute bottom-2 left-4 right-4 flex justify-between items-center">
                 {/* Difficulty Indicator */}
-                <div className="flex items-center gap-2">
-                  <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
-                  <DifficultyIndicator />
+                <div className="flex items-center gap-4">
+                  
+                  <div className="flex items-center gap-1">
+                    <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
+                    <span className="text-xs">{world.totalBeatmaps}</span>
+                  </div>
+
+                  <div className="flex items-center gap-1">
+                    <img src={clockIcon} alt="Duration" className="w-4 h-4" />
+                    <span className="text-xs">{world.totalDuration}</span>
+                  </div>
                 </div>
+                
 
                 {/* Likes and Plays */}
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1">
                     <img src={heartIcon} alt="heart" className="w-4 h-4" />
-                    <span className="text-xs">{beatmap.likes}</span>
+                    <span className="text-xs">{world.likes}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <img src={playIcon} alt="play" className="w-4 h-4" />
-                    <span className="text-xs">{beatmap.plays}</span>
+                    <span className="text-xs">{world.totalPlays}</span>
                   </div>
                 </div>
               </div>
@@ -575,7 +613,7 @@ export default function BeatmapListingPage() {
 
       {/* Mobile List View - Hidden on Desktop */}
       <div className="md:hidden space-y-1"> {/* space-y-4 */}
-        {filteredBeatmaps.map((beatmap, index) => (
+        {filteredWorlds.map((world, index) => (
           <div
             key={index}
             className="relative overflow-hidden rounded-xl"
@@ -590,21 +628,20 @@ export default function BeatmapListingPage() {
               onClick={() => {
                 // Only navigate if not swiping
                 if (!isSwiping && (swipePositions[index] || 0) === 0) {
-                  handleBeatmapClick(beatmap.id);
+                  handleBeatmapClick(world.id);
                 }
               }}
             >
               <img
-                src={beatmap.image}
-                alt={beatmap.title}
-                className="w-16 h-16 rounded-lg object-cover"
+                src={world.image}
+                alt={world.title}
+                className="w-16 h-16 rounded-full object-cover"
               />
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="text-base font-medium font-overpass-mono mb-1">{beatmap.title}</p>
-                    <p className="text-sm text-gray-400 mb-1 font-overpass-mono">{beatmap.artist}</p>
-                    <p className="text-xs text-gray-500 font-overpass-mono">Mapped: {beatmap.mappedBy}</p>
+                    <p className="text-base font-medium font-overpass-mono mb-1">{world.title}</p>
+                    <p className="text-sm text-gray-400 mb-1 font-overpass-mono">{world.artist}</p>
                   </div>
                 </div>
               </div>
@@ -622,11 +659,11 @@ export default function BeatmapListingPage() {
                 </div>
                 <div className="flex items-center gap-1">
                   <img src={heartIcon} alt="heart" className="w-4 h-4" />
-                  <span className="text-xs">{beatmap.likes}</span>
+                  <span className="text-xs">{world.likes}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <img src={playIcon} alt="play" className="w-4 h-4" />
-                  <span className="text-xs">{beatmap.plays}</span>
+                  <span className="text-xs">{world.totalPlays}</span>
                 </div>
               </div>
             </div>

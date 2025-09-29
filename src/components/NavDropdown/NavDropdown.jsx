@@ -16,7 +16,7 @@ const NavDropdown = ({
   return (
     <>
       {isMobileMenuOpen && (
-        <div className="z-30 h-full w-full fixed inset-0 opacity-90 bg-dropdown-background-color">
+        <div className="z-50 h-full w-full fixed inset-0 opacity-90 bg-dropdown-background-color">
           <div className="flex justify-end mt-16 mr-10">
             <img src={closeNavDropdown} onClick={() => closeMobileMenu()} />
           </div>
@@ -46,6 +46,13 @@ const NavDropdown = ({
               className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
             >
               Musicians
+            </Link>
+            <Link
+              to="/worlds"
+              onClick={() => closeMobileMenu()}
+              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+            >
+              Worlds
             </Link>
             <Link
               to="/gallery"
