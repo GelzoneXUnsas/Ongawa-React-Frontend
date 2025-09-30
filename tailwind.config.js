@@ -21,6 +21,11 @@ export default {
 
       colors: {
         "main-purple": "#3E3E7E",
+        "main-accent": "#DD8676",
+        "main-off-black": "#2A2724",
+        "main-dark": "#4B4740",
+        "main-off-white": "#EFECE6",
+        khaki: "#DDD0B9",
         "secondary-purple": "#6D6D99",
         "page-background": "#2d2c5f",
         "page-background-purple": "#1D1D2E",
@@ -34,6 +39,8 @@ export default {
         "custom-hover-blue": "#002ead",
         "search-text-gray": "#B2B2B2",
         "link-text-gray": "#C3C3C8",
+        "link-text-khaki": "#DDD0B9",
+        "link-text-khaki-active": "#C3C3C8",
         "discography-background": "#543F60",
         "dropdown-background-color": "#1D1D2E",
         "light-grey": "#D9D9D9",
@@ -54,7 +61,7 @@ export default {
 
       backgroundImage: {
         "header-gradient":
-          "linear-gradient(180deg, #1D1D2E 80.9%, rgba(45, 44, 95, 0.00) 100%)",
+          "linear-gradient(180deg, #2A2724 80.9%, rgba(45, 44, 95, 0.00) 100%)",
         "login-gradient":
           "linear-gradient(180deg, #2D2C5F 60.9%, rgba(45, 44, 95, 0.00) 100%)",
         "gradient-overlay":

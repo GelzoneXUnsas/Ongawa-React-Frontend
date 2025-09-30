@@ -9,7 +9,7 @@ const InformationBox = ({ currentMusician, className }) => {
   return (
     <div
       className={`${className} 
-      p-3  bg-light-grey border-solid border-main-purple/90 border-[12px]
+      p-3  bg-main-off-white border-solid border-main-dark/90 border-[12px]
       outline outline-1 outline-light-grey outline-offset-[-4px] overflow-hidden
       lg:border-[22px] lg:outline-offset-[-6px] lg:p-8
       short:border-[8px] short:p-1
@@ -18,7 +18,7 @@ const InformationBox = ({ currentMusician, className }) => {
     >
       {/* Name */}
       <div
-        className="relative mr-6 mb-2 p-2 bg-secondary-purple [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]
+        className="relative mr-6 mb-2 p-2 bg-main-dark [clip-path:polygon(0%_0%,100%_0%,85%_100%,0%_100%)]
                       short:py-1 short:mr-24 short:mb-1"
       >
         <AnimatePresence mode="wait">
@@ -28,7 +28,7 @@ const InformationBox = ({ currentMusician, className }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="m-0 text-2xl text-light-grey font-light font-nova-square
+            className="m-0 text-2xl text-main-off-white font-light font-nova-square
                        lg:text-4xl lg:pl-4
                        short:text-2xl
                        tablet:text-4xl tablet:pl-4"
@@ -45,7 +45,7 @@ const InformationBox = ({ currentMusician, className }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-lg text-main-purple font-nova-square mb-1
+          className="text-lg text-main-off-black font-nova-square mb-1
                      lg:text-2xl lg:mt-4
                      short:text-lg short:m-2
                      tablet:text-2xl tablet:mt-4"
@@ -61,7 +61,7 @@ const InformationBox = ({ currentMusician, className }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-sm text-main-purple mb-1
+          className="text-sm text-main-off-black mb-1
                       lg:text-lg/10 lg:mt-2
                       short:m-2
                       tablet:text-lg/10 tablet:mt-2"
@@ -79,7 +79,7 @@ const InformationBox = ({ currentMusician, className }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="text-page-background-purple mr-1 mb-0
+            className="text-main-off-black mr-1 mb-0
                          lg:hidden
                          short:text-sm"
           >
@@ -87,7 +87,7 @@ const InformationBox = ({ currentMusician, className }) => {
           </motion.p>
         </AnimatePresence> */}
       {/*Desktop Buttons */}
-      {/* <button className="hidden lg:block px-16 py-2 bg-main-purple text-2xl text-white font-nova-square outline outline-1 outline-light-grey outline-offset-[-6px]">
+      {/* <button className="hidden lg:block px-16 py-2 bg-main-off-black text-2xl text-white font-nova-square outline outline-1 outline-light-grey outline-offset-[-6px]">
           View More
         </button>
 
@@ -119,7 +119,7 @@ const InformationBox = ({ currentMusician, className }) => {
       {/* Mobile View More Button */}
       {/* <div className="flex justify-center lg:hidden">
         <button
-          className="mt-2 px-8 py-3 bg-main-purple text-white font-nova-square outline outline-1 outline-white outline-offset-[-4px]
+          className="mt-2 px-8 py-3 bg-main-off-black text-white font-nova-square outline outline-1 outline-white outline-offset-[-4px]
                             short:mt-1 short:px-6 short:py-2"
         >
           View More

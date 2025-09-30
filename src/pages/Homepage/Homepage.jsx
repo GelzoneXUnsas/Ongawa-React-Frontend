@@ -228,7 +228,7 @@ const Homepage = ({ muted }) => {
     <>
       {/* Main Div */}
       <div
-        className="bg-page-background-purple snap-y snap-mandatory overflow-y-scroll overflow-x-hidden h-dvh"
+        className="bg-main-off-black snap-y snap-mandatory overflow-y-scroll overflow-x-hidden h-dvh"
         style={{ scrollBehavior: "smooth" }}
       >
         <div className="hidden lg:flex">
@@ -276,7 +276,7 @@ const Homepage = ({ muted }) => {
           id="Gameplay"
           className="h-dvh bg-cover relative flex flex-col snap-start"
           style={{
-            backgroundImage: `linear-gradient(rgba(29,29,46,0.9), rgba(29,29,46, 0.9)),
+            backgroundImage: `linear-gradient(rgba(42,39,36,0.8), rgba(42,39,36,0.8)),
            url(${gameplayDemoBackgroundImg})`,
           }}
         >
@@ -284,7 +284,7 @@ const Homepage = ({ muted }) => {
           {/* Title */}
 
           <div
-            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]
+            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 bg-khaki [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]
             short:flex short:mt-16 short:py-1 short:mb-0
           "
           >
@@ -295,7 +295,7 @@ const Homepage = ({ muted }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="font-light text-5xl text-light-grey font-nova-square m-0
+                className="font-light text-5xl text-main-off-black font-nova-square m-0
                             short:text-3xl"
               >
                 {activeVideo === "gameplay" ? "Gameplay" : "Editor"}
@@ -338,11 +338,11 @@ const Homepage = ({ muted }) => {
               <div
                 className="
                 lg:flex lg:self-start lg:w-9/12 lg:p-6 
-                lg:bg-page-background-purple/60
+                lg:bg-main-off-black/60
                 lg:outline lg:outline-light-grey/50 lg:outline-offset-[-12px]
 
                 short:flex short:self-start short:w-11/12 short:p-3 short:max-h-60
-              short:bg-page-background-purple/60
+              short:bg-main-off-black/60
                 short:outline short:outline-light-grey/50 short:outline-offset-[-12px]
                 "
               >
@@ -353,12 +353,12 @@ const Homepage = ({ muted }) => {
                     <div
                       className="
                       p-1 border-2 flex items-center justify-center 
-                      md:p-2 md:border-3 lg:border-none lg:border-light-grey
+                      md:p-2 lg:border-none
                       short:border-none short:p-0 short:m-0
                     "
                     >
                       <video
-                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover border-[#3A3749] border-2 md:border-3
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover
                         short:max-h-52"
                         muted
                         autoPlay
@@ -392,7 +392,7 @@ const Homepage = ({ muted }) => {
                     >
                       <video
                         key={activeVideo}
-                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover border-[#3A3749] border-2 md:border-3
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover
                                    short:max-h-52"
                         muted={activeSection != "Gameplay" || muted}
                         loop
@@ -462,7 +462,7 @@ const Homepage = ({ muted }) => {
         >
           {/* Title */}
           <h2
-            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 font-light text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)] z-10
+            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 font-light text-5xl text-main-off-black font-nova-square bg-khaki [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)] z-10
                         short:flex short:max-w-[18rem] short:mt-16 short:pl-12 short:py-1 short:text-3xl"
           >
             About Us
@@ -498,7 +498,7 @@ const Homepage = ({ muted }) => {
                   className="hidden lg:flex absolute inset-[-1px] items-center justify-center"
                   style={{
                     background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 60%)",
+                      "radial-gradient(circle at center, transparent 0%, rgba(42,39,36,1) 60%)",
                   }}
                 />
 
@@ -507,7 +507,7 @@ const Homepage = ({ muted }) => {
                   className="hidden short:flex absolute inset-[-5px] items-center justify-center"
                   style={{
                     background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 60%)",
+                      "radial-gradient(circle at center, transparent 0%, rgba(42,39,36,1) 60%)",
                   }}
                 />
 
@@ -516,7 +516,7 @@ const Homepage = ({ muted }) => {
                   className="flex lg:hidden short:hidden tablet:hidden absolute top-0 left-0 w-full h-[calc(50%+4px)] items-center justify-center"
                   style={{
                     background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 100%)",
+                      "radial-gradient(circle at center, transparent 0%, rgba(42,39,36,1) 100%)",
                   }}
                 />
 
@@ -525,7 +525,7 @@ const Homepage = ({ muted }) => {
                   className="tablet:flex lg:hidden short:hidden absolute top-0 left-0 w-full h-[calc(50%+12px)] items-center justify-center"
                   style={{
                     background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 50%)",
+                      "radial-gradient(circle at center, transparent 0%, rgba(42,39,36,1) 50%)",
                   }}
                 />
               </div>
@@ -656,7 +656,7 @@ const Homepage = ({ muted }) => {
             <h2
               className="
                   w-1/2 short:w-1/3 lg:max-w-[28rem] mr-6 pl-4 lg:pl-16 py-2 lg:!py-3 font-light text-2xl
-                  lg:text-5xl tablet:text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]"
+                  lg:text-5xl tablet:text-5xl text-main-off-black font-nova-square bg-khaki [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]"
             >
               FAQs
             </h2>
