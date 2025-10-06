@@ -36,6 +36,7 @@ export default {
         "icon-color": "#FFF",
         "purple-accent": "#D5A6ED",
         "accent-yellow": "#CA9F28",
+        "dark-purple": "#1D1D2E",
         "custom-hover-blue": "#002ead",
         "search-text-gray": "#B2B2B2",
         "link-text-gray": "#C3C3C8",

@@ -103,9 +103,6 @@ pre {
 /**
    * Remove the gray background on active links in IE 10.
    */
-a {
-  background-color: transparent;
-}
 
 /**
    * 1. Remove the bottom border in Chrome 57-
@@ -424,28 +421,13 @@ h2,
 h3,
 h4,
 h5 {
-  margin: 1.5rem 0;
+  margin: 0 0;
   font-weight: 600;
   font-family: Overpass Mono, -apple-system, BlinkMacSystemFont, Helvetica Neue,
     Helvetica, Arial, sans-serif;
   line-height: 1.2;
   color: #404040;
 }
-
-h1:not(:first-child),
-h2:not(:first-child),
-h3:not(:first-child),
-h4:not(:first-child),
-h5:not(:first-child) {
-  margin: 1.5rem 0;
-}
-
-h1:not(:first-child),
-h2:not(:first-child),
-h3:not(:first-child) {
-  margin-top: 2rem;
-}
-
 h1 {
   font-size: 1.75rem;
 }
@@ -467,11 +449,6 @@ h5 {
 }
 
 @media (min-width: 600px) {
-  h1:not(:first-child),
-  h2:not(:first-child),
-  h3:not(:first-child) {
-    margin-top: 2.5rem;
-  }
   h1 {
     font-size: 2.25rem;
   }
@@ -487,18 +464,6 @@ h5 {
   h5 {
     font-size: 1.25rem;
   }
-}
-
-a {
-  color: #0366ee;
-  text-decoration: none;
-}
-
-a:hover,
-a:active,
-a:focus {
-  color: #0246a2;
-  text-decoration: underline;
 }
 
 mark {

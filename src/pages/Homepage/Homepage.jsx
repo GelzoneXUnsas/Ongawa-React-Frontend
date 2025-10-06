@@ -19,7 +19,6 @@ import ongawaLogoNameWhite from "../../assets/icons/ongawaLogoNameWhite.png";
 
 import discordIcon from "../../assets/icons/discordIcon.png";
 import musicIcon from "../../assets/icons/music-icon.png";
-import OngawaIcon from "../../assets/icons/musicianIcons/OngawaIcon.png";
 
 import musicianImageBronte from "../../assets/images/featuredArtists/musicianModelBronte.png";
 import musicianImageVento from "../../assets/images/featuredArtists/musicianModelVento.png";
