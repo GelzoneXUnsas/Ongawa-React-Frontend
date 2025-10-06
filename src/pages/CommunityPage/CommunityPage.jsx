@@ -5,7 +5,7 @@ import CommunityPost from "../../components/CommunityPost/CommunityPost";
 import SocialFilterModal from "../../components/SocialFilterModal/SocialFilterModal";
 
 import geoBg from "../../assets/images/backgrounds/geo_bg.png";
-import recordIcon from "../../assets/icons/recordYellowIcon.svg";
+import recordIcon from "../../assets/icons/recordIcon.png";
 import rightArrowIcon from "../../assets/icons/rightArrowIcon.png";
 
 // Test images
@@ -191,7 +191,7 @@ function CommunityPage() {
       : COMMUNITY_POSTS;
 
   return (
-    <div className="relative flex bg-[#29294C]">
+    <div className="relative flex bg-[#4B4740]">
       {/* Background image with opacity */}
       <div
         className="absolute inset-0 w-full h-full bg-repeat bg-left-top opacity-10 pointer-events-none"
@@ -199,7 +199,7 @@ function CommunityPage() {
       />
 
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block w-1/5 min-h-screen relative bg-[#555589]/40">
+      <div className="hidden lg:block w-1/5 min-h-screen relative bg-[#181615]/80">
         {/* Sticky Sidebar Content */}
         <div className="sticky top-24 p-4">
           {/* Toggle: Home / Following */}
@@ -210,7 +210,7 @@ function CommunityPage() {
                 <button
                   key={option}
                   className={`flex items-center gap-4 px-2 py-1 text-left font-nova-square text-lg ${
-                    isSelected ? "text-accent-yellow" : "text-light-grey"
+                    isSelected ? "text-main-accent" : "text-light-grey"
                   }`}
                   onClick={() => {
                     if (!isSelected) setContentSelection(option);
@@ -228,7 +228,7 @@ function CommunityPage() {
                   <span
                     className={`mr-8 ${
                       isSelected
-                        ? "w-full border-accent-yellow border-b-[1px]"
+                        ? "w-full border-main-accent border-b-[1px]"
                         : undefined
                     }`}
                   >
@@ -245,18 +245,18 @@ function CommunityPage() {
           </h2>
           <div className="ml-4">
             <h3
-              className="text-xl text-white font-nova-square font-light mb-4 cursor-pointer hover:text-accent-yellow transition-colors"
+              className="text-xl text-white font-nova-square font-light mb-4 cursor-pointer hover:text-main-accent transition-colors"
               onClick={openDesktopCuratedModal}
             >
               Curated Content
             </h3>
             <h3
-              className="text-xl text-white font-nova-square font-light mb-2 cursor-pointer hover:text-accent-yellow transition-colors"
+              className="text-xl text-white font-nova-square font-light mb-2 cursor-pointer hover:text-main-accent transition-colors"
               onClick={openDesktopTagsModal}
             >
               Tags
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mb-4">
               {sidebarTags.length === 0 ? (
                 <p className="text-light-grey font-nova-square font-light">
                   No Tags Selected
@@ -267,7 +267,7 @@ function CommunityPage() {
                     key={tag}
                     className={`px-3 py-1 rounded border cursor-pointer ${
                       activeTags.includes(tag)
-                        ? "text-accent-yellow border-accent-yellow"
+                        ? "text-main-accent border-main-accent"
                         : "text-light-grey border-light-grey"
                     }`}
                     onClick={() => toggleActiveTag(tag)}
@@ -281,7 +281,7 @@ function CommunityPage() {
 
           {/* Post Button */}
           <Link
-            className="mt-6 ml-4 font-nova-square text-dark-purple text-xl bg-accent-yellow px-12 py-2 rounded-lg"
+            className="mt-6 ml-4 font-nova-square text-dark-purple text-xl bg-main-accent px-12 py-2 rounded-lg"
             to="/community/new"
           >
             Post
@@ -361,6 +361,7 @@ function CommunityPage() {
                 text={item.text}
                 cover={item.cover}
                 media={item.media}
+                type="cover"
               />
             </Link>
           ))}

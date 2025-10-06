@@ -56,16 +56,16 @@ const CommunityPost = ({
   };
 
   return (
-    <div className="p-4 md:p-6 rounded-xl shadow-sm bg-[#555589]/40">
+    <div className="p-4 md:p-6 rounded-xl shadow-sm bg-khaki/40">
       {/* Header with pfp, author, date, icons */}
       <div className="flex justify-between mb-2">
         <div className="flex items-center gap-4">
           <img src={profilePicture} className="" />
-          <div className="text-sm md:text-base text-light-grey font-nova-square">
+          <div className="text-sm md:text-base text-multi-off-black font-nova-square">
             {author}
           </div>
-          <div className="w-1 h-1 rounded-full bg-light-grey"></div>
-          <div className="text-light-grey font-nova-square text-xs">
+          <div className="w-1 h-1 rounded-full bg-multi-off-black"></div>
+          <div className="text-multi-off-black font-nova-square text-xs">
             {dateCreated}
           </div>
         </div>
@@ -88,7 +88,7 @@ const CommunityPost = ({
         {tags.map((tag) => (
           <span
             key={tag}
-            className="text-xs font-nova-square bg-secondary-purple/30 text-white px-3 py-1 md:px-4 md:py-2 rounded-xl"
+            className="text-xs font-nova-square bg-main-dark text-main-off-white px-3 py-1 md:px-4 md:py-2 rounded-xl"
           >
             {tag}
           </span>
@@ -96,12 +96,12 @@ const CommunityPost = ({
       </div>
 
       {/* Title */}
-      <p className="text-base md:text-xl font-nova-square font-normal text-light-grey my-3">
+      <p className="text-base md:text-xl font-nova-square font-normal text-multi-off-black my-3">
         {title}
       </p>
 
       {/* Text Content */}
-      <p className="text-sm md:text-base prose prose-sm max-w-none text-light-grey break-words whitespace-normal">
+      <p className="text-sm md:text-base prose prose-sm max-w-none text-multi-off-black break-words whitespace-normal">
         {stripHtmlTags(text)}
       </p>
 
