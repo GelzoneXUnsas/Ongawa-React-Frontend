@@ -34,7 +34,7 @@ function CreatePostPage() {
   const [media, setMedia] = useState(null);
 
   return (
-    <div className="min-h-screen bg-page-background text-light-grey ">
+    <div className="min-h-screen bg-main-off-black text-light-grey ">
       {/* Back Button */}
       <Link
         className="w-10 mt-24 ml-6 flex gap-2 font-nova-square"
@@ -60,7 +60,9 @@ function CreatePostPage() {
           <p className="m-0 text-lg font-normal">Title</p>
           <input
             type="text"
-            className="w-full mt-2 px-4 py-2 rounded text-light-grey font-normal focus:outline-none focus:ring-0 focus:border-white"
+            className="w-full mt-2 px-4 py-2 rounded text-multi-off-black placeholder:text-multi-off-black placeholder:italic font-normal focus:outline-none focus:ring-0 focus:border-white"
+            style={{ backgroundColor: "#DDD0B9" }}
+            placeholder="Title of Post"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -71,8 +73,10 @@ function CreatePostPage() {
           <p className="m-0 text-lg font-normal">Description</p>
           <textarea
             rows="4"
-            className="w-full mt-2 px-4 py-2 h-40 rounded text-light-grey font-normal focus:outline-none focus:ring-0 focus:border-white"
+            className="w-full mt-2 px-4 py-2 h-40 rounded text-multi-off-black placeholder:text-multi-off-black placeholder:italic font-normal focus:outline-none focus:ring-0 focus:border-white"
             value={description}
+            style={{ backgroundColor: "#DDD0B9" }}
+            placeholder="Add Description"
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>
@@ -87,7 +91,7 @@ function CreatePostPage() {
                 type="button"
                 className={`px-3 py-1 rounded border ${
                   tags.includes(tag)
-                    ? "bg-accent-yellow text-dark-purple border-accent-yellow"
+                    ? "bg-main-accent text-dark-purple border-main-accent"
                     : "text-light-grey border-light-grey"
                 }`}
                 onClick={() =>
@@ -118,7 +122,7 @@ function CreatePostPage() {
 
         {/* Create Button */}
         <button
-          className="mb-8 bg-accent-yellow font-nova-square text-dark-purple px-6 py-2 rounded-lg text-lg "
+          className="mb-8 bg-main-accent font-nova-square text-dark-purple px-6 py-2 rounded-lg text-lg "
           onClick={() => {}}
         >
           Create

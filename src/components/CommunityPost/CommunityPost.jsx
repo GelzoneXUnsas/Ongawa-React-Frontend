@@ -56,7 +56,7 @@ const CommunityPost = ({
   };
 
   return (
-    <div className="p-4 md:p-6 rounded-xl shadow-sm bg-khaki/40">
+    <div className="p-4 md:p-6 rounded-xl shadow-sm bg-khaki">
       {/* Header with pfp, author, date, icons */}
       <div className="flex justify-between mb-2">
         <div className="flex items-center gap-4">

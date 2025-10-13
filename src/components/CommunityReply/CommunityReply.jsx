@@ -42,10 +42,10 @@ const CommunityReply = ({ reply, allReplies }) => {
         {/* Reply and Share Icons */}
         <div className="flex gap-2 md:gap-4 mt-1 lg:mt-0">
           <button>
-            <img src={ReplyIcon} className="w-5 md:w-auto" />
+            <img src={ReplyIcon} className="w-5 md:w-auto filter invert" />
           </button>
           <button>
-            <img src={ShareIcon} className="w-4 md:w-auto" />
+            <img src={ShareIcon} className="w-4 md:w-auto filter invert" />
           </button>
         </div>
       </div>
@@ -108,10 +108,16 @@ const CommunityReply = ({ reply, allReplies }) => {
                   </div>
                   <div className="flex gap-2 md:gap-4 mt-1 lg:mt-0">
                     <button>
-                      <img src={ReplyIcon} className="w-5 md:w-auto" />
+                      <img
+                        src={ReplyIcon}
+                        className="w-5 md:w-auto filter invert"
+                      />
                     </button>
                     <button>
-                      <img src={ShareIcon} className="w-4 md:w-auto" />
+                      <img
+                        src={ShareIcon}
+                        className="w-4 md:w-auto filter invert"
+                      />
                     </button>
                   </div>
                   {/* Text */}

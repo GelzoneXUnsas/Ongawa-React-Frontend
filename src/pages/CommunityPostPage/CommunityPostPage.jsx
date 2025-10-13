@@ -63,7 +63,7 @@ const COMMUNITY_POST = {
 
 function CommunityPostPage() {
   return (
-    <div className="min-h-screen bg-page-background text-light-grey ">
+    <div className="min-h-screen bg-main-off-black text-light-grey ">
       {/* Back Button */}
       <Link
         className="w-10 mt-24 ml-6 flex gap-2 font-nova-square"
@@ -102,9 +102,10 @@ function CommunityPostPage() {
           <input
             type="text"
             placeholder="Reply to Post"
-            className="w-full px-4 py-2 pr-24 rounded-lg font-nova-square text-light-grey italic placeholder-light-grey focus:outline-none focus:ring-0 focus:border-light-grey"
+            style={{ backgroundColor: "#DDD0B9" }}
+            className="w-full px-4 py-2 pr-24 rounded-lg font-nova-square text-multi-off-black italic placeholder-multi-off-black focus:outline-none focus:ring-0 focus:border-light-grey"
           />
-          <button className="absolute top-[6px] right-2 px-4 py-2 md:px-7 bg-accent-yellow text-dark-purple font-nova-square rounded-lg">
+          <button className="absolute top-[6px] right-2 px-4 py-2 md:px-7 bg-main-accent text-dark-purple font-nova-square rounded-lg">
             Reply
           </button>
         </div>
