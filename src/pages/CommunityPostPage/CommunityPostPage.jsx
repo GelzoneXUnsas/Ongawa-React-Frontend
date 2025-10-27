@@ -98,14 +98,17 @@ function CommunityPostPage() {
 
       {/* Reply Bar */}
       <div className="mt-4 flex justify-center">
-        <div className="w-96 max-w-[90%] md:w-9/12 relative">
+        <div className="w-96 max-w-[90%] md:w-9/12 relative p-1 border border-main-midtone">
           <input
             type="text"
             placeholder="Reply to Post"
-            style={{ backgroundColor: "#DDD0B9" }}
-            className="w-full px-4 py-2 pr-24 rounded-lg font-nova-square text-multi-off-black italic placeholder-multi-off-black focus:outline-none focus:ring-0 focus:border-light-grey"
+            style={{
+              background: "linear-gradient(to right, #EFECE6, #DDD0B9)",
+              margin: 0, // ensures no default margin from user-agent stylesheet
+            }}
+            className="block w-full px-4 py-2 pr-24 font-nova-square text-multi-off-black italic placeholder-main-off-black focus:outline-none focus:ring-0 focus:border-light-grey rounded-none leading-none"
           />
-          <button className="absolute top-[6px] right-2 px-4 py-2 md:px-7 bg-main-accent text-dark-purple font-nova-square rounded-lg">
+          <button className="absolute top-[10px] right-3 px-4 py-2 md:px-7 bg-main-accent text-dark-purple font-nova-square rounded-none">
             Reply
           </button>
         </div>

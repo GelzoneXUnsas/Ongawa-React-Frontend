@@ -199,7 +199,7 @@ function CommunityPage() {
       />
 
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block w-1/5 min-h-screen relative bg-[#181615]/80">
+      <div className="hidden lg:block w-1/5 min-h-screen relative bg-gradient-to-r from-[#EFECE6] to-[#DDD0B9]">
         {/* Sticky Sidebar Content */}
         <div className="sticky top-24 p-4">
           {/* Toggle: Home / Following */}
@@ -209,66 +209,51 @@ function CommunityPage() {
               return (
                 <button
                   key={option}
-                  className={`flex items-center gap-4 px-2 py-1 text-left font-nova-square text-lg ${
-                    isSelected ? "text-main-accent" : "text-light-grey"
+                  className={`font-nova-square text-lg text-left transition-all duration-300 ${
+                    isSelected
+                      ? "bg-khaki border border-main-midtone px-4 py-2 ml-0"
+                      : "text-main-off-black ml-8"
                   }`}
-                  onClick={() => {
-                    if (!isSelected) setContentSelection(option);
-                  }}
+                  onClick={() => setContentSelection(option)}
                 >
-                  <span className="w-4 h-4 flex items-center justify-center">
-                    {isSelected && (
-                      <img
-                        src={recordIcon}
-                        alt="Selected"
-                        className="h-6 w-6 max-w-none"
-                      />
-                    )}
-                  </span>
-                  <span
-                    className={`mr-8 ${
-                      isSelected
-                        ? "w-full border-main-accent border-b-[1px]"
-                        : undefined
-                    }`}
-                  >
-                    {option}
-                  </span>
+                  {option}
                 </button>
               );
             })}
           </div>
 
+          <div className="mb-2 border-b-[1px] border-[#968D7D]"></div>
+
           {/* Desktop Filters */}
-          <h2 className="text-xl text-white font-nova-square font-light mb-4">
+          <h2 className="text-xl text-multi-off-black font-nova-square font-light mb-4">
             Filters
           </h2>
           <div className="ml-4">
             <h3
-              className="text-xl text-white font-nova-square font-light mb-4 cursor-pointer hover:text-main-accent transition-colors"
+              className="text-xl text-multi-off-black font-nova-square font-light mb-4 cursor-pointer hover:text-main-accent transition-colors"
               onClick={openDesktopCuratedModal}
             >
               Curated Content
             </h3>
             <h3
-              className="text-xl text-white font-nova-square font-light mb-2 cursor-pointer hover:text-main-accent transition-colors"
+              className="text-xl text-multi-off-black font-nova-square font-light mb-2 cursor-pointer hover:text-main-accent transition-colors"
               onClick={openDesktopTagsModal}
             >
               Tags
             </h3>
             <div className="flex flex-wrap gap-2 mb-4">
               {sidebarTags.length === 0 ? (
-                <p className="text-light-grey font-nova-square font-light">
+                <p className="text-multi-off-black font-nova-square font-light">
                   No Tags Selected
                 </p>
               ) : (
                 sidebarTags.map((tag) => (
                   <button
                     key={tag}
-                    className={`px-3 py-1 rounded border cursor-pointer ${
+                    className={`px-3 py-1 border cursor-pointer ${
                       activeTags.includes(tag)
-                        ? "text-main-accent border-main-accent"
-                        : "text-light-grey border-light-grey"
+                        ? "text-main-off-white bg-main-midtone"
+                        : "text-main-midtone border-main-off-white"
                     }`}
                     onClick={() => toggleActiveTag(tag)}
                   >
@@ -278,10 +263,19 @@ function CommunityPage() {
               )}
             </div>
           </div>
-
+          {/* Reset Filters Button */}
+          <button
+            onClick={() => {
+              setSidebarTags([]);
+              setActiveTags([]);
+            }}
+            className="block mt-6 mx-4 font-nova-square text-xl bg-main-midtone text-main-off-white px-6 py-2"
+          >
+            Reset Filters
+          </button>
           {/* Post Button */}
           <Link
-            className="mt-6 ml-4 font-nova-square text-dark-purple text-xl bg-main-accent px-12 py-2 rounded-lg"
+            className="block mt-6 mx-4 font-nova-square text-dark-purple text-xl bg-main-accent px-6 py-2"
             to="/community/new"
           >
             Post
@@ -303,7 +297,7 @@ function CommunityPage() {
                 <button
                   key={option}
                   className={`flex py-1 text-left font-nova-square md:text-lg ${
-                    isSelected ? "text-accent-yellow" : "text-light-grey"
+                    isSelected ? "text-main-accent" : "text-light-grey"
                   }`}
                   onClick={() => {
                     if (!isSelected) setContentSelection(option);
@@ -312,7 +306,7 @@ function CommunityPage() {
                   <span
                     className={`mr-4 md:mr-8 ${
                       isSelected
-                        ? "w-full border-accent-yellow border-b-[1px]"
+                        ? "w-full border-main-accent border-b-[1px]"
                         : undefined
                     }`}
                   >
@@ -327,10 +321,12 @@ function CommunityPage() {
           <div className="flex items-center gap-4">
             {/* Mobile Filter Button  */}
             <button
-              className="flex items-center gap-3 bg-[#555589]/30 p-2 px-4 rounded-lg hover:bg-[#555589]/50 transition-colors"
+              className="flex items-center gap-3 bg-khaki p-2 px-4 rounded-lg transition-colors"
               onClick={openMobileCombinedModal}
             >
-              <p className="m-0 font-nova-square text-light-grey">Filter</p>
+              <p className="m-0 font-nova-square text-multi-off-black">
+                Filter
+              </p>
               <img
                 className="w-2 rotate-90"
                 src={rightArrowIcon}
@@ -340,7 +336,7 @@ function CommunityPage() {
             {/* Mobile Post Button */}
             <Link
               to="/community/new"
-              className="p-1 px-5 text-dark-purple font-nova-square bg-accent-yellow rounded-lg"
+              className="p-1 px-5 text-dark-purple font-nova-square bg-main-accent rounded-lg"
             >
               Post
             </Link>

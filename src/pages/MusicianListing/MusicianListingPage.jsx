@@ -274,7 +274,7 @@ export default function MusicianListingPage() {
   // };
 
   return (
-    <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
+    <div className="p-6 bg-main-off-black min-h-screen text-white mt-16">
       <h2 className="mt-2 text-white md:mx-4 font-nova-square font-medium">
         Musicians
       </h2>
@@ -298,8 +298,8 @@ export default function MusicianListingPage() {
             <input
               type="text"
               placeholder="Search ..."
-              className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg h-full"
-              style={{ border: "none" }} // to override styling in index.css (temporary)
+              className="text-main-off-black border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg placeholder:text-main-dark h-full"
+              style={{ border: "none", backgroundColor: "#DDD0B9" }} // to override styling in index.css (temporary)
               value={searchInput}
               onChange={(e) => {
                 setSearchInput(e.target.value);
@@ -379,13 +379,8 @@ export default function MusicianListingPage() {
         <div className="hidden md:flex flex-wrap items-center gap-3">
           {/* Sort Button */}
           <button
-            className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
+            className="bg-khaki bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
             onClick={toggleSortDirection}
-            style={{
-              // temporary styling to override bootstrap
-              border: "none",
-              backgroundColor: "rgba(109, 109, 153, 0.5)",
-            }}
           >
             <span className="font-nova-square">Sort</span>
             {sortDirection === "ascending" ? (
@@ -393,6 +388,7 @@ export default function MusicianListingPage() {
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
+                v
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -424,9 +420,9 @@ export default function MusicianListingPage() {
             {["Name", "Songs", "Plays"].map((filter) => (
               <button
                 key={filter}
-                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline font-nova-square ${
+                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-main-accent hover:underline font-nova-square ${
                   activeFilter === filter
-                    ? "border-b-4 text-yellow-500 underline"
+                    ? "border-b-4 text-main-accent underline"
                     : "text-gray-400"
                 }`}
                 onMouseDown={(e) => {

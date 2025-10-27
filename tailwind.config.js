@@ -26,6 +26,7 @@ export default {
         "main-dark": "#4B4740",
         "main-off-white": "#EFECE6",
         "multi-off-black": "#181615",
+        "main-midtone": "#9B8F7E",
         khaki: "#DDD0B9",
         "secondary-purple": "#6D6D99",
         "page-background": "#2d2c5f",

@@ -34,14 +34,14 @@ export default function MusicianPage() {
 
   if (!musician) {
     return (
-      <div className="p-6 bg-beatmaps-background min-h-screen text-white flex items-center justify-center">
+      <div className="p-6 bg-main-off-black min-h-screen text-white flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl mb-4 text-white">Musician not found</h2>
           <span
             onClick={handleBack}
             className="text-white px-6 py-2 inline-flex items-center justify-center cursor-pointer w-fit"
           >
-            <span className="mr-2 text-yellow-accent font-mukta-mahee">
+            <span className="mr-2 text-main-accent font-mukta-mahee">
               ◀ Back
             </span>
           </span>
@@ -51,14 +51,14 @@ export default function MusicianPage() {
   }
 
   return (
-    <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
+    <div className="p-6 bg-main-off-black min-h-screen text-white mt-16">
       {/* Back Button */}
       <span
         role="button"
         onClick={handleBack}
         className="mb-7 mt-3 md:mb-10 md:mt-7 inline-flex items-center text-lg cursor-pointer w-fit"
       >
-        <span className="text-yellow-accent font-mukta-mahee">◀ Back</span>
+        <span className="text-main-accent font-mukta-mahee">◀ Back</span>
       </span>
 
       <div className="max-w-5xl mx-auto">
@@ -80,7 +80,7 @@ export default function MusicianPage() {
                 {musician.musicianName}
               </h1>
 
-              <div className="text-gray-400 mb-6 font-roboto">
+              <div className="text-main-accent mb-6 font-roboto">
                 <span>{musician.totalSongs} songs</span>
                 <span className="mx-2">•</span>
                 <span>{musician.totalPlaycount} total playcount</span>

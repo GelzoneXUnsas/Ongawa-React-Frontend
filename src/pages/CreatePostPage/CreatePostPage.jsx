@@ -60,8 +60,8 @@ function CreatePostPage() {
           <p className="m-0 text-lg font-normal">Title</p>
           <input
             type="text"
-            className="w-full mt-2 px-4 py-2 rounded text-multi-off-black placeholder:text-multi-off-black placeholder:italic font-normal focus:outline-none focus:ring-0 focus:border-white"
-            style={{ backgroundColor: "#DDD0B9" }}
+            className="w-full mt-2 px-4 py-2 rounded text-khaki placeholder:text-khaki placeholder:italic font-normal focus:outline-none focus:ring-0 focus:border-white"
+            style={{ backgroundColor: "multi-off-black" }}
             placeholder="Title of Post"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -73,9 +73,9 @@ function CreatePostPage() {
           <p className="m-0 text-lg font-normal">Description</p>
           <textarea
             rows="4"
-            className="w-full mt-2 px-4 py-2 h-40 rounded text-multi-off-black placeholder:text-multi-off-black placeholder:italic font-normal focus:outline-none focus:ring-0 focus:border-white"
+            className="w-full mt-2 px-4 py-2 h-40 rounded text-khaki placeholder:text-khaki placeholder:italic font-normal focus:outline-none focus:ring-0 focus:border-white"
             value={description}
-            style={{ backgroundColor: "#DDD0B9" }}
+            style={{ backgroundColor: "multi-off-black" }}
             placeholder="Add Description"
             onChange={(e) => setDescription(e.target.value)}
           />
