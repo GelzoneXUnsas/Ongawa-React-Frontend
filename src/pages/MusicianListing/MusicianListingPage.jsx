@@ -275,7 +275,7 @@ export default function MusicianListingPage() {
 
   return (
     <div className="p-6 bg-main-off-black min-h-screen text-white mt-16">
-      <h2 className="mt-2 text-white md:mx-4 font-nova-square font-medium">
+      <h2 className="mt-2 text-white md:mx-4 font-nova-square font-medium pb-5">
         Musicians
       </h2>
       {/* Desktop Search - Hidden on Mobile */}
@@ -287,8 +287,8 @@ export default function MusicianListingPage() {
           <div
             className={`${
               showDropdown && searchHistory.length > 0
-                ? "bg-dropdown-background-color"
-                : "bg-light-purple bg-opacity-50"
+                ? "bg-main-dark"
+                : "bg-khaki"
             } w-full rounded-t ${
               showDropdown && searchHistory.length > 0
                 ? "rounded-b-none"
@@ -298,8 +298,8 @@ export default function MusicianListingPage() {
             <input
               type="text"
               placeholder="Search ..."
-              className="text-main-off-black border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg placeholder:text-main-dark h-full"
-              style={{ border: "none", backgroundColor: "#DDD0B9" }} // to override styling in index.css (temporary)
+              className="text-white placeholder-black focus:placeholder-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg placeholder:font-roboto h-full"
+              style={{ border: "none" }} // to override styling in index.css (temporary)
               value={searchInput}
               onChange={(e) => {
                 setSearchInput(e.target.value);
@@ -313,17 +313,17 @@ export default function MusicianListingPage() {
               }}
             />
             <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
-              <div className="w-px h-6 bg-white"></div>
+              <div className="w-px h-6 bg-black"></div>
               <img src={searchIcon} alt="Search" className="w-6 h-6" />
             </div>
           </div>
           {/* Search History Dropdown */}
           {showDropdown && searchHistory.length > 0 && (
-            <div className="absolute top-full left-0 right-0 bg-dropdown-background-color rounded-b-lg z-50 p-2">
+            <div className="absolute top-full left-0 right-0 bg-main-dark rounded-b-lg z-50 p-2">
               {searchHistory.map((historyItem, index) => (
                 <div
                   key={index}
-                  className="px-4 py-2 hover:bg-beatmaps-background cursor-pointer rounded-lg group"
+                  className="px-4 py-2 hover:bg-khaki hover:bg-opacity-20 cursor-pointer rounded-lg group"
                   onClick={() => handleSearchHistoryClick(historyItem)}
                 >
                   <div className="flex items-center justify-between">
@@ -347,18 +347,18 @@ export default function MusicianListingPage() {
 
       {/* Mobile Search - Shown only on mobile */}
       <div className="md:hidden mb-6">
-        <div className="bg-light-purple bg-opacity-50 rounded-lg h-10 relative">
+        <div className="bg-khaki rounded-lg h-10 relative">
           <input
             type="text"
             placeholder="Search ..."
-            className="text-white border-none w-full h-full rounded focus:ring-0 px-4 py-2"
+            className="text-black placeholder-black border-none w-full h-full rounded focus:ring-0 px-4 py-2"
             style={{ border: "none" }}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={handleKeyDown}
           />
           <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
-            <div className="w-px h-6 bg-white"></div>
+            <div className="w-px h-6 bg-black"></div>
             {searchInput ? (
               <img
                 src={closeIcon}
@@ -379,8 +379,13 @@ export default function MusicianListingPage() {
         <div className="hidden md:flex flex-wrap items-center gap-3">
           {/* Sort Button */}
           <button
-            className="bg-khaki bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
+            className="bg-khaki rounded-md px-4 py-2 flex items-center gap-2 text-black"
             onClick={toggleSortDirection}
+            // style={{
+            //   // temporary styling to override bootstrap
+            //   // border: "none",
+            //   // backgroundColor: "rgba(109, 109, 153, 0.5)",
+            // }}
           >
             <span className="font-nova-square">Sort</span>
             {sortDirection === "ascending" ? (
@@ -388,7 +393,6 @@ export default function MusicianListingPage() {
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
-                v
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -420,7 +424,7 @@ export default function MusicianListingPage() {
             {["Name", "Songs", "Plays"].map((filter) => (
               <button
                 key={filter}
-                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-main-accent hover:underline font-nova-square ${
+                className={`px-3 py-1 rounded-md transition-all duration-200 hover:main-accent hover:underline font-nova-square ${
                   activeFilter === filter
                     ? "border-b-4 text-main-accent underline"
                     : "text-gray-400"
@@ -548,7 +552,7 @@ export default function MusicianListingPage() {
         {filteredMusicians.map((musician, index) => (
           <div
             key={index}
-            className="p-4 rounded-xl hover:bg-dropdown-background-color/70 cursor-pointer relative"
+            className="p-4 rounded-xl hover:bg-main-dark/40 cursor-pointer relative"
             onClick={() => handleMusicianClick(musician.id)}
             // onMouseEnter={() => setHoveredMusician(index)}
             // onMouseLeave={() => setHoveredMusician(null)}
@@ -594,7 +598,7 @@ export default function MusicianListingPage() {
           >
             {/* Main content that slides */}
             <div
-              className="flex items-start gap-3 bg-beatmaps-background transition-transform duration-300 ease-out cursor-pointer"
+              className="flex items-start gap-3 bg-main-off-black transition-transform duration-300 ease-out cursor-pointer"
               // style={{ transform: getTransformValue(index) }}
               // onClick={() => {
               //   // Only navigate if not swiping
@@ -653,7 +657,7 @@ export default function MusicianListingPage() {
         - Use framer motion over CSS animations?
       */}
       <button
-        className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-light-purple hover:bg-border-purple-light rounded-full shadow-lg flex items-center justify-center z-40 transition-all duration-200"
+        className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-main-accent hover:bg-main-accent/50 rounded-full shadow-lg flex items-center justify-center z-40 transition-all duration-200"
         onClick={() => {
           setShowMobileFilterModal(true);
           setIsModalClosing(false); // reset closing state when opening modal?
@@ -671,7 +675,7 @@ export default function MusicianListingPage() {
           onClick={handleCloseModal}
         >
           <div
-            className={`bg-beatmaps-background w-full rounded-t-xl p-6 ${
+            className={`bg-main-off-black w-full rounded-t-xl p-6 ${
               isModalClosing ? "animate-slide-down" : "animate-slide-up"
             }`}
             onClick={(e) => e.stopPropagation()}
@@ -733,7 +737,7 @@ export default function MusicianListingPage() {
                     key={filter}
                     className={`px-0 py-2 transition-colors font-nova-square ${
                       activeFilter === filter
-                        ? "text-white"
+                        ? "text-main-accent"
                         : "text-gray-400 hover:text-gray-300"
                     }`}
                     onClick={() => handleMobileFilterSelect(filter)}

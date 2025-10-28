@@ -122,7 +122,7 @@ export default function MusicianPage() {
         </div>
 
         {/* Divider */}
-        <div className="w-full h-px bg-[#4A4667] my-8"></div>
+        <div className="w-full h-px bg-main-off-white my-8"></div>
 
         <div className="mb-12">
           {/* Description */}
@@ -264,13 +264,13 @@ export default function MusicianPage() {
                           Total Playtime: {album.totalPlaytime}
                         </div>
                       </div>
-                      <div className="w-full h-px bg-[#4A4667] my-1"></div>
+                      <div className="w-full h-px bg-main-dark my-1"></div>
                       {/* Scrollable Track List */}
                       <div className="overflow-y-auto max-h-32 pr-4 mt-2">
                         {album.tracks.map((track, trackIndex) => (
                           <div
                             key={trackIndex}
-                            className="flex items-center justify-between py-2 px-2 text-sm text-white cursor-pointer hover:bg-[#4A4667] rounded-md transition-colors"
+                            className="flex items-center justify-between py-2 px-2 text-sm text-white cursor-pointer hover:bg-khaki/20 rounded-md transition-colors"
                             onClick={() => handleSongClick(track.beatmapId)}
                           >
                             <span className="text-gray-300">{track.name}</span>
