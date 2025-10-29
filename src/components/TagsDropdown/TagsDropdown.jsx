@@ -37,12 +37,12 @@ const TagsDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
   return (
     <div className="relative" data-dropdown="tags" ref={ref}>
       <button
-        className="bg-beatmaps-background rounded-md px-4 py-2 flex items-center gap-2"
+        className="bg-khaki rounded-md px-4 py-2 flex items-center gap-2 text-black"
         onClick={onToggle}
-        style={{
-          border: "none",
-          backgroundColor: "rgba(109, 109, 153, 0.5)",
-        }}
+        // style={{
+        //   border: "none",
+        //   backgroundColor: "rgba(109, 109, 153, 0.5)",
+        // }}
       >
         <span>Tags</span>
         <svg
@@ -64,13 +64,13 @@ const TagsDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
       {/* Desktop Dropdown */}
       {isOpen && !isMobile && (
         <div className="absolute mt-1 w-72 z-50">
-          <div className="bg-dropdown-background-color rounded-md shadow-lg z-10 p-4 border border-yellow-500">
+          <div className="bg-main-off-black rounded-md shadow-lg z-10 p-4 border border-main-accent">
             <p className="text-lg">Tags</p>
-            <div className="mb-4 bg-light-purple bg-opacity-50 rounded-md">
+            <div className="mb-4 bg-khaki rounded-md">
               <input
                 type="text"
                 placeholder="Search"
-                className="w-full rounded-md p-3 focus:outline-none focus:ring-0"
+                className="w-full rounded-md p-3 focus:outline-none focus:ring-0 placeholder:text-black text-black"
                 style={{ border: "none" }}
                 value={searchTag}
                 onChange={(e) => setSearchTag(e.target.value)}
@@ -86,7 +86,7 @@ const TagsDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
                     key={tag}
                     className={`border rounded-md px-4 py-2 cursor-pointer ${
                       selectedTags.includes(tag)
-                        ? "bg-beatmaps-background"
+                        ? "bg-main-accent text-black"
                         : "border-white"
                     }`}
                     onClick={(e) => {
@@ -113,7 +113,7 @@ const TagsDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
 
           {/* Modal */}
           <div className="fixed bottom-0 left-0 right-0 z-50 transform transition-transform duration-300 ease-out">
-            <div className="bg-dropdown-background-color rounded-t-xl p-6 max-h-96 overflow-y-auto">
+            <div className="bg-main-off-black rounded-t-xl p-6 max-h-96 overflow-y-auto">
               {/* Modal Header */}
               <div className="flex justify-between items-center mb-10">
                 <p className="text-lg font-semibold mb-0">Tags</p>
@@ -137,11 +137,11 @@ const TagsDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
               </div>
 
               {/* Search Input */}
-              <div className="mb-4 bg-light-purple bg-opacity-50 rounded-md">
+              <div className="mb-4 bg-khaki rounded-md text-black">
                 <input
                   type="text"
                   placeholder="Search tags..."
-                  className="w-full rounded-md p-3 focus:outline-none focus:ring-0 bg-light-purple bg-opacity-50 text-white"
+                  className="w-full rounded-md p-3 focus:outline-none focus:ring-0 bg-light-purple bg-opacity-50 text-black placeholder:text-black"
                   style={{ border: "none" }}
                   value={searchTag}
                   onChange={(e) => setSearchTag(e.target.value)}
@@ -159,8 +159,8 @@ const TagsDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
                       key={tag}
                       className={`border rounded-md px-4 py-3 cursor-pointer transition-colors ${
                         selectedTags.includes(tag)
-                          ? "bg-yellow-500 text-black border-yellow-500"
-                          : "border-white text-white hover:bg-white hover:text-black"
+                          ? "bg-main-accent text-black"
+                          : "border-white text-white"
                       }`}
                       onClick={(e) => {
                         e.preventDefault();
@@ -183,7 +183,7 @@ const TagsDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
               {/* Apply Button for Mobile */}
               <button
                 onClick={onToggle}
-                className="w-full bg-yellow-500 text-black font-semibold py-3 px-4 rounded-md"
+                className="w-full bg-main-accent text-black font-semibold py-3 px-4 rounded-md"
                 style={{ border: "none" }}
               >
                 Apply

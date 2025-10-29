@@ -271,17 +271,19 @@ export default function BeatmapListingPage() {
   };
 
   return (
-    <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
-
+    <div className="p-6 bg-main-off-black min-h-screen text-white mt-16">
+      <h2 className="mt-2 text-white md:mx-4 font-nova-square font-medium pb-5">
+        Beatmaps
+      </h2>
       {/* Desktop Search - Hidden on Mobile */}
       <div className="hidden md:flex items-center mb-6">
         <div ref={searchContainerRef} className="relative w-full max-w-full rounded flex items-center mx-4">
           {/* <div className="bg-light-purple bg-opacity-50 w-full rounded flex items-center"> */}
-          <div className={`${showDropdown && searchHistory.length > 0 ? 'bg-dropdown-background-color' : 'bg-light-purple bg-opacity-50'} w-full rounded-t ${showDropdown && searchHistory.length > 0 ? 'rounded-b-none' : 'rounded'} h-12`}>
+          <div className={`${showDropdown && searchHistory.length > 0 ? 'bg-main-dark' : 'bg-khaki'} w-full rounded-t ${showDropdown && searchHistory.length > 0 ? 'rounded-b-none' : 'rounded'} h-12`}>
             <input
               type="text"
               placeholder="Search ..."
-              className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg h-full"
+              className="text-white placeholder-black focus:placeholder-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg placeholder:font-roboto h-full"
               style={{ border: "none"}} // to override styling in index.css (temporary)
               value={searchInput}
               onChange={(e) => {
@@ -296,19 +298,19 @@ export default function BeatmapListingPage() {
                 }}
             />
             <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
-              <div className="w-px h-6 bg-white"></div>
+              <div className="w-px h-6 bg-black"></div>
               <img src={searchIcon} alt="Search" className="w-6 h-6" />
             </div>
           </div>
           {/* Search History Dropdown */}
           {showDropdown && searchHistory.length > 0 && (
             <div
-              className="absolute top-full left-0 right-0 bg-dropdown-background-color rounded-b-lg z-50 p-2"
+              className="absolute top-full left-0 right-0 bg-main-dark rounded-b-lg z-50 p-2"
             >
               {searchHistory.map((historyItem, index) => (
                 <div
                   key={index}
-                  className="px-4 py-2 hover:bg-beatmaps-background cursor-pointer rounded-lg group"
+                  className="px-4 py-2 hover:bg-khaki hover:bg-opacity-20 cursor-pointer rounded-lg group"
                   onClick={() => handleSearchHistoryClick(historyItem)}
                 >
                   <div className="flex items-center justify-between">
@@ -333,18 +335,18 @@ export default function BeatmapListingPage() {
       {/* Mobile Search - Shown only on mobile */} 
       {/* flex md:hidden items-center gap-2 mb-4 */}
       <div className="md:hidden mb-6">
-        <div className="bg-light-purple bg-opacity-50 rounded-lg h-10 relative">
+        <div className="bg-khaki rounded-lg h-10 relative">
           <input
             type="text"
             placeholder="Search ..."
-            className="text-white border-none w-full h-full rounded focus:ring-0 px-4 py-2"
+            className="text-black placeholder-black border-none w-full h-full rounded focus:ring-0 px-4 py-2"
             style={{ border: "none" }}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={handleKeyDown}
           />
           <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
-            <div className="w-px h-6 bg-white"></div>
+            <div className="w-px h-6 bg-black"></div>
             {searchInput ? (
               <img src={closeIcon} alt="Close" onClick={() => setSearchInput("")} className="w-4 h-4 mx-3" /> 
             ) : (
@@ -357,16 +359,16 @@ export default function BeatmapListingPage() {
       {/* Filtering Options Section - Desktop & Mobile */}
       <div className="mb-6 md:mx-4">
         {/* Desktop Layout - Single Row */}
-        <div className="hidden md:flex flex-wrap items-center gap-3">
+        <div className="hidden md:flex flex-wrap items-center gap-3 font-nova-square">
           {/* Sort Button */}
           <button
-            className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
+            className="bg-khaki rounded-md px-4 py-2 flex items-center gap-2 text-black"
             onClick={toggleSortDirection}
-            style={{
-              // temporary styling to override bootstrap
-              border: "none",
-              backgroundColor: "rgba(109, 109, 153, 0.5)",
-            }}
+            // style={{
+            //   // temporary styling to override bootstrap
+            //   border: "none",
+            //   backgroundColor: "rgba(109, 109, 153, 0.5)",
+            // }}
           >
             <span>Sort</span>
             {sortDirection === "ascending" ? (
@@ -381,7 +383,8 @@ export default function BeatmapListingPage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <polyline points="6 9 12 15 18 9"></polyline>
+                {/* <polyline points="6 9 12 15 18 9"></polyline> */}
+                <polyline points="18 15 12 9 6 15"></polyline>
               </svg>
             ) : (
               <svg
@@ -395,7 +398,8 @@ export default function BeatmapListingPage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <polyline points="18 15 12 9 6 15"></polyline>
+                {/* <polyline points="18 15 12 9 6 15"></polyline> */}
+                <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             )}
           </button>
@@ -405,9 +409,9 @@ export default function BeatmapListingPage() {
             {["All", "Title", "Date", "Artist"].map((filter) => (
               <button
                 key={filter}
-                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline ${
+                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-main-accent hover:underline ${
                   activeFilter === filter
-                    ? "border-b-4 text-yellow-500 underline"
+                    ? "border-b-4 text-main-accent underline"
                     : "text-gray-400"
                 }`}
                 onMouseDown={(e) => {
@@ -448,13 +452,13 @@ export default function BeatmapListingPage() {
           <div className="flex items-center gap-3">
             {/* Sort Button */}
             <button
-              className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2 flex-shrink-0"
+              className="bg-khaki rounded-md px-4 py-2 flex items-center gap-2 flex-shrink-0 text-black"
               onClick={toggleSortDirection}
-              style={{
-                // temporary styling to override bootstrap
-                border: "none",
-                backgroundColor: "rgba(109, 109, 153, 0.5)",
-              }}
+              // style={{
+              //   // temporary styling to override bootstrap
+              //   border: "none",
+              //   backgroundColor: "rgba(109, 109, 153, 0.5)",
+              // }}
             >
               <span>Sort</span>
               {sortDirection === "ascending" ? (
@@ -469,7 +473,8 @@ export default function BeatmapListingPage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <polyline points="6 9 12 15 18 9"></polyline>
+                  {/* <polyline points="6 9 12 15 18 9"></polyline> */}
+                  <polyline points="18 15 12 9 6 15"></polyline>
                 </svg>
               ) : (
                 <svg
@@ -483,7 +488,8 @@ export default function BeatmapListingPage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <polyline points="18 15 12 9 6 15"></polyline>
+                  {/* <polyline points="18 15 12 9 6 15"></polyline> */}
+                  <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               )}
             </button>
@@ -493,9 +499,9 @@ export default function BeatmapListingPage() {
               {["All", "Title", "Date", "Artist"].map((filter) => (
                 <button
                   key={filter}
-                  className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline whitespace-nowrap flex-shrink-0 ${
+                  className={`px-3 py-1 rounded-md transition-all duration-200 hover:underline whitespace-nowrap flex-shrink-0 ${
                     activeFilter === filter
-                      ? "border-b-4 text-yellow-500 underline"
+                      ? "border-b-4 text-main-accent underline"
                       : "text-gray-400"
                   }`}
                   onMouseDown={(e) => {
@@ -535,7 +541,7 @@ export default function BeatmapListingPage() {
         {filteredBeatmaps.map((beatmap, index) => (
           <div
             key={index}
-            className="p-4 rounded-xl hover:bg-dropdown-background-color/70 cursor-pointer relative"
+            className="p-4 rounded-xl hover:bg-main-dark/40 cursor-pointer relative"
             onClick={() => handleBeatmapClick(beatmap.id)}
             onMouseEnter={() => setHoveredBeatmap(index)}
             onMouseLeave={() => setHoveredBeatmap(null)}
@@ -585,7 +591,7 @@ export default function BeatmapListingPage() {
           >
             {/* Main content that slides */}
             <div 
-              className="flex items-start gap-3 p-1 bg-beatmaps-background transition-transform duration-300 ease-out"
+              className="flex items-start gap-3 p-1 bg-main-off-black transition-transform duration-300 ease-out"
               style={{ transform: getTransformValue(index) }}
               onClick={() => {
                 // Only navigate if not swiping
@@ -612,7 +618,7 @@ export default function BeatmapListingPage() {
 
             {/* Action panel that gets revealed */}
             <div
-              className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-dropdown-background-color transition-transform duration-300 ease-out"
+              className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-main-dark transition-transform duration-300 ease-out"
               style={{ transform: getActionPanelTransform(index) }}
             >
               <div className="flex flex-col gap-3 items-center">

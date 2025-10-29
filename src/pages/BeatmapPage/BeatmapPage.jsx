@@ -64,14 +64,14 @@ export default function BeatmapPage() {
   // If beatmap is not found
   if (!beatmap) {
     return (
-      <div className="p-6 bg-beatmaps-background min-h-screen text-white flex items-center justify-center">
+      <div className="p-6 bg-main-off-black min-h-screen text-white flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl mb-4">Beatmap not found</h2>
           <span 
             onClick={handleBack}
             className="text-white px-6 py-2 flex items-center justify-center cursor-pointer"
           >
-            <span className="mr-2 text-yellow-accent">◄ Back</span>
+            <span className="mr-2 text-main-accent">◄ Back</span>
           </span>
         </div>
       </div>
@@ -79,13 +79,13 @@ export default function BeatmapPage() {
   }
 
   return (
-    <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
+    <div className="p-6 bg-main-off-black min-h-screen text-white mt-16">
       {/* Back Button */}
       <span role="button"
         onClick={handleBack}
         className="mb-7 mt-3 md:mb-10 md:mt-7 flex items-center text-lg font-medium cursor-pointer"
       >
-        <span className="text-yellow-accent">◄ Back</span>
+        <span className="text-main-accent">◄ Back</span>
       </span>
 
       <div className="max-w-5xl mx-auto">
@@ -103,7 +103,7 @@ export default function BeatmapPage() {
           {/* Details */}
           <div className="md:flex-[0.7] flex flex-col md:justify-between">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl md:text-4xl font-bold mb-2 mt-2 text-white">{beatmap.title}</h1>
+              <h1 className="text-2xl md:text-3xl mb-2 mt-2 text-white font-nova-square">{beatmap.title}</h1>
 
               <div className="hidden md:flex rounded-md py-2 px-4 gap-6" style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}>
                 {["easy", "medium", "hard"].map((diff) => (
@@ -134,10 +134,10 @@ export default function BeatmapPage() {
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center overflow-hidden">
                 <span className="text-xs">{beatmap.artist.charAt(0)}</span>
               </div>
-              <span className="text-gray-300">{beatmap.artist}</span>
+              <span className="text-khaki">{beatmap.artist}</span>
             </div>
             
-            <p className="text-gray-400 mb-4">Mapped: {beatmap.mappedBy}</p>
+            <p className="text-khaki mb-4">Mapped: {beatmap.mappedBy}</p>
             
             {/* Stats */}
             <div className="flex items-center gap-6 mb-6">
@@ -168,7 +168,7 @@ export default function BeatmapPage() {
             {/* Action buttons */}
             <div className="flex gap-4 items-center">
               <button
-                className="bg-yellow-accent px-6 py-2 rounded-md font-medium text-black"
+                className="bg-main-accent px-6 py-2 rounded-md font-medium text-black"
                 // style={{ // temporary styling to override bootstrap
                 //   border: "none",
                 //   backgroundColor: "#CA9F28"
@@ -226,10 +226,10 @@ export default function BeatmapPage() {
         <div className="grid grid-cols-1 gap-4">
           {/* Source */}
           <div className="grid grid-cols-[80px_1fr] md:grid-cols-[100px_1fr]">
-            <p className="font-medium mb-0">Source:</p>
+            <p className="font-medium mb-0 text-off-white">Source:</p>
             <div className="flex flex-wrap gap-2">
               {beatmap.source.map((src, index) => (
-                <span key={index} className="text-gray-300">
+                <span key={index} className="text-khaki">
                   {src}{index < beatmap.source.length - 1 ? "," : ""}
                 </span>
               ))}
@@ -238,10 +238,10 @@ export default function BeatmapPage() {
 
           {/* Tags */}
           <div className="grid grid-cols-[80px_1fr] md:grid-cols-[100px_1fr]">
-            <p className="font-medium mb-0">Tags:</p>
+            <p className="font-medium mb-0 text-off-white">Tags:</p>
             <div className="flex flex-wrap gap-2">
               {beatmap.tags.map((tag, index) => (
-                <span key={index} className="text-gray-300">
+                <span key={index} className="text-khaki">
                   {tag}{index < beatmap.tags.length - 1 ? "," : ""}
                 </span>
               ))}
@@ -270,7 +270,7 @@ export default function BeatmapPage() {
                   <span className="text-xs">#</span>
                   <span>{entry.rank}</span>
                 </div>
-                <div className="col-span-7 text-yellow-accent font-medium">{entry.player}</div>
+                <div className="col-span-7 text-main-accent font-medium">{entry.player}</div>
                 <div className="col-span-3 text-right text-white">{entry.score}</div>
               </div>
             ))}
@@ -287,7 +287,7 @@ const Meter = ({ value, max }) => {
   return (
     <div className="w-[360px] bg-white rounded-full h-4 overflow-hidden">
       <div
-        className="bg-light-purple h-full rounded-full transition-all duration-300 ease-in-out"
+        className="bg-main-accent h-full rounded-full transition-all duration-300 ease-in-out"
         style={{ width: `${percentage}%` }}
       ></div>
     </div>
