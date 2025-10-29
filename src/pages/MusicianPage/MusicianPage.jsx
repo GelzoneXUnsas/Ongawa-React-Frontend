@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import igIcon from "../../assets/icons/instagramIcon.svg";
 import xIcon from "../../assets/icons/xIcon.svg";
 import spotifyIcon from "../../assets/icons/spotifyIcon.svg";
-import soundCloudIcon from "../../assets/icons/soundcloudIcon2.svg";
+import soundCloudIcon from "../../assets/icons/soundCloudIcon2.svg";
 
 import { musicians } from "../../data/musicians";
 
