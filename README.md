@@ -11,3 +11,4 @@ Our website platform is a collaborative space where creators can share their com
 #### Min Hset Hlaing - hlaing@calpoly.edu
 #### Parth Rajesh Patel - parth773@berkeley.edu
 #### Michael Slu - mislu@calpoly.edu
+#### Jin Wu - jinwu2003@gmail.com
