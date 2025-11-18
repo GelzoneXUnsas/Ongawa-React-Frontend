@@ -48,7 +48,6 @@ const COMMUNITY_POSTS = [
     tags: ["Celtic", "Traditional"],
     text: "This haunting melody originates from the hills of Ireland...",
     media: [testImg5, testImg1],
-    cover: testImg1,
   },
   {
     id: 2,
@@ -59,7 +58,6 @@ const COMMUNITY_POSTS = [
     tags: ["Fantasy", "World"],
     text: "An original composition inspired by high fantasy tales...",
     media: ["/media/fantasy_chant.mp3", "/Demovid.mp4", testImg1],
-    cover: testImg3,
   },
   {
     id: 3,
@@ -70,7 +68,6 @@ const COMMUNITY_POSTS = [
     tags: ["Folklore", "Traditional"],
     text: "This rhythmic piece captures the energy of a village's autumn harvest celebration...",
     media: ["/media/harvest_dance.mp4", testImg3, testImg1],
-    cover: testImg2,
   },
   {
     id: 4,
@@ -81,7 +78,6 @@ const COMMUNITY_POSTS = [
     tags: ["World", "Traditional"],
     text: "A composition based on ancient Andean mountain myths...",
     media: ["/media/andean_spirits.mp3", testImg3, testImg5],
-    cover: testImg4,
   },
   {
     id: 5,
@@ -92,7 +88,6 @@ const COMMUNITY_POSTS = [
     tags: ["Fantasy", "World"],
     text: "An ambient soundscape inspired by mirages and ancient ruins...",
     media: ["/media/desert_echoes.mp3", testImg4, testImg5],
-    cover: testImg5,
   },
   {
     id: 6,
@@ -103,7 +98,6 @@ const COMMUNITY_POSTS = [
     tags: ["Celtic", "Folklore"],
     text: "A fast-paced Irish reel inspired by folklore surrounding the elusive red fox...",
     media: ["/EditorDemo.mp4", testImg2, testImg3],
-    cover: testImg1,
   },
   {
     id: 7,
@@ -114,7 +108,6 @@ const COMMUNITY_POSTS = [
     tags: ["Traditional", "World"],
     text: "A slow, elegant koto and shakuhachi duet meant to reflect the serenity...",
     media: [testImg1, "/media/kyoto_moonlight.mp3"],
-    cover: testImg2,
   },
 ];
 
@@ -275,7 +268,7 @@ function CommunityPage() {
           </button>
           {/* Post Button */}
           <Link
-            className="block mt-6 mx-4 font-nova-square text-dark-purple text-xl bg-main-accent px-6 py-2"
+            className="block mt-6 mx-4 font-nova-square text-dark-purple text-xl bg-main-accent px-6 py-2 max-w-[165px]"
             to="/community/new"
           >
             Post
@@ -355,9 +348,7 @@ function CommunityPage() {
                 tags={item.tags}
                 title={item.title}
                 text={item.text}
-                cover={item.cover}
                 media={item.media}
-                type="cover"
               />
             </Link>
           ))}

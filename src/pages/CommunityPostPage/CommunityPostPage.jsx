@@ -90,7 +90,6 @@ function CommunityPostPage() {
             tags={COMMUNITY_POST.tags}
             title={COMMUNITY_POST.title}
             text={COMMUNITY_POST.text}
-            cover={COMMUNITY_POST.cover}
             media={COMMUNITY_POST.media}
           />
         </div>
