@@ -9,6 +9,8 @@ import toggleMusicIcon from "../../assets/icons/toggleMusicIcon.png"
 import toggleMusicIconOff from "../../assets/icons/toggleMusicIconOff.png"
 import { beatmaps } from "../../data/beatmaps";
 
+import CommunityReply from "../../components/CommunityReply/CommunityReply";
+
 export default function BeatmapPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -66,26 +68,30 @@ export default function BeatmapPage() {
     return (
       <div className="p-6 bg-main-off-black min-h-screen text-white flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl mb-4">Beatmap not found</h2>
+          <h2 className="text-2xl mb-4 text-white">Beatmap not found</h2>
           <span 
             onClick={handleBack}
-            className="text-white px-6 py-2 flex items-center justify-center cursor-pointer"
+            className="text-white px-6 py-2 inline-flex items-center justify-center cursor-pointer w-fit"
           >
-            <span className="mr-2 text-main-accent">◄ Back</span>
+            <span className="mr-2 text-main-accent font-mukta-mahee">
+              ◀ Back
+            </span>
           </span>
         </div>
       </div>
     );
   }
 
+  const topLevelReplies = beatmap.replies.filter(r => r.parentId === null);
+
   return (
     <div className="p-6 bg-main-off-black min-h-screen text-white mt-16">
       {/* Back Button */}
       <span role="button"
         onClick={handleBack}
-        className="mb-7 mt-3 md:mb-10 md:mt-7 flex items-center text-lg font-medium cursor-pointer"
+        className="mb-7 mt-3 md:mb-10 md:mt-7 inline-flex items-center text-lg font-medium cursor-pointer w-fit"
       >
-        <span className="text-main-accent">◄ Back</span>
+        <span className="text-main-accent">◀ Back</span>
       </span>
 
       <div className="max-w-5xl mx-auto">
@@ -105,23 +111,25 @@ export default function BeatmapPage() {
             <div className="flex items-center justify-between">
               <h1 className="text-2xl md:text-3xl mb-2 mt-2 text-white font-nova-square">{beatmap.title}</h1>
 
-              <div className="hidden md:flex rounded-md py-2 px-4 gap-6" style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}>
+              <div className="hidden md:flex rounded-md py-2 px-4 gap-6 bg-khaki"
+                // style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}
+              >
                 {["easy", "medium", "hard"].map((diff) => (
                   <button
                     key={diff}
                     onClick={() => handleDifficultyChange(diff)}
-                    className={`flex items-center justify-center transition-all bg-transparent border-none`}
+                    className={`flex items-center justify-center transition-all bg-transparent border-none shadow-lg rounded-full w-8 h-8`}
                     // style={{ // temporary styling to override bootstrap
                     //   border: "none",
                     //   backgroundColor: "transparent"
                     // }}
                   >
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center transition-opacity ${
-                        currentDifficulty === diff ? "opacity-100" : "opacity-60"
+                      className={`w-full h-full rounded-full flex items-center justify-center transition-opacity ${
+                        currentDifficulty === diff ? "opacity-100" : "opacity-50"
                       } ${getDifficultyColor(diff)}`}
                     >
-                      <div className="w-7 h-7 rounded-full bg-beatmaps-background flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-full bg-khaki flex items-center justify-center">
                         <div className={`w-5 h-5 rounded-full ${getDifficultyColor(diff)}`}></div>
                       </div>
                     </div>
@@ -250,9 +258,9 @@ export default function BeatmapPage() {
         </div>
 
         {/* Global Leaderboard */}
-        <div className="mb-12 mt-20">
-          <h2 className="text-xl md:text-2xl font-bold mb-4 text-white">Global Leaderboard:</h2>
-          <div className="w-full h-[400px] overflow-y-auto no-scrollbar">
+        <div className="mt-20">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 text-white font-nova-square">Global Leaderboard</h2>
+          <div className="w-full h-[400px] overflow-y-auto no-scrollbar font-nova-square">
             {/* Table Head */}
             <div className="grid grid-cols-12 gap-4 py-3 px-4 border-t border-b text-sm sticky top-0 z-10">
               <div className="col-span-2 text-left text-gray-300 text-base">Rank</div>
@@ -276,6 +284,46 @@ export default function BeatmapPage() {
             ))}
           </div>
         </div>
+
+        {/* Comments Section */}
+        <div className="mt-5 mb-20">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 text-white font-nova-square">Comments</h2>
+
+          {/* Reply Bar */}
+          <div className="mt-4">
+            <div className="w-full relative p-1 border border-main-midtone">
+              <input
+                type="text"
+                placeholder="Add a Comment"
+                style={{
+                  background: "linear-gradient(to right, #EFECE6, #DDD0B9)",
+                  margin: 0, // ensures no default margin from user-agent stylesheet
+                }}
+                className="block w-full px-4 py-2 pr-24 font-nova-square text-multi-off-black italic placeholder-main-off-black focus:outline-none focus:ring-0 focus:border-light-grey rounded-none leading-none"
+              />
+              <button className="absolute top-[10px] right-3 px-4 py-2 md:px-7 bg-main-accent text-dark-purple font-nova-square rounded-none">
+                Reply
+              </button>
+            </div>
+          </div>
+
+          {/* Post Replies */}
+          <div className="mt-6 w-full">
+            {topLevelReplies.length === 0 ? (
+              <p className="text-light-grey font-nova-square">Be the first to comment!</p>
+            ) : (
+              topLevelReplies.map((reply) => (
+                  <div key={reply.id} className="border-t border-light-grey pt-4">
+                    <CommunityReply
+                      key={reply.id}
+                      reply={reply}
+                      allReplies={beatmap.replies}
+                    />
+                  </div>
+                ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -285,10 +333,13 @@ export default function BeatmapPage() {
 const Meter = ({ value, max }) => {
   const percentage = (value / max) * 100;
   return (
-    <div className="w-[360px] bg-white rounded-full h-4 overflow-hidden">
+    <div className="w-[360px] bg-white h-4 overflow-hidden relative">
       <div
-        className="bg-main-accent h-full rounded-full transition-all duration-300 ease-in-out"
-        style={{ width: `${percentage}%` }}
+        className="bg-main-accent h-full transition-all duration-300 ease-in-out"
+        style={{
+          width: `${percentage}%`,
+          clipPath: "polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)"
+        }}
       ></div>
     </div>
   );
@@ -297,9 +348,9 @@ const Meter = ({ value, max }) => {
 // Helper function to get difficulty color
 const getDifficultyColor = (difficulty) => {
   switch(difficulty) {
-    case "easy": return "bg-green-500";
-    case "medium": return "bg-yellow-500";
-    case "hard": return "bg-red-500";
+    case "easy": return "bg-[#34A853]";
+    case "medium": return "bg-[#CA9F28]";
+    case "hard": return "bg-[#A83E34]";
     default: return "bg-gray-500";
   }
 };
