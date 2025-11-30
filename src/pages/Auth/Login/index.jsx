@@ -6,6 +6,7 @@ import {
   getErrorMessage,
 } from "../../../firebase/auth";
 import { useAuth } from "../../../contexts/authContext";
+import BackgroundCarousel from "../../../components/BackgroundCarousel/BackgroundCarousel";
 
 import headerBackgroundImg from "../../../assets/images/headerBackground.png";
 import ongawaLogoWithIcon from "../../../assets/icons/ongawa_logo_with_icon.png";
@@ -57,24 +58,16 @@ const Login = () => {
 
   return (
     <div className="loginPage w-full bg-page-accent-gray overflow-hidden text-white text-body-overpass-base font-body-overpass min-h-screen">
-      <div className="titleContainer relative h-60 z-0 overflow-hidden lg:h-72">
-        <div className="bgImgContainer w-full lg:-mt-64">
-          <img
-            src={headerBackgroundImg}
-            className="headerBackgroundImg w-full relative object-cover"
-            alt=""
-          />
-        </div>
-        <div className="absolute w-full h-12 bottom-0 z-3 flex justify-center text-white text-center font-title-lexend text-3xl font-bold">
-          WELCOME BACK!
-        </div>
-        <div className="gradientOverlay absolute bottom-0 w-full h-[70%] bg-gradient-overlay z-1"></div>
-      </div>
-
       <div className="w-full h-screen flex justify-center px-3">
+        {/* Background Carousel */}
+        <div className="absolute inset-0 h-full w-full z-10">
+          <BackgroundCarousel />
+        </div>
+
         {userLoggedIn && <Navigate to={"/"} replace={true} />}
 
-        <div className="w-96 flex self-start mt-4 justify-self-center place-items-center flex-col p-6 rounded-3xl shadow-2xl bg-dark-purple">
+        {/* Login Modal */}
+        <div className="w-96 flex self-start mt-24 md:mt-72 justify-self-center place-items-center flex-col p-6 rounded-3xl shadow-2xl bg-dark-purple z-20">
           {/* Logo */}
           <img className="mt-4" src={ongawaLogoWithIcon} alt="Ongawa Logo" />
           {/* Title */}
