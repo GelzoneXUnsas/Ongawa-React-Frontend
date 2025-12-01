@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import searchIcon from '../../assets/icons/searchIcon.svg';
+import searchIconBlack from "../../assets/icons/searchIconBlack.svg";
+import searchIconAccent from "../../assets/icons/searchIconAccent.svg";
 import closeIcon from '../../assets/icons/closeNavDropdown.png';
 import heartIcon from "../../assets/icons/heartIcon-white.svg";
 import playIcon from "../../assets/icons/playIcon-white.svg";
@@ -207,6 +208,7 @@ export default function BeatmapListingPage() {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
+      e.currentTarget.blur(); // Remove focus from input
       setSearchTerm(searchInput);
       setShowDropdown(false);
     }
@@ -328,7 +330,14 @@ export default function BeatmapListingPage() {
             <input
               type="text"
               placeholder="Search ..."
-              className="text-white placeholder-black focus:placeholder-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg placeholder:font-roboto h-full"
+              // className="text-black placeholder-black focus:text-white focus:placeholder-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg font-roboto h-full"
+              className={`
+                border-none w-full px-4 rounded focus:ring-0
+                placeholder:text-lg font-roboto h-full
+                ${showDropdown
+                  ? "text-white placeholder-white"
+                  : "text-black placeholder-black"}
+              `}
               style={{ border: "none"}} // to override styling in index.css (temporary)
               value={searchInput}
               onChange={(e) => {
@@ -341,10 +350,12 @@ export default function BeatmapListingPage() {
                     setShowDropdown(true);
                   }
                 }}
+                id="desktop-search-input"
+                autoComplete="off"
             />
             <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
-              <div className="w-px h-6 bg-black"></div>
-              <img src={searchIcon} alt="Search" className="w-6 h-6" />
+              <div className={`w-px h-6 ${showDropdown ? 'bg-white' : 'bg-black'}`}></div>
+              <img src={showDropdown ? searchIconAccent : searchIconBlack} alt="Search" className="w-6 h-6" />
             </div>
           </div>
           {/* Search History Dropdown */}
@@ -392,11 +403,12 @@ export default function BeatmapListingPage() {
           />
           <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
             <div className="w-px h-6 bg-black"></div>
-            {searchInput ? (
+            {/* {searchInput ? (
               <img src={closeIcon} alt="Close" onClick={() => setSearchInput("")} className="w-4 h-4 mx-3" /> 
             ) : (
-              <img src={searchIcon} alt="Search" className="w-5 h-5 mx-3" />
-              )}
+              <img src={searchIconBlack} alt="Search" className="w-5 h-5 mx-3" />
+              )} */}
+            <img src={searchIconBlack} alt="Search" className="w-5 h-5 mx-3" />
           </div>
         </div>
       </div>
