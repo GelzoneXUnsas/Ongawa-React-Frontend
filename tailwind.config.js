@@ -21,6 +21,8 @@ export default {
 
       colors: {
         "main-purple": "#3E3E7E",
+        "main-off-black": "#2A2724",
+        "main-accent": "#DD8676",
         "secondary-purple": "#6D6D99",
         "page-background": "#2d2c5f",
         "page-background-purple": "#1D1D2E",
@@ -43,6 +45,7 @@ export default {
         "border-purple-light": "#47475F",
         "heading-dark-purple": "#484878",
         "off-white": "#B6B6CC",
+        "multi-off-black": "#181615",
         "beatmaps-background": "#2D294C",
         "yellow-accent": "#CA9F28",
         "light-purple": "#6D6D99",

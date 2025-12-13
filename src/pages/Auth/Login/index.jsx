@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Added useEffect
 import { Navigate, Link } from "react-router-dom";
 import {
   doSignInWithEmailAndPassword,
@@ -8,7 +8,6 @@ import {
 import { useAuth } from "../../../contexts/authContext";
 import BackgroundCarousel from "../../../components/BackgroundCarousel/BackgroundCarousel";
 
-import headerBackgroundImg from "../../../assets/images/headerBackground.png";
 import ongawaLogoWithIcon from "../../../assets/icons/ongawa_logo_with_icon.png";
 
 const Login = () => {
@@ -20,6 +19,14 @@ const Login = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Animation State
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Trigger the slide-in animation after component mounts
+    setIsMounted(true);
+  }, []);
+
   const isFormFilled = email.trim() !== "" && password.trim() !== "";
 
   const onSubmit = async (e) => {
@@ -29,8 +36,6 @@ const Login = () => {
       await doSignInWithEmailAndPassword(email, password)
         .then((result) => {
           console.log("Email SignIn successful:", result.user.uid);
-          console.log("UserID: ", result.user.uid);
-          console.log("Stay signed in:", staySignedIn);
         })
         .catch((err) => {
           console.error("Email SignIn error:", err);
@@ -57,25 +62,36 @@ const Login = () => {
   };
 
   return (
-    <div className="loginPage w-full bg-page-accent-gray overflow-hidden text-white text-body-overpass-base font-body-overpass min-h-screen">
-      <div className="w-full h-screen flex justify-center px-3">
-        {/* Background Carousel */}
-        <div className="absolute inset-0 h-full w-full z-10">
-          <BackgroundCarousel />
-        </div>
+    <div className="loginPage relative w-full bg-page-accent-gray overflow-hidden text-white text-body-overpass-base font-body-overpass min-h-screen">
+      {userLoggedIn && <Navigate to={"/"} replace={true} />}
 
-        {userLoggedIn && <Navigate to={"/"} replace={true} />}
+      {/* Background Carousel */}
+      <div className="absolute inset-0 h-full w-full z-10">
+        <BackgroundCarousel />
+      </div>
 
-        {/* Login Modal */}
-        <div className="w-96 flex self-start mt-24 md:mt-72 justify-self-center place-items-center flex-col p-6 rounded-3xl shadow-2xl bg-dark-purple z-20">
+      {/* Login Modal */}
+      <div
+        className={`
+          fixed top-0 left-0 h-full z-20 w-full sm:w-[480px] bg-multi-off-black shadow-2xl
+          flex flex-col justify-center px-8 sm:px-12 py-6 transform transition-transform duration-700 ease-out
+          ${isMounted ? "translate-x-0" : "-translate-x-full"}
+        `}
+      >
+        <div className="w-full flex flex-col items-center sm:items-start">
           {/* Logo */}
-          <img className="mt-4" src={ongawaLogoWithIcon} alt="Ongawa Logo" />
+          <img
+            className="w-auto h-16 self-center mb-8"
+            src={ongawaLogoWithIcon}
+            alt="Ongawa Logo"
+          />
+
           {/* Title */}
-          <h2 className="mt-4 font-nova-square text-light-grey font-normal text-2xl">
+          <h2 className="mt-6 font-nova-square text-light-grey font-normal text-3xl">
             Account Login
           </h2>
 
-          <form onSubmit={onSubmit} className="space-y-3 w-full mt-8">
+          <form onSubmit={onSubmit} className="space-y-4 w-full mt-8">
             {/* Email Input */}
             <div className="relative">
               <input
@@ -84,17 +100,14 @@ const Login = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                style={{
-                  backgroundColor: "#6D6D9933",
-                  borderRadius: 0,
-                }}
+                style={{ backgroundColor: "#2A2724" }}
                 className="
-                  peer w-full px-3 pt-5 pb-2 text-white
-                  bg-transparent rounded-none
-                  focus:outline-none focus:ring-0 focus:border-none
-                  !ring-0 !outline-none !border-none !shadow-none
+                  peer w-full px-4 py-3 text-white
+                  bg-transparent border-l-4 border-transparen
+                  focus:outline-none transition-colors
+                  placeholder-gray-400
                 "
-                placeholder="Email/Username"
+                placeholder="Email address"
               />
             </div>
 
@@ -106,99 +119,92 @@ const Login = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{
-                  backgroundColor: "#6D6D9933",
-                  borderRadius: 0,
-                }}
+                style={{ backgroundColor: "#2A2724" }}
                 className="
-                  peer w-full px-3 pt-5 pb-2 text-white
-                  bg-transparent rounded-none
-                  focus:outline-none focus:ring-0 focus:border-none
-                  !ring-0 !outline-none !border-none !shadow-none
+                  peer w-full px-4 py-3 text-white
+                  bg-transparent border-l-4 border-transparent
+                  focus:outline-none transition-colors
+                  placeholder-gray-400
                 "
                 placeholder="Password"
               />
             </div>
 
-            {errorMessage && (
-              <span className="text-yellow-600 font-bold">{errorMessage}</span>
-            )}
-
             {/* Login Button */}
             <button
               onClick={onSubmit}
               disabled={isSigningIn}
-              style={{
-                backgroundColor:
-                  isFormFilled && !isSigningIn ? undefined : "#6D6D9933",
-              }}
               className={`
-                w-full flex items-center justify-center gap-x-3 py-2.5
-                rounded-lg text-sm font-medium transition duration-300
+                w-full flex items-center justify-center py-3 mt-4
+                rounded-lg text-sm font-bold tracking-wide uppercase transition duration-300
                 ${
                   isFormFilled && !isSigningIn
-                    ? "bg-yellow-accent text-black hover:opacity-90"
-                    : "text-white"
+                    ? "bg-main-off-black text-[#EFECE65C/36] hover:bg-white hover:shadow-lg"
+                    : "bg-[#6D6D9933] text-gray-400 cursor-not-allowed"
                 }
-                ${isSigningIn ? "cursor-not-allowed opacity-70" : ""}
               `}
             >
-              {isSigningIn ? "Signing In..." : "Login"}
+              {isSigningIn ? "Signing In..." : "Log In"}
             </button>
 
-            <div className="mt-0 flex justify-between w-full">
+            {/* Error Message */}
+            {errorMessage && (
+              <span className="text-main-accent font-bold text-sm block">
+                {errorMessage}
+              </span>
+            )}
+
+            <div className="flex justify-between w-full items-center text-sm">
               {/* Stay signed in */}
-              <label className="m-0 flex gap-2 cursor-pointer">
+              <label className="flex gap-2 cursor-pointer items-center group">
                 <input
                   type="checkbox"
                   checked={staySignedIn}
                   onChange={(e) => setStaySignedIn(e.target.checked)}
-                  className="w-3 h-3 cursor-pointer mt-[2px]"
+                  className="w-4 h-4 cursor-pointer accent-main-accent"
                 />
-                <p className="text-sm font-normal">Stay signed in</p>
+                <span className="text-gray-300 group-hover:text-white transition">
+                  Stay signed in
+                </span>
               </label>
+
               {/* Forgot Password */}
               <Link
                 to="/forgot-password"
-                className="text-sm text-yellow-accent underline hover:opacity-80"
+                className="text-main-accent hover:text-white transition duration-300"
               >
                 Forgot password?
               </Link>
             </div>
           </form>
 
-          {/* Sign Up for Account Redirect */}
-          <p className="text-center text-sm mt-2">
-            Don't have an account?{" "}
+          {/* Sign Up Redirect */}
+          <p className="text-center w-full text-sm mt-2 mb-0 text-gray-400">
+            Don&apos;t have an account?{" "}
             <Link
               to={"/register"}
-              className="text-yellow-accent underline hover:opacity-80"
+              className="text-main-accent font-semibold hover:underline"
             >
               Sign up
             </Link>
           </p>
 
           {/* Google Button */}
-          <div className="flex w-full justify-start">
+          <div className="w-full mt-4">
             <button
               disabled={isSigningIn}
               onClick={(e) => onGoogleSignIn(e)}
               className={`
-              w-16 flex items-center justify-center gap-x-3 py-2.5
-              bg-white text-black rounded-lg text-sm font-medium
-              ${
-                isSigningIn
-                  ? "cursor-not-allowed"
-                  : "hover:bg-page-background hover:text-white transition duration-300 active:bg-page-background active:text-white"
-              }
-            `}
+                w-full flex items-center justify-center gap-x-3 py-3 mt-4
+                bg-white text-black rounded-lg text-sm font-medium
+                ${
+                  isSigningIn
+                    ? "cursor-not-allowed opacity-70"
+                    : "hover:bg-gray-100 transition duration-300"
+                }
+              `}
             >
-              <svg
-                className="w-5 h-5"
-                viewBox="0 0 48 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg className="w-5 h-5" viewBox="0 0 48 48">
                 <g clipPath="url(#clip0)">
                   <path
                     d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z"
@@ -223,6 +229,7 @@ const Login = () => {
                   </clipPath>
                 </defs>
               </svg>
+              Google
             </button>
           </div>
         </div>

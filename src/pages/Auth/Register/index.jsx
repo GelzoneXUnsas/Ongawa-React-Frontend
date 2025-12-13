@@ -1,72 +1,104 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Added useEffect
 import { Navigate, Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/authContext";
 import {
   doCreateUserWithEmailAndPassword,
+  doSignInWithGoogle,
   getErrorMessage,
 } from "../../../firebase/auth";
 import BackgroundCarousel from "../../../components/BackgroundCarousel/BackgroundCarousel";
 
-import headerBackgroundImg from "../../../assets/images/headerBackground.png";
 import ongawaLogoWithIcon from "../../../assets/icons/ongawa_logo_with_icon.png";
 
 const Register = () => {
-  // const navigate = useNavigate()
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setconfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const { userLoggedIn } = useAuth();
 
+  // Animation State
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Trigger the slide-in animation after component mounts
+    setIsMounted(true);
+  }, []);
+
+  const isFormFilled =
+    email.trim() !== "" &&
+    password.trim() !== "" &&
+    confirmPassword.trim() !== "";
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match.");
+      return;
+    }
     if (!isRegistering) {
       setIsRegistering(true);
       try {
         const result = await doCreateUserWithEmailAndPassword(email, password);
         console.log("User registration successful:", result.user.uid);
-        // const user = result.user;
-
-        // // Assign user default role and store in dynamoDB
-        // await setUserRole(user.uid, 'user');
-        // console.log('User signed up and role assigned:', user);
       } catch (err) {
-        console.error("Email SignIn error:", err);
+        console.error("Email registration error:", err);
         setIsRegistering(false);
         setErrorMessage(`${getErrorMessage(err.code)}`);
       }
     }
   };
 
+  const onGoogleSignIn = (e) => {
+    e.preventDefault();
+    if (!isRegistering) {
+      setIsRegistering(true);
+      doSignInWithGoogle()
+        .then((result) => {
+          console.log("Google SignIn successful:", result.user.uid);
+        })
+        .catch((err) => {
+          console.error("Google SignIn error:", err);
+          setIsRegistering(false);
+          setErrorMessage(`Error: ${err.message}`);
+        });
+    }
+  };
+
   return (
-    <div className="loginPage w-full bg-page-accent-gray overflow-hidden text-white text-body-overpass-base font-body-overpass min-h-screen">
+    <div className="loginPage relative w-full bg-page-accent-gray overflow-hidden text-white text-body-overpass-base font-body-overpass min-h-screen">
+      {userLoggedIn && <Navigate to={"/"} replace={true} />}
+
       {/* Background Carousel */}
       <div className="absolute inset-0 h-full w-full z-10">
         <BackgroundCarousel />
       </div>
 
-      {userLoggedIn && <Navigate to={"/"} replace={true} />}
-
-      {/* Register Modal */}
-      <div className="w-full h-screen flex justify-center px-3">
-        <div className="w-96 flex self-start mt-24 md:mt-72 flex-col p-6 rounded-3xl shadow-2xl bg-dark-purple z-20">
+      {/* Register Modal (Styled like Login Modal) */}
+      <div
+        className={`
+          fixed top-0 left-0 h-full z-20 w-full sm:w-[480px] bg-multi-off-black shadow-2xl
+          flex flex-col justify-center px-8 sm:px-12 py-6 transform transition-transform duration-700 ease-out
+          ${isMounted ? "translate-x-0" : "-translate-x-full"}
+        `}
+      >
+        <div className="w-full flex flex-col items-center sm:items-start">
           {/* Logo */}
           <img
-            className="mt-4 self-center"
+            className="w-auto h-16 self-center mb-8"
             src={ongawaLogoWithIcon}
             alt="Ongawa Logo"
           />
 
           {/* Title */}
-          <h2 className="mt-4 font-nova-square text-light-grey text-center font-normal text-2xl">
+          <h2 className="mt-6 font-nova-square text-light-grey font-normal text-3xl">
             Create a New Account
           </h2>
 
-          <form onSubmit={onSubmit} className="space-y-3 w-full mt-8">
-            {/* Email */}
+          <form onSubmit={onSubmit} className="space-y-4 w-full mt-8">
+            {/* Email Input */}
             <div className="relative">
               <input
                 type="email"
@@ -74,17 +106,18 @@ const Register = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                style={{ backgroundColor: "#6D6D9933", borderRadius: 0 }}
+                style={{ backgroundColor: "#2A2724" }}
                 className="
-                peer w-full px-3 pt-5 pb-2 text-white bg-transparent rounded-none
-                focus:outline-none focus:ring-0 focus:border-none
-                !ring-0 !outline-none !border-none !shadow-none
-              "
-                placeholder="Email/Username"
+                  peer w-full px-4 py-3 text-white
+                  bg-transparent border-l-4 border-transparent
+                  focus:outline-none transition-colors
+                  placeholder-gray-400
+                "
+                placeholder="Email address"
               />
             </div>
 
-            {/* Password */}
+            {/* Password Input */}
             <div className="relative">
               <input
                 type="password"
@@ -92,17 +125,18 @@ const Register = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{ backgroundColor: "#6D6D9933", borderRadius: 0 }}
+                style={{ backgroundColor: "#2A2724" }}
                 className="
-                peer w-full px-3 pt-5 pb-2 text-white bg-transparent rounded-none
-                focus:outline-none focus:ring-0 focus:border-none
-                !ring-0 !outline-none !border-none !shadow-none
-              "
+                  peer w-full px-4 py-3 text-white
+                  bg-transparent border-l-4 border-transparent
+                  focus:outline-none transition-colors
+                  placeholder-gray-400
+                "
                 placeholder="Password"
               />
             </div>
 
-            {/* Confirm */}
+            {/* Confirm Password Input */}
             <div className="relative">
               <input
                 type="password"
@@ -110,63 +144,97 @@ const Register = () => {
                 required
                 disabled={isRegistering}
                 value={confirmPassword}
-                onChange={(e) => setconfirmPassword(e.target.value)}
-                style={{ backgroundColor: "#6D6D9933", borderRadius: 0 }}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                style={{ backgroundColor: "#2A2724" }}
                 className="
-                peer w-full px-3 pt-5 pb-2 text-white bg-transparent rounded-none
-                focus:outline-none focus:ring-0 focus:border-none
-                !ring-0 !outline-none !border-none !shadow-none
-              "
+                  peer w-full px-4 py-3 text-white
+                  bg-transparent border-l-4 border-transparent
+                  focus:outline-none transition-colors
+                  placeholder-gray-400
+                "
                 placeholder="Confirm Password"
               />
             </div>
 
-            {/* Error */}
+            {/* Error Message */}
             {errorMessage && (
-              <span className="text-red-600 font-bold">{errorMessage}</span>
+              <span className="text-main-accent font-bold text-sm block">
+                {errorMessage}
+              </span>
             )}
 
-            {/* Sign Up */}
+            {/* Sign Up Button */}
             <button
               onClick={onSubmit}
               disabled={isRegistering}
-              style={{
-                backgroundColor:
-                  email.trim() !== "" &&
-                  password.trim() !== "" &&
-                  confirmPassword.trim() !== "" &&
-                  !isRegistering
-                    ? undefined
-                    : "#6D6D9933",
-              }}
               className={`
-              w-full flex items-center justify-center gap-x-3 py-2.5 mt-4
-              rounded-lg text-sm font-medium transition duration-300
-              ${
-                email.trim() !== "" &&
-                password.trim() !== "" &&
-                confirmPassword.trim() !== "" &&
-                !isRegistering
-                  ? "bg-yellow-accent text-black hover:opacity-90"
-                  : "text-white"
-              }
-              ${isRegistering ? "cursor-not-allowed opacity-70" : ""}
-            `}
+                w-full flex items-center justify-center py-3 mt-4
+                rounded-lg text-sm font-bold tracking-wide uppercase transition duration-300
+                ${
+                  isFormFilled && !isRegistering
+                    ? "bg-main-off-black text-[#EFECE65C/36] hover:bg-white hover:shadow-lg"
+                    : "bg-[#6D6D9933] text-gray-400 cursor-not-allowed"
+                }
+              `}
             >
               {isRegistering ? "Signing Up..." : "Sign Up"}
             </button>
-
-            {/* Redirect */}
-            <p className="text-center text-sm mt-2 text-white">
-              Already have an account?{" "}
-              <Link
-                to="/login"
-                className="text-yellow-accent underline hover:opacity-80"
-              >
-                Continue
-              </Link>
-            </p>
           </form>
+
+          {/* Login Redirect */}
+          <p className="text-center w-full text-sm mt-8 mb-0 text-gray-400">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-main-accent font-semibold hover:underline"
+            >
+              Log in
+            </Link>
+          </p>
+
+          {/* Google Button - Added from Login component */}
+          <div className="w-full mt-4">
+            <button
+              disabled={isRegistering}
+              onClick={(e) => onGoogleSignIn(e)}
+              className={`
+                w-full flex items-center justify-center gap-x-3 py-3 mt-4
+                bg-white text-black rounded-lg text-sm font-medium
+                ${
+                  isRegistering
+                    ? "cursor-not-allowed opacity-70"
+                    : "hover:bg-gray-100 transition duration-300"
+                }
+              `}
+            >
+              <svg className="w-5 h-5" viewBox="0 0 48 48">
+                <g clipPath="url(#clip0)">
+                  <path
+                    d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M24.48 48.0016C30.9529 48.0016 36.4116 45.8764 40.3888 42.2078L32.6549 36.2111C30.5031 37.675 27.7252 38.5039 24.4888 38.5039C18.2275 38.5039 12.9187 34.2798 11.0139 28.6006H3.03296V34.7825C7.10718 42.8868 15.4056 48.0016 24.48 48.0016Z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M11.0051 28.6006C9.99973 25.6199 9.99973 22.3922 11.0051 19.4115V13.2296H3.03298C-0.371021 20.0112 -0.371021 28.0009 3.03298 34.7825L11.0051 28.6006Z"
+                    fill="#FBBC04"
+                  />
+                  <path
+                    d="M24.48 9.49932C27.9016 9.44641 31.2086 10.7339 33.6866 13.0973L40.5387 6.24523C36.2 2.17101 30.4414 -0.068932 24.48 0.00161733C15.4055 0.00161733 7.10718 5.11644 3.03296 13.2296L11.005 19.4115C12.901 13.7235 18.2187 9.49932 24.48 9.49932Z"
+                    fill="#EA4335"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0">
+                    <rect width="48" height="48" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+              Google
+            </button>
+          </div>
         </div>
       </div>
     </div>
