@@ -1,10 +1,13 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
 import { useAuth } from "../../contexts/authContext";
 import { doSignOut } from "../../firebase/auth";
+
+import Login from "../Login/Login";
+import Register from "../Register/Register";
 
 import logoIcon from "../../assets/icons/ongawaLogoNameWhite.png";
 import toggleMusicIcon from "../../assets/icons/toggleMusicIcon.png";
@@ -14,6 +17,8 @@ import NavDropdown from "../NavDropdown/NavDropdown";
 
 const Header = ({ setMuted }) => {
   const { userLoggedIn } = useAuth();
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authView, setAuthView] = useState("login"); // "login" | "register"
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [muted, setLocalMuted] = useState(true);
@@ -40,37 +45,49 @@ const Header = ({ setMuted }) => {
         </div>
         {/* Links and Buttons */}
         <div className="ml-auto font-medium text-[1.05rem] flex flex-row gap-8 pr-4 items-center mb-3">
+          {/* Beatmaps Page Link */}
           <Link
             to="/beatmaplisting"
             className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
             Beatmaps
           </Link>
+          {/* Musician Page Link */}
           <Link
             to="/musicianlisting"
             className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
             Musicians
           </Link>
+          {/* Art Page Link */}
           <Link
             to="/gallery"
             className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
             Art
           </Link>
+          {/* Social Page Link */}
           <Link
             to="/community"
             className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
           >
             Social
           </Link>
-          <Link
-            to="/login"
-            onClick={() => doSignOut()}
-            className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+          {/* Login Button */}
+          <button
+            onClick={() => {
+              if (userLoggedIn) {
+                doSignOut();
+              } else {
+                setAuthView("login");
+                setAuthOpen(true);
+              }
+            }}
+            className="hidden md:block text-link-text-gray hover:text-search-text-gray"
           >
             {userLoggedIn ? "Sign Out" : "Login"}
-          </Link>
+          </button>
+          {/* Music Toggle */}
           <img
             className="h-9"
             src={muted ? toggleMusicIconOff : toggleMusicIcon}
@@ -112,7 +129,24 @@ const Header = ({ setMuted }) => {
         closeMobileMenu={() => setIsMobileMenuOpen(false)}
         userLoggedIn={userLoggedIn}
         doSignOut={doSignOut}
+        setAuthOpen={setAuthOpen}
+        setAuthView={setAuthView}
       />
+      {authOpen && authView === "login" && (
+        <Login
+          slideIn
+          onClose={() => setAuthOpen(false)}
+          onSwitchToRegister={() => setAuthView("register")}
+        />
+      )}
+
+      {authOpen && authView === "register" && (
+        <Register
+          slideIn
+          onClose={() => setAuthOpen(false)}
+          onSwitchToLogin={() => setAuthView("login")}
+        />
+      )}
     </>
   );
 };
