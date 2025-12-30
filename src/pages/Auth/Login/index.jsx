@@ -8,7 +8,7 @@ import {
 import { useAuth } from "../../../contexts/authContext";
 import BackgroundCarousel from "../../../components/BackgroundCarousel/BackgroundCarousel";
 
-import ongawaLogoWithIcon from "../../../assets/icons/ongawa_logo_with_icon.png";
+import ongawaLogoWithIcon from "../../../assets/icons/ongawa_logo_with_icon.svg";
 
 const Login = () => {
   const { userLoggedIn } = useAuth();

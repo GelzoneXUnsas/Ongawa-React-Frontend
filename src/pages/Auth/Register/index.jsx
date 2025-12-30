@@ -8,7 +8,7 @@ import {
 } from "../../../firebase/auth";
 import BackgroundCarousel from "../../../components/BackgroundCarousel/BackgroundCarousel";
 
-import ongawaLogoWithIcon from "../../../assets/icons/ongawa_logo_with_icon.png";
+import ongawaLogoWithIcon from "../../../assets/icons/ongawa_logo_with_icon.svg";
 
 const Register = () => {
   const [email, setEmail] = useState("");

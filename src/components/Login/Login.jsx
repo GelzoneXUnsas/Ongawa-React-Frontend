@@ -8,7 +8,7 @@ import {
   getErrorMessage,
 } from "../../firebase/auth";
 
-import ongawaLogoWithIcon from "../../assets/icons/ongawa_logo_with_icon.png";
+import ongawaLogoWithIcon from "../../assets/icons/ongawa_logo_with_icon.svg";
 import xIcon from "../../assets/icons/x_Icon.svg";
 
 const Login = ({ onClose, onSwitchToRegister, slideIn }) => {
