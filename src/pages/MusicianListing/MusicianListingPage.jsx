@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import searchIcon from "../../assets/icons/searchIcon.svg";
+import searchIconBlack from "../../assets/icons/searchIconBlack.svg";
+import searchIconAccent from "../../assets/icons/searchIconAccent.svg";
 import closeIcon from "../../assets/icons/closeNavDropdown.png";
 import timeIcon from "../../assets/icons/timeIcon.svg";
 import filterIcon from "../../assets/icons/filterIcon.svg";
@@ -173,6 +174,7 @@ export default function MusicianListingPage() {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
+      e.currentTarget.blur(); // Remove focus from input
       setSearchTerm(searchInput);
       setShowDropdown(false);
     }
@@ -274,8 +276,8 @@ export default function MusicianListingPage() {
   // };
 
   return (
-    <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
-      <h2 className="mt-2 text-white md:mx-4 font-nova-square font-medium">
+    <div className="p-6 bg-main-off-black min-h-screen text-white mt-16">
+      <h2 className="mt-2 text-white md:mx-4 font-nova-square font-medium pb-5">
         Musicians
       </h2>
       {/* Desktop Search - Hidden on Mobile */}
@@ -287,8 +289,8 @@ export default function MusicianListingPage() {
           <div
             className={`${
               showDropdown && searchHistory.length > 0
-                ? "bg-dropdown-background-color"
-                : "bg-light-purple bg-opacity-50"
+                ? "bg-main-dark"
+                : "bg-khaki"
             } w-full rounded-t ${
               showDropdown && searchHistory.length > 0
                 ? "rounded-b-none"
@@ -298,7 +300,14 @@ export default function MusicianListingPage() {
             <input
               type="text"
               placeholder="Search ..."
-              className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg h-full"
+              // className="text-black placeholder-black focus:text-white focus:placeholder-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg font-roboto h-full"
+              className={`
+                border-none w-full px-4 rounded focus:ring-0
+                placeholder:text-lg font-roboto h-full
+                ${showDropdown
+                  ? "text-white placeholder-white"
+                  : "text-black placeholder-black"}
+              `}
               style={{ border: "none" }} // to override styling in index.css (temporary)
               value={searchInput}
               onChange={(e) => {
@@ -311,19 +320,21 @@ export default function MusicianListingPage() {
                   setShowDropdown(true);
                 }
               }}
+              id="desktop-search-input"
+              autoComplete="off"
             />
             <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
-              <div className="w-px h-6 bg-white"></div>
-              <img src={searchIcon} alt="Search" className="w-6 h-6" />
+              <div className={`w-px h-6 ${showDropdown ? 'bg-white' : 'bg-black'}`}></div>
+              <img src={showDropdown ? searchIconAccent : searchIconBlack} alt="Search" className="w-6 h-6" />
             </div>
           </div>
           {/* Search History Dropdown */}
           {showDropdown && searchHistory.length > 0 && (
-            <div className="absolute top-full left-0 right-0 bg-dropdown-background-color rounded-b-lg z-50 p-2">
+            <div className="absolute top-full left-0 right-0 bg-main-dark rounded-b-lg z-50 p-2">
               {searchHistory.map((historyItem, index) => (
                 <div
                   key={index}
-                  className="px-4 py-2 hover:bg-beatmaps-background cursor-pointer rounded-lg group"
+                  className="px-4 py-2 hover:bg-khaki hover:bg-opacity-20 cursor-pointer rounded-lg group"
                   onClick={() => handleSearchHistoryClick(historyItem)}
                 >
                   <div className="flex items-center justify-between">
@@ -347,19 +358,19 @@ export default function MusicianListingPage() {
 
       {/* Mobile Search - Shown only on mobile */}
       <div className="md:hidden mb-6">
-        <div className="bg-light-purple bg-opacity-50 rounded-lg h-10 relative">
+        <div className="bg-khaki rounded-lg h-10 relative">
           <input
             type="text"
             placeholder="Search ..."
-            className="text-white border-none w-full h-full rounded focus:ring-0 px-4 py-2"
+            className="text-black placeholder-black border-none w-full h-full rounded focus:ring-0 px-4 py-2"
             style={{ border: "none" }}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={handleKeyDown}
           />
           <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
-            <div className="w-px h-6 bg-white"></div>
-            {searchInput ? (
+            <div className="w-px h-6 bg-black"></div>
+            {/* {searchInput ? (
               <img
                 src={closeIcon}
                 alt="Close"
@@ -368,7 +379,8 @@ export default function MusicianListingPage() {
               />
             ) : (
               <img src={searchIcon} alt="Search" className="w-5 h-5 mx-3" />
-            )}
+            )} */}
+            <img src={searchIconBlack} alt="Search" className="w-5 h-5 mx-3" />
           </div>
         </div>
       </div>
@@ -379,13 +391,13 @@ export default function MusicianListingPage() {
         <div className="hidden md:flex flex-wrap items-center gap-3">
           {/* Sort Button */}
           <button
-            className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
+            className="bg-khaki rounded-md px-4 py-2 flex items-center gap-2 text-black"
             onClick={toggleSortDirection}
-            style={{
-              // temporary styling to override bootstrap
-              border: "none",
-              backgroundColor: "rgba(109, 109, 153, 0.5)",
-            }}
+            // style={{
+            //   // temporary styling to override bootstrap
+            //   // border: "none",
+            //   // backgroundColor: "rgba(109, 109, 153, 0.5)",
+            // }}
           >
             <span className="font-nova-square">Sort</span>
             {sortDirection === "ascending" ? (
@@ -424,9 +436,9 @@ export default function MusicianListingPage() {
             {["Name", "Songs", "Plays"].map((filter) => (
               <button
                 key={filter}
-                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline font-nova-square ${
+                className={`px-3 py-1 rounded-md transition-all duration-200 hover:main-accent hover:underline font-nova-square ${
                   activeFilter === filter
-                    ? "border-b-4 text-yellow-500 underline"
+                    ? "border-b-4 text-main-accent underline"
                     : "text-gray-400"
                 }`}
                 onMouseDown={(e) => {
@@ -552,7 +564,7 @@ export default function MusicianListingPage() {
         {filteredMusicians.map((musician, index) => (
           <div
             key={index}
-            className="p-4 rounded-xl hover:bg-dropdown-background-color/70 cursor-pointer relative"
+            className="p-4 rounded-xl hover:bg-main-dark/40 cursor-pointer relative"
             onClick={() => handleMusicianClick(musician.id)}
             // onMouseEnter={() => setHoveredMusician(index)}
             // onMouseLeave={() => setHoveredMusician(null)}
@@ -598,7 +610,7 @@ export default function MusicianListingPage() {
           >
             {/* Main content that slides */}
             <div
-              className="flex items-start gap-3 bg-beatmaps-background transition-transform duration-300 ease-out cursor-pointer"
+              className="flex items-start gap-3 bg-main-off-black transition-transform duration-300 ease-out cursor-pointer"
               // style={{ transform: getTransformValue(index) }}
               // onClick={() => {
               //   // Only navigate if not swiping
@@ -657,7 +669,7 @@ export default function MusicianListingPage() {
         - Use framer motion over CSS animations?
       */}
       <button
-        className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-light-purple hover:bg-border-purple-light rounded-full shadow-lg flex items-center justify-center z-40 transition-all duration-200"
+        className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-main-accent hover:bg-main-accent/50 rounded-full shadow-lg flex items-center justify-center z-40 transition-all duration-200"
         onClick={() => {
           setShowMobileFilterModal(true);
           setIsModalClosing(false); // reset closing state when opening modal?
@@ -675,7 +687,7 @@ export default function MusicianListingPage() {
           onClick={handleCloseModal}
         >
           <div
-            className={`bg-beatmaps-background w-full rounded-t-xl p-6 ${
+            className={`bg-main-off-black w-full rounded-t-xl p-6 ${
               isModalClosing ? "animate-slide-down" : "animate-slide-up"
             }`}
             onClick={(e) => e.stopPropagation()}
@@ -737,7 +749,7 @@ export default function MusicianListingPage() {
                     key={filter}
                     className={`px-0 py-2 transition-colors font-nova-square ${
                       activeFilter === filter
-                        ? "text-white"
+                        ? "text-main-accent"
                         : "text-gray-400 hover:text-gray-300"
                     }`}
                     onClick={() => handleMobileFilterSelect(filter)}

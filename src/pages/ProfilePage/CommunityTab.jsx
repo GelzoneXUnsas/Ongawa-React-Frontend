@@ -178,20 +178,20 @@ const CommunityTab = () => {
   };
 
   return (
-    <div className="bg-[#2D294C] h-full w-full">
+    <div className="bg-main-off-black h-full w-full">
       {/* Desktop Tabs */}
       <div className="hidden md:block p-6 pb-0">
-        <div className="flex border-b border-[#6D6D99] pb-2 gap-8">
+        <div className="flex border-b border-main-off-white pb-2 gap-8">
           <div
             className={`py-3 cursor-pointer relative text-lg font-nova-square ${
-              activeTab === "interacted" ? "text-yellow-500" : "text-gray-300"
+              activeTab === "interacted" ? "text-main-accent" : "text-gray-300"
             }`}
             onClick={() => handleTabChange("interacted")}
           >
             <span
               className={
                 activeTab === "interacted"
-                  ? "underline underline-offset-8 decoration-yellow-500 decoration-2"
+                  ? "underline underline-offset-8 decoration-main-accent decoration-2"
                   : ""
               }
             >
@@ -200,14 +200,14 @@ const CommunityTab = () => {
           </div>
           <div
             className={`py-3 cursor-pointer relative text-lg font-nova-square ${
-              activeTab === "created" ? "text-yellow-500" : "text-gray-300"
+              activeTab === "created" ? "text-main-accent" : "text-gray-300"
             }`}
             onClick={() => handleTabChange("created")}
           >
             <span
               className={
                 activeTab === "created"
-                  ? "underline underline-offset-8 decoration-yellow-500 decoration-2"
+                  ? "underline underline-offset-8 decoration-main-accent decoration-2"
                   : ""
               }
             >
@@ -222,7 +222,7 @@ const CommunityTab = () => {
         <div className="relative">
           <button
             onClick={toggleDropdown}
-            className="flex items-center justify-between w-full bg-[#6D6D99]/20 px-4 py-3 rounded-lg text-white"
+            className="flex items-center justify-between w-full bg-multi-off-black px-4 py-3 rounded-lg text-white"
           >
             <span className="text-lg font-nova-square">
               {activeTab === "interacted" ? "Interacted" : "Created"}
@@ -231,11 +231,11 @@ const CommunityTab = () => {
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-[#1D1D2E] rounded-lg shadow-lg z-20">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-multi-off-black rounded-lg shadow-lg z-20">
               <button
                 onClick={() => handleTabChange("interacted")}
                 className={`w-full text-left px-4 py-3 hover:bg-[#5A5A7B] rounded-t-lg font-nova-square ${
-                  activeTab === "interacted" ? "text-yellow-500" : "text-white"
+                  activeTab === "interacted" ? "text-main-accent" : "text-white"
                 }`}
               >
                 Interacted
@@ -243,7 +243,7 @@ const CommunityTab = () => {
               <button
                 onClick={() => handleTabChange("created")}
                 className={`w-full text-left px-4 py-3 hover:bg-[#5A5A7B] rounded-b-lg font-nova-square ${
-                  activeTab === "created" ? "text-yellow-500" : "text-white"
+                  activeTab === "created" ? "text-main-accent" : "text-white"
                 }`}
               >
                 Created
@@ -258,7 +258,7 @@ const CommunityTab = () => {
         {activeTab === "interacted" && (
           <div className="w-full h-[600px] md:h-[450px] overflow-y-auto no-scrollbar">
             {/* Desktop Table Headers */}
-            <div className="hidden md:grid grid-cols-12 gap-4 py-3 px-4 border-b border-[#6D6D99] text-sm font-nova-square sticky top-0 bg-[#2D294C] z-10">
+            <div className="hidden md:grid grid-cols-12 gap-4 py-3 px-4 border-b border-main-off-white text-sm font-nova-square sticky top-0 bg-main-off-black z-10">
               <div className="col-span-4 text-lg">Name</div>
               <div className="col-span-4 text-center text-lg">Author</div>
               <div className="col-span-2 text-center text-lg">Comments</div>
@@ -347,7 +347,7 @@ const CommunityTab = () => {
         {activeTab === "created" && (
           <div className="w-full h-[600px] md:h-[450px] overflow-y-auto no-scrollbar">
             {/* Desktop Table Headers */}
-            <div className="hidden md:grid grid-cols-12 gap-4 py-3 px-4 border-b border-[#6D6D99] text-sm font-nova-square sticky top-0 bg-[#2D294C] z-10">
+            <div className="hidden md:grid grid-cols-12 gap-4 py-3 px-4 border-b border-main-off-white text-sm font-nova-square sticky top-0 bg-main-off-black z-10">
               <div className="col-span-4 text-lg">Name</div>
               <div className="col-span-4 text-center text-lg">Bookmarked</div>
               <div className="col-span-2 text-center text-lg">Comments</div>
@@ -375,7 +375,7 @@ const CommunityTab = () => {
                   </div>
 
                   {/* Mobile Card */}
-                  <div className="md:hidden bg-[#3A3559] rounded-lg p-4">
+                  <div className="md:hidden bg-multi-off-black rounded-lg p-4">
                     {/* Header with stats */}
                     <div className="flex items-center justify-between mb-3 font-nova-square">
                       <div className="text-white font-medium">{item.name}</div>

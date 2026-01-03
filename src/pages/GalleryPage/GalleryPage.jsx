@@ -172,7 +172,7 @@ function GalleryPage() {
   // TODO: Fetch art sources from backend
 
   return (
-    <div className="bg-page-background-purple-dark min-h-svh pt-24 px-8 lg:px-12">
+    <div className="bg-main-off-black min-h-svh pt-24 px-8 lg:px-12">
       {/* Title */}
       <h1 className="font-nova-square text-5xl text-light-grey font-normal">
         Art Gallery
@@ -187,7 +187,7 @@ function GalleryPage() {
           }}
           className={`font-nova-square text-2xl font-normal transition-all ${
             activeTab === "screenArt"
-              ? "text-accent-yellow underline"
+              ? "text-main-accent underline"
               : "text-light-grey "
           }`}
         >
@@ -200,7 +200,7 @@ function GalleryPage() {
           }}
           className={`font-nova-square text-2xl font-normal transition-all ${
             activeTab === "musicCovers"
-              ? "text-accent-yellow underline"
+              ? "text-main-accent underline"
               : "text-light-grey"
           }`}
         >

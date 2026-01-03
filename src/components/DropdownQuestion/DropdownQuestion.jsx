@@ -22,7 +22,7 @@ const DropdownQuestion = ({ question, answer }) => {
         />
         {/* Question */}
         <p
-          className="w-full ml-4 p-0 pb-3 my-0 text-white font-nova-square border-b-2 border-border-purple-light
+          className="w-full ml-4 p-0 pb-3 my-0 text-white font-nova-square border-b-2 border-main-dark
                        short:text-sm short:pb-1
                        lg:text-xl
                        two_k:text-2xl/loose

@@ -42,10 +42,10 @@ const CommunityReply = ({ reply, allReplies }) => {
         {/* Reply and Share Icons */}
         <div className="flex gap-2 md:gap-4 mt-1 lg:mt-0">
           <button>
-            <img src={ReplyIcon} className="w-5 md:w-auto" />
+            <img src={ReplyIcon} className="w-5 md:w-auto filter invert" />
           </button>
           <button>
-            <img src={ShareIcon} className="w-4 md:w-auto" />
+            <img src={ShareIcon} className="w-4 md:w-auto filter invert" />
           </button>
         </div>
       </div>
@@ -68,59 +68,74 @@ const CommunityReply = ({ reply, allReplies }) => {
               {subreplies.length === 1 ? "reply" : "replies"} &gt;
             </button>
           ) : (
-            subreplies.map((subreply) => (
-              <div key={subreply.id} className="ml-8 md:ml-12">
-                {/* Subreply Parent Indication */}
-                {subreply.parentId && (
-                  <div className="flex">
-                    <div className="relative w-6 h-4 ml-3 mr-2 bg-transparent before:content-[''] before:absolute before:top-1/2 before:left-0 before:w-full before:h-[1px] before:bg-white after:content-[''] after:absolute after:top-1/2 after:left-0 after:w-[1px] after:h-1/2 after:bg-white"></div>
-                    <div className="flex items-center gap-2 text-xs text-light-grey font-nova-square italic mb-2">
-                      <img
-                        src={
-                          getParentReply(subreply.parentId)?.profilePicture ||
-                          "/images/profiles/default.jpg"
-                        }
-                        alt={getParentReply(subreply.parentId)?.author}
-                        className="w-5 h-5 rounded-full object-cover"
-                      />
-                      {getFirstLine(
-                        getParentReply(subreply.parentId)?.text || ""
-                      )}
+            <>
+              {/* Hide button */}
+              <button
+                className="text-light-grey font-nova-square hover:underline mb-3"
+                onClick={() => setShowSubreplies(false)}
+              >
+                Hide replies ⌃
+              </button>
+              {subreplies.map((subreply) => (
+                <div key={subreply.id} className="ml-8 md:ml-12">
+                  {/* Subreply Parent Indication */}
+                  {subreply.parentId && (
+                    <div className="flex">
+                      <div className="relative w-6 h-4 ml-3 mr-2 bg-transparent before:content-[''] before:absolute before:top-1/2 before:left-0 before:w-full before:h-[1px] before:bg-white after:content-[''] after:absolute after:top-1/2 after:left-0 after:w-[1px] after:h-1/2 after:bg-white"></div>
+                      <div className="flex items-center gap-2 text-xs text-light-grey font-nova-square italic mb-2">
+                        <img
+                          src={
+                            getParentReply(subreply.parentId)?.profilePicture ||
+                            "/images/profiles/default.jpg"
+                          }
+                          alt={getParentReply(subreply.parentId)?.author}
+                          className="w-5 h-5 rounded-full object-cover"
+                        />
+                        {getFirstLine(
+                          getParentReply(subreply.parentId)?.text || ""
+                        )}
+                      </div>
                     </div>
+                  )}
+                  {/* Subreply Content */}
+                  <div className="flex justify-between items-start mb-2">
+                    {/* Header */}
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={subreply.profilePicture}
+                        alt={subreply.author}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                      <span className="text-sm font-nova-square text-light-grey">
+                        {subreply.author}
+                      </span>
+                      <div className="w-1 h-1 rounded-full bg-light-grey"></div>
+                      <span className="text-xs font-nova-square text-light-grey">
+                        {subreply.dateCreated}
+                      </span>
+                    </div>
+                    <div className="flex gap-2 md:gap-4 mt-1 lg:mt-0">
+                      <button>
+                        <img
+                          src={ReplyIcon}
+                          className="w-5 md:w-auto filter invert"
+                        />
+                      </button>
+                      <button>
+                        <img
+                          src={ShareIcon}
+                          className="w-4 md:w-auto filter invert"
+                        />
+                      </button>
+                    </div>
+                    {/* Text */}
                   </div>
-                )}
-                {/* Subreply Content */}
-                <div className="flex justify-between items-start mb-2">
-                  {/* Header */}
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={subreply.profilePicture}
-                      alt={subreply.author}
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
-                    <span className="text-sm font-nova-square text-light-grey">
-                      {subreply.author}
-                    </span>
-                    <div className="w-1 h-1 rounded-full bg-light-grey"></div>
-                    <span className="text-xs font-nova-square text-light-grey">
-                      {subreply.dateCreated}
-                    </span>
-                  </div>
-                  <div className="flex gap-2 md:gap-4 mt-1 lg:mt-0">
-                    <button>
-                      <img src={ReplyIcon} className="w-5 md:w-auto" />
-                    </button>
-                    <button>
-                      <img src={ShareIcon} className="w-4 md:w-auto" />
-                    </button>
-                  </div>
-                  {/* Text */}
+                  <p className="mb-4 text-sm md:text-base text-light-grey font-nova-square break-words whitespace-normal">
+                    {subreply.text}
+                  </p>
                 </div>
-                <p className="mb-4 text-sm md:text-base text-light-grey font-nova-square break-words whitespace-normal">
-                  {subreply.text}
-                </p>
-              </div>
-            ))
+              ))}
+            </>
           )}
         </div>
       )}

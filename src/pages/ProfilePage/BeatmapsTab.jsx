@@ -5,6 +5,7 @@ import ellipseIcon from "../../assets/icons/ellipse.svg";
 import bookmarkedIcon from "../../assets/icons/bookmarkedIcon.svg";
 import editIcon from "../../assets/icons/editIcon.svg";
 import triangleDownIcon from "../../assets/icons/triangleDown.svg";
+import barIcon from "../../assets/icons/barIcon.svg";
 
 import cover from "../../assets/images/musicCovers/neonpulsesym.png";
 
@@ -117,20 +118,20 @@ const BeatmapsTab = () => {
   };
 
   return (
-    <div className="bg-[#2D294C] text-white">
+    <div className="bg-main-off-black text-white">
       {/* Desktop Tabs */}
       <div className="hidden md:block p-6 pb-0">
-        <div className="flex border-b border-[#6D6D99] pb-2 gap-8">
+        <div className="flex border-b border-main-off-white pb-2 gap-8">
           <div
             className={`py-3 cursor-pointer relative text-lg font-nova-square ${
-              activeTab === "bookmarked" ? "text-yellow-500" : "text-gray-300"
+              activeTab === "bookmarked" ? "text-main-accent" : "text-gray-300"
             }`}
             onClick={() => handleTabChange("bookmarked")}
           >
             <span
               className={
                 activeTab === "bookmarked"
-                  ? "underline underline-offset-8 decoration-yellow-500 decoration-2"
+                  ? "underline underline-offset-8 decoration-main-accent decoration-2"
                   : ""
               }
             >
@@ -139,14 +140,14 @@ const BeatmapsTab = () => {
           </div>
           <div
             className={`py-3 cursor-pointer relative text-lg font-nova-square ${
-              activeTab === "created" ? "text-yellow-500" : "text-gray-300"
+              activeTab === "created" ? "text-main-accent" : "text-gray-300"
             }`}
             onClick={() => handleTabChange("created")}
           >
             <span
               className={
                 activeTab === "created"
-                  ? "underline underline-offset-8 decoration-yellow-500 decoration-2"
+                  ? "underline underline-offset-8 decoration-main-accent decoration-2"
                   : ""
               }
             >
@@ -161,7 +162,7 @@ const BeatmapsTab = () => {
         <div className="relative">
           <button
             onClick={toggleDropdown}
-            className="flex items-center justify-between w-full bg-[#6D6D99]/20 px-4 py-3 rounded-lg text-white"
+            className="flex items-center justify-between w-full bg-multi-off-black px-4 py-3 rounded-lg text-white"
           >
             <span className="text-lg font-nova-square">
               {activeTab === "bookmarked" ? "Bookmarked" : "Created"}
@@ -170,19 +171,19 @@ const BeatmapsTab = () => {
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-[#1D1D2E] rounded-lg shadow-lg z-20">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-multi-off-black rounded-lg shadow-lg z-20">
               <button
                 onClick={() => handleTabChange("bookmarked")}
-                className={`w-full text-left px-4 py-3 hover:bg-[#5A5A7B] rounded-t-lg font-nova-square ${
-                  activeTab === "bookmarked" ? "text-yellow-500" : "text-white"
+                className={`w-full text-left px-4 py-3 rounded-t-lg font-nova-square ${
+                  activeTab === "bookmarked" ? "text-main-accent" : "text-white"
                 }`}
               >
                 Bookmarked
               </button>
               <button
                 onClick={() => handleTabChange("created")}
-                className={`w-full text-left px-4 py-3 hover:bg-[#5A5A7B] rounded-b-lg font-nova-square ${
-                  activeTab === "created" ? "text-yellow-500" : "text-white"
+                className={`w-full text-left px-4 py-3 rounded-b-lg font-nova-square ${
+                  activeTab === "created" ? "text-main-accent" : "text-white"
                 }`}
               >
                 Created
@@ -195,7 +196,7 @@ const BeatmapsTab = () => {
       {/* Content */}
       <div className="px-4 md:px-6">
         {/* Desktop Table Headers */}
-        <div className="hidden md:grid grid-cols-12 gap-4 py-3 px-4 border-b border-[#6D6D99] text-sm sticky top-0 bg-[#2D294C] z-10">
+        <div className="hidden md:grid grid-cols-12 gap-4 py-3 px-4 border-b border-main-off-white text-sm sticky top-0 bg-main-off-black z-10">
           <div className="col-span-4 text-lg font-nova-square">Name</div>
           <div className="col-span-2 text-center text-lg font-nova-square">
             Difficulty{" "}
@@ -224,9 +225,9 @@ const BeatmapsTab = () => {
                 className="grid grid-cols-1 md:grid-cols-12 gap-4 py-2 items-center"
               >
                 {/* Mobile Layout */}
-                <div className="md:hidden bg-[#6D6D99]/20 p-5 rounded-md">
+                <div className="md:hidden bg-multi-off-black p-5 rounded-md">
                   <div className="flex items-center mb-3">
-                    <div className="w-16 h-16 bg-gray-800 rounded mr-4 flex-shrink-0 overflow-hidden">
+                    <div className="w-16 h-16 mr-4 flex-shrink-0 overflow-hidden">
                       <img
                         src={cover}
                         alt="beatmap thumbnail"
@@ -290,7 +291,7 @@ const BeatmapsTab = () => {
                 {/* Desktop Layout */}
                 <div className="hidden md:contents">
                   <div className="col-span-4 flex items-center">
-                    <div className="w-20 h-20 bg-gray-800 rounded mr-4 flex-shrink-0 overflow-hidden">
+                    <div className="w-20 h-20 mr-4 flex-shrink-0 overflow-hidden">
                       <img
                         src={cover}
                         alt="beatmap thumbnail"
@@ -321,7 +322,7 @@ const BeatmapsTab = () => {
                     </span>
                   </div>
                   <div className="col-span-2 flex justify-center items-center gap-2 font-nova-square">
-                    <img src={ellipseIcon} alt="ellipse" className="w-5 h-5" />
+                    <img src={barIcon} alt="bar" className="w-5 h-5" />
                     {beatmap.level}
                   </div>
                   <div className="col-span-2 flex justify-center items-center space-x-3 font-nova-square">
@@ -356,9 +357,9 @@ const BeatmapsTab = () => {
                 className="grid grid-cols-1 md:grid-cols-12 gap-4 py-2 items-center"
               >
                 {/* Mobile Layout */}
-                <div className="md:hidden bg-[#6D6D99]/20 p-5 rounded-md">
+                <div className="md:hidden bg-multi-off-black p-5 rounded-md">
                   <div className="flex items-center mb-3">
-                    <div className="w-16 h-16 bg-gray-800 rounded mr-4 flex-shrink-0 overflow-hidden">
+                    <div className="w-16 h-16 mr-4 flex-shrink-0 overflow-hidden">
                       <img
                         src={cover}
                         alt="beatmap thumbnail"
@@ -422,7 +423,7 @@ const BeatmapsTab = () => {
                 {/* Desktop Layout */}
                 <div className="hidden md:contents">
                   <div className="col-span-4 flex items-center">
-                    <div className="w-20 h-20 bg-gray-800 rounded mr-4 flex-shrink-0 overflow-hidden">
+                    <div className="w-20 h-20 mr-4 flex-shrink-0 overflow-hidden">
                       <img
                         src={cover}
                         alt="beatmap thumbnail"
@@ -453,7 +454,7 @@ const BeatmapsTab = () => {
                     </span>
                   </div>
                   <div className="col-span-2 flex justify-center items-center gap-2 font-nova-square">
-                    <img src={ellipseIcon} alt="ellipse" className="w-5 h-5" />
+                    <img src={barIcon} alt="bar" className="w-5 h-5" />
                     {beatmap.level}
                   </div>
                   <div className="col-span-2 flex justify-center items-center space-x-3 font-nova-square">

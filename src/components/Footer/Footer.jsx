@@ -7,7 +7,7 @@ import xIcon from "../../assets/icons/xIcon.svg";
 
 const Footer = () => {
   return (
-    <div className="py-8 w-full flex flex-col items-center gap-5 bg-page-background-purple">
+    <div className="py-8 w-full flex flex-col items-center gap-5 bg-main-off-black">
       {/* Links to other Pages */}
       <Link
         to={"/beatmaplisting"}
