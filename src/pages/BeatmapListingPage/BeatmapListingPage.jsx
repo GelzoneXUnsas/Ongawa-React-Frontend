@@ -35,7 +35,9 @@ export default function BeatmapListingPage() {
     return savedHistory ? JSON.parse(savedHistory) : [];
   });
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isMobileSearchFocused, setIsMobileSearchFocused] = useState(false);
   const searchContainerRef = useRef(null);
+  const previousSearchTermRef = useRef("");
   const difficultyDropdownRef = useRef(null);
   const tagsDropdownRef = useRef(null);
   const [sortDirection, setSortDirection] = useState("ascending");
@@ -211,6 +213,7 @@ export default function BeatmapListingPage() {
       e.currentTarget.blur(); // Remove focus from input
       setSearchTerm(searchInput);
       setShowDropdown(false);
+      setIsMobileSearchFocused(false);
     }
   };
 
@@ -391,26 +394,94 @@ export default function BeatmapListingPage() {
       {/* Mobile Search - Shown only on mobile */} 
       {/* flex md:hidden items-center gap-2 mb-4 */}
       <div className="md:hidden mb-6">
-        <div className="bg-khaki rounded-lg h-10 relative">
-          <input
-            type="text"
-            placeholder="Search ..."
-            className="text-black placeholder-black border-none w-full h-full rounded focus:ring-0 px-4 py-2"
-            style={{ border: "none" }}
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-          <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
-            <div className="w-px h-6 bg-black"></div>
-            {/* {searchInput ? (
-              <img src={closeIcon} alt="Close" onClick={() => setSearchInput("")} className="w-4 h-4 mx-3" /> 
-            ) : (
+        <div className="flex items-center gap-3">
+          <div className="bg-khaki rounded-lg h-10 relative flex-1">
+            <input
+              type="text"
+              placeholder="Search ..."
+              className="text-black placeholder-black border-none w-full h-full rounded focus:ring-0 px-4 py-2"
+              style={{ border: "none" }}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              // onFocus={() => setIsMobileSearchFocused(true)}
+              onFocus={() => {
+                setIsMobileSearchFocused(true);
+                previousSearchTermRef.current = searchTerm;
+              }}
+              onBlur={() => setIsMobileSearchFocused(false)}
+              enterKeyHint="search"
+            />
+            <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
+              <div className="w-px h-6 bg-black"></div>
+              {/* {searchInput ? (
+                <img src={closeIcon} alt="Close" onClick={() => setSearchInput("")} className="w-4 h-4 mx-3" /> 
+              ) : (
+                <img src={searchIconBlack} alt="Search" className="w-5 h-5 mx-3" />
+                )} */}
               <img src={searchIconBlack} alt="Search" className="w-5 h-5 mx-3" />
-              )} */}
-            <img src={searchIconBlack} alt="Search" className="w-5 h-5 mx-3" />
+            </div>
           </div>
+          {isMobileSearchFocused && (
+            <button
+              className="text-white font-overpass-mono whitespace-nowrap"
+              // onClick={() => {
+              //   setIsMobileSearchFocused(false);
+              //   setSearchInput("");
+              //   setSearchTerm("");
+              // }}
+              onMouseDown={() => {
+                // e.preventDefault();
+                setIsMobileSearchFocused(false);
+                // setSearchInput("");
+                // setSearchTerm("");
+                setSearchInput(previousSearchTermRef.current);
+                setSearchTerm(previousSearchTermRef.current);
+              }}
+            >
+              Cancel
+            </button>
+          )}
         </div>
+
+        {/* Mobile Search History */}
+        {isMobileSearchFocused && searchHistory.length > 0 && (
+          <div className="mt-4 space-y-2">
+            {searchHistory.map((historyItem, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between py-3 px-2 hover:bg-main-dark hover:bg-opacity-40 cursor-pointer rounded-lg"
+                // onClick={() => {
+                //   setSearchInput(historyItem);
+                //   setSearchTerm(historyItem);
+                //   setIsMobileSearchFocused(false);
+                // }}
+                onMouseDown={() => {
+                  // e.preventDefault();
+                  setSearchInput(historyItem);
+                  setSearchTerm(historyItem);
+                  setIsMobileSearchFocused(false);
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  <img src={timeIcon} alt="History" className="w-5 h-5" />
+                  <span className="text-white">{historyItem}</span>
+                </div>
+                <img
+                  src={closeIcon}
+                  alt="Remove"
+                  className="w-3 h-3"
+                  // onClick={(e) => removeSearchHistoryItem(e, historyItem)}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    removeSearchHistoryItem(e, historyItem);
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Filtering Options Section - Desktop & Mobile */}
@@ -636,75 +707,79 @@ export default function BeatmapListingPage() {
       </div>
 
       {/* Mobile List View - Hidden on Desktop */}
-      <div className="md:hidden space-y-1"> {/* space-y-4 */}
-        {filteredBeatmaps.map((beatmap, index) => (
-          <div
-            key={index}
-            className="relative overflow-hidden rounded-xl"
-            onTouchStart={(e) => onTouchStart(e)}
-            onTouchMove={(e) => onTouchMove(e, index)}
-            onTouchEnd={() => onTouchEnd(index)}
-          >
-            {/* Main content that slides */}
-            <div 
-              className="flex items-start gap-3 p-1 bg-main-off-black transition-transform duration-300 ease-out"
-              style={{ transform: getTransformValue(index) }}
-              onClick={() => {
-                // Only navigate if not swiping
-                if (!isSwiping && (swipePositions[index] || 0) === 0) {
-                  handleBeatmapClick(beatmap.id);
-                }
-              }}
+      {!isMobileSearchFocused && (
+        <div className="md:hidden space-y-1"> {/* space-y-4 */}
+          {filteredBeatmaps.map((beatmap, index) => (
+            <div
+              key={index}
+              className="relative overflow-hidden rounded-xl"
+              onTouchStart={(e) => onTouchStart(e)}
+              onTouchMove={(e) => onTouchMove(e, index)}
+              onTouchEnd={() => onTouchEnd(index)}
             >
-              <img
-                src={beatmap.image}
-                alt={beatmap.title}
-                className="w-16 h-16 rounded-lg object-cover"
-              />
-              <div className="flex-1">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="text-base font-medium font-overpass-mono mb-1">{beatmap.title}</p>
-                    <p className="text-sm text-gray-400 mb-1 font-overpass-mono">{beatmap.artist}</p>
-                    <p className="text-xs text-gray-500 font-overpass-mono">Mapped: {beatmap.mappedBy}</p>
+              {/* Main content that slides */}
+              <div
+                className="flex items-start gap-3 p-1 bg-main-off-black transition-transform duration-300 ease-out"
+                style={{ transform: getTransformValue(index) }}
+                onClick={() => {
+                  // Only navigate if not swiping
+                  if (!isSwiping && (swipePositions[index] || 0) === 0) {
+                    handleBeatmapClick(beatmap.id);
+                  }
+                }}
+              >
+                <img
+                  src={beatmap.image}
+                  alt={beatmap.title}
+                  className="w-16 h-16 rounded-lg object-cover"
+                />
+                <div className="flex-1">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-base font-medium font-overpass-mono mb-1">{beatmap.title}</p>
+                      <p className="text-sm text-gray-400 mb-1 font-overpass-mono">{beatmap.artist}</p>
+                      <p className="text-xs text-gray-500 font-overpass-mono">Mapped: {beatmap.mappedBy}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action panel that gets revealed */}
+              <div
+                className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-main-dark transition-transform duration-300 ease-out"
+                style={{ transform: getActionPanelTransform(index) }}
+              >
+                <div className="flex flex-col gap-3 items-center">
+                  <div className="flex items-center gap-1">
+                    <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
+                    <DifficultyIndicator />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <img src={heartIcon} alt="heart" className="w-4 h-4" />
+                    <span className="text-xs">{beatmap.likes}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <img src={playIcon} alt="play" className="w-4 h-4" />
+                    <span className="text-xs">{beatmap.plays}</span>
                   </div>
                 </div>
               </div>
             </div>
+          ))}
+        </div>
+      )}
 
-            {/* Action panel that gets revealed */}
-            <div
-              className="absolute right-0 top-0 h-full flex items-center pr-7 pl-7 bg-main-dark transition-transform duration-300 ease-out"
-              style={{ transform: getActionPanelTransform(index) }}
-            >
-              <div className="flex flex-col gap-3 items-center">
-                <div className="flex items-center gap-1">
-                  <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
-                  <DifficultyIndicator />
-                </div>
-                <div className="flex items-center gap-1">
-                  <img src={heartIcon} alt="heart" className="w-4 h-4" />
-                  <span className="text-xs">{beatmap.likes}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <img src={playIcon} alt="play" className="w-4 h-4" />
-                  <span className="text-xs">{beatmap.plays}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <button
-        className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-main-accent hover:bg-border-purple-light rounded-full shadow-lg flex items-center justify-center z-40 transition-all duration-200"
-        onClick={() => {
-          setShowMobileFilterModal(true);
-          setIsModalClosing(false); // reset closing state when opening modal?
-        }}
-      >
-        <img src={filterIcon} alt="Search" className="w-6 h-6" />
-      </button>
+      {!isMobileSearchFocused && (
+        <button
+          className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-main-accent hover:bg-border-purple-light rounded-full shadow-lg flex items-center justify-center z-40 transition-all duration-200"
+          onClick={() => {
+            setShowMobileFilterModal(true);
+            setIsModalClosing(false); // reset closing state when opening modal?
+          }}
+        >
+          <img src={filterIcon} alt="Search" className="w-6 h-6" />
+        </button>
+      )}
 
       {/* Mobile Filter Modal */}
       {showMobileFilterModal && (
