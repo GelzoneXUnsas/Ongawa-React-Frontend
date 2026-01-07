@@ -5,7 +5,7 @@ import CommunityPost from "../../components/CommunityPost/CommunityPost";
 import SocialFilterModal from "../../components/SocialFilterModal/SocialFilterModal";
 
 import geoBg from "../../assets/images/backgrounds/geo_bg.png";
-import recordIcon from "../../assets/icons/recordYellowIcon.svg";
+import recordIcon from "../../assets/icons/recordIcon.png";
 import rightArrowIcon from "../../assets/icons/rightArrowIcon.png";
 
 // Test images
@@ -48,7 +48,6 @@ const COMMUNITY_POSTS = [
     tags: ["Celtic", "Traditional"],
     text: "This haunting melody originates from the hills of Ireland...",
     media: [testImg5, testImg1],
-    cover: testImg1,
   },
   {
     id: 2,
@@ -59,7 +58,6 @@ const COMMUNITY_POSTS = [
     tags: ["Fantasy", "World"],
     text: "An original composition inspired by high fantasy tales...",
     media: ["/media/fantasy_chant.mp3", "/Demovid.mp4", testImg1],
-    cover: testImg3,
   },
   {
     id: 3,
@@ -70,7 +68,6 @@ const COMMUNITY_POSTS = [
     tags: ["Folklore", "Traditional"],
     text: "This rhythmic piece captures the energy of a village's autumn harvest celebration...",
     media: ["/media/harvest_dance.mp4", testImg3, testImg1],
-    cover: testImg2,
   },
   {
     id: 4,
@@ -81,7 +78,6 @@ const COMMUNITY_POSTS = [
     tags: ["World", "Traditional"],
     text: "A composition based on ancient Andean mountain myths...",
     media: ["/media/andean_spirits.mp3", testImg3, testImg5],
-    cover: testImg4,
   },
   {
     id: 5,
@@ -92,7 +88,6 @@ const COMMUNITY_POSTS = [
     tags: ["Fantasy", "World"],
     text: "An ambient soundscape inspired by mirages and ancient ruins...",
     media: ["/media/desert_echoes.mp3", testImg4, testImg5],
-    cover: testImg5,
   },
   {
     id: 6,
@@ -103,7 +98,6 @@ const COMMUNITY_POSTS = [
     tags: ["Celtic", "Folklore"],
     text: "A fast-paced Irish reel inspired by folklore surrounding the elusive red fox...",
     media: ["/EditorDemo.mp4", testImg2, testImg3],
-    cover: testImg1,
   },
   {
     id: 7,
@@ -114,7 +108,6 @@ const COMMUNITY_POSTS = [
     tags: ["Traditional", "World"],
     text: "A slow, elegant koto and shakuhachi duet meant to reflect the serenity...",
     media: [testImg1, "/media/kyoto_moonlight.mp3"],
-    cover: testImg2,
   },
 ];
 
@@ -191,7 +184,7 @@ function CommunityPage() {
       : COMMUNITY_POSTS;
 
   return (
-    <div className="relative flex bg-[#29294C]">
+    <div className="relative flex bg-[#4B4740]">
       {/* Background image with opacity */}
       <div
         className="absolute inset-0 w-full h-full bg-repeat bg-left-top opacity-10 pointer-events-none"
@@ -199,7 +192,7 @@ function CommunityPage() {
       />
 
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block w-1/5 min-h-screen relative bg-[#555589]/40">
+      <div className="hidden lg:block w-1/5 min-h-screen relative bg-gradient-to-r from-[#EFECE6] to-[#DDD0B9]">
         {/* Sticky Sidebar Content */}
         <div className="sticky top-24 p-4">
           {/* Toggle: Home / Following */}
@@ -209,66 +202,51 @@ function CommunityPage() {
               return (
                 <button
                   key={option}
-                  className={`flex items-center gap-4 px-2 py-1 text-left font-nova-square text-lg ${
-                    isSelected ? "text-accent-yellow" : "text-light-grey"
+                  className={`font-nova-square text-lg text-left transition-all duration-300 ${
+                    isSelected
+                      ? "bg-khaki border border-main-midtone px-4 py-2 ml-0"
+                      : "text-main-off-black ml-8"
                   }`}
-                  onClick={() => {
-                    if (!isSelected) setContentSelection(option);
-                  }}
+                  onClick={() => setContentSelection(option)}
                 >
-                  <span className="w-4 h-4 flex items-center justify-center">
-                    {isSelected && (
-                      <img
-                        src={recordIcon}
-                        alt="Selected"
-                        className="h-6 w-6 max-w-none"
-                      />
-                    )}
-                  </span>
-                  <span
-                    className={`mr-8 ${
-                      isSelected
-                        ? "w-full border-accent-yellow border-b-[1px]"
-                        : undefined
-                    }`}
-                  >
-                    {option}
-                  </span>
+                  {option}
                 </button>
               );
             })}
           </div>
 
+          <div className="mb-2 border-b-[1px] border-[#968D7D]"></div>
+
           {/* Desktop Filters */}
-          <h2 className="text-xl text-white font-nova-square font-light mb-4">
+          <h2 className="text-xl text-multi-off-black font-nova-square font-light mb-4">
             Filters
           </h2>
           <div className="ml-4">
             <h3
-              className="text-xl text-white font-nova-square font-light mb-4 cursor-pointer hover:text-accent-yellow transition-colors"
+              className="text-xl text-multi-off-black font-nova-square font-light mb-4 cursor-pointer hover:text-main-accent transition-colors"
               onClick={openDesktopCuratedModal}
             >
               Curated Content
             </h3>
             <h3
-              className="text-xl text-white font-nova-square font-light mb-2 cursor-pointer hover:text-accent-yellow transition-colors"
+              className="text-xl text-multi-off-black font-nova-square font-light mb-2 cursor-pointer hover:text-main-accent transition-colors"
               onClick={openDesktopTagsModal}
             >
               Tags
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mb-4">
               {sidebarTags.length === 0 ? (
-                <p className="text-light-grey font-nova-square font-light">
+                <p className="text-multi-off-black font-nova-square font-light">
                   No Tags Selected
                 </p>
               ) : (
                 sidebarTags.map((tag) => (
                   <button
                     key={tag}
-                    className={`px-3 py-1 rounded border cursor-pointer ${
+                    className={`px-3 py-1 border cursor-pointer ${
                       activeTags.includes(tag)
-                        ? "text-accent-yellow border-accent-yellow"
-                        : "text-light-grey border-light-grey"
+                        ? "text-main-off-white bg-main-midtone"
+                        : "text-main-midtone border-main-off-white"
                     }`}
                     onClick={() => toggleActiveTag(tag)}
                   >
@@ -278,10 +256,19 @@ function CommunityPage() {
               )}
             </div>
           </div>
-
+          {/* Reset Filters Button */}
+          <button
+            onClick={() => {
+              setSidebarTags([]);
+              setActiveTags([]);
+            }}
+            className="block mt-6 mx-4 font-nova-square text-xl bg-main-midtone text-main-off-white px-6 py-2"
+          >
+            Reset Filters
+          </button>
           {/* Post Button */}
           <Link
-            className="mt-6 ml-4 font-nova-square text-dark-purple text-xl bg-accent-yellow px-12 py-2 rounded-lg"
+            className="block mt-6 mx-4 font-nova-square text-dark-purple text-xl bg-main-accent px-6 py-2 max-w-[165px]"
             to="/community/new"
           >
             Post
@@ -303,7 +290,7 @@ function CommunityPage() {
                 <button
                   key={option}
                   className={`flex py-1 text-left font-nova-square md:text-lg ${
-                    isSelected ? "text-accent-yellow" : "text-light-grey"
+                    isSelected ? "text-main-accent" : "text-light-grey"
                   }`}
                   onClick={() => {
                     if (!isSelected) setContentSelection(option);
@@ -312,7 +299,7 @@ function CommunityPage() {
                   <span
                     className={`mr-4 md:mr-8 ${
                       isSelected
-                        ? "w-full border-accent-yellow border-b-[1px]"
+                        ? "w-full border-main-accent border-b-[1px]"
                         : undefined
                     }`}
                   >
@@ -327,10 +314,12 @@ function CommunityPage() {
           <div className="flex items-center gap-4">
             {/* Mobile Filter Button  */}
             <button
-              className="flex items-center gap-3 bg-[#555589]/30 p-2 px-4 rounded-lg hover:bg-[#555589]/50 transition-colors"
+              className="flex items-center gap-3 bg-khaki p-2 px-4 rounded-lg transition-colors"
               onClick={openMobileCombinedModal}
             >
-              <p className="m-0 font-nova-square text-light-grey">Filter</p>
+              <p className="m-0 font-nova-square text-multi-off-black">
+                Filter
+              </p>
               <img
                 className="w-2 rotate-90"
                 src={rightArrowIcon}
@@ -340,7 +329,7 @@ function CommunityPage() {
             {/* Mobile Post Button */}
             <Link
               to="/community/new"
-              className="p-1 px-5 text-dark-purple font-nova-square bg-accent-yellow rounded-lg"
+              className="p-1 px-5 text-dark-purple font-nova-square bg-main-accent rounded-lg"
             >
               Post
             </Link>
@@ -359,7 +348,6 @@ function CommunityPage() {
                 tags={item.tags}
                 title={item.title}
                 text={item.text}
-                cover={item.cover}
                 media={item.media}
               />
             </Link>

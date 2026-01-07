@@ -48,28 +48,28 @@ const Header = ({ setMuted }) => {
           {/* Beatmaps Page Link */}
           <Link
             to="/beatmaplisting"
-            className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+            className="hidden md:block text-link-text-khaki no-underline hover:no-underline hover:text-link-text-khaki-active"
           >
             Beatmaps
           </Link>
           {/* Musician Page Link */}
           <Link
             to="/musicianlisting"
-            className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+            className="hidden md:block text-link-text-khaki no-underline hover:no-underline hover:text-link-text-khaki-active"
           >
             Musicians
           </Link>
           {/* Art Page Link */}
           <Link
             to="/gallery"
-            className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+            className="hidden md:block text-link-text-khaki no-underline hover:no-underline hover:text-link-text-khaki-active"
           >
             Art
           </Link>
           {/* Social Page Link */}
           <Link
             to="/community"
-            className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
+            className="hidden md:block text-link-text-khaki no-underline hover:no-underline hover:text-link-text-khaki-active"
           >
             Social
           </Link>
@@ -97,10 +97,10 @@ const Header = ({ setMuted }) => {
           <button
             // TODO: implement download on-click
             className="hidden md:block rounded py-3 px-8 mr-6 font-mukta-mahee
-              bg-link-text-gray text-page-background border-none
-              hover:bg-link-text-gray hover:text-page-background hover:border-none
-              focus:bg-link-text-gray focus:text-page-background focus:border-none
-              active:bg-link-text-gray active:text-page-background active:border-none"
+              bg-main-accent text-main-off-black border-none
+              hover:bg-main-accent hover:text-main-off-black hover:border-none
+              focus:bg-main-accent focus:text-main-off-black focus:border-none
+              active:bg-main-accent active:text-main-off-black active:border-none"
           >
             Demo
           </button>
@@ -109,10 +109,10 @@ const Header = ({ setMuted }) => {
             <button
               // TODO: implement demo on-click
               className="rounded flex items-center justify-center px-7 mr-6 text-sm h-9 font-mukta-mahee
-              bg-link-text-gray text-page-background border-none
-              hover:bg-link-text-gray hover:text-page-background hover:border-none
-              focus:bg-link-text-gray focus:text-page-background focus:border-none
-              active:bg-link-text-gray active:text-page-background active:border-none"
+              bg-main-accent text-main-off-black border-none
+              hover:bg-main-accent hover:text-main-off-black hover:border-none
+              focus:bg-main-accent focus:text-main-off-black focus:border-none
+              active:bg-main-accent active:text-main-off-black active:border-none"
             >
               Demo
             </button>

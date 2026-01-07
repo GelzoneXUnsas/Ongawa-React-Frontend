@@ -3,6 +3,10 @@ import cover2 from "../assets/images/musicCovers/neonpulsesymHD.png";
 import cover3 from "../assets/images/musicCovers/celestialechoesHD.png";
 import cover4 from "../assets/images/musicCovers/nocturnalpursuitHD.png";
 
+import artist1 from "../assets/images/featuredArtists/artist1.jpg";
+import artist2 from "../assets/images/featuredArtists/artist2.jpg";
+import artist3 from "../assets/images/featuredArtists/artist3.png";
+
 export const beatmaps = [
   {
     id: 1,
@@ -42,7 +46,36 @@ export const beatmaps = [
         sliders: "93",
       },
     },
-    createdAt: "2025-01-15T14:30:00Z"
+    createdAt: "2025-01-15T14:30:00Z",
+    replies: [
+      {
+        id: 101,
+        parentId: null,
+        replyThreadParentId: null,
+        author: "Techno Maestro",
+        profilePicture: artist1,
+        dateCreated: "February 10, 2025",
+        text: "Forem ipsum dolor sit amet, consectetur adipiscing elit.",
+      },
+      {
+        id: 201,
+        parentId: 101,
+        replyThreadParentId: 101,
+        author: "The Shadow Weaver",
+        profilePicture: artist2,
+        dateCreated: "February 11, 2025",
+        text: "Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+      },
+      {
+        id: 202,
+        parentId: 201,
+        replyThreadParentId: 101,
+        author: "QuestComposer",
+        profilePicture: artist3,
+        dateCreated: "February 11, 2025",
+        text: "Curabitur tempus urna at turpis condimentum lobortis. Ut commodo efficitur neque.",
+      },
+    ],
   },
   {
     id: 2,
@@ -82,7 +115,18 @@ export const beatmaps = [
         sliders: "124",
       },
     },
-    createdAt: "2024-11-23T09:15:00Z"
+    createdAt: "2024-11-23T09:15:00Z",
+    replies: [
+      {
+        id: 102,
+        parentId: null,
+        replyThreadParentId: null,
+        author: "Takeshi Nakamura",
+        profilePicture: "/images/profiles/takeshi.jpg",
+        dateCreated: "June 13, 2025",
+        text: "I can almost hear this played on the shamisen. Inspiring.",
+      },
+    ],
   },
   {
     id: 3,
@@ -122,7 +166,8 @@ export const beatmaps = [
         sliders: "105",
       },
     },
-    createdAt: "2025-02-05T18:45:00Z"
+    createdAt: "2025-02-05T18:45:00Z",
+    replies: [],
   },
   {
     id: 4,
@@ -162,7 +207,8 @@ export const beatmaps = [
         sliders: "128",
       },
     },
-    createdAt: "2025-03-10T21:20:00Z"
+    createdAt: "2025-03-10T21:20:00Z",
+    replies: [],
   },
   {
     id: 5,
@@ -202,7 +248,8 @@ export const beatmaps = [
         sliders: "89",
       },
     },
-    createdAt: "2024-10-30T11:05:00Z"
+    createdAt: "2024-10-30T11:05:00Z",
+    replies: [],
   },
   {
     id: 6,
@@ -242,6 +289,7 @@ export const beatmaps = [
         sliders: "87",
       },
     },
-    createdAt: "2025-02-18T15:40:00Z"
+    createdAt: "2025-02-18T15:40:00Z",
+    replies: [],
   },
 ];

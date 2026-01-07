@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import { Link } from "react-router-dom";
 import closeNavDropdown from "../../assets/icons/closeNavDropdown.png";
-import shareIcon from "../../assets/icons/shareIcon.png";
+import shareIcon from "../../assets/icons/sharePostIcon.png";
 import youtubeIcon from "../../assets/icons/youtubeIcon.png";
 import discordIcon from "../../assets/icons/discordIcon.png";
 import linkedinIcon from "../../assets/icons/linkedinIcon.png";
