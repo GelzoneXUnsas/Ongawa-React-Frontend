@@ -41,19 +41,19 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="bg-[#2D294C] flex flex-col min-h-screen pt-16">
+    <div className="bg-main-off-black flex flex-col min-h-screen pt-16">
       {/* Top banner */}
       <div className="h-32 md:h-48 bg-gray-200"></div>
 
       {/* Main content */}
       <div className="flex flex-col md:flex-row flex-1 text-white">
         {/* Left sidebar (visible on larger screens) */}
-        <div className="md:flex md:w-64 md:border-r md:border-[#6D6D99] mt-5 mb-5 flex-col hidden">
+        <div className="md:flex md:w-64 mt-5 mb-5 flex-col hidden">
           {/* <div className="flex flex-col justify-between h-full"> */}
           <div className="flex-1">
             {/* Profile pic and name */}
             <div className="flex flex-col items-center mt-4">
-              <div className="w-32 h-32 bg-teal-400 rounded-full border-8 border-[#2D294C] -mt-28"></div>
+              <div className="w-32 h-32 bg-teal-400 rounded-full border-8 border-main-off-black -mt-28"></div>
               <div className="mt-4 text-xl font-nova-square">
                 {playerData.name}
               </div>
@@ -65,7 +65,7 @@ const ProfilePage = () => {
                 <div
                   className={`flex items-center py-3 px-6 cursor-pointer ${
                     activePage === "statistics"
-                      ? "text-yellow-500"
+                      ? "text-main-accent"
                       : "text-gray-300"
                   }`}
                   onClick={() => handleNavigation("statistics")}
@@ -77,7 +77,7 @@ const ProfilePage = () => {
                   </div>
                   <span className="font-nova-square">Statistics</span>
                   {activePage === "statistics" && (
-                    <div className="absolute bottom-0 left-16 right-3 h-0.5 bg-yellow-500"></div>
+                    <div className="absolute bottom-0 left-16 right-3 h-0.5 bg-main-accent"></div>
                   )}
                 </div>
               </div>
@@ -86,7 +86,7 @@ const ProfilePage = () => {
                 <div
                   className={`flex items-center py-3 px-6 cursor-pointer ${
                     activePage === "beatmaps"
-                      ? "text-yellow-500"
+                      ? "text-main-accent"
                       : "text-gray-300"
                   }`}
                   onClick={() => handleNavigation("beatmaps")}
@@ -98,7 +98,7 @@ const ProfilePage = () => {
                   </div>
                   <span className="font-nova-square">Beatmaps</span>
                   {activePage === "beatmaps" && (
-                    <div className="absolute bottom-0 left-16 right-3 h-0.5 bg-yellow-500"></div>
+                    <div className="absolute bottom-0 left-16 right-3 h-0.5 bg-main-accent"></div>
                   )}
                 </div>
               </div>
@@ -107,7 +107,7 @@ const ProfilePage = () => {
                 <div
                   className={`flex items-center py-3 px-6 cursor-pointer ${
                     activePage === "community"
-                      ? "text-yellow-500"
+                      ? "text-main-accent"
                       : "text-gray-300"
                   }`}
                   onClick={() => handleNavigation("community")}
@@ -119,7 +119,7 @@ const ProfilePage = () => {
                   </div>
                   <span className="font-nova-square">Community</span>
                   {activePage === "community" && (
-                    <div className="absolute bottom-0 left-16 right-3 h-0.5 bg-yellow-500"></div>
+                    <div className="absolute bottom-0 left-16 right-3 h-0.5 bg-main-accent"></div>
                   )}
                 </div>
               </div>
@@ -128,7 +128,7 @@ const ProfilePage = () => {
                 <div
                   className={`flex items-center py-3 px-6 cursor-pointer ${
                     activePage === "customization"
-                      ? "text-yellow-500"
+                      ? "text-main-accent"
                       : "text-gray-300"
                   }`}
                   onClick={() => handleNavigation("customization")}
@@ -140,7 +140,7 @@ const ProfilePage = () => {
                   </div>
                   <span className="font-nova-square">Customization</span>
                   {activePage === "customization" && (
-                    <div className="absolute bottom-0 left-16 right-3 h-0.5 bg-yellow-500"></div>
+                    <div className="absolute bottom-0 left-16 right-3 h-0.5 bg-main-accent"></div>
                   )}
                 </div>
               </div>
@@ -154,7 +154,7 @@ const ProfilePage = () => {
           >
             {/* <Settings className="mr-2" size={20} /> */}
             <img src={settingsIcon} alt="disc" className="w-6 h-6 mr-3" />
-            <span className="font-nova-square">Settings</span>
+            <span className="font-nova-square text-main-off-white">Settings</span>
           </div>
           {/* </div> */}
         </div>
@@ -169,12 +169,12 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="md:hidden overflow-x-auto">
+          <div className="md:hidden overflow-x-auto" style={{ scrollbarWidth: "none" }}>
             <div className="flex items-center w-max py-2">
               <button
                 className={`py-2 px-4 text-md whitespace-nowrap relative ${
                   activePage === "statistics"
-                    ? "text-yellow-500"
+                    ? "text-main-accent"
                     : "text-gray-300"
                 }`}
                 onClick={() => handleNavigation("statistics")}
@@ -182,7 +182,7 @@ const ProfilePage = () => {
                 <span className="relative inline-block font-nova-square">
                   Statistics
                   {activePage === "statistics" && (
-                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-yellow-500"></span>
+                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-main-accent"></span>
                   )}
                 </span>
               </button>
@@ -190,7 +190,7 @@ const ProfilePage = () => {
               <button
                 className={`py-2 px-4 text-md whitespace-nowrap relative ${
                   activePage === "beatmaps"
-                    ? "text-yellow-500"
+                    ? "text-main-accent"
                     : "text-gray-300"
                 }`}
                 onClick={() => handleNavigation("beatmaps")}
@@ -198,7 +198,7 @@ const ProfilePage = () => {
                 <span className="relative inline-block font-nova-square">
                   Beatmaps
                   {activePage === "beatmaps" && (
-                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-yellow-500"></span>
+                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-main-accent"></span>
                   )}
                 </span>
               </button>
@@ -206,7 +206,7 @@ const ProfilePage = () => {
               <button
                 className={`py-2 px-4 text-md whitespace-nowrap relative ${
                   activePage === "community"
-                    ? "text-yellow-500"
+                    ? "text-main-accent"
                     : "text-gray-300"
                 }`}
                 onClick={() => handleNavigation("community")}
@@ -214,7 +214,7 @@ const ProfilePage = () => {
                 <span className="relative inline-block font-nova-square">
                   Community
                   {activePage === "community" && (
-                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-yellow-500"></span>
+                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-main-accent"></span>
                   )}
                 </span>
               </button>
@@ -222,7 +222,7 @@ const ProfilePage = () => {
               <button
                 className={`py-2 px-4 text-md whitespace-nowrap relative ${
                   activePage === "customization"
-                    ? "text-yellow-500"
+                    ? "text-main-accent"
                     : "text-gray-300"
                 }`}
                 onClick={() => handleNavigation("customization")}
@@ -230,7 +230,7 @@ const ProfilePage = () => {
                 <span className="relative inline-block font-nova-square">
                   Customization
                   {activePage === "customization" && (
-                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-yellow-500"></span>
+                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-main-accent"></span>
                   )}
                 </span>
               </button>
@@ -248,7 +248,7 @@ const ProfilePage = () => {
                 {/* Level and progress */}
                 <div className="flex items-center mb-6">
                   <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center border-2 border-white rounded-full">
-                    <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center border-2 border-[#6D6D99] rounded-full">
+                    <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center border-2 border-main-accent rounded-full">
                       <span className="text-lg md:text-2xl font-nova-square">
                         {playerData.level}
                       </span>
@@ -258,13 +258,14 @@ const ProfilePage = () => {
                     <div className="text-sm text-white font-nova-square">
                       {playerData.level}/{playerData.maxLevel}
                     </div>
-                    <div className="h-3 md:h-5 bg-white rounded-full mt-2">
+                    <div className="h-3 md:h-5 bg-white mt-2 overflow-hidden relative">
                       <div
-                        className="h-full bg-[#6D6D99] rounded-full"
+                        className="h-full bg-main-accent"
                         style={{
                           width: `${
                             (playerData.level / playerData.maxLevel) * 100
                           }%`,
+                          clipPath: "polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)"
                         }}
                       ></div>
                     </div>
@@ -278,7 +279,7 @@ const ProfilePage = () => {
                       About Me
                     </h2>
                     <div
-                      className="bg-[#6D6D99]/30 bg-opacity-70 p-4 rounded-xl text-sm md:text-base font-roboto"
+                      className="bg-khaki text-black p-4 text-sm md:text-base font-roboto"
                       style={{ lineHeight: "2" }}
                     >
                       {playerData.about}
@@ -289,7 +290,7 @@ const ProfilePage = () => {
                   <div className="flex flex-wrap gap-4 mb-6">
                     <div className="flex-1 min-w-[100px] font-nova-square">
                       <div className="flex mb-2">
-                        <div className="w-8 h-8 md:w-12 md:h-12 bg-[#6D6D99]/30 flex items-center justify-center">
+                        <div className="w-8 h-8 md:w-12 md:h-12 bg-khaki text-black flex items-center justify-center">
                           <span className="font-bold">SS</span>
                         </div>
                         <div className="ml-2 md:ml-4 flex items-center">
@@ -297,7 +298,7 @@ const ProfilePage = () => {
                         </div>
                       </div>
                       <div className="flex mb-2">
-                        <div className="w-8 h-8 md:w-12 md:h-12 bg-[#6D6D99]/30 flex items-center justify-center">
+                        <div className="w-8 h-8 md:w-12 md:h-12 bg-khaki text-black flex items-center justify-center">
                           <span className="font-bold">S</span>
                         </div>
                         <div className="ml-2 md:ml-4 flex items-center">
@@ -305,7 +306,7 @@ const ProfilePage = () => {
                         </div>
                       </div>
                       <div className="flex">
-                        <div className="w-8 h-8 md:w-12 md:h-12 bg-[#6D6D99]/30 flex items-center justify-center">
+                        <div className="w-8 h-8 md:w-12 md:h-12 bg-khaki text-black flex items-center justify-center">
                           <span className="font-bold">A</span>
                         </div>
                         <div className="ml-2 md:ml-4 flex items-center">
@@ -316,7 +317,7 @@ const ProfilePage = () => {
 
                     <div className="flex-1 min-w-[100px] font-nova-square">
                       <div className="flex mb-2">
-                        <div className="w-8 h-8 md:w-12 md:h-12 bg-[#6D6D99]/30 flex items-center justify-center">
+                        <div className="w-8 h-8 md:w-12 md:h-12 bg-khaki text-black flex items-center justify-center">
                           <span className="font-bold">SS</span>
                         </div>
                         <div className="ml-2 md:ml-4 flex items-center">
@@ -324,7 +325,7 @@ const ProfilePage = () => {
                         </div>
                       </div>
                       <div className="flex mb-2">
-                        <div className="w-8 h-8 md:w-12 md:h-12 bg-[#6D6D99]/30 flex items-center justify-center">
+                        <div className="w-8 h-8 md:w-12 md:h-12 bg-khaki text-black flex items-center justify-center">
                           <span className="font-bold">S</span>
                         </div>
                         <div className="ml-2 md:ml-4 flex items-center">
@@ -332,7 +333,7 @@ const ProfilePage = () => {
                         </div>
                       </div>
                       <div className="flex">
-                        <div className="w-8 h-8 md:w-12 md:h-12 bg-[#6D6D99]/30 flex items-center justify-center">
+                        <div className="w-8 h-8 md:w-12 md:h-12 bg-khaki text-black flex items-center justify-center">
                           <span className="font-bold">A</span>
                         </div>
                         <div className="ml-2 md:ml-4 flex items-center">
@@ -346,59 +347,59 @@ const ProfilePage = () => {
 
               {/* Right stats panel */}
               <div className="lg:w-[45%] md:p-6">
-                <div className="bg-[#6D6D99]/30 bg-opacity-50 p-4 md:p-6 rounded relative text-sm md:text-lg before:content-[''] before:absolute before:inset-[4px] md:before:inset-[6px] before:rounded before:border before:border-white">
+                <div className="bg-khaki text-black p-4 md:p-6 relative text-sm md:text-lg before:content-[''] before:absolute before:inset-[4px] md:before:inset-[6px] before:border before:border-black">
                   <div className="space-y-2 font-nova-square">
                     <div className="flex justify-between py-2">
                       <span>Global Ranking</span>
-                      <span className="text-white">
+                      <span>
                         #{playerData.rankings.global}
                       </span>
                     </div>
                     <div className="flex justify-between py-2">
                       <span>Country Ranking</span>
-                      <span className="text-white">
+                      <span>
                         #{playerData.rankings.country}
                       </span>
                     </div>
                     <div className="flex justify-between py-2">
                       <span>Ranked Score</span>
-                      <span className="text-white">
+                      <span>
                         {playerData.rankings.rankedScore.toLocaleString()}
                       </span>
                     </div>
                     <div className="flex justify-between py-2">
                       <span>Hit Accuracy</span>
-                      <span className="text-white">
+                      <span>
                         {playerData.rankings.hitAccuracy}%
                       </span>
                     </div>
                     <div className="flex justify-between py-2">
                       <span>Play Count</span>
-                      <span className="text-white">
+                      <span>
                         {playerData.rankings.playCount.toLocaleString()}
                       </span>
                     </div>
                     <div className="flex justify-between py-2">
                       <span>Total Score</span>
-                      <span className="text-white">
+                      <span>
                         {playerData.rankings.totalScore.toLocaleString()}
                       </span>
                     </div>
                     <div className="flex justify-between py-2">
                       <span>Total Hits</span>
-                      <span className="text-white">
+                      <span>
                         {playerData.rankings.totalHits.toLocaleString()}
                       </span>
                     </div>
                     <div className="flex justify-between py-2">
                       <span>Maximum Combo</span>
-                      <span className="text-white">
+                      <span>
                         {playerData.rankings.maxCombo.toLocaleString()}
                       </span>
                     </div>
                     <div className="flex justify-between py-2">
                       <span>Total Play Time</span>
-                      <span className="text-white">
+                      <span>
                         {playerData.rankings.totalPlayTime}
                       </span>
                     </div>
@@ -417,7 +418,7 @@ const ProfilePage = () => {
           {activePage === "settings" && (
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
-                <h2 className="text-2xl mb-4">Settings</h2>
+                <h2 className="text-2xl mb-4 text-main-off-white">Settings</h2>
                 {/* <p className="text-gray-300">
                   This section is currently empty.
                 </p> */}

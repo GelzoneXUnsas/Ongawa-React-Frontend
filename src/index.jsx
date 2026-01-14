@@ -14,9 +14,9 @@ import Router from "./Router";
 import { BrowserRouter } from "react-router-dom";
 import { Amplify } from "aws-amplify";
 //import { record } from 'aws-amplify/analytics';
-import outputs from '../amplify_outputs.json';
+// import outputs from '../amplify_outputs.json';
 
-Amplify.configure(outputs);
+// Amplify.configure(outputs);
 // eslint-disable-next-line no-undef
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

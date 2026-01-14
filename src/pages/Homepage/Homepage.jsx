@@ -227,7 +227,7 @@ const Homepage = ({ muted }) => {
     <>
       {/* Main Div */}
       <div
-        className="bg-page-background-purple snap-y snap-mandatory overflow-y-scroll overflow-x-hidden h-dvh"
+        className="bg-main-off-black snap-y snap-mandatory overflow-y-scroll overflow-x-hidden h-dvh"
         style={{ scrollBehavior: "smooth" }}
       >
         <div className="hidden lg:flex">
@@ -275,7 +275,7 @@ const Homepage = ({ muted }) => {
           id="Gameplay"
           className="h-dvh bg-cover relative flex flex-col snap-start"
           style={{
-            backgroundImage: `linear-gradient(rgba(29,29,46,0.9), rgba(29,29,46, 0.9)),
+            backgroundImage: `linear-gradient(rgba(42,39,36,0.8), rgba(42,39,36,0.8)),
            url(${gameplayDemoBackgroundImg})`,
           }}
         >
@@ -283,7 +283,7 @@ const Homepage = ({ muted }) => {
           {/* Title */}
 
           <div
-            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]
+            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 bg-khaki [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]
             short:flex short:mt-16 short:py-1 short:mb-0
           "
           >
@@ -294,7 +294,7 @@ const Homepage = ({ muted }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="font-light text-5xl text-light-grey font-nova-square m-0
+                className="font-light text-5xl text-main-off-black font-nova-square m-0
                             short:text-3xl"
               >
                 {activeVideo === "gameplay" ? "Gameplay" : "Editor"}
@@ -337,11 +337,11 @@ const Homepage = ({ muted }) => {
               <div
                 className="
                 lg:flex lg:self-start lg:w-9/12 lg:p-6 
-                lg:bg-page-background-purple/60
+                lg:bg-main-off-black/60
                 lg:outline lg:outline-light-grey/50 lg:outline-offset-[-12px]
 
                 short:flex short:self-start short:w-11/12 short:p-3 short:max-h-60
-              short:bg-page-background-purple/60
+              short:bg-main-off-black/60
                 short:outline short:outline-light-grey/50 short:outline-offset-[-12px]
                 "
               >
@@ -352,12 +352,12 @@ const Homepage = ({ muted }) => {
                     <div
                       className="
                       p-1 border-2 flex items-center justify-center 
-                      md:p-2 md:border-3 lg:border-none lg:border-light-grey
+                      md:p-2 lg:border-none
                       short:border-none short:p-0 short:m-0
                     "
                     >
                       <video
-                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover border-[#3A3749] border-2 md:border-3
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover
                         short:max-h-52"
                         muted
                         autoPlay
@@ -391,7 +391,7 @@ const Homepage = ({ muted }) => {
                     >
                       <video
                         key={activeVideo}
-                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover border-[#3A3749] border-2 md:border-3
+                        className="block max-h-[calc(100vh-24rem)] w-auto object-cover
                                    short:max-h-52"
                         muted={activeSection != "Gameplay" || muted}
                         loop
@@ -423,8 +423,8 @@ const Homepage = ({ muted }) => {
                         lg:font-normal lg:text-lg/loose lg:text-left
                         short:font-normal short:text-xs short:text-left
                         tablet:text-xl/loose
-                        two_k:text-3xl/loose
-                        four_k:text-5xl/loose"
+                        two_k:text-2xl/loose
+                        four_k:text-3xl/loose"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -457,93 +457,50 @@ const Homepage = ({ muted }) => {
         {/* About Us Section */}
         <div
           id="About Us"
-          className="h-dvh relative flex flex-col snap-start overflow-hidden"
+          className="h-dvh relative flex flex-col snap-start overflow-hidden bg-main-off-black"
         >
-          {/* Title */}
+          {/* Section Title */}
           <h2
-            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 font-light text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)] z-10
-                        short:flex short:max-w-[18rem] short:mt-16 short:pl-12 short:py-1 short:text-3xl"
+            className="hidden lg:flex max-w-[28rem] mt-36 mb-4 pl-16 py-3 font-light text-5xl text-main-off-black font-nova-square bg-khaki [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)] z-20
+               short:flex short:max-w-[18rem] short:mt-16 short:pl-12 short:py-1 short:text-3xl"
           >
             About Us
           </h2>
 
-          {/* Content Container */}
+          {/* Image Container
+              Small screens: Takes up top half of flex column.
+              Large screens: Becomes absolute to sit behind/beside text.
+          */}
           <div
-            className="flex flex-col relative h-full 
-                          lg:px-8 lg:pt-8
-                          short:px-2 short:pt-2"
+            className="h-1/2 w-full lg:h-full lg:w-3/5 lg:absolute lg:right-0 lg:top-0 z-0"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at center, transparent 0%, rgba(42,39,36,1) 75%),
+                url(${aboutUsBackgroundImg})
+              `,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+
+          {/* Text Container
+            Small screens: Takes up bottom half of flex column.
+            Large screens: Shifts left and overlays the background slightly.
+        */}
+          <div
+            className="relative z-10 flex flex-col items-center justify-center px-8 py-4 h-1/2
+               lg:h-full lg:w-1/2 lg:items-start lg:pl-16 lg:mt-0
+               short:h-[calc(100%-12rem)] short:w-1/2 short:justify-center short:items-start"
           >
-            {/* Image Section */}
-            <div
-              className="h-1/2 
-                            lg:absolute lg:right-0 lg:w-3/5 lg:h-5/6 lg:top-2
-                            short:absolute short:right-0 short:w-3/5 short:h-5/6 short:top-2"
-            >
-              {/* Background image container */}
-              <div
-                className="absolute inset-0 lg:inset-[-40%] tablet:inset-[-35%] short:inset-[-30%]
-                              tablet:top-4"
-              >
-                <img
-                  src={aboutUsBackgroundImg}
-                  alt="About Us"
-                  className="w-auto h-1/2 object-cover 
-                            lg:w-full lg:h-full lg:object-center
-                            short:w-full short:h-full short:object-center"
-                />
-
-                {/* Circular Gradient Overlay for large screens*/}
-                <div
-                  className="hidden lg:flex absolute inset-[-1px] items-center justify-center"
-                  style={{
-                    background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 60%)",
-                  }}
-                />
-
-                {/* Circular Gradient Overlay for short screens*/}
-                <div
-                  className="hidden short:flex absolute inset-[-5px] items-center justify-center"
-                  style={{
-                    background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 60%)",
-                  }}
-                />
-
-                {/* Circular Gradient Overlay for small screens*/}
-                <div
-                  className="flex lg:hidden short:hidden tablet:hidden absolute top-0 left-0 w-full h-[calc(50%+4px)] items-center justify-center"
-                  style={{
-                    background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 100%)",
-                  }}
-                />
-
-                {/* Circular Gradient Overlay for tablet screens*/}
-                <div
-                  className="tablet:flex lg:hidden short:hidden absolute top-0 left-0 w-full h-[calc(50%+12px)] items-center justify-center"
-                  style={{
-                    background:
-                      "radial-gradient(circle at center, transparent 0%, rgba(29,29,46,1) 50%)",
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Text Section */}
-            <div
-              className="h-1/2 relative flex flex-col items-center justify-center px-8 py-4 z-10
-                        lg:h-[calc(100%-12rem)] lg:w-1/2 lg:justify-center lg:items-start lg:mt-12
-                        short:h-[calc(100%-12rem)] short:w-1/2 short:justify-center short:items-start short:mt-14"
-            >
+            <div className="max-w-2xl">
               <p
-                className="
-                  z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center mb-6
-                  lg:text-left lg:text-lg/10
-                  short:text-left short:text-xs
-                  tablet:text-lg/loose
-                  two_k:text-3xl/loose
-                  four_k:text-5xl/loose"
+                className="text-mukta-mahee font-semibold text-light-grey text-base/6 text-center mb-6
+                   lg:text-left lg:text-lg/10
+                   short:text-left short:text-xs
+                   tablet:text-lg/loose
+                   two_k:text-xl/loose
+                   four_k:text-2xl/loose"
               >
                 Ongawa is a rhythm game that goes beyond entertainment,
                 centering around music, creativity, and talent discovery. It
@@ -551,13 +508,12 @@ const Homepage = ({ muted }) => {
                 creations.
               </p>
               <p
-                className="
-                z-1 text-mukta-mahee font-semibold text-light-grey text-base/6 text-center
-                lg:text-left lg:text-lg/10
-                short:text-left short:text-xs
-                tablet:text-lg/loose
-                two_k:text-3xl/loose
-                four_k:text-5xl/loose"
+                className="text-mukta-mahee font-semibold text-light-grey text-base/6 text-center
+                   lg:text-left lg:text-lg/10
+                   short:text-left short:text-xs
+                   tablet:text-lg/loose
+                   two_k:text-xl/loose
+                   four_k:text-2xl/loose"
               >
                 Step into the world of Ongawa, where music bridges the gap
                 between reality and imagination. You play as a dedicated
@@ -565,7 +521,7 @@ const Homepage = ({ muted }) => {
                 brink of collapse. Guided by AWA, a magical, record-shaped
                 companion, you discover a parallel universe where rhythm and
                 creativity hold the key to uncovering hidden musical talents and
-                reviving the company&apos;s glory…
+                reviving the company's glory…
               </p>
             </div>
           </div>
@@ -655,7 +611,7 @@ const Homepage = ({ muted }) => {
             <h2
               className="
                   w-1/2 short:w-1/3 lg:max-w-[28rem] mr-6 pl-4 lg:pl-16 py-2 lg:!py-3 font-light text-2xl
-                  lg:text-5xl tablet:text-5xl text-light-grey font-nova-square bg-heading-dark-purple [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]"
+                  lg:text-5xl tablet:text-5xl text-main-off-black font-nova-square bg-khaki [clip-path:polygon(0%_0%,100%_0%,90%_100%,0%_100%)]"
             >
               FAQs
             </h2>

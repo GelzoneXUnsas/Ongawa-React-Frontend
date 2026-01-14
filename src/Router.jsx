@@ -66,8 +66,11 @@ function Router() {
           <Route path="community/new" element={<CreatePostPage />} />
           <Route path="musicianlisting" element={<MusicianListingPage />} />
           <Route path="musician/:id" element={<MusicianPage />} />
+
           <Route path="beatmaplisting/:id" element={<BeatmapPage />} />
+
           <Route path="comingsoon" element={<ComingSoonPage />} />
+
           <Route path="user/:id" element={<ProfilePage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />

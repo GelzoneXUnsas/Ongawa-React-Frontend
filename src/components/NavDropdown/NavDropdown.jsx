@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import { Link } from "react-router-dom";
 import closeNavDropdown from "../../assets/icons/closeNavDropdown.png";
-import shareIcon from "../../assets/icons/shareIcon.png";
+import shareIcon from "../../assets/icons/sharePostIcon.png";
 import youtubeIcon from "../../assets/icons/youtubeIcon.png";
 import discordIcon from "../../assets/icons/discordIcon.png";
 import linkedinIcon from "../../assets/icons/linkedinIcon.png";
@@ -12,7 +12,19 @@ const NavDropdown = ({
   closeMobileMenu,
   userLoggedIn,
   doSignOut,
+  setAuthOpen,
+  setAuthView,
 }) => {
+  const handleAuthClick = () => {
+    if (userLoggedIn) {
+      doSignOut();
+    } else {
+      setAuthView("login");
+      setAuthOpen(true);
+    }
+    closeMobileMenu();
+  };
+
   return (
     <>
       {isMobileMenuOpen && (
@@ -61,16 +73,12 @@ const NavDropdown = ({
             >
               Social
             </Link>
-            <Link
-              to="/login"
-              onClick={() => {
-                doSignOut();
-                closeMobileMenu();
-              }}
-              className="font-roboto text-search-text-gray no-underline hover:no-underline hover:text-search-text-gray text-xl"
+            <button
+              onClick={handleAuthClick}
+              className="font-roboto text-search-text-gray no-underline hover:text-white text-xl bg-transparent border-none cursor-pointer"
             >
               {userLoggedIn ? "Sign Out" : "Login"}
-            </Link>
+            </button>
             <div className="flex justify-center align-center gap-4 mt-2">
               <a href="https://www.ongawa.io/" target="_blank">
                 <img className="h-6" src={shareIcon} alt="share" />
@@ -103,6 +111,8 @@ NavDropdown.propTypes = {
   closeMobileMenu: PropTypes.func.isRequired,
   userLoggedIn: PropTypes.bool.isRequired,
   doSignOut: PropTypes.func.isRequired,
+  setAuthOpen: PropTypes.func.isRequired,
+  setAuthView: PropTypes.func.isRequired,
 };
 
 export default NavDropdown;

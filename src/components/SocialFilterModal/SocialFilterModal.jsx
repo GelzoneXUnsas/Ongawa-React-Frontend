@@ -70,9 +70,9 @@ function SocialFilterModal({
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
-        className={`bg-page-background-purple rounded-2xl p-8 ${getModalWidth()} mx-4 max-h-[90vh] overflow-y-auto`}
+        className={`bg-main-off-black rounded-2xl p-8 ${getModalWidth()} mx-4 max-h-[90vh] overflow-y-auto`}
       >
-        <h2 className="text-2xl text-accent-yellow font-nova-square font-light mb-6">
+        <h2 className="text-2xl text-main-accent font-nova-square font-light mb-6">
           {getModalTitle()}
         </h2>
 
@@ -98,14 +98,14 @@ function SocialFilterModal({
                   step="0.01"
                   value={curatedValue}
                   onChange={handleSliderChange}
-                  className="w-full h-[2px] appearance-none bg-accent-yellow
+                  className="w-full h-[2px] appearance-none bg-main-accent
                             [&::-webkit-slider-thumb]:appearance-none 
                             [&::-webkit-slider-thumb]:w-4 
                             [&::-webkit-slider-thumb]:h-4 
-                            [&::-webkit-slider-thumb]:bg-accent-yellow 
+                            [&::-webkit-slider-thumb]:bg-main-accent
                             [&::-webkit-slider-thumb]:rounded-full 
                             [&::-webkit-slider-thumb]:cursor-pointer 
-                            [&::-moz-range-thumb]:bg-accent-yellow 
+                            [&::-moz-range-thumb]:bg-main-accent 
                             [&::-moz-range-thumb]:rounded-full 
                             [&::-moz-range-thumb]:w-4 
                             [&::-moz-range-thumb]:h-4 
@@ -139,7 +139,7 @@ function SocialFilterModal({
               placeholder="Search tags..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full mb-6 p-3 text-white bg-transparent border border-light-grey rounded-lg focus:outline-none focus:border-accent-yellow font-nova-square"
+              className="w-full mb-6 p-3 text-white bg-transparent border border-light-grey rounded-lg focus:outline-none focus:border-main-accent font-nova-square"
             />
 
             <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
@@ -149,8 +149,8 @@ function SocialFilterModal({
                   onClick={() => handleTagToggle(tag)}
                   className={`px-3 py-2 rounded border font-nova-square text-sm transition-colors ${
                     tempSelectedTags.includes(tag)
-                      ? "text-accent-yellow border-accent-yellow bg-accent-yellow/10"
-                      : "text-light-grey border-light-grey hover:border-accent-yellow/50"
+                      ? "text-main-accent border-main-accent bg-main-accent/10"
+                      : "text-light-grey border-light-grey hover:border-main-accent/50"
                   }`}
                 >
                   {tag}
@@ -170,7 +170,7 @@ function SocialFilterModal({
           </button>
           <button
             onClick={handleApply}
-            className="text-dark-purple bg-accent-yellow px-6 py-2 rounded font-semibold font-nova-square"
+            className="text-dark-purple bg-main-accent px-6 py-2 rounded font-semibold font-nova-square"
           >
             {mode === "tags" ? "Apply" : "Apply Filters"}
           </button>

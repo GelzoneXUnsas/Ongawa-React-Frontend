@@ -21,12 +21,12 @@ const DifficultyDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
   return (
     <div className="relative" data-dropdown="difficulty" ref={ref}>
       <button
-        className="bg-beatmaps-background rounded-md px-4 py-2 flex items-center gap-2"
+        className="bg-khaki rounded-md px-4 py-2 flex items-center gap-2 text-black"
         onClick={onToggle}
-        style={{
-          border: "none",
-          backgroundColor: "rgba(109, 109, 153, 0.5)",
-        }}
+        // style={{
+        //   border: "none",
+        //   backgroundColor: "rgba(109, 109, 153, 0.5)",
+        // }}
       >
         <span>Difficulty</span>
         <svg
@@ -48,13 +48,13 @@ const DifficultyDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
       {/* Desktop Dropdown */}
       {isOpen && !isMobile && (
         <div className="absolute mt-1 w-62 z-50">
-          <div className="bg-dropdown-background-color rounded-md shadow-lg z-10 p-4 border border-yellow-500">
+          <div className="bg-main-off-black rounded-md shadow-lg z-10 p-4 border border-main-accent">
             <p className="text-lg">Difficulty</p>
             <div className="flex items-center justify-center gap-4">
-              <div className="bg-light-purple bg-opacity-50 rounded-md w-16 text-center">
+              <div className="bg-khaki rounded-md w-16 text-center">
                 <input
                   type="number"
-                  className="bg-transparent text-center focus:outline-none m-0 focus:ring-0"
+                  className="bg-transparent text-center focus:outline-none m-0 focus:ring-0 text-black"
                   style={{ border: "none" }}
                   value={minDifficulty}
                   onChange={(e) => setMinDifficulty(parseFloat(e.target.value))}
@@ -64,10 +64,10 @@ const DifficultyDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
                 />
               </div>
               <span className="text-xl">-</span>
-              <div className="bg-light-purple bg-opacity-50 rounded-md w-16 text-center">
+              <div className="bg-khaki rounded-md w-16 text-center">
                 <input
                   type="number"
-                  className="bg-transparent text-center w-full focus:outline-none m-0 focus:ring-0"
+                  className="bg-transparent text-center w-full focus:outline-none m-0 focus:ring-0 text-black"
                   style={{ border: "none" }}
                   value={maxDifficulty}
                   onChange={(e) => setMaxDifficulty(parseFloat(e.target.value))}
@@ -92,7 +92,7 @@ const DifficultyDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
 
           {/* Modal */}
           <div className="fixed bottom-0 left-0 right-0 z-50 transform transition-transform duration-300 ease-out">
-            <div className="bg-dropdown-background-color rounded-t-xl p-6 max-h-96 overflow-y-auto">
+            <div className="bg-main-off-black rounded-t-xl p-6 max-h-96 overflow-y-auto">
               {/* Modal Header */}
               <div className="flex justify-between items-center mb-10">
                 <p className="text-lg font-semibold mb-0">Difficulty</p>
@@ -117,7 +117,7 @@ const DifficultyDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
 
               {/* Modal Content */}
               <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="bg-light-purple bg-opacity-50 rounded-md w-20 text-center">
+                <div className="bg-khaki text-black rounded-md w-20 text-center">
                   <input
                     type="number"
                     className="bg-transparent text-center focus:outline-none m-0 focus:ring-0 py-3"
@@ -132,7 +132,7 @@ const DifficultyDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
                   />
                 </div>
                 <span className="text-xl">-</span>
-                <div className="bg-light-purple bg-opacity-50 rounded-md w-20 text-center">
+                <div className="bg-khaki text-black rounded-md w-20 text-center">
                   <input
                     type="number"
                     className="bg-transparent text-center w-full focus:outline-none m-0 focus:ring-0 py-3"
@@ -151,7 +151,7 @@ const DifficultyDropdown = forwardRef(({ isOpen, onToggle }, ref) => {
               {/* Apply Button for Mobile */}
               <button
                 onClick={onToggle}
-                className="w-full bg-yellow-500 text-black font-semibold py-3 px-4 rounded-md"
+                className="w-full bg-main-accent text-black font-semibold py-3 px-4 rounded-md"
                 style={{ border: "none" }}
               >
                 Apply
