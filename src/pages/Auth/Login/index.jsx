@@ -1,9 +1,31 @@
 import React, { useState } from "react"
-import {Navigate, Link} from 'react-router-dom'
-import { doSignInWithEmailAndPassword, doSignInWithGoogle, getErrorMessage } from "../../../firebase/auth"
+import { Navigate, Link } from 'react-router-dom'
+import { signIn, signInWithRedirect } from 'aws-amplify/auth'
 import { useAuth } from "../../../contexts/authContext"
+import outputs from '../../../../amplify_outputs.json'
+import { Amplify } from "aws-amplify"
 
-import headerBackgroundImg from '../../../assets/images/headerBackground.png';
+// Configure Amplify
+Amplify.configure(outputs)
+
+import headerBackgroundImg from '../../../assets/images/headerBackground.png'
+
+// Helper function to convert Amplify errors to user-friendly messages
+const getErrorMessage = (error) => {
+    const errorMap = {
+        'UserNotFoundException': 'No account found with this email.',
+        'NotAuthorizedException': 'Incorrect email or password.',
+        'UserNotConfirmedException': 'Please verify your email before signing in.',
+        'InvalidParameterException': 'Invalid email or password format.',
+        'TooManyRequestsException': 'Too many failed attempts. Please try again later.',
+    }
+    
+    if (error.name && errorMap[error.name]) {
+        return errorMap[error.name]
+    }
+    
+    return error.message || 'An error occurred during sign in.'
+}
 
 const Login = () => {
     const { userLoggedIn } = useAuth()
@@ -17,60 +39,49 @@ const Login = () => {
         e.preventDefault()
         if (!isSigningIn) {
             setIsSigningIn(true)
-            await doSignInWithEmailAndPassword(email, password)
-            .then((result) => {
-                console.log("Email SignIn successful:", result.user.uid);
-
-                // Handle successful sign-in (e.g., save user information)
-                console.log("UserID: ", result.user.uid)
-            })
-            .catch((err) => {
-                console.error("Email SignIn error:", err);
-                setIsSigningIn(false);
-                setErrorMessage(`${getErrorMessage(err.code)}`);
-            });
+            setErrorMessage('')
             
+            try {
+                const { isSignedIn, nextStep } = await signIn({
+                    username: email,
+                    password
+                })
+                
+                if (isSignedIn) {
+                    const { getCurrentUser } = await import('aws-amplify/auth')
+                    const user = await getCurrentUser()
+                    console.log("Email SignIn successful:", user.userId)
+                    console.log("UserID: ", user.userId)
+                    // User is now signed in, authContext will handle the redirect
+                }
+                
+                setIsSigningIn(false)
+                
+            } catch (err) {
+                console.error("Email SignIn error:", err)
+                setIsSigningIn(false)
+                setErrorMessage(getErrorMessage(err))
+            }
         }
     }
 
-    const onGoogleSignIn = (e) => {
+    const onGoogleSignIn = async (e) => {
         e.preventDefault()
         if (!isSigningIn) {
             console.log("trying to call google signin")
             setIsSigningIn(true)
-            doSignInWithGoogle()
-                .then((result) => {
-                    console.log("Google SignIn successful:", result.user.uid);
-                    // Handle successful sign-in (e.g., save user information)
-
-                // // Storing in DyanmoDB 
-                // (we dont really need this part anymore since we will handle creating and updating info for user in userDB inside the setUserRole function)
-                // also we dont wanna be calling this whenever a user logins, should only be on signup/role changes
-
-                // const params = {
-                //     TableName: 'Users Table Name in DynamoDB', 
-                //     Item: {
-                //         userId: userId,
-                //         email: email,
-                //         // other relevant attributes here
-                //     }
-                // };
-    
-                // // Store the user ID in DynamoDB
-                // dynamoDb.put(params, (err, data) => {       // data is what the put method returns but usually 0 unless "ReturnValues" is specified in params
-                //     if (err) {
-                //         console.error("Error storing user ID in DynamoDB:", err);
-                //     } else {
-                //         console.log("User ID stored in DynamoDB:", data);
-                //     }
-                // });
-
-                })
-                .catch((err) => {
-                    console.error("Google SignIn error:", err);
-                    setIsSigningIn(false);
-                    setErrorMessage(`Error: ${err.message}`);
-                });
+            setErrorMessage('')
+            
+            try {
+                await signInWithRedirect({ provider: 'Google' })
+                // User will be redirected to Google login
+                // After successful auth, they'll be redirected back to your app
+                
+            } catch (err) {
+                console.error("Google SignIn error:", err)
+                setIsSigningIn(false)
+                setErrorMessage(`Error: ${err.message}`)
+            }
         }
     }
 
@@ -130,9 +141,8 @@ const Login = () => {
                         )}
 
                         <button
-                            onClick={onSubmit}
+                            type="submit"
                             disabled={isSigningIn}
-                            // this part below is just to have the button display differently before and after clicking signin and disabling it when signing in
                             className={`w-full flex items-center justify-center gap-x-3 py-2.5 border bg-lilac text-black rounded-lg text-sm font-medium ${isSigningIn ? 'cursor-not-allowed' : 'hover:bg-page-background hover:text-white transition duration-300 active:bg-page-background active:text-white'}`}
                         >
                             {isSigningIn ? "Signing In..." : "Sign In"}
@@ -155,17 +165,18 @@ const Login = () => {
                     </div>
 
                     <button
+                        type="button"
                         disabled={isSigningIn}
                         onClick={(e) => {onGoogleSignIn(e) }}
                         className={`w-full flex items-center justify-center gap-x-3 py-2.5 border bg-lilac text-black rounded-lg text-sm font-medium ${isSigningIn ? 'cursor-not-allowed' : 'hover:bg-page-background hover:text-white transition duration-300 active:bg-page-background active:text-white'}`}
                     >
                         <svg
-                            class="w-5 h-5"
+                            className="w-5 h-5"
                             viewBox="0 0 48 48"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                         >
-                            <g clip-path="url(#clip0)">
+                            <g clipPath="url(#clip0)">
                                 <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4"/>
                                 <path d="M24.48 48.0016C30.9529 48.0016 36.4116 45.8764 40.3888 42.2078L32.6549 36.2111C30.5031 37.675 27.7252 38.5039 24.4888 38.5039C18.2275 38.5039 12.9187 34.2798 11.0139 28.6006H3.03296V34.7825C7.10718 42.8868 15.4056 48.0016 24.48 48.0016Z" fill="#34A853"/>
                                 <path d="M11.0051 28.6006C9.99973 25.6199 9.99973 22.3922 11.0051 19.4115V13.2296H3.03298C-0.371021 20.0112 -0.371021 28.0009 3.03298 34.7825L11.0051 28.6006Z" fill="#FBBC04"/>
@@ -186,4 +197,4 @@ const Login = () => {
 
 }
 
-export default Login;
+export default Login

@@ -1,10 +1,10 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
 import { useAuth } from "../../contexts/authContext";
-import { doSignOut } from "../../firebase/auth";
+import { signOut } from "aws-amplify/auth";
 
 import logoIcon from "../../assets/icons/ongawaLogoNameWhite.png";
 import toggleMusicIcon from "../../assets/icons/toggleMusicIcon.png";
@@ -17,12 +17,23 @@ const Header = ({ setMuted }) => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [muted, setLocalMuted] = useState(true);
+  
   useEffect(() => {
     setMuted(muted);
   }, [muted, setMuted]);
 
   const toggleMusic = () => {
     setLocalMuted(!muted);
+  };
+
+  // Amplify sign out function
+  const doSignOut = async () => {
+    try {
+      await signOut();
+      console.log("User signed out successfully");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   return (
@@ -33,7 +44,7 @@ const Header = ({ setMuted }) => {
           <Link to="/">
             <img
               className="w-auto h-[2.5rem] cursor-pointer mb-[10px] z-[2]"
-              alt="Virtuosos Logo"
+              alt="Ongawa Logo"
               src={logoIcon}
             />
           </Link>

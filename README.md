@@ -1,4 +1,4 @@
-# Virtuosos Website - Sublimate the Essence of Music in an Immersive Journey
+# Ongawa Website - Sublimate the Essence of Music in an Immersive Journey
 
 ## Mission Statement
 Virtuosos is a rhythm game that goes beyond entertainment. We've crafted an experience that seamlessly weaves together immersive storytelling and game mechanics, placing music at the forefront. But we're not stopping there.

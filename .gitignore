@@ -19,9 +19,6 @@
 .env.production.local
 
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 
 # ignoring video files (too large to upload to github)
 /src/assets/videos/
@@ -35,6 +32,3 @@ yarn-error.log*
 amplify_outputs*
 amplifyconfiguration*
 
-# firebase
-/src/firebase/auth.js
-/src/firebase/firebase.js
