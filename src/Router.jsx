@@ -16,6 +16,9 @@ import CommunityPostPage from "./pages/CommunityPostPage/CommunityPostPage";
 import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 import ComingSoonPage from "./pages/ComingSoonPage/ComingSoonPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import WorldsPage from "./pages/WorldsPage/WorldsPage";
+import WorldPage from "./pages/WorldPage/WorldPage";
+
 import Login from "./pages/Auth/Login";
 import { AuthProvider } from "./contexts/authContext";
 import Register from "./pages/Auth/Register";
@@ -66,6 +69,9 @@ function Router() {
           <Route path="community/new" element={<CreatePostPage />} />
           <Route path="musicianlisting" element={<MusicianListingPage />} />
           <Route path="musician/:id" element={<MusicianPage />} />
+
+          <Route path="worlds" element={<WorldsPage />} />
+          <Route path="worlds/:id" element={<WorldPage />} />
 
           <Route path="beatmaplisting/:id" element={<BeatmapPage />} />
 

@@ -70,6 +70,15 @@ const Header = ({ setMuted }) => {
           >
             Musicians
           </Link>
+
+          {/* Worlds Page Link */}
+          <Link
+            to="/worlds"
+            className="hidden md:block text-link-text-khaki no-underline hover:no-underline hover:text-link-text-khaki-active"
+          >
+            Worlds
+          </Link>
+
           {/* Art Page Link */}
           <Link
             to="/gallery"

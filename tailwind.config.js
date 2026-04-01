@@ -52,7 +52,6 @@ export default {
         "border-purple-light": "#47475F",
         "heading-dark-purple": "#484878",
         "off-white": "#B6B6CC",
-        "multi-off-black": "#181615",
         "beatmaps-background": "#2D294C",
         "yellow-accent": "#CA9F28",
         "light-purple": "#6D6D99",
