@@ -62,17 +62,17 @@ const MusicianSelector = ({
       {/* Musician Cells */}
       <div className="flex gap-3 relative">
         {/* Decorative Boxes Mobile */}
-        <div className="lg:hidden tablet:hidden absolute top-7 z-20 border-[3px] border-secondary-purple h-8 w-[105%] left-1/2 -translate-x-1/2" />
-        <div className="lg:hidden tablet:hidden absolute top-[33px] z-20 border-[1px] border-secondary-purple h-[22px] w-[100%] left-1/2 -translate-x-1/2" />
+        <div className="lg:hidden tablet:hidden absolute top-7 z-20 border-[3px] border-khaki h-8 w-[105%] left-1/2 -translate-x-1/2" />
+        <div className="lg:hidden tablet:hidden absolute top-[33px] z-20 border-[1px] border-khaki h-[22px] w-[100%] left-1/2 -translate-x-1/2" />
 
         {/* Decorative Boxes Desktop */}
         <div
           className="hidden lg:block tablet:block absolute top-7 z-20 border-[5px]
-         border-secondary-purple h-12 w-[105%] left-1/2 -translate-x-1/2"
+         border-khaki h-12 w-[105%] left-1/2 -translate-x-1/2"
         />
         <div
           className="hidden lg:block tablet:block absolute top-[36px] z-20 border-[2px]
-         border-secondary-purple h-8 w-[100%] left-1/2 -translate-x-1/2"
+         border-khaki h-8 w-[100%] left-1/2 -translate-x-1/2"
         />
 
         {/* Musicians */}

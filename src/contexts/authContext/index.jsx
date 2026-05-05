@@ -1,33 +1,69 @@
-import React, { useContext, useEffect, useState } from "react";
-import {auth} from "../../firebase/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-// import { setUserProperties } from "firebase/analytics";
+/* eslint-disable no-undef */
+/* eslint-disable react-refresh/only-export-components */
+import React, { useContext, useEffect, useState } from "react"
+import { getCurrentUser } from 'aws-amplify/auth'
+import { Hub } from 'aws-amplify/utils'
 
-const AuthContext = React.createContext();
+const AuthContext = React.createContext()
 
-export function useAuth(){
-    return useContext(AuthContext);
+export function useAuth() {
+    return useContext(AuthContext)
 }
 
-export function AuthProvider ({ children }) {
-    const [currUser, setCurrUser] = useState(null);
-    const [userLoggedIn, setUserLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(true);       //true means code is trying to load in what is the current login state
+// eslint-disable-next-line react/prop-types
+export function AuthProvider({ children }) {
+    const [currUser, setCurrUser] = useState(null)
+    const [userLoggedIn, setUserLoggedIn] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, initializeUser);
-        return unsubscribe;
+        // Check initial auth state
+        checkUser()
+
+        // Listen for auth events (sign in, sign out, token refresh)
+        const hubListener = Hub.listen('auth', ({ payload }) => {
+            switch (payload.event) {
+                case 'signedIn':
+                    checkUser()
+                    break
+                case 'signedOut':
+                    setCurrUser(null)
+                    setUserLoggedIn(false)
+                    break
+                case 'tokenRefresh':
+                    checkUser()
+                    break
+                case 'signInWithRedirect':
+                    checkUser()
+                    break
+                case 'signInWithRedirect_failure':
+                    console.error('Sign in with redirect failed', payload.data)
+                    break
+            }
+        })
+
+        // Cleanup listener on unmount
+        return () => hubListener()
     }, [])
 
-    async function initializeUser(user) {
-        if (user) {         // if user object is valid it means there is a user logged in currently
-            setCurrUser({ ...user });
-            setUserLoggedIn(true);
-        } else {
-            setCurrUser(null);
-            setUserLoggedIn(false);
+    async function checkUser() {
+        try {
+            const user = await getCurrentUser()
+            
+            if (user) {
+                setCurrUser(user)
+                setUserLoggedIn(true)
+            } else {
+                setCurrUser(null)
+                setUserLoggedIn(false)
+            }
+        } catch (error) {
+            // User is not authenticated
+            setCurrUser(null)
+            setUserLoggedIn(false)
+        } finally {
+            setLoading(false)
         }
-        setLoading(false);
     }
 
     const value = {
@@ -41,5 +77,4 @@ export function AuthProvider ({ children }) {
             {!loading && children}
         </AuthContext.Provider>
     )
-
 }

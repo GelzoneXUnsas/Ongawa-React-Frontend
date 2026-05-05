@@ -1,4 +1,4 @@
-# Virtuosos Website - Sublimate the Essence of Music in an Immersive Journey
+# Ongawa Website - Sublimate the Essence of Music in an Immersive Journey
 
 ## Mission Statement
 Virtuosos is a rhythm game that goes beyond entertainment. We've crafted an experience that seamlessly weaves together immersive storytelling and game mechanics, placing music at the forefront. But we're not stopping there.
@@ -11,4 +11,3 @@ Our website platform is a collaborative space where creators can share their com
 #### Min Hset Hlaing - hlaing@calpoly.edu
 #### Parth Rajesh Patel - parth773@berkeley.edu
 #### Michael Slu - mislu@calpoly.edu
-#### Jin Wu - jinwu2003@gmail.com

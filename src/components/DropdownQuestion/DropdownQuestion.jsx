@@ -16,17 +16,19 @@ const DropdownQuestion = ({ question, answer }) => {
         <motion.img
           src={rightArrowIcon}
           alt="Toggle Arrow"
-          className="w-4 h-4 mt-1 lg:mt-2"
+          className="w-4 h-4 mt-1 lg:mt-2
+                    two_k:mt-3 four_k:mt-4
+                    "
           animate={{ rotate: isOpen ? 90 : 0 }}
           transition={{ duration: 0.3 }}
         />
         {/* Question */}
         <p
-          className="w-full ml-4 p-0 pb-3 my-0 text-white font-nova-square border-b-2 border-border-purple-light
+          className="w-full ml-4 p-0 pb-3 my-0 text-white font-nova-square border-b-2 border-main-dark
                        short:text-sm short:pb-1
                        lg:text-xl
-                       two_k:text-2xl/loose
-                       four_k:text-4xl/loose"
+                       two_k:text-xl/loose
+                       four_k:text-2xl/loose"
         >
           {question}
         </p>
@@ -53,7 +55,7 @@ const DropdownQuestion = ({ question, answer }) => {
                 opacity: { duration: 0.2 },
               },
             }}
-            className="overflow-hidden ml-8 lg:text-xl two_k:text-3xl/loose four_k:text-5xl/loose"
+            className="overflow-hidden ml-8 lg:text-xl two_k:text-xl/loose four_k:text-2xl/loose"
           >
             {answer}
           </motion.div>

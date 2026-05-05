@@ -21,6 +21,13 @@ export default {
 
       colors: {
         "main-purple": "#3E3E7E",
+        "main-accent": "#DD8676",
+        "main-off-black": "#2A2724",
+        "main-dark": "#4B4740",
+        "main-off-white": "#EFECE6",
+        "multi-off-black": "#181615",
+        "main-midtone": "#9B8F7E",
+        khaki: "#DDD0B9",
         "secondary-purple": "#6D6D99",
         "page-background": "#2d2c5f",
         "page-background-purple": "#1D1D2E",
@@ -33,9 +40,12 @@ export default {
         "icon-color": "#FFF",
         "purple-accent": "#D5A6ED",
         "accent-yellow": "#CA9F28",
+        "dark-purple": "#1D1D2E",
         "custom-hover-blue": "#002ead",
         "search-text-gray": "#B2B2B2",
         "link-text-gray": "#C3C3C8",
+        "link-text-khaki": "#DDD0B9",
+        "link-text-khaki-active": "#C3C3C8",
         "discography-background": "#543F60",
         "dropdown-background-color": "#1D1D2E",
         "light-grey": "#D9D9D9",
@@ -56,7 +66,7 @@ export default {
 
       backgroundImage: {
         "header-gradient":
-          "linear-gradient(180deg, #1D1D2E 80.9%, rgba(45, 44, 95, 0.00) 100%)",
+          "linear-gradient(180deg, #2A2724 80.9%, rgba(45, 44, 95, 0.00) 100%)",
         "login-gradient":
           "linear-gradient(180deg, #2D2C5F 60.9%, rgba(45, 44, 95, 0.00) 100%)",
         "gradient-overlay":
@@ -80,6 +90,10 @@ export default {
       animation: {
         merge_left: "merge_left 7s infinite",
         merge_right: "merge_right 7s infinite",
+        "slide-up": "slide-up 0.25s ease-out",
+        "slide-down": "slide-down 0.25s ease-out",
+        "fade-in": "fade-in 0.25s ease-out",
+        "fade-out": "fade-out 0.25s ease-out",
       },
 
       keyframes: {
@@ -109,6 +123,26 @@ export default {
           "100%": {
             transform: "translate(0px, 0px) scale(1)",
           },
+        },
+
+        "slide-up": {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+
+        "slide-down": {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(100%)" },
+        },
+
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+
+        "fade-out": {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
         },
       },
 

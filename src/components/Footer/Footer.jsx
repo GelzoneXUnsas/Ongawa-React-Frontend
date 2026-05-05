@@ -7,7 +7,7 @@ import xIcon from "../../assets/icons/xIcon.svg";
 
 const Footer = () => {
   return (
-    <div className="py-8 w-full flex flex-col items-center gap-5 bg-page-background-purple">
+    <div className="py-8 w-full flex flex-col items-center gap-5 bg-main-off-black">
       {/* Links to other Pages */}
       <Link
         to={"/beatmaplisting"}
@@ -71,7 +71,7 @@ const Footer = () => {
 
       {/* Contact Information */}
       <p className="font-roboto font-medium text-xs text-white">
-        contact ongawa.game@gmail.com for support
+        Contact ongawa.game@gmail.com for support.
       </p>
     </div>
   );

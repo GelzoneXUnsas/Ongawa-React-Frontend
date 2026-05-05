@@ -1,19 +1,31 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import searchIcon from '../../assets/icons/searchIcon.svg';
-import closeIcon from '../../assets/icons/closeNavDropdown.png';
+import searchIcon from "../../assets/icons/searchIcon.png";
+import closeIcon from "../../assets/icons/closeNavDropdown.png";
 import heartIcon from "../../assets/icons/heartIcon-white.svg";
 import playIcon from "../../assets/icons/playIcon-white.svg";
-import timeIcon from "../../assets/icons/timeIcon.svg"
-import ellipseIcon from "../../assets/icons/ellipse.svg"
+import timeIcon from "../../assets/icons/timeIcon.svg";
+import ellipseIcon from "../../assets/icons/ellipse.svg";
 import clockIcon from "../../assets/icons/clockIcon.svg";
-import { worlds } from "../../data/worlds";
+import { worlds as localWorlds } from "../../data/worlds";
+import { listWorlds } from "../../services/worldService";
+import geoBg from "../../assets/images/backgrounds/geo_bg.png";
 
-import DifficultyDropdown from '../../components/DifficultyDropdown/DifficultyDropdown';
-import TagsDropdown from '../../components/TagsDropdown/TagsDropdown';
+import DifficultyDropdown from "../../components/DifficultyDropdown/DifficultyDropdown";
+import TagsDropdown from "../../components/TagsDropdown/TagsDropdown";
 
 export default function WorldsPage() {
+  const [worldsData, setWorldsData] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
+
+  useEffect(() => {
+    listWorlds()
+      .then(setWorldsData)
+      .catch(() => setWorldsData(localWorlds))
+      .finally(() => setLoadingData(false));
+  }, []);
+
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [hoveredWorld, setHoveredWorld] = useState(null);
@@ -28,9 +40,11 @@ export default function WorldsPage() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [difficultyOpen, setDifficultyOpen] = useState(false);
   const [tagsOpen, setTagsOpen] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const availableTags = ["Pop", "Rock", "Electronic", "Jazz", "Classical"];
 
   const [searchHistory, setSearchHistory] = useState(() => {
-    const savedHistory = localStorage.getItem('searchHistory');
+    const savedHistory = localStorage.getItem("worldSearchHistory");
     return savedHistory ? JSON.parse(savedHistory) : [];
   });
   const [showDropdown, setShowDropdown] = useState(false);
@@ -40,7 +54,7 @@ export default function WorldsPage() {
   const [sortDirection, setSortDirection] = useState("ascending");
 
   // optimization solution to calculating the total number of plays the world has based on plays of its discography
-  const enrichedWorlds = worlds.map(world => {
+  const enrichedWorlds = worldsData.map((world) => {
     const totalPlays = world.discography
       ? world.discography.reduce((sum, item) => sum + (item.plays || 0), 0)
       : 0;
@@ -56,7 +70,9 @@ export default function WorldsPage() {
       : 0;
 
     // Convert back to MM:SS format
-    const totalDuration = `${Math.floor(totalDurationSeconds / 60)}:${String(totalDurationSeconds % 60).padStart(2, "0")}`;
+    const totalDuration = `${Math.floor(totalDurationSeconds / 60)}:${String(
+      totalDurationSeconds % 60
+    ).padStart(2, "0")}`;
 
     return {
       ...world,
@@ -66,9 +82,14 @@ export default function WorldsPage() {
     };
   });
 
-  const searchFilteredWorlds = enrichedWorlds.filter((b) =>
-    b.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const searchFilteredWorlds = enrichedWorlds.filter((b) => {
+    const matchesSearch = b.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesTags = selectedTags.length === 0 ||
+      (b.discography || []).some(
+        (track) => track.tags && selectedTags.some((tag) => track.tags.includes(tag))
+      );
+    return matchesSearch && matchesTags;
+  });
 
   const applyFilterAndSort = (beatmapsToFilter) => {
     // Apply filters based on active filter type
@@ -99,9 +120,7 @@ export default function WorldsPage() {
         const dateA = new Date(a.createdAt);
         const dateB = new Date(b.createdAt);
 
-        return sortDirection === "ascending"
-          ? dateA - dateB
-          : dateB - dateA;
+        return sortDirection === "ascending" ? dateA - dateB : dateB - dateA;
       });
     } else {
       // Default "All" sorting by title
@@ -140,7 +159,7 @@ export default function WorldsPage() {
 
   // Save search history to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+    localStorage.setItem("worldSearchHistory", JSON.stringify(searchHistory));
   }, [searchHistory]);
 
   // Add search to history
@@ -148,7 +167,9 @@ export default function WorldsPage() {
     if (searchTerm) {
       setSearchHistory((prevHistory) => {
         // Remove the searchTerm if it already exists
-        const filteredHistory = prevHistory.filter((term) => term !== searchTerm);
+        const filteredHistory = prevHistory.filter(
+          (term) => term !== searchTerm
+        );
         // Add the searchTerm at the top and keep the history limited to 5 items
         return [searchTerm, ...filteredHistory].slice(0, 5);
       });
@@ -161,8 +182,8 @@ export default function WorldsPage() {
     event.stopPropagation();
 
     // Remove the item from search history
-    setSearchHistory(prevHistory =>
-      prevHistory.filter(item => item !== historicalSearch)
+    setSearchHistory((prevHistory) =>
+      prevHistory.filter((item) => item !== historicalSearch)
     );
   };
 
@@ -177,19 +198,23 @@ export default function WorldsPage() {
       }
 
       // Check if click is outside ALL difficulty dropdown instances
-      const allDifficultyDropdowns = document.querySelectorAll('[data-dropdown="difficulty"]');
-      const isClickInsideAnyDifficultyDropdown = Array.from(allDifficultyDropdowns).some(
-        dropdown => dropdown.contains(event.target)
+      const allDifficultyDropdowns = document.querySelectorAll(
+        '[data-dropdown="difficulty"]'
       );
+      const isClickInsideAnyDifficultyDropdown = Array.from(
+        allDifficultyDropdowns
+      ).some((dropdown) => dropdown.contains(event.target));
 
       if (!isClickInsideAnyDifficultyDropdown) {
         setDifficultyOpen(false);
       }
 
       // Check if click is outside ALL tags dropdown instances
-      const allTagsDropdowns = document.querySelectorAll('[data-dropdown="tags"]');
+      const allTagsDropdowns = document.querySelectorAll(
+        '[data-dropdown="tags"]'
+      );
       const isClickInsideAnyTagsDropdown = Array.from(allTagsDropdowns).some(
-        dropdown => dropdown.contains(event.target)
+        (dropdown) => dropdown.contains(event.target)
       );
 
       if (!isClickInsideAnyTagsDropdown) {
@@ -198,9 +223,9 @@ export default function WorldsPage() {
     };
 
     // Use capture phase to ensure this runs before other click handlers
-    document.addEventListener('mousedown', handleClickOutside, true);
+    document.addEventListener("mousedown", handleClickOutside, true);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside, true);
+      document.removeEventListener("mousedown", handleClickOutside, true);
     };
   }, []);
 
@@ -232,9 +257,15 @@ export default function WorldsPage() {
     setDifficultyOpen(false);
   };
 
-   // Toggle sort direction
-   const toggleSortDirection = () => {
-    setSortDirection(sortDirection === "ascending" ? "descending" : "ascending");
+  const handleTagsChange = (newTags) => {
+    setSelectedTags(newTags);
+  };
+
+  // Toggle sort direction
+  const toggleSortDirection = () => {
+    setSortDirection(
+      sortDirection === "ascending" ? "descending" : "ascending"
+    );
   };
 
   // Swipe threshold values
@@ -257,9 +288,9 @@ export default function WorldsPage() {
     let swipeAmount = Math.max(0, Math.min(diff, maxSwipeDistance));
 
     // Update the swipe position for this specific beatmap
-    setSwipePositions(prev => ({
+    setSwipePositions((prev) => ({
       ...prev,
-      [index]: swipeAmount
+      [index]: swipeAmount,
     }));
   };
 
@@ -271,14 +302,13 @@ export default function WorldsPage() {
 
     // If swiped more than minSwipeDistance, snap to full open
     // Otherwise, snap back to closed
-    const finalSwipeAmount = currentSwipeAmount > minSwipeDistance
-      ? maxSwipeDistance
-      : 0;
+    const finalSwipeAmount =
+      currentSwipeAmount > minSwipeDistance ? maxSwipeDistance : 0;
 
     // Update the swipe position for this specific beatmap
-    setSwipePositions(prev => ({
+    setSwipePositions((prev) => ({
       ...prev,
-      [index]: finalSwipeAmount
+      [index]: finalSwipeAmount,
     }));
 
     setTouchStart(null);
@@ -298,32 +328,47 @@ export default function WorldsPage() {
     return `translateX(${100 - percentage}%)`;
   };
 
-  
-
   return (
-    <div className="p-6 bg-beatmaps-background min-h-screen text-white mt-16">
-
+    <div className="p-6 bg-gradient-b from-main-dark to-multi-off-black min-h-screen text-white mt-16">
+      {/* Background Image Elements */}
+      <div
+        className="absolute inset-0 w-full h-full bg-repeat bg-left-top opacity-10 pointer-events-none"
+        style={{ backgroundImage: `url(${geoBg})` }}
+      />
+      {/* Title */}
+      <h1 className="ms-6 mb-3 text-5xl font-light font-nova-square text-light-grey">
+        Worlds
+      </h1>
       {/* Desktop Search - Hidden on Mobile */}
-      <div className="hidden md:flex items-center mb-6">
-        <div ref={searchContainerRef} className="relative w-full max-w-full rounded flex items-center mx-4">
+      <div className="hidden md:flex items-center mb-6 ">
+        <div
+          ref={searchContainerRef}
+          className="relative w-full max-w-full rounded flex items-center mx-4 "
+        >
           {/* <div className="bg-light-purple bg-opacity-50 w-full rounded flex items-center"> */}
-          <div className={`${showDropdown && searchHistory.length > 0 ? 'bg-dropdown-background-color' : 'bg-light-purple bg-opacity-50'} w-full rounded-t ${showDropdown && searchHistory.length > 0 ? 'rounded-b-none' : 'rounded'} h-12`}>
+          <div
+            className={`w-full rounded-t ${
+              showDropdown && searchHistory.length > 0
+                ? "rounded-b-none"
+                : "rounded"
+            } h-12 bg-khaki`}
+          >
             <input
               type="text"
               placeholder="Search ..."
-              className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg h-full"
-              style={{ border: "none"}} // to override styling in index.css (temporary)
+              className="text-white border-none w-full px-4 rounded focus:ring-0 placeholder:text-lg placeholder-main-off-black h-full"
+              style={{ border: "none" }} // to override styling in index.css (temporary)
               value={searchInput}
               onChange={(e) => {
                 setSearchInput(e.target.value);
                 setShowDropdown(true);
               }}
-                onKeyDown={handleKeyDown}
-                onFocus={() => {
-                  if (searchHistory.length > 0) {
-                    setShowDropdown(true);
-                  }
-                }}
+              onKeyDown={handleKeyDown}
+              onFocus={() => {
+                if (searchHistory.length > 0) {
+                  setShowDropdown(true);
+                }
+              }}
             />
             <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
               <div className="w-px h-6 bg-white"></div>
@@ -332,9 +377,7 @@ export default function WorldsPage() {
           </div>
           {/* Search History Dropdown */}
           {showDropdown && searchHistory.length > 0 && (
-            <div
-              className="absolute top-full left-0 right-0 bg-dropdown-background-color rounded-b-lg z-50 p-2"
-            >
+            <div className="absolute top-full left-0 right-0 bg-dropdown-background-color rounded-b-lg z-50 p-2">
               {searchHistory.map((historyItem, index) => (
                 <div
                   key={index}
@@ -350,7 +393,7 @@ export default function WorldsPage() {
                       src={closeIcon}
                       alt="Remove"
                       className="w-3 h-3"
-                      onClick={(e) => removeSearchHistoryItem(e, historyItem)} 
+                      onClick={(e) => removeSearchHistoryItem(e, historyItem)}
                     />
                   </div>
                 </div>
@@ -360,14 +403,14 @@ export default function WorldsPage() {
         </div>
       </div>
 
-      {/* Mobile Search - Shown only on mobile */} 
+      {/* Mobile Search - Shown only on mobile */}
       {/* flex md:hidden items-center gap-2 mb-4 */}
       <div className="md:hidden mb-6">
-        <div className="bg-light-purple bg-opacity-50 rounded-lg h-10 relative">
+        <div className="bg-khaki rounded-lg h-10 relative">
           <input
             type="text"
             placeholder="Search ..."
-            className="text-white border-none w-full h-full rounded focus:ring-0 px-4 py-2"
+            className="text-white border-none w-full h-full rounded focus:ring-0 px-4 py-2 placeholder-main-off-black"
             style={{ border: "none" }}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
@@ -376,10 +419,15 @@ export default function WorldsPage() {
           <div className="absolute inset-y-0 right-4 flex items-center space-x-3">
             <div className="w-px h-6 bg-white"></div>
             {searchInput ? (
-              <img src={closeIcon} alt="Close" onClick={() => setSearchInput("")} className="w-4 h-4 mx-3" /> 
+              <img
+                src={closeIcon}
+                alt="Close"
+                onClick={() => setSearchInput("")}
+                className="w-4 h-4 mx-3"
+              />
             ) : (
               <img src={searchIcon} alt="Search" className="w-5 h-5 mx-3" />
-              )}
+            )}
           </div>
         </div>
       </div>
@@ -390,15 +438,10 @@ export default function WorldsPage() {
         <div className="hidden md:flex flex-wrap items-center gap-3">
           {/* Sort Button */}
           <button
-            className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2"
+            className="bg-khaki rounded-md px-4 py-2 flex items-center gap-2"
             onClick={toggleSortDirection}
-            style={{
-              // temporary styling to override bootstrap
-              border: "none",
-              backgroundColor: "rgba(109, 109, 153, 0.5)",
-            }}
           >
-            <span>Sort</span>
+            <span className="text-multi-off-black">Sort</span>
             {sortDirection === "ascending" ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -410,6 +453,7 @@ export default function WorldsPage() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className="text-multi-off-black"
               >
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
@@ -424,6 +468,7 @@ export default function WorldsPage() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className="text-multi-off-black"
               >
                 <polyline points="18 15 12 9 6 15"></polyline>
               </svg>
@@ -435,9 +480,9 @@ export default function WorldsPage() {
             {["All", "Title", "Date", "Artist"].map((filter) => (
               <button
                 key={filter}
-                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-yellow-500 hover:underline ${
+                className={`px-3 py-1 rounded-md transition-all duration-200 hover:text-main-accent ${
                   activeFilter === filter
-                    ? "border-b-4 text-yellow-500 underline"
+                    ? "border-b-4 text-main-accent"
                     : "text-gray-400"
                 }`}
                 onMouseDown={(e) => {
@@ -469,6 +514,9 @@ export default function WorldsPage() {
             ref={tagsDropdownRef}
             isOpen={tagsOpen}
             onToggle={toggleTagsDropdown}
+            selectedTags={selectedTags}
+            availableTags={availableTags}
+            onTagsChange={handleTagsChange}
           />
         </div>
 
@@ -478,15 +526,10 @@ export default function WorldsPage() {
           <div className="flex items-center gap-3">
             {/* Sort Button */}
             <button
-              className="bg-light-purple bg-opacity-50 rounded-md px-4 py-2 flex items-center gap-2 flex-shrink-0"
+              className="bg-khaki rounded-md px-4 py-2 flex items-center gap-2 flex-shrink-0"
               onClick={toggleSortDirection}
-              style={{
-                // temporary styling to override bootstrap
-                border: "none",
-                backgroundColor: "rgba(109, 109, 153, 0.5)",
-              }}
             >
-              <span>Sort</span>
+              <span className="text-multi-off-black">Sort</span>
               {sortDirection === "ascending" ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -498,6 +541,7 @@ export default function WorldsPage() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  className="text-multi-off-black"
                 >
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
@@ -512,6 +556,7 @@ export default function WorldsPage() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  className="text-multi-off-black"
                 >
                   <polyline points="18 15 12 9 6 15"></polyline>
                 </svg>
@@ -555,6 +600,9 @@ export default function WorldsPage() {
               ref={tagsDropdownRef}
               isOpen={tagsOpen}
               onToggle={toggleTagsDropdown}
+              selectedTags={selectedTags}
+              availableTags={availableTags}
+              onTagsChange={handleTagsChange}
             />
           </div>
         </div>
@@ -575,13 +623,16 @@ export default function WorldsPage() {
               alt={world.title}
               className="aspect-square w-32 sm:w-40 md:w-48 lg:w-56 rounded-full object-cover mb-4 mx-auto"
             />
-            <p className="text-lg font-semibold mb-2 text-white font-overpass-mono">{world.title}</p>
-            <p className="text-sm text-gray-400 mb-2 font-overpass-mono">{world.artist}</p>
+            <p className="text-lg font-semibold mb-2 text-white font-overpass-mono">
+              {world.title}
+            </p>
+            <p className="text-sm text-gray-400 mb-2 font-overpass-mono">
+              {world.artist}
+            </p>
             {hoveredWorld === index && (
               <div className="absolute bottom-2 left-4 right-4 flex justify-between items-center">
                 {/* Difficulty Indicator */}
                 <div className="flex items-center gap-4">
-                  
                   <div className="flex items-center gap-1">
                     <img src={ellipseIcon} alt="ellipse" className="w-4 h-4" />
                     <span className="text-xs">{world.totalBeatmaps}</span>
@@ -592,7 +643,6 @@ export default function WorldsPage() {
                     <span className="text-xs">{world.totalDuration}</span>
                   </div>
                 </div>
-                
 
                 {/* Likes and Plays */}
                 <div className="flex items-center gap-4">
@@ -612,7 +662,9 @@ export default function WorldsPage() {
       </div>
 
       {/* Mobile List View - Hidden on Desktop */}
-      <div className="md:hidden space-y-1"> {/* space-y-4 */}
+      <div className="md:hidden space-y-1">
+        {" "}
+        {/* space-y-4 */}
         {filteredWorlds.map((world, index) => (
           <div
             key={index}
@@ -622,7 +674,7 @@ export default function WorldsPage() {
             onTouchEnd={() => onTouchEnd(index)}
           >
             {/* Main content that slides */}
-            <div 
+            <div
               className="flex items-start gap-3 p-1 bg-beatmaps-background transition-transform duration-300 ease-out"
               style={{ transform: getTransformValue(index) }}
               onClick={() => {
@@ -640,8 +692,12 @@ export default function WorldsPage() {
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="text-base font-medium font-overpass-mono mb-1">{world.title}</p>
-                    <p className="text-sm text-gray-400 mb-1 font-overpass-mono">{world.artist}</p>
+                    <p className="text-base font-medium font-overpass-mono mb-1">
+                      {world.title}
+                    </p>
+                    <p className="text-sm text-gray-400 mb-1 font-overpass-mono">
+                      {world.artist}
+                    </p>
                   </div>
                 </div>
               </div>
