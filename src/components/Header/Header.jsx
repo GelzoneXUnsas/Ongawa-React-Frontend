@@ -76,12 +76,6 @@ const Header = ({ setMuted }) => {
 
           {/* Art Page Link */}
           <Link
-            to="/worlds"
-            className="hidden md:block text-link-text-gray no-underline hover:no-underline hover:text-search-text-gray"
-          >
-            Worlds
-          </Link>
-          <Link
             to="/gallery"
             className="hidden md:block text-link-text-khaki no-underline hover:no-underline hover:text-link-text-khaki-active"
           >
