@@ -46,7 +46,7 @@ const jwtAuthorizer = new HttpJwtAuthorizer(
 const httpApi = new HttpApi(apiStack, 'OngawaHttpApi', {
   apiName: 'OngawaApi',
   corsPreflight: {
-    allowOrigins: ['http://localhost:5173', 'https://ongawa.app'],
+    allowOrigins: ['http://localhost:5173', 'https://ongawa.io', 'https://dev.d3urzozmbnts00.amplifyapp.com'],
     allowMethods: [CorsHttpMethod.ANY],
     allowHeaders: ['Authorization', 'Content-Type'],
     allowCredentials: false,
