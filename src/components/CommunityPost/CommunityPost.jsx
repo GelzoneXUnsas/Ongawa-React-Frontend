@@ -57,7 +57,11 @@ const CommunityPost = ({
       {/* Header */}
       <div className="flex justify-between mb-2">
         <div className="flex items-center gap-4">
-          <img src={profilePicture} alt="Profile" />
+          {profilePicture ? (
+            <img src={profilePicture} alt="Profile" className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-main-accent flex-shrink-0" />
+          )}
           <div className="text-sm md:text-base text-light-grey font-nova-square">
             {author}
           </div>
@@ -202,7 +206,7 @@ const CommunityPost = ({
 
 CommunityPost.propTypes = {
   author: PropTypes.string.isRequired,
-  profilePicture: PropTypes.string.isRequired,
+  profilePicture: PropTypes.string,
   dateCreated: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,

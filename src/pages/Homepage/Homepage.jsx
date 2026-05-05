@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { getFileUrl } from "../../services/storageService";
 import { AnimatePresence, motion } from "framer-motion";
 
 import PropTypes from "prop-types";
@@ -216,6 +217,14 @@ const Homepage = ({ muted }) => {
 
   // activeVideo either "gameplay" or "editor"
   const [activeVideo, setActiveVideo] = useState("gameplay");
+  const [videoUrls, setVideoUrls] = useState({ gameplay: null, editor: null });
+
+  useEffect(() => {
+    Promise.all([
+      getFileUrl('videos/Demovid.mp4'),
+      getFileUrl('videos/EditorDemo.mp4'),
+    ]).then(([gameplay, editor]) => setVideoUrls({ gameplay, editor }));
+  }, []);
   const musicians = getFeaturedMusicians();
   const [currentMusician, setCurrentMusician] = useState(musicians[0]);
 
@@ -364,11 +373,7 @@ const Homepage = ({ muted }) => {
                         loop
                       >
                         <source
-                          src={
-                            activeVideo === "gameplay"
-                              ? "/Demovid.mp4"
-                              : "/EditorDemo.mp4"
-                          }
+                          src={activeVideo === "gameplay" ? videoUrls.gameplay : videoUrls.editor}
                           type="video/mp4"
                         />
                       </video>
@@ -400,11 +405,7 @@ const Homepage = ({ muted }) => {
                         autoPlay
                       >
                         <source
-                          src={
-                            activeVideo === "gameplay"
-                              ? "/Demovid.mp4"
-                              : "/EditorDemo.mp4"
-                          }
+                          src={activeVideo === "gameplay" ? videoUrls.gameplay : videoUrls.editor}
                           type="video/mp4"
                         />
                         Your browser does not support the video
