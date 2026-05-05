@@ -11,56 +11,48 @@ import greenRectangleIcon from "../../assets/icons/rectangleGreen.png";
 
 import geoBg from "../../assets/images/backgrounds/geo_bg.png";
 
-import { worlds } from "../../data/worlds";
+import { worlds as localWorlds } from "../../data/worlds";
+import { getWorld } from "../../services/worldService";
+import { getComments, createComment } from "../../services/commentService";
 
 export default function BeatmapPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [world, setWorld] = useState(null);
 
-  const [comments, setComments] = useState([
-    {
-      id: 101,
-      parentId: null,
-      replyThreadParentId: null,
-      author: "Lior Mizrahi",
-      profilePicture: null, // Placeholder if no image
-      dateCreated: "June 13, 2025",
-      text: "This map flow is incredible!",
-    },
-    {
-      id: 201,
-      parentId: 101,
-      replyThreadParentId: 101,
-      author: "Samira Khan",
-      profilePicture: null,
-      dateCreated: "June 14, 2025",
-      text: "Agreed, especially the transition at 0:45.",
-    },
-    {
-      id: 102,
-      parentId: null,
-      replyThreadParentId: null,
-      author: "Takeshi Nakamura",
-      profilePicture: null,
-      dateCreated: "June 13, 2025",
-      text: "Can't wait to try the hard difficulty.",
-    },
-  ]);
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState("");
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  // Find the beatmap based on ID from URL params
   useEffect(() => {
-    // For now, we'll use the mockup data
-    const beatmapId = parseInt(id);
-    const found = worlds.find((b) => b.id === beatmapId);
-    if (found) {
-      setWorld(found);
-    }
+    getWorld(id)
+      .then(setWorld)
+      .catch(() => {
+        const found = localWorlds.find((b) => b.id === parseInt(id));
+        if (found) setWorld(found);
+      });
   }, [id]);
+
+  useEffect(() => {
+    if (!id) return;
+    getComments(`WORLD#${id}`)
+      .then(setComments)
+      .catch(() => {});
+  }, [id]);
+
+  const handleCommentSubmit = async () => {
+    if (!commentText.trim()) return;
+    try {
+      const newComment = await createComment({ entityPK: `WORLD#${id}`, text: commentText });
+      setComments(prev => [newComment, ...prev]);
+      setCommentText("");
+    } catch (err) {
+      // silent fail
+    }
+  };
 
   // If world is not found
   if (!world) {
@@ -126,7 +118,7 @@ export default function BeatmapPage() {
             <div className="flex items-center gap-2 mb-1">
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center overflow-hidden">
                 <img
-                  src={world.artistImage}
+                  src={world.artistImage ?? world.image}
                   alt={world.artist}
                   className="w-full h-full object-cover"
                 />
@@ -181,32 +173,27 @@ export default function BeatmapPage() {
                 </div>
 
                 {/* Difficulty range */}
-                <div className="hidden md:flex items-center gap-2">
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={greenRectangleIcon}
-                      alt="Duration"
-                      className="w-2"
-                    />
-                    <span>{track.difficulties.easy.level}</span>
+                {track.difficulties?.easy && track.difficulties?.hard && (
+                  <div className="hidden md:flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <img src={greenRectangleIcon} alt="Duration" className="w-2" />
+                      <span>{track.difficulties.easy.level}</span>
+                    </div>
+                    -
+                    <div className="flex items-center gap-1">
+                      <img src={redRectangleIcon} alt="Duration" className="w-2" />
+                      <span>{track.difficulties.hard.level}</span>
+                    </div>
                   </div>
-                  -
-                  <div className="flex items-center gap-1">
-                    <img
-                      src={redRectangleIcon}
-                      alt="Duration"
-                      className="w-2"
-                    />
-                    <span>{track.difficulties.hard.level}</span>
-                  </div>
-                </div>
+                )}
 
                 {/* HP drain */}
-                <div className="hidden md:flex items-center gap-2">
-                  <img src={ellipseIcon} alt="Duration" className="w-5" />
-                  {/* this part needs to be thought out. do we want an average hpDrain from all difficulties or a range? */}
-                  <span>{track.difficulties.easy.hpDrain}</span>
-                </div>
+                {track.difficulties?.easy && (
+                  <div className="hidden md:flex items-center gap-2">
+                    <img src={ellipseIcon} alt="Duration" className="w-5" />
+                    <span>{track.difficulties.easy.hpDrain}</span>
+                  </div>
+                )}
 
                 {/* Duration and BPM */}
                 <div className="hidden md:flex items-center gap-4">
@@ -235,7 +222,7 @@ export default function BeatmapPage() {
             {/* Musician image */}
             <div className="w-32 md:w-36 bg-blue-600 rounded-xl flex overflow-hidden float-left md:float-none mr-4 md:mr-0 my-2 flex-shrink-0">
               <img
-                src={world.artistImage}
+                src={world.artistImage ?? world.image}
                 alt={world.artist}
                 className="w-full h-full object-cover"
               />
@@ -263,13 +250,19 @@ export default function BeatmapPage() {
               <input
                 type="text"
                 placeholder="Add a Comment"
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleCommentSubmit()}
                 style={{
                   background: "linear-gradient(to right, #EFECE6, #DDD0B9)",
                   margin: 0,
                 }}
                 className="block w-full px-4 py-2 pr-24 font-nova-square text-multi-off-black italic placeholder-main-off-black focus:outline-none focus:ring-0 focus:border-light-grey rounded-none leading-none"
               />
-              <button className="absolute top-[10px] right-3 px-4 py-2 md:px-7 bg-main-accent text-dark-purple font-nova-square rounded-none">
+              <button
+                onClick={handleCommentSubmit}
+                className="absolute top-[10px] right-3 px-4 py-2 md:px-7 bg-main-accent text-dark-purple font-nova-square rounded-none"
+              >
                 Reply
               </button>
             </div>

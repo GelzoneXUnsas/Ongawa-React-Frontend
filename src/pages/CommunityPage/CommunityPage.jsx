@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { listPosts } from "../../services/postService";
 import { Link } from "react-router-dom";
 
 import CommunityPost from "../../components/CommunityPost/CommunityPost";
@@ -112,6 +113,14 @@ const COMMUNITY_POSTS = [
 ];
 
 function CommunityPage() {
+  const [communityPosts, setCommunityPosts] = useState([]);
+
+  useEffect(() => {
+    listPosts()
+      .then(setCommunityPosts)
+      .catch(() => setCommunityPosts(COMMUNITY_POSTS));
+  }, []);
+
   const [contentSelection, setContentSelection] = useState("Home");
 
   // Filter State
@@ -178,10 +187,10 @@ function CommunityPage() {
   // Filter posts based on activeTags; if no activeTags, show all
   const filteredContent =
     activeTags.length > 0
-      ? COMMUNITY_POSTS.filter((post) =>
+      ? communityPosts.filter((post) =>
           post.tags.some((tag) => activeTags.includes(tag))
         )
-      : COMMUNITY_POSTS;
+      : communityPosts;
 
   return (
     <div className="relative flex bg-[#4B4740]">

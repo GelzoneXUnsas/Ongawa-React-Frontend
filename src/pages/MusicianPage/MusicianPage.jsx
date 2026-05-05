@@ -1,18 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import igIcon from "../../assets/icons/instagramIcon.svg";
 import xIcon from "../../assets/icons/xIcon.svg";
 import spotifyIcon from "../../assets/icons/spotifyIcon.svg";
 import soundCloudIcon from "../../assets/icons/soundCloudIcon2.svg";
 
-import { musicians } from "../../data/musicians";
+import { musicians as localMusicians } from "../../data/musicians";
+import { getArtist, getArtistAlbums } from "../../services/artistService";
 
 export default function MusicianPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [expandedAlbums, setExpandedAlbums] = useState(new Set());
+  const [musician, setMusician] = useState(
+    () => localMusicians.find((m) => m.id === parseInt(id)) ?? null
+  );
 
-  const musician = musicians.find((m) => m.id === parseInt(id));
+  useEffect(() => {
+    Promise.all([getArtist(id), getArtistAlbums(id)])
+      .then(([artist, albums]) => setMusician({ ...artist, albums }))
+      .catch(() => {
+        const found = localMusicians.find((m) => m.id === parseInt(id));
+        if (found) setMusician(found);
+      });
+  }, [id]);
 
   const handleBack = () => {
     navigate(-1);
@@ -86,37 +97,31 @@ export default function MusicianPage() {
                 <span>{musician.totalPlaycount} total playcount</span>
               </div>
 
-              {/* Social Links */}
-              <div className="flex gap-4">
-                <button
-                // className="p-3 rounded-md transition-colors"
-                // style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}
-                >
-                  <img src={igIcon} alt="Instagram" className="w-5 h-5" />
-                </button>
-                <button
-                // className="p-3 rounded-md transition-colors"
-                // style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}
-                >
-                  <img src={xIcon} alt="X" className="w-5 h-5" />
-                </button>
-                <button
-                // className="p-3 rounded-md transition-colors"
-                // style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}
-                >
-                  <img src={spotifyIcon} alt="Spotify" className="w-5 h-5" />
-                </button>
-                <button
-                // className="p-3 rounded-md transition-colors"
-                // style={{ backgroundColor: "rgba(128, 128, 128, 0.3)" }}
-                >
-                  <img
-                    src={soundCloudIcon}
-                    alt="SoundCloud"
-                    className="w-5 h-5"
-                  />
-                </button>
-              </div>
+              {/* Social Links — only render when URL data exists */}
+              {(musician.instagram || musician.twitter || musician.spotify || musician.soundcloud) && (
+                <div className="flex gap-4">
+                  {musician.instagram && (
+                    <a href={musician.instagram} target="_blank" rel="noopener noreferrer">
+                      <img src={igIcon} alt="Instagram" className="w-5 h-5" />
+                    </a>
+                  )}
+                  {musician.twitter && (
+                    <a href={musician.twitter} target="_blank" rel="noopener noreferrer">
+                      <img src={xIcon} alt="X" className="w-5 h-5" />
+                    </a>
+                  )}
+                  {musician.spotify && (
+                    <a href={musician.spotify} target="_blank" rel="noopener noreferrer">
+                      <img src={spotifyIcon} alt="Spotify" className="w-5 h-5" />
+                    </a>
+                  )}
+                  {musician.soundcloud && (
+                    <a href={musician.soundcloud} target="_blank" rel="noopener noreferrer">
+                      <img src={soundCloudIcon} alt="SoundCloud" className="w-5 h-5" />
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

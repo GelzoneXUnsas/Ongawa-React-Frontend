@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 import { useAuth } from '../../../contexts/authContext'
 import { signUp, signInWithRedirect } from 'aws-amplify/auth'
 import outputs from '../../../../amplify_outputs.json'
 import { Amplify } from "aws-amplify"
+import BackgroundCarousel from '../../../components/BackgroundCarousel/BackgroundCarousel'
+import ongawaLogoWithIcon from '../../../assets/icons/ongawa_logo_with_icon.svg'
 
 // Simple configuration with Amplify-generated auth
 Amplify.configure(outputs)
-
-import headerBackgroundImg from '../../../assets/images/headerBackground.png'
 
 // Helper function to convert Amplify errors to user-friendly messages
 const getErrorMessage = (error) => {
@@ -31,12 +31,17 @@ const getErrorMessage = (error) => {
 const Register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setconfirmPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [isRegistering, setIsRegistering] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [needsConfirmation, setNeedsConfirmation] = useState(false)
     const [confirmationCode, setConfirmationCode] = useState('')
+    const [isMounted, setIsMounted] = useState(false)
     const { userLoggedIn } = useAuth()
+
+    const isFormFilled = email.trim() !== '' && password.trim() !== '' && confirmPassword.trim() !== ''
+
+    useEffect(() => { setIsMounted(true) }, [])
 
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -108,9 +113,8 @@ const Register = () => {
     }
 
     if (userLoggedIn) {
-        return <Navigate to="/dashboard" replace />
+        return <Navigate to="/" replace />
     }
-  };
 
   return (
     <div className="loginPage relative w-full bg-page-accent-gray overflow-hidden text-white text-body-overpass-base font-body-overpass min-h-screen">
@@ -241,7 +245,7 @@ const Register = () => {
           <div className="w-full mt-4">
             <button
               disabled={isRegistering}
-              onClick={(e) => onGoogleSignIn(e)}
+              onClick={handleGoogleSignIn}
               className={`
                 w-full flex items-center justify-center gap-x-3 py-3 mt-4
                 bg-white text-black rounded-lg text-sm font-medium

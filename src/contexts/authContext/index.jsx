@@ -24,20 +24,16 @@ export function AuthProvider({ children }) {
         const hubListener = Hub.listen('auth', ({ payload }) => {
             switch (payload.event) {
                 case 'signedIn':
-                    console.log('User signed in')
                     checkUser()
                     break
                 case 'signedOut':
-                    console.log('User signed out')
                     setCurrUser(null)
                     setUserLoggedIn(false)
                     break
                 case 'tokenRefresh':
-                    console.log('Token refreshed')
                     checkUser()
                     break
                 case 'signInWithRedirect':
-                    console.log('User signed in with redirect')
                     checkUser()
                     break
                 case 'signInWithRedirect_failure':

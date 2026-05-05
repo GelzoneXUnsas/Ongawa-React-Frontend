@@ -71,7 +71,7 @@ const Footer = () => {
 
       {/* Contact Information */}
       <p className="font-roboto font-medium text-xs text-white">
-        contact ongawa.game@gmail.com for support
+        Contact ongawa.game@gmail.com for support.
       </p>
     </div>
   );

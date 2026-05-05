@@ -7,7 +7,10 @@ import noteIcon from "../../assets/icons/notecountIcon.svg"
 import sliderIcon from "../../assets/icons/sliderIcon.svg"
 import toggleMusicIcon from "../../assets/icons/toggleMusicIcon.png"
 import toggleMusicIconOff from "../../assets/icons/toggleMusicIconOff.png"
-import { beatmaps } from "../../data/beatmaps";
+import { beatmaps as localBeatmaps } from "../../data/beatmaps";
+import { getSong, getSongBeatmaps, getLeaderboard } from "../../services/songService";
+import { getComments, createComment } from "../../services/commentService";
+import { getFileUrl } from "../../services/storageService";
 
 import CommunityReply from "../../components/CommunityReply/CommunityReply";
 
@@ -17,22 +20,85 @@ export default function BeatmapPage() {
   const [beatmap, setBeatmap] = useState(null);
   const [currentDifficulty, setCurrentDifficulty] = useState("easy");
   const [currentDifficultyData, setCurrentDifficultyData] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState("");
+  const [beatmapItems, setBeatmapItems] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
   
-  // Find the beatmap based on ID from URL params
   useEffect(() => {
-    // For now, we'll use the mockup data
-    const beatmapId = parseInt(id);
-    const found = beatmaps.find(b => b.id === beatmapId);
-    if (found) {
-      setBeatmap(found);
-      setCurrentDifficulty("easy"); // Default to easy difficulty
-      setCurrentDifficultyData(found.difficulties.easy);
-    }
+    getSong(id)
+      .then((found) => {
+        if (found) {
+          setBeatmap(found);
+          setCurrentDifficulty("easy");
+          setCurrentDifficultyData(found.difficulties?.easy ?? null);
+        }
+      })
+      .catch(() => {
+        const found = localBeatmaps.find(b => b.id === parseInt(id));
+        if (found) {
+          setBeatmap(found);
+          setCurrentDifficulty("easy");
+          setCurrentDifficultyData(found.difficulties?.easy ?? null);
+        }
+      });
   }, [id]);
+
+  useEffect(() => {
+    if (!id) return;
+    getComments(`SONG#${id}`)
+      .then(setComments)
+      .catch(() => {});
+  }, [id]);
+
+  useEffect(() => {
+    if (!id) return;
+    getSongBeatmaps(id)
+      .then((items) => {
+        if (!items || items.length === 0) return;
+        const sorted = [...items].sort((a, b) => parseFloat(a.level) - parseFloat(b.level));
+        setBeatmapItems(sorted);
+        setCurrentDifficultyData(sorted[0]);
+      })
+      .catch(() => {});
+  }, [id]);
+
+  useEffect(() => {
+    if (!id || !currentDifficultyData?.id) return;
+    getLeaderboard(id, currentDifficultyData.id)
+      .then(setLeaderboard)
+      .catch(() => {});
+  }, [id, currentDifficultyData?.id]);
+
+  const handleCommentSubmit = async () => {
+    if (!commentText.trim()) return;
+    try {
+      const newComment = await createComment({ entityPK: `SONG#${id}`, text: commentText });
+      setComments(prev => [newComment, ...prev]);
+      setCommentText("");
+    } catch (err) {
+      // comment failed silently — user can retry
+    }
+  };
 
   // Handle back button
   const handleBack = () => {
     navigate(-1);
+  };
+
+  const handleDownload = async () => {
+    if (!beatmap.azaFileLink) return;
+    try {
+      const url = await getFileUrl(beatmap.azaFileLink);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = beatmap.title || 'beatmap';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (err) {
+      // download failed silently
+    }
   };
 
   const [musicIsPlaying, setMusicIsPlaying] = useState(true);
@@ -49,27 +115,21 @@ export default function BeatmapPage() {
   // Handle difficulty change
   const handleDifficultyChange = (diff) => {
     setCurrentDifficulty(diff);
-    if (beatmap && beatmap.difficulties[diff]) {
+    const diffIndex = { easy: 0, medium: 1, hard: 2 }[diff] ?? 0;
+    if (beatmapItems.length > diffIndex) {
+      setCurrentDifficultyData(beatmapItems[diffIndex]);
+    } else if (beatmap?.difficulties?.[diff]) {
       setCurrentDifficultyData(beatmap.difficulties[diff]);
     }
-  }
+  };
 
-  // Mock leaderboard data for the specific beatmap
-  const leaderboardData = [
-    { rank: 1, player: "Techno Maestro", score: "100,000" },
-    { rank: 2, player: "Be4tM4ster", score: "98,947" },
-    { rank: 3, player: "QuestCompoSer", score: "98,234" },
-    { rank: 4, player: "sOnicH4rmony", score: "98,123" },
-    { rank: 5, player: "melodicexplorer94", score: "97,351" }
-  ];
 
-  // If beatmap is not found
   if (!beatmap) {
     return (
       <div className="p-6 bg-main-off-black min-h-screen text-white flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl mb-4 text-white">Beatmap not found</h2>
-          <span 
+          <span
             onClick={handleBack}
             className="text-white px-6 py-2 inline-flex items-center justify-center cursor-pointer w-fit"
           >
@@ -82,7 +142,15 @@ export default function BeatmapPage() {
     );
   }
 
-  const topLevelReplies = beatmap.replies.filter(r => r.parentId === null);
+  if (!currentDifficultyData) {
+    return (
+      <div className="p-6 bg-main-off-black min-h-screen text-white flex items-center justify-center">
+        <p className="text-light-grey font-nova-square">Loading...</p>
+      </div>
+    );
+  }
+
+  const topLevelReplies = comments.filter(r => r.parentId === null);
 
   return (
     <div className="p-6 bg-main-off-black min-h-screen text-white mt-16">
@@ -176,11 +244,9 @@ export default function BeatmapPage() {
             {/* Action buttons */}
             <div className="flex gap-4 items-center">
               <button
-                className="bg-main-accent px-6 py-2 rounded-md font-medium text-black"
-                // style={{ // temporary styling to override bootstrap
-                //   border: "none",
-                //   backgroundColor: "#CA9F28"
-                // }}
+                onClick={handleDownload}
+                disabled={!beatmap.azaFileLink}
+                className="bg-main-accent px-6 py-2 rounded-md font-medium text-black disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Download
               </button>
@@ -269,19 +335,23 @@ export default function BeatmapPage() {
             </div>
 
             {/* Table Rows */}
-            {leaderboardData.map((entry) => (
-              <div
-                key={entry.rank}
-                className="grid grid-cols-12 gap-4 py-3 px-4 items-center"
-              >
-                <div className="col-span-2 flex items-center text-white font-medium">
-                  <span className="text-xs">#</span>
-                  <span>{entry.rank}</span>
+            {leaderboard.length === 0 ? (
+              <p className="text-light-grey font-nova-square py-4 px-4 text-sm">No scores yet — be the first!</p>
+            ) : (
+              leaderboard.map((entry, index) => (
+                <div
+                  key={entry.UserID ?? index}
+                  className="grid grid-cols-12 gap-4 py-3 px-4 items-center"
+                >
+                  <div className="col-span-2 flex items-center text-white font-medium">
+                    <span className="text-xs">#</span>
+                    <span>{entry.Rank ?? index + 1}</span>
+                  </div>
+                  <div className="col-span-7 text-main-accent font-medium">{entry.Username ?? entry.UserID ?? "—"}</div>
+                  <div className="col-span-3 text-right text-white">{entry.Score?.toLocaleString() ?? "—"}</div>
                 </div>
-                <div className="col-span-7 text-main-accent font-medium">{entry.player}</div>
-                <div className="col-span-3 text-right text-white">{entry.score}</div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
@@ -295,13 +365,19 @@ export default function BeatmapPage() {
               <input
                 type="text"
                 placeholder="Add a Comment"
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleCommentSubmit()}
                 style={{
                   background: "linear-gradient(to right, #EFECE6, #DDD0B9)",
-                  margin: 0, // ensures no default margin from user-agent stylesheet
+                  margin: 0,
                 }}
                 className="block w-full px-4 py-2 pr-24 font-nova-square text-multi-off-black italic placeholder-main-off-black focus:outline-none focus:ring-0 focus:border-light-grey rounded-none leading-none"
               />
-              <button className="absolute top-[10px] right-3 px-4 py-2 md:px-7 bg-main-accent text-dark-purple font-nova-square rounded-none">
+              <button
+                onClick={handleCommentSubmit}
+                className="absolute top-[10px] right-3 px-4 py-2 md:px-7 bg-main-accent text-dark-purple font-nova-square rounded-none"
+              >
                 Reply
               </button>
             </div>
@@ -317,7 +393,7 @@ export default function BeatmapPage() {
                     <CommunityReply
                       key={reply.id}
                       reply={reply}
-                      allReplies={beatmap.replies}
+                      allReplies={comments}
                     />
                   </div>
                 ))

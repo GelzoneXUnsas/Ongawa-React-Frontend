@@ -51,8 +51,7 @@ const Register = ({ onClose, onSwitchToLogin, slideIn }) => {
 
     setIsRegistering(true);
     try {
-      const result = await doCreateUserWithEmailAndPassword(email, password);
-      console.log("User registration successful:", result.user.uid);
+      await doCreateUserWithEmailAndPassword(email, password);
       onClose();
     } catch (err) {
       console.error("Email registration error:", err);
@@ -67,8 +66,7 @@ const Register = ({ onClose, onSwitchToLogin, slideIn }) => {
 
     setIsRegistering(true);
     try {
-      const result = await doSignInWithGoogle();
-      console.log("Google SignIn successful:", result.user.uid);
+      await doSignInWithGoogle();
       onClose();
     } catch (err) {
       console.error("Google SignIn error:", err);

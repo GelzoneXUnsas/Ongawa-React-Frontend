@@ -6,8 +6,7 @@ import PropTypes from "prop-types";
 import { useAuth } from "../../contexts/authContext";
 import { signOut } from "aws-amplify/auth";
 
-import Login from "../Login/Login";
-import Register from "../Register/Register";
+import { useNavigate } from "react-router-dom";
 
 import logoIcon from "../../assets/icons/ongawaLogoNameWhite.png";
 import toggleMusicIcon from "../../assets/icons/toggleMusicIcon.png";
@@ -17,9 +16,7 @@ import NavDropdown from "../NavDropdown/NavDropdown";
 
 const Header = ({ setMuted }) => {
   const { userLoggedIn } = useAuth();
-  const [authOpen, setAuthOpen] = useState(false);
-  const [authView, setAuthView] = useState("login"); // "login" | "register"
-
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [muted, setLocalMuted] = useState(true);
   
@@ -35,9 +32,7 @@ const Header = ({ setMuted }) => {
   const doSignOut = async () => {
     try {
       await signOut();
-      console.log("User signed out successfully");
     } catch (error) {
-      console.error("Error signing out:", error);
     }
   };
 
@@ -95,14 +90,7 @@ const Header = ({ setMuted }) => {
           </Link>
           {/* Login Button */}
           <button
-            onClick={() => {
-              if (userLoggedIn) {
-                doSignOut();
-              } else {
-                setAuthView("login");
-                setAuthOpen(true);
-              }
-            }}
+            onClick={() => userLoggedIn ? doSignOut() : navigate("/login")}
             className="hidden md:block text-link-text-gray hover:text-search-text-gray"
           >
             {userLoggedIn ? "Sign Out" : "Login"}
@@ -149,30 +137,13 @@ const Header = ({ setMuted }) => {
         closeMobileMenu={() => setIsMobileMenuOpen(false)}
         userLoggedIn={userLoggedIn}
         doSignOut={doSignOut}
-        setAuthOpen={setAuthOpen}
-        setAuthView={setAuthView}
+        onLoginClick={() => navigate("/login")}
       />
-      {authOpen && authView === "login" && (
-        <Login
-          slideIn
-          onClose={() => setAuthOpen(false)}
-          onSwitchToRegister={() => setAuthView("register")}
-        />
-      )}
-
-      {authOpen && authView === "register" && (
-        <Register
-          slideIn
-          onClose={() => setAuthOpen(false)}
-          onSwitchToLogin={() => setAuthView("login")}
-        />
-      )}
     </>
   );
 };
 
 Header.propTypes = {
-  muted: PropTypes.bool.isRequired,
   setMuted: PropTypes.func.isRequired,
 };
 

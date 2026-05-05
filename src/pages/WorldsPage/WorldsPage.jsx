@@ -8,13 +8,24 @@ import playIcon from "../../assets/icons/playIcon-white.svg";
 import timeIcon from "../../assets/icons/timeIcon.svg";
 import ellipseIcon from "../../assets/icons/ellipse.svg";
 import clockIcon from "../../assets/icons/clockIcon.svg";
-import { worlds } from "../../data/worlds";
+import { worlds as localWorlds } from "../../data/worlds";
+import { listWorlds } from "../../services/worldService";
 import geoBg from "../../assets/images/backgrounds/geo_bg.png";
 
 import DifficultyDropdown from "../../components/DifficultyDropdown/DifficultyDropdown";
 import TagsDropdown from "../../components/TagsDropdown/TagsDropdown";
 
 export default function WorldsPage() {
+  const [worldsData, setWorldsData] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
+
+  useEffect(() => {
+    listWorlds()
+      .then(setWorldsData)
+      .catch(() => setWorldsData(localWorlds))
+      .finally(() => setLoadingData(false));
+  }, []);
+
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [hoveredWorld, setHoveredWorld] = useState(null);
@@ -33,7 +44,7 @@ export default function WorldsPage() {
   const availableTags = ["Pop", "Rock", "Electronic", "Jazz", "Classical"];
 
   const [searchHistory, setSearchHistory] = useState(() => {
-    const savedHistory = localStorage.getItem("searchHistory");
+    const savedHistory = localStorage.getItem("worldSearchHistory");
     return savedHistory ? JSON.parse(savedHistory) : [];
   });
   const [showDropdown, setShowDropdown] = useState(false);
@@ -43,7 +54,7 @@ export default function WorldsPage() {
   const [sortDirection, setSortDirection] = useState("ascending");
 
   // optimization solution to calculating the total number of plays the world has based on plays of its discography
-  const enrichedWorlds = worlds.map((world) => {
+  const enrichedWorlds = worldsData.map((world) => {
     const totalPlays = world.discography
       ? world.discography.reduce((sum, item) => sum + (item.plays || 0), 0)
       : 0;
@@ -71,9 +82,14 @@ export default function WorldsPage() {
     };
   });
 
-  const searchFilteredWorlds = enrichedWorlds.filter((b) =>
-    b.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const searchFilteredWorlds = enrichedWorlds.filter((b) => {
+    const matchesSearch = b.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesTags = selectedTags.length === 0 ||
+      (b.discography || []).some(
+        (track) => track.tags && selectedTags.some((tag) => track.tags.includes(tag))
+      );
+    return matchesSearch && matchesTags;
+  });
 
   const applyFilterAndSort = (beatmapsToFilter) => {
     // Apply filters based on active filter type
@@ -143,7 +159,7 @@ export default function WorldsPage() {
 
   // Save search history to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+    localStorage.setItem("worldSearchHistory", JSON.stringify(searchHistory));
   }, [searchHistory]);
 
   // Add search to history

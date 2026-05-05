@@ -23,7 +23,8 @@ npm-debug.log*
 # ignoring video files (too large to upload to github)
 /src/assets/videos/
 .mp4
-
+seed
+public1
 
 .anima
 
@@ -31,4 +32,3 @@ npm-debug.log*
 .amplify
 amplify_outputs*
 amplifyconfiguration*
-

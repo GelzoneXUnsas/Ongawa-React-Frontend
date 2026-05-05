@@ -1,14 +1,14 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Navigate, Link } from 'react-router-dom'
 import { signIn, signInWithRedirect } from 'aws-amplify/auth'
 import { useAuth } from "../../../contexts/authContext"
 import outputs from '../../../../amplify_outputs.json'
 import { Amplify } from "aws-amplify"
+import BackgroundCarousel from '../../../components/BackgroundCarousel/BackgroundCarousel'
+import ongawaLogoWithIcon from '../../../assets/icons/ongawa_logo_with_icon.svg'
 
 // Configure Amplify
 Amplify.configure(outputs)
-
-import headerBackgroundImg from '../../../assets/images/headerBackground.png'
 
 // Helper function to convert Amplify errors to user-friendly messages
 const getErrorMessage = (error) => {
@@ -75,7 +75,6 @@ const Login = () => {
             }
         }
     }
-  };
 
     const onGoogleSignIn = async (e) => {
         e.preventDefault()

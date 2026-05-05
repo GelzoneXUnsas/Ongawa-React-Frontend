@@ -9,12 +9,23 @@ import playIcon from "../../assets/icons/playIcon-white.svg";
 import timeIcon from "../../assets/icons/timeIcon.svg"
 import ellipseIcon from "../../assets/icons/ellipse.svg"
 import filterIcon from "../../assets/icons/filterIcon.svg";
-import { beatmaps } from "../../data/beatmaps";
+import { beatmaps as localBeatmaps } from "../../data/beatmaps";
+import { listSongs } from "../../services/songService";
 
 import DifficultyDropdown from '../../components/DifficultyDropdown/DifficultyDropdown';
 import TagsDropdown from '../../components/TagsDropdown/TagsDropdown';
 
 export default function BeatmapListingPage() {
+  const [beatmaps, setBeatmaps] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
+
+  useEffect(() => {
+    listSongs()
+      .then(setBeatmaps)
+      .catch(() => setBeatmaps(localBeatmaps))
+      .finally(() => setLoadingData(false));
+  }, []);
+
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [hoveredBeatmap, setHoveredBeatmap] = useState(null);
@@ -31,7 +42,7 @@ export default function BeatmapListingPage() {
   const [tagsOpen, setTagsOpen] = useState(false);
 
   const [searchHistory, setSearchHistory] = useState(() => {
-    const savedHistory = localStorage.getItem('searchHistory');
+    const savedHistory = localStorage.getItem('beatmapSearchHistory');
     return savedHistory ? JSON.parse(savedHistory) : [];
   });
   const [showDropdown, setShowDropdown] = useState(false);
@@ -53,14 +64,19 @@ export default function BeatmapListingPage() {
   const [searchTag, setSearchTag] = useState("");
 
   const searchFilteredBeatmaps = beatmaps.filter((b) => {
-    // First filter by search term
     const matchesSearch = b.title.toLowerCase().includes(searchTerm.toLowerCase());
 
-    // Then filter by selected tags (only if tags are selected)
-    const matchesTags = selectedTags.length === 0 || 
-      selectedTags.some(tag => b.tags.includes(tag));
+    const matchesTags = selectedTags.length === 0 ||
+      selectedTags.some(tag => b.tags && b.tags.includes(tag));
 
-    return matchesSearch && matchesTags;
+    const min = parseFloat(minDifficulty) || 0;
+    const max = parseFloat(maxDifficulty) || Infinity;
+    const diffValues = Object.values(b.difficulties || {});
+    const matchesDifficulty = diffValues.length === 0
+      ? true
+      : diffValues.some((d) => parseFloat(d.level) >= min && parseFloat(d.level) <= max);
+
+    return matchesSearch && matchesTags && matchesDifficulty;
   });
 
   const getAllAvailableTags = () => {
@@ -138,7 +154,7 @@ export default function BeatmapListingPage() {
 
   // Save search history to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+    localStorage.setItem('beatmapSearchHistory', JSON.stringify(searchHistory));
   }, [searchHistory]);
 
   // Add search to history

@@ -38,15 +38,10 @@ function Router() {
     const hubListener = Hub.listen('auth', ({ payload }) => {
       switch (payload.event) {
         case 'signInWithRedirect':
-          console.log('Google sign in successful, redirecting to homepage');
           navigate('/');
           break;
         case 'signInWithRedirect_failure':
-          console.error('Google sign in failed:', payload.data);
           navigate('/login');
-          break;
-        case 'customOAuthState':
-          console.log('Custom OAuth state:', payload.data);
           break;
       }
     });
@@ -65,8 +60,8 @@ function Router() {
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="beatmaplisting" element={<BeatmapListingPage />} />
           <Route path="community" element={<CommunityPage />} />
-          <Route path="community/:id" element={<CommunityPostPage />} />
           <Route path="community/new" element={<CreatePostPage />} />
+          <Route path="community/:id" element={<CommunityPostPage />} />
           <Route path="musicianlisting" element={<MusicianListingPage />} />
           <Route path="musician/:id" element={<MusicianPage />} />
 

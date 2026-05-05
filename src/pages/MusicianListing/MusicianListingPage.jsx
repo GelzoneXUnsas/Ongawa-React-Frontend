@@ -6,9 +6,18 @@ import searchIconAccent from "../../assets/icons/searchIconAccent.svg";
 import closeIcon from "../../assets/icons/closeNavDropdown.png";
 import timeIcon from "../../assets/icons/timeIcon.svg";
 import filterIcon from "../../assets/icons/filterIcon.svg";
-import { musicians } from "../../data/musicians";
+import { musicians as localMusicians } from "../../data/musicians";
+import { listArtists } from "../../services/artistService";
 
 export default function MusicianListingPage() {
+  const [musicians, setMusicians] = useState([]);
+
+  useEffect(() => {
+    listArtists()
+      .then(setMusicians)
+      .catch(() => setMusicians(localMusicians));
+  }, []);
+
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   // const [hoveredMusician, setHoveredMusician] = useState(null);

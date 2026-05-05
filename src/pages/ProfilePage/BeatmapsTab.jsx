@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getLikedSongs } from "../../services/userService";
+import { listSongs } from "../../services/songService";
 import bpmIcon from "../../assets/icons/bpmIcon.svg";
 import clockIcon from "../../assets/icons/clockIcon.svg";
 import ellipseIcon from "../../assets/icons/ellipse.svg";
@@ -9,9 +11,20 @@ import barIcon from "../../assets/icons/barIcon.svg";
 
 import cover from "../../assets/images/musicCovers/neonpulsesym.png";
 
-const BeatmapsTab = () => {
+const BeatmapsTab = ({ userId }) => {
   const [activeTab, setActiveTab] = useState("bookmarked");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [likedSongs, setLikedSongs] = useState(null);
+
+  useEffect(() => {
+    if (!userId) return;
+    Promise.all([getLikedSongs(userId), listSongs()])
+      .then(([liked, songs]) => {
+        const likedIds = new Set(liked.map((l) => String(l.SongID)));
+        setLikedSongs(songs.filter((s) => likedIds.has(String(s.id))));
+      })
+      .catch(() => setLikedSongs([]));
+  }, [userId]);
 
   const beatmapsData = {
     bookmarked: [
@@ -218,8 +231,24 @@ const BeatmapsTab = () => {
         {/* Content based on active tab */}
         {activeTab === "bookmarked" && (
           <div className="w-full md:h-[450px] md:overflow-y-auto md:no-scrollbar">
+            {likedSongs !== null && likedSongs.length === 0 && (
+              <p className="text-light-grey font-nova-square py-4">No liked songs yet.</p>
+            )}
             {/* Beatmap Items */}
-            {beatmapsData.bookmarked.map((beatmap) => (
+            {(likedSongs !== null
+              ? likedSongs.map((s) => ({
+                  id: s.id,
+                  name: s.title,
+                  artist: s.artist,
+                  mapper: s.mappedBy || '—',
+                  difficulty: '—',
+                  maxDifficulty: '—',
+                  level: '—',
+                  time: s.duration,
+                  plays: s.plays,
+                }))
+              : beatmapsData.bookmarked
+            ).map((beatmap) => (
               <div
                 key={beatmap.id}
                 className="grid grid-cols-1 md:grid-cols-12 gap-4 py-2 items-center"

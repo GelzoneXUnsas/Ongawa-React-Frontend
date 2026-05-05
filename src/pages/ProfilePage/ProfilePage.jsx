@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getUser, getUserPlays } from "../../services/userService";
 import discIcon from "../../assets/icons/disc.svg";
 import settingsIcon from "../../assets/icons/settings.svg";
 
@@ -7,10 +9,11 @@ import CommunityTab from "./CommunityTab";
 import CustomizationTab from "./CustomizationTab";
 
 const ProfilePage = () => {
+  const { id } = useParams();
   // Active page state
   const [activePage, setActivePage] = useState("statistics");
 
-  // Mock data
+  // Mock data (used as fallback when API is unavailable)
   const [playerData, setPlayerData] = useState({
     name: "RhythmMaster",
     level: 35,
@@ -34,6 +37,24 @@ const ProfilePage = () => {
       a: 690,
     },
   });
+
+  useEffect(() => {
+    if (!id) return;
+    Promise.all([getUser(id), getUserPlays(id)])
+      .then(([user, plays]) => {
+        setPlayerData((prev) => ({
+          ...prev,
+          name: user.name,
+          about: '',
+          rankings: {
+            ...prev.rankings,
+            rankedScore: user.rankedScore,
+            playCount: plays.length,
+          },
+        }));
+      })
+      .catch(() => {/* keep mock data */});
+  }, [id]);
 
   // Handle navigation
   const handleNavigation = (page) => {
@@ -409,7 +430,7 @@ const ProfilePage = () => {
             </div>
           )}
 
-          {activePage === "beatmaps" && <BeatmapsTab />}
+          {activePage === "beatmaps" && <BeatmapsTab userId={id} />}
 
           {activePage === "community" && <CommunityTab />}
 

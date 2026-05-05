@@ -39,8 +39,7 @@ const Login = ({ onClose, onSwitchToRegister, slideIn }) => {
     if (!isSigningIn) {
       setIsSigningIn(true);
       await doSignInWithEmailAndPassword(email, password)
-        .then((result) => {
-          console.log("Email SignIn successful:", result.user.uid);
+        .then(() => {
         })
         .catch((err) => {
           console.error("Email SignIn error:", err);
@@ -55,8 +54,7 @@ const Login = ({ onClose, onSwitchToRegister, slideIn }) => {
     if (!isSigningIn) {
       setIsSigningIn(true);
       doSignInWithGoogle()
-        .then((result) => {
-          console.log("Google SignIn successful:", result.user.uid);
+        .then(() => {
         })
         .catch((err) => {
           console.error("Google SignIn error:", err);

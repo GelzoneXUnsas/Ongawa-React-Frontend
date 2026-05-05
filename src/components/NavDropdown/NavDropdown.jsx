@@ -12,15 +12,13 @@ const NavDropdown = ({
   closeMobileMenu,
   userLoggedIn,
   doSignOut,
-  setAuthOpen,
-  setAuthView,
+  onLoginClick,
 }) => {
   const handleAuthClick = () => {
     if (userLoggedIn) {
       doSignOut();
     } else {
-      setAuthView("login");
-      setAuthOpen(true);
+      onLoginClick();
     }
     closeMobileMenu();
   };
@@ -111,8 +109,7 @@ NavDropdown.propTypes = {
   closeMobileMenu: PropTypes.func.isRequired,
   userLoggedIn: PropTypes.bool.isRequired,
   doSignOut: PropTypes.func.isRequired,
-  setAuthOpen: PropTypes.func.isRequired,
-  setAuthView: PropTypes.func.isRequired,
+  onLoginClick: PropTypes.func.isRequired,
 };
 
 export default NavDropdown;

@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createPost } from "../../services/postService";
+import { uploadFile } from "../../services/storageService";
 
 import leftArrowIcon from "../../assets/icons/leftArrowIcon.png";
 import geoBg from "../../assets/images/backgrounds/geo_bg.png";
@@ -28,10 +30,33 @@ const TAGS = [
 ];
 
 function CreatePostPage() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [media, setMedia] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async () => {
+    if (!title.trim()) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      let mediaPointer;
+      if (media && media.length > 0) {
+        const file = media[0];
+        const key = `posts/${Date.now()}-${file.name}`;
+        mediaPointer = await uploadFile(file, key);
+      }
+      await createPost({ title, text: description, tags, mediaPointer });
+      navigate("/community");
+    } catch (err) {
+      setError("Failed to create post. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-main-off-black text-light-grey ">
@@ -61,7 +86,7 @@ function CreatePostPage() {
           <input
             type="text"
             className="w-full mt-2 px-4 py-2 rounded text-khaki placeholder:text-khaki placeholder:italic font-normal focus:outline-none focus:ring-0 focus:border-white"
-            style={{ backgroundColor: "multi-off-black" }}
+            style={{ backgroundColor: "#1A1816" }}
             placeholder="Title of Post"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -75,7 +100,7 @@ function CreatePostPage() {
             rows="4"
             className="w-full mt-2 px-4 py-2 h-40 rounded text-khaki placeholder:text-khaki placeholder:italic font-normal focus:outline-none focus:ring-0 focus:border-white"
             value={description}
-            style={{ backgroundColor: "multi-off-black" }}
+            style={{ backgroundColor: "#1A1816" }}
             placeholder="Add Description"
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -122,11 +147,15 @@ function CreatePostPage() {
 
         {/* Create Button */}
         <button
-          className="mb-8 bg-main-accent font-nova-square text-dark-purple px-6 py-2 rounded-lg text-lg "
-          onClick={() => {}}
+          className="mb-2 bg-main-accent font-nova-square text-dark-purple px-6 py-2 rounded-lg text-lg disabled:opacity-50"
+          onClick={handleSubmit}
+          disabled={submitting}
         >
-          Create
+          {submitting ? "Creating..." : "Create"}
         </button>
+        {error && (
+          <p className="mb-8 text-red-400 font-nova-square text-sm">{error}</p>
+        )}
       </div>
     </div>
   );
